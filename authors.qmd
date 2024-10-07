@@ -2,41 +2,7 @@
 
 \vspace{-5mm}
 
-::: {.authorinfo data-latex="{images/authors/mine.png}"}
-::: {.content-visible when-format="html"}
-![Mine Çetinkaya-Rundel](images/authors/mine.png){.cover alt="Mine Çetinkaya-Rundel" style="float: right;" width="150"} [Mine Çetinkaya-Rundel](http://mine-cr.com/)\
-:::
-::: {.content-visible when-format="pdf"}
-[Mine Çetinkaya-Rundel](http://mine-cr.com/)\
-:::
-Duke University, Posit, PBC.\
-[mine\@openintro.org](mailto:mine@openintro.org){.email}
-:::
+Julie Vu, Senior Preceptor, Harvard Department of Statistics
 
-Mine Çetinkaya-Rundel is Professor of the Practice at the Department of Statistical Science at Duke University and Developer Educator at Posit.
-Mine's work focuses on innovation in statistics and data science pedagogy, with an emphasis on computing, reproducible research, student-centered learning, and open-source education as well as pedagogical approaches for enhancing retention of women and under-represented minorities in STEM.
-Mine works on integrating computation into the undergraduate statistics curriculum, using reproducible research methodologies and analysis of real and complex datasets.
-She also organizes [ASA DataFest](https://ww2.amstat.org/education/datafest/), an annual two-day competition in which teams of undergraduate students work to reveal insights into a rich and complex dataset.
-Mine has been working on the [OpenIntro](https://www.openintro.org/) project since its founding and as part of this project she co-authored four open-source introductory statistics textbooks (including this one!).
-She is also the creator and maintainer of [datasciencebox.org](https://datasciencebox.org/) and she teaches the popular Statistics with R MOOC on Coursera.
-\newline
+David Harrington, Professor of Biostatistics (Emeritus), Harvard T.H. Chan School of Public Health, Harvard Department of Statistics, Dana-Farber Cancer Institute
 
-<br>
-
-::: {.authorinfo data-latex="{images/authors/jo.png}"}
-::: {.content-visible when-format="html"}
-![Johanna Hardin](images/authors/jo.png){.cover alt="Johanna Hardin" style="float: right;" width="150"} [Johanna Hardin](https://research.pomona.edu/johardin/)\
-:::
-::: {.content-visible when-format="pdf"}
-[Johanna Hardin](https://research.pomona.edu/johardin/)\
-:::
-Pomona College\
-[jo.hardin\@pomona.edu](mailto:jo.hardin@pomona.edu){.email}
-:::
-
-Jo Hardin is Professor of Mathematics and Statistics at Pomona College.
-She collaborates with molecular biologists to create novel statistical methods for analyzing high throughput data.
-She has also worked extensively in statistics and data science education, facilitating modern curricula for higher education instructors.
-She was a co-author on the [2014 ASA Curriculum Guidelines for Undergraduate Programs in Statistical Science](https://www.amstat.org/asa/education/Curriculum-Guidelines-for-Undergraduate-Programs-in-Statistical-Science.aspx), and she writes on the blog [teachdatascience.com](https://teachdatascience.com/).
-The best part of her job is collaborating with undergraduate students.
-In her spare time, she loves running, hiking, and jigsaw puzzles.

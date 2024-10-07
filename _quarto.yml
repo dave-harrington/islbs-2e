@@ -14,8 +14,6 @@ book:
       This book was built with <a href="https://quarto.org/">Quarto</a>.
   cover-image: images/frogClutchVolAlt.png
   favicon: images/openintro.png
-  site-url: 
-  repo-url: 
   repo-branch: main
   repo-actions: [edit, issue]
   chapters:
