@@ -5,70 +5,32 @@ project:
     - _redirects
 
 book:
-  title: "Introduction to Modern Statistics (2e)"
+  title: "Introductory Statistics for the Life and Biomedical Sciences (2e)"
   reader-mode: true
   page-footer:
     left: |
-      This is IMS2e!
+      ISLBS
     right: |
       This book was built with <a href="https://quarto.org/">Quarto</a>.
-  cover-image: images/IMS2_front_cover.png
+  cover-image: images/frogClutchVolAlt.png
   favicon: images/openintro.png
-  site-url: https://openintro-ims2.netlify.app/
-  repo-url: https://github.com/openintrostat/ims/
+  site-url: 
+  repo-url: 
   repo-branch: main
   repo-actions: [edit, issue]
   chapters:
     - index.qmd
-
     - authors.qmd
     - preface.qmd
+    - intro_to_data
+    - probability
+    - inference_foundations
+    - inference_for_means
+    - simple_linear_regression
+    - multiple_linear_regression
+    - inference_for_props
+    - logistic_regression
     
-    - part: introduction-to-data.qmd
-      chapters:
-        - data-hello.qmd
-        - data-design.qmd
-        - data-applications.qmd
-    
-    - part: exploratory-data-analysis.qmd
-      chapters:
-        - explore-categorical.qmd
-        - explore-numerical.qmd
-        - explore-applications.qmd
-        
-    - part: regression-modeling.qmd
-      chapters:
-        - model-slr.qmd
-        - model-mlr.qmd
-        - model-logistic.qmd
-        - model-applications.qmd
-    
-    - part: foundations-of-inference.qmd
-      chapters:
-        - foundations-randomization.qmd
-        - foundations-bootstrapping.qmd
-        - foundations-mathematical.qmd
-        - foundations-errors.qmd
-        - foundations-applications.qmd
-    
-    - part: statistical-inference.qmd
-      chapters:
-        - inference-one-prop.qmd
-        - inference-two-props.qmd
-        - inference-tables.qmd
-        - inference-one-mean.qmd
-        - inference-two-means.qmd
-        - inference-paired-means.qmd
-        - inference-many-means.qmd
-        - inference-applications.qmd
-    
-    - part: inferential-modeling.qmd
-      chapters:
-        - inf-model-slr.qmd
-        - inf-model-mlr.qmd
-        - inf-model-logistic.qmd
-        - inf-model-applications.qmd
-
   appendices:
     - exercise-solutions.qmd
     - references.qmd
@@ -86,7 +48,7 @@ format:
     code-link: true
     mainfont: Atkinson Hyperlegible
     monofont: Source Code Pro
-    author-meta: "Mine Çetinkaya-Rundel and Johanna Hardin"
+    author-meta: "Julie Vu and David Harrington"
     lightbox: 
       match: auto
       loop: false
