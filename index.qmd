@@ -1,12 +1,14 @@
 ::: welcome
 
 ::: {.content-hidden unless-format="html"}
-# Welcome to IMS2 {.unnumbered .unlisted}
+# Welcome to ISLBS-2e {.unnumbered .unlisted}
 :::
 
-\chapter*{}
+::: underconstruction
 
-\vfill
+ISLBS-2e is currently under construction.
+
+<!--
 
 ::: {.content-visible when-format="html"}
 This is the website for **Introduction to Modern Statistics**, Second Edition by Mine Çetinkaya-Rundel and Johanna Hardin.
@@ -21,11 +23,11 @@ The book will always be available for free here. It is also available in PDF (fo
 :::
 
 ```{=html}
-<!--
+
 ::: underconstruction
 IMS2 is currently under construction, it's planned to be released in Spring 2024. The first edition of the book is available at [openintro-ims.netlify.app](https://openintro-ims.netlify.app) with additional resources at [openintro.org/book/ims](https://www.openintro.org/book/ims/). If you have any feedback on the work-in-progress second edition or catch any typos, we would appreciate you reporting at [github.com/openintrostat/ims](https://github.com/openintrostat/ims).
 :::
--->
+
 ```
 ::: {.content-visible when-format="html"}
 Copyright © 2024.
@@ -56,3 +58,4 @@ Source files for this book can be found on GitHub at\
 # automatically create a bib database for R packages
 knitr::write_bib(c(.packages(), "knitr"), "packages.bib")
 ```
+-->
