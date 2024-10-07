@@ -141,7 +141,7 @@ All OpenIntro resources are free and anyone is welcomed to use these online tool
 
 We value your feedback.
 If there is a part of the project you especially like or think needs improvement, we want to hear from you.
-For feedback on this specific book, you can open an issue on the GitHub repository of the book at [github.com/openintrostat/ims](https://github.com/openintrostat/ims).
+For feedback on this specific book, you can open an issue on the GitHub repository of the book at *url* to be added.
 You can also provide feedback on this book or any other OpenIntro resource via our contact form at [openintro.org](https://www.openintro.org/form/?f=contact). 
 
 ## Acknowledgements {.unnumbered .unlisted}
