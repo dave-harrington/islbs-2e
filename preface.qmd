@@ -2,33 +2,34 @@
 
 \vspace{-10mm}
 
-Welcome to the second edition of "Introduction to Modern Statistics"!
+Welcome to the second edition of Introductory Statistics for the Life and Biomedical Sciences.
 
+This text is intended for undergraduate and graduate students interested in careers in biology or medicine, and may also be profitably read by students of public health or medicine.  It covers many of the traditional introductory topics in statistics, in addition to discussing some newer methods being used in molecular biology. 
 
+Statistics has become an integral part of research in medicine and biology, and the tools for summarizing data and drawing inferences from data are essential both for understanding the outcomes of studies and for incorporating measures of uncertainty into that understanding.  An introductory text in statistics for students who will work in medicine, public health, or the life sciences should be more than simply the usual introduction, supplemented with an occasional example from biology or medical science. By drawing the majority of examples and exercises in this text from published data, we hope to convey the value of statistics in medical and biological research. In cases where examples draw on important material in biology or medicine, the problem statement contains the necessary background information. 
+
+Computing is an essential part of the practice of statistics.  Nearly everyone entering the biomedical sciences will need to interpret the results of analyses conducted in software; many will also need to be capable of conducting such analyses. The text and associated materials separate those two activities to allow students and instructors to emphasize either or both skills. The text discusses the important features of figures and tables used to support an interpretation, rather than the process of generating such material from data. This allows students whose main focus is understanding statistical concepts not to be distracted by the details of a particular software package. In our experience, however, we have found that many students enter a research setting after only a single course in statistics. These students benefit from a practical introduction to data analysis that incorporates the use of a statistical computing language. The` self-paced learning labs associated with the text provide such an introduction; these are described in more detail later in this preface. 
+
+<!---
+The datasets used in this book are available via the \textsf{R} \texttt{openintro} package available on CRAN\footnote{Diez DM, Barr CD, \c{C}etinkaya-Rundel M. 2012. \texttt{openintro}: OpenIntro data sets and supplement functions. \urlwofont{http://cran.r-project.org/web/packages/openintro}.}  and the \textsf{R} \texttt{oibiostat} package available via \href{https://github.com/OI-Biostat/oi_biostat_data}{GitHub}.
+
+-->
 
 ## Textbook overview {.unnumbered .unlisted}
 
--   **Part 1: Introduction to data.** Data structures, variables, summaries, graphics, and basic data collection and study design techniques.
--   **Part 2: Exploratory data analysis.** Data visualization and summarization, with particular emphasis on multivariable relationships.
--   **Part 3: Regression modeling.** Modeling numerical and categorical outcomes with linear and logistic regression and using model results to describe relationships and make predictions.
--   **Part 4: Foundations for inference.** Case studies are used to introduce the ideas of statistical inference with randomization tests, bootstrap intervals, and mathematical models.
--   **Part 5: Statistical inference.** Further details of statistical inference using randomization tests, bootstrap intervals, and mathematical models for numerical and categorical data.
--   **Part 6: Inferential modeling.** Extending inference techniques presented thus-far to linear and logistic regression settings and evaluating model performance.
+The text is organized into chapters:
 
-Each part contains multiple chapters and ends with a case study.
-Building on the content covered in the part, the case study presents a high-level overview using the tools and techniques from the part.
+- **1. Introduction to data.** Data structures, basic data collection principles, numerical and graphical summaries, and exploratory data analysis.
+- **2. Probability.** The basic principles of probability.
+- **3. Distributions of random variables.** Introduction to random variables, distributions of discrete and continuous random variables, and distributions for pairs of random variables.
+**4. Foundations for inference.** General ideas for statistical inference in the context of estimating a population mean.
+**5. Inference for numerical data.** Inference for one-sample and two-sample means with the $t$-distribution, power calculations for a difference of means, and ANOVA.
+**6. Simple linear regression.* An introduction to linear regression with a single explanatory variable, evaluating model assumptions, and inference in a regression context.
+**7. Multiple linear regression.** General multiple regression model, categorical predictors with more than two values, interaction, and model selection.
+**8. Inference for categorical data.** Inference for single proportions, inference for two or more groups, and outcome-based sampling.
+**9. Logistic regression.** Simple and multiple logistic regression, inference for parameters, estimating prediction error.
 
-In the chapters that cover statistical inference, we have presented a parallel structure that walks the student through both computational and mathematical approaches to every inferential topic.
-Trying to cover every approach for every topic is likely too much material for a one semester class.
-We suggest that you make deliberate choices for navigating the book with your students.
-A few potential paths through the book (with chapter numbers in parentheses) are given as follows:
 
-* Focus on **parallel structure of computational and mathematical methods**: Introduction to data (1, 2), Exploratory data analysis (4, 5), Regression (7), Foundations (11, 12, 13, 14), Inference (a subset of: 16, 17, 18, 19, 20, 21, 22; potentially: 16, 17, 19, 20).
-* Focus on **computational methods**: Introduction to data (1, 2), Exploratory data analysis (4, 5), Regression (7), Foundations (11, 12, 14), Inference (computational methods only for some subset of: 16, 17, 18, 19, 20, 21, 22).
-* Focus on **mathematical methods**: Introduction to data (1, 2), Exploratory data analysis (4, 5), Regression (7), Foundations (11, 12, 13, 14), Inference (mathematical methods only for some subset of: 16, 17, 18, 19, 20, 21, 22).
-* Focus on **modeling**:  Introduction to data (1, 2), Exploratory data analysis (4, 5), Regression (7, 8, 9), Foundations (11, 12, 13, 14), Inference (19), Inferential modeling (24, 25, 26).
-
-We expect that most courses following a classical syllabus will not have time to cover the chapters in the last part, Inferential modeling (24, 25, 26).
 
 \clearpage
 
@@ -39,18 +40,8 @@ However, you should be able to easily spot them as **bolded text**.
 
 ## Changes for the second edition {.unnumbered .unlisted}
 
-While the second edition does not represent a major change from the [first edition](https://openintro-ims1.netlify.app/), we have worked hard to improve content, to add exercises, and to update text and code to reflect changes in best practices (e.g., the book is now written in [Quarto](https://quarto.org/)).
+In development
 
-A brief summary of the biggest changes follows:
-
-* Twenty-five completely new exercises were added. Most of the new exercises are concatenated onto existing exercises so as to retain similar numbering across editions. However, a few exercises have been moved in order to produce both odd exercises (with solutions) and even exercises (without solutions) on the same topic.
-
-* Multiple datasets were added or updated. For example, 
-the [`pm25_2022_durham`](http://openintrostat.github.io/openintro/reference/pm25_2022_durham.html) data on air quality in Durham, NC in 2022 can be found in the [**openintro**](https://openintrostat.github.io/openintro/) R package.
-
-* [Chapter -@sec-data-applications] was re-written with an updated context and data example. Additionally, in [Chapter -@sec-data-applications], we explore Simpson's Paradox. 
-
-* Throughout the text and the exercises, "statistically significant" has been changed to "statistically discernible" so as to distance ourselves from the more colloquial use of the word "significant."
 
 ## Examples and exercises {.unnumbered .unlisted}
 
@@ -157,17 +148,7 @@ You can also provide feedback on this book or any other OpenIntro resource via o
 
 The *OpenIntro* project would not have been possible without the dedication and volunteer hours of all those involved, and we hope you will join us in extending a huge *thank you* to all those who volunteer with OpenIntro.
 
-The authors would like to thank the following individuals:
-
--   David Diez and Christopher Barr for their work on the 1st Edition of this book,
--   Ben Baumer and Andrew Bray for their contribution rethinking how and which order we present this material as well as their work as original authors of the interactive tutorial content,
--   Yanina Bellini Saibene, Florencia D'Andrea, and Roxana Noelia Villafañe for their work on creating the interactive tutorials in learnr,
--   Peter Baumgartner for review and revisions of the interactive learnr tutorials,
--   Will Gray for conceptual diagrams,
--   Allison Theobold, Melinda Yager, and Randy Prium for their valuable feedback and review of the book,
--   Colin Rundel for feedback on content and technical help with conversion from LaTeX to R Markdown,
--   Christophe Dervieux for help with multi-output bookdown issues, and
--   Müge Çetinkaya and Meenal Patel for their design vision.
+This text has benefited from feedback from Morgan Breitmeyer, Andrea Foulkes, Raji Balasubramanian, Diane Dolezel, Barbara Elashoff, Andrea Foulkes, Curry Hilton, Joe Hogan, Mike Jiroutek, Michael Parzen, Kevin Rader and Alice Zhao as well as the many excellent teaching fellows at Harvard College who assisted in courses using the book.  The cover design was provided by Pierre Baduel. David Diez provided assistance with editing and formatting the first edition, and Mine Çetinkaya-Rundel provided guidance in using Quarto.
 
 We would like to also thank the developers of the open-source tools that make the development and authoring of this book possible, e.g., [Quarto](https://quarto.org/), [tidyverse](https://tidyverse.org/), [tidymodels](https://tidymodels.org/), and [icons8](http://icons8.com/).
 
