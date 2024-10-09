@@ -20,14 +20,14 @@ book:
     - index.qmd
     - authors.qmd
     - preface.qmd
-    - intro_to_data
+    - intro-to-data
     - probability
-    - inference_foundations
-    - inference_for_means
-    - simple_linear_regression
-    - multiple_linear_regression
-    - inference_for_props
-    - logistic_regression
+    - inference-foundations
+    - inference-for-numerical-data
+    - simple-linear-regression
+    - multiple-linear-regression
+    - inference-for-categorical-data
+    - logistic-regression
     
   appendices:
     - exercise-solutions.qmd

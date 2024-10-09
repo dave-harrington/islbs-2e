@@ -1,0 +1,16 @@
+# Logistic regression {#logistic-regression}
+
+```{r}
+#| include: false
+
+source("_common.R")
+```
+
+::: {.chapterintro data-latex=""}
+Logistic regression is used to explore relationships between a response variable with two possible values (e.g., yes/no, success/failure, 0/1, etc.) and one or more predictor variables. The \term{logistic regression}  model estimates the odds of an outcome given a predictor, and the odds ratio (OR) associated with change in the value of a predictor; in certain cases, the model also estimates the probability of an outcome given a predictor.
+:::
+
+```{r}
+#| include: false
+terms_chp_1 <- c("data")
+```

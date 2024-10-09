@@ -1,0 +1,21 @@
+# Foundations for inference {#inference-foundations}
+
+```{r}
+#| include: false
+
+source("_common.R")
+```
+
+::: {.chapterintro data-latex=""}
+Not surprisingly, many studies are now demonstrating the adverse effect of obesity on health outcomes. A 2017 study conducted by the consortium studying the global burden of disease estimates that high body mass index (a measure of body fat that adjusts for height and weight) may account for as many as 4.0 million deaths globally.  In addition to the physiologic effects of being overweight, other studies have shown that perceived weight status (feeling that one is overweight or underweight) may have a significant effect on self-esteem.
+:::
+
+```{r}
+#| include: false
+terms_chp_1 <- c("data")
+```
+<!--
+
+\footnote{DOI: 10.1056/NEJMoa1614362}
+\footnote{J Ment Health Policy Econ. 2010 Jun;13(2):53-63}\textsuperscript{,}\footnote{DOI: 10.1186/1471-2458-7-80}
+-->

@@ -1,0 +1,18 @@
+# Distributions {#sec-distributions}
+
+```{r}
+#| include: false
+
+source("_common.R")
+```
+
+::: {.chapterintro data-latex=""}
+When planning clinical research studies, investigators try to anticipate the results they might see under certain hypotheses. The treatments for some forms of cancer, such as advanced lung cancer, are only effective in a small percentage of patients: typically 20\% or less. Suppose that a study testing a new treatment will be conducted on 20 participants, where the working assumption is that 20\% of the patients will respond to the treatment. How might the possible outcomes of the study be represented, along with their probabilities? It is possible to express various outcomes using the probability notation in the previous chapter, e.g. if *A* were the event that one patient responds to treatment, but this would quickly become unwieldy. 
+:::
+
+<!--
+```{r}
+#| include: false
+terms_chp_1 <- c("data")
+```
+-->

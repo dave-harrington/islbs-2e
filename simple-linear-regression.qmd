@@ -1,0 +1,21 @@
+# Simple linear regression {#sec-simple-linear-regression}
+
+```{r}
+#| include: false
+
+source("_common.R")
+```
+
+::: {.chapterintro data-latex=""}
+The relationship between two numerical variables can be visualized using a scatterplot in the $xy$-plane. The \index{predictor} or \index{explanatory variable} is plotted on the horizontal axis, while the \index{response variable} is plotted on the vertical axis.
+:::
+
+Modify intro
+
+```{r}
+#| include: false
+terms_chp_1 <- c("data")
+```
+<!--
+\footnote{Sometimes, the predictor variable is referred to as the independent variable, and the response variable referred to as the dependent variable.}
+-->

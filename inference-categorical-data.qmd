@@ -1,0 +1,16 @@
+# Inference for categorical data {#sec-inference-categorical-data}
+
+```{r}
+#| include: false
+
+source("_common.R")
+```
+
+::: {.chapterintro data-latex=""}
+Previous chapters discussed methods of inference for numerical data; in this chapter, those methods are extended to categorical data, such as binomial proportions or data in two-way tables. While various details of the methods may change, such as the calculations for a test statistic or the distributions used to find a $p$-value, the core ideas and principles behind inference remain the same.
+:::
+
+```{r}
+#| include: false
+terms_chp_1 <- c("data")
+```
