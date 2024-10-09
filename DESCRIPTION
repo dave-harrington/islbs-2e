@@ -1,16 +1,16 @@
-Package: ims
-Title: Introduction to Modern Statistics
+Package: islbs-2e
+Title: Introductory Statistics for the Life and Biomedical Sciences
 Version: 0.1
 Authors@R: 
-    c(person(given = "Mine",
-             family = "Çetinkaya-Rundel",
-             role = c("aut", "cre"),
-             email = "cetinkaya.mine@gmail.com"),
-      person(given = "Johanna",
-             family = "Hardin",
+    c(person(given = "Julie",
+             family = "Vu",
              role = "aut",
-             email = "jo.hardin@pomona.edu"))
-URL: https://github.com/openintrostat/ims
+             email = "julievu777@gmail.com"),
+      person(given = "David",
+             family = "Harrington",
+             role = c("aut", "cre"),
+             email = "dharrington846@gmail.com"))
+URL: https://github.com/dave-harrington/islbs-2e
 Depends: 
     R (>= 3.1.0)
 Imports:

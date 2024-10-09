@@ -1,18 +1,8 @@
-# Introduction to Modern Statistics
+# Introductory Statistics for the Life and Biomedical Sciences (2e)
 
-## Where is IMS 2?
+This repository contains the source files for the second edition of Introductory Statistics for the Life and Biomedical Sciences (ISLBS).  The source files for the first edition are  available at https://github.com/dave-harrington/oi_biostat_text
 
-<https://openintro-ims.netlify.app/>
 
-## Where did IMS 1 go?
-
-<https://openintro-ims1.netlify.app/>
-
-## Where did Introduction to Statistics with Randomization and Simulation go?
-
-As we're working on the 2nd edition of this book, we realized that we weren't too enamoured by the name, and decided to rename the book to "Introduction to Modern Statistics" to better reflect the content covered in the book, which features simulation-based inference but also many non-inference topics!
-
-If you're looking for the source files for the 1st edition of OpenIntro - Introduction to Statistics with Randomization and Simulation, please download the zipped release [here](https://github.com/openintrostat/randomization-and-simulation/releases).
 
 ------------------------------------------------------------------------
 
@@ -22,10 +12,12 @@ By participating in this project you agree to abide by its terms.
 ------------------------------------------------------------------------
 
 #### Conventions 
-used in IMS:
+used in ISLBS:
 
 dataset (one word)  
 data frame (two words)  
 Type I error  
 box plot (two words)  
+bar plot (two words)
+scatterplot (one word)
 
