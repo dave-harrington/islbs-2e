@@ -14,23 +14,25 @@ book:
       This book was built with <a href="https://quarto.org/">Quarto</a>.
   cover-image: images/frogClutchVolAlt.png
   favicon: images/openintro.png
+  site-url: https://dave-harrington-islbs2e.netlify.app/
+  repo-url: https://github.com/dave-harrington/islbs-2e
   repo-branch: main
   repo-actions: [edit, issue]
   chapters:
     - index.qmd
     - authors.qmd
     - preface.qmd
-    - intro-to-data
-    - probability
-    - inference-foundations
-    - inference-for-numerical-data
-    - simple-linear-regression
-    - multiple-linear-regression
-    - inference-for-categorical-data
-    - logistic-regression
+    - intro-to-data.qmd
+    - probability.qmd
+    - distributions.qmd
+    - inference-foundations.qmd
+    - inference-numerical-data.qmd
+    - simple-linear-regression.qmd
+    - multiple-linear-regression.qmd
+    - inference-categorical-data.qmd
+    - logistic-regression.qmd
     
   appendices:
-    - exercise-solutions.qmd
     - references.qmd
 
 bibliography: 

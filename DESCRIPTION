@@ -10,7 +10,7 @@ Authors@R:
              family = "Harrington",
              role = c("aut", "cre"),
              email = "dharrington846@gmail.com"))
-URL: https://github.com/dave-harrington/islbs-2e
+URL: https://www.openintro.org/book/biostat/
 Depends: 
     R (>= 3.1.0)
 Imports:

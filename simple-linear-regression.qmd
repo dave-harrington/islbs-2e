@@ -16,6 +16,8 @@ Modify intro
 #| include: false
 terms_chp_1 <- c("data")
 ```
+
+
 <!--
 \footnote{Sometimes, the predictor variable is referred to as the independent variable, and the response variable referred to as the dependent variable.}
 -->

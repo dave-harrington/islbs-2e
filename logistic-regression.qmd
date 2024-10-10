@@ -14,3 +14,4 @@ Logistic regression is used to explore relationships between a response variable
 #| include: false
 terms_chp_1 <- c("data")
 ```
+

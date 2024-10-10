@@ -9,3 +9,4 @@ source("_common.R")
 ::: {.chapterintro data-latex=""}
 What are the chances that a woman with an abnormal mammogram has breast cancer? What is the probability that a woman with an abnormal mammogram has breast cancer, given that she is in her 40's? What is the likelihood that out of 100 women who undergo a mammogram and test positive for breast cancer, at least one of the women has received a false positive result? 
 :::
+

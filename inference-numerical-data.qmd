@@ -14,3 +14,4 @@ Chapter  (cross-ref here) some primary tools of statistical inference -  point e
 #| include: false
 terms_chp_1 <- c("data")
 ```
+

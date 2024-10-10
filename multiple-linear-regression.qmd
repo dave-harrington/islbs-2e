@@ -24,3 +24,4 @@ The other sections in the chapter outline general principles of multiple regress
 #| include: false
 terms_chp_1 <- c("data")
 ```
+

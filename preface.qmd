@@ -22,12 +22,12 @@ The text is organized into chapters:
 - **1. Introduction to data.** Data structures, basic data collection principles, numerical and graphical summaries, and exploratory data analysis.
 - **2. Probability.** The basic principles of probability.
 - **3. Distributions of random variables.** Introduction to random variables, distributions of discrete and continuous random variables, and distributions for pairs of random variables.
-**4. Foundations for inference.** General ideas for statistical inference in the context of estimating a population mean.
-**5. Inference for numerical data.** Inference for one-sample and two-sample means with the $t$-distribution, power calculations for a difference of means, and ANOVA.
-**6. Simple linear regression.* An introduction to linear regression with a single explanatory variable, evaluating model assumptions, and inference in a regression context.
-**7. Multiple linear regression.** General multiple regression model, categorical predictors with more than two values, interaction, and model selection.
-**8. Inference for categorical data.** Inference for single proportions, inference for two or more groups, and outcome-based sampling.
-**9. Logistic regression.** Simple and multiple logistic regression, inference for parameters, estimating prediction error.
+- **4. Foundations for inference.** General ideas for statistical inference in the context of estimating a population mean.
+- **5. Inference for numerical data.** Inference for one-sample and two-sample means with the $t$-distribution, power calculations for a difference of means, and ANOVA.
+- **6. Simple linear regression.* An introduction to linear regression with a single explanatory variable, evaluating model assumptions, and inference in a regression context.
+- **7. Multiple linear regression.** General multiple regression model, categorical predictors with more than two values, interaction, and model selection.
+- **8. Inference for categorical data.** Inference for single proportions, inference for two or more groups, and outcome-based sampling.
+- **9. Logistic regression.** Simple and multiple logistic regression, inference for parameters, estimating prediction error.
 
 
 
@@ -65,7 +65,11 @@ The reader may check or learn the answer to any Guided Practice problem by revie
 [^preface-1]: Guided Practice problems are intended to stretch your thinking, and you can check yourself by reviewing the footnote solution for any Guided Practice.
 
 Exercises are also provided at the end of each chapter.
+
+<!--
 Solutions are given for odd-numbered exercises in [Appendix -@sec-exercise-solutions].
+
+-->
 
 \clearpage
 
@@ -91,6 +95,8 @@ References for the sources of the real data are provided at the end of the book.
 
 The narrative and the exercises in the book are computing language agnostic, however while it's possible to learn about modern statistics without computing, it's not possible to apply it.
 Therefore, we invite you to navigate the concepts you have learned in each part using the interactive R tutorials and the R labs that are included at the end of each part.
+
+<!--
 
 ### Interactive R tutorials {.unnumbered .unlisted}
 
@@ -130,6 +136,8 @@ You can access the full list of labs supporting this book at [openintro.org/go?i
 ::: {.content-visible when-format="html"}
 You can access the full list of labs supporting this book [here](https://www.openintro.org/go?id=ims-r-labs).
 :::
+
+-->
 
 \clearpage
 
