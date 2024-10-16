@@ -64,7 +64,7 @@ if (knitr::is_html_output()) {
 
 # knit options -----------------------------------------------------------------
 
-options(knitr.kable.NA = "")
+# options(knitr.kable.NA = "")
 
 # kableExtra options -----------------------------------------------------------
 

@@ -7,9 +7,9 @@ source("_common.R")
 ```
 
 ::: {.chapterintro data-latex=""}
-Making observations and recording data form the backbone of empirical research and represent the beginning of a systematic approach to investigating scientific questions. As a discipline, statistics focuses on addressing the following three questions in a rigorous and efficient manner: How can data best be collected? How should data be analyzed? What can be inferred from data?} 
+Making observations and recording data are essential to empirical research and represent the beginning of a systematic approach to investigating scientific questions. The discipline of statistics focuses on addressing the following three questions: How should data be organized, summarized and explored? How can data best be collected? What can be learned from data? 
 
-This chapter provides a brief discussion on the principles of data collection, and introduces basic methods for summarizing and exploring data.
+This chapter provides an introduction methods for summarizing and exploring data. 
 :::
 
 ```{r}
@@ -19,7 +19,170 @@ terms_chp_1 <- c("data")
 
 ## Case study: Preventing peanut allergies {#sec-case-study-preventing-peanut-allergies}
 
-Discussion of LEAP here
 
+\index{data!LEAP|(}
+
+The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years and some observations have suggested that exposing infants to peanut-based foods, rather than excluding such foods from their diets, may be an effective strategy for preventing the development of peanut allergies (see @du2008early). The "Learning Early about Peanut Allergy" (LEAP, @du2015randomized) study was conducted in a controlled setting to investigate  whether early exposure to peanut products reduces the probability that a child will develop peanut allergies.
+
+The study team enrolled children in the United Kingdom between 2006 and 2009, selecting 640 infants between 4 and 11 months old with eczema, egg allergy, or both. Each child was randomly assigned to either the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams of peanut protein daily until 5 years of age, while children in the control group avoided consuming peanut protein until 5 years of age.
+
+At 5 years of age, each child was tested for peanut allergy using an oral food challenge (OFC): 5 grams of peanut protein in a single dose. A child was recorded as passing the oral food challenge if no allergic reaction was detected, and failing the oral food challenge if an allergic reaction occurred. These children had previously been tested for peanut allergy through a skin test, conducted at the time of study entry; the main analysis presented in the paper was based on data from 530 children with an earlier negative skin test.  Although a total of 542 children had an earlier negative skin test, data collection did not occur for 12 children. 
+
+Individual-level data from the study are shown in @tbl-leapStudyResultsDF, which shows 5 children in a dataset restricted to children with a negative skin prick test for a peanut allergy at the time of randomization. Each row represents a participant and shows the study ID number, treatment assignment and OFC outcome.  The data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+
+
+```{r}
+library(oibiostat)
+ 
+LEAP_renamed <- LEAP |> 
+    rename(`Participant ID` = participant.ID,
+           Treatment = treatment.group,
+           Outcome = overall.V60.outcome)  |> 
+    select('Participant ID', Treatment, Outcome)   
+LEAP_trimmed <- LEAP_renamed |> 
+    slice(1:3, 529, 539)
+
+```
+
+```{r}
+#| label:  tbl-leapStudyResultsDF
+#| tbl-cap:  "Five patients from the LEAP study"
+#| tbl-pos: H
+
+LEAP_trimmed  |> 
+  kbl(linesep = "", booktabs = TRUE, align = "lll")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+The data can be organized in the form of a two-way summary table; table @tbl-leapStudyResults shows the results grouped by treatment group and OFC outcome. 
+
+<!--
+two way table here.  simple version first.  Kable version produces errors
+-->
+
+
+```{r}
+library(xtable)
+
+addmargins(table(LEAP_renamed$Treatment, LEAP_renamed$Outcome))
+  
+       
+
+```
+
+The summary table makes it easy to identify patterns in the data. In the avoidance group, the proportion of children failing the OFC is $36/263 = 0.137$ ($13.7\%$); in the consumption group, the proportion of children failing the OFC is $5/267 = 0.019$ ($1.9\%$).  
+
+
+The difference in the proportions of participants failing the OFC between the treatment groups 11.8\%; nearly $12\%$ more of the participants in the avoidance group failed the OFC than in the consumption group. The data can also be summarized by the ratio the two proportions ($0.137/0.019 = 7.31$);  the proportion of participants failing the OFC in the avoidance group is more than 7 times larger as in the consumption group; i.e., the risk of failing the OFC was more than 7 greater for participants in the avoidance group relative to the consumption group.
+
+Even without any sophisticated methods of analysis, the results of the study are striking.  Early exposure to peanut products may be an effective strategy for reducing the chances of developing peanut allergies later in life. Are these results definitive? In other words, is the 11.8\% difference between the two groups larger than one would expect by chance variation alone? The material on inference in later chapters will provide the statistical tools to answer this question.
+
+
+The results also raise an important statistical issue: does the study provide definitive evidence that peanut consumption is beneficial? In other words, is the $11.8\%$ difference between the two groups larger than one would expect by chance variation alone? The material on inference in later chapters will provide the statistical tools to evaluate this question.
+
+::: {.data data-latex=""}
+The LEAP study illustrates some of the implicit issues in research in \index{evidence-based medicine}, some explicit and some implicit.  The study was done when a common approach to preventing peanut allergies among susceptible children was based on avoiding peanut products.  LEAP was an important step in overcoming that notion.  The parents of the infants participating in the study agreed to that their children could be randomly assigned to a treatment that would expose their children to peanut products.   Investigators conducting this and similar studies are ethically bound to ensure that the study is supported by prior data, that the study has a sound design, and is conducted responsibly
+:::
+
+\index{data!LEAP|)}
+
+## Observations, variables, and data matrices {#sec-frog-data}
+
+\index{data!frog|(}
+
+In evolutionary biology, parental investment refers to the amount of time, energy, or other resources devoted towards raising offspring. This section introduces the *frog* dataset, collected as part of a 2013 study about maternal investment in a frog species [@chen2013maternal]. Reproduction is a costly process for female frogs, and involving a balance between individual egg size and total number of eggs produced. Researchers were interested in investigating how maternal investment varies with altitude and collected measurements on egg clutches found at breeding ponds across 11 study sites; for 5 sites, the body size of individual female frogs was also recorded.
+
+```{r}
+frog_trimmed  <- frog  |> 
+   slice(1:3, 150)
+
+```
+
+```{r}
+#| label:  tbl-frogDF
+#| tbl-cap:  "Four observations from the frog dataset"
+#| tbl-pos: H
+
+
+frog_trimmed |> 
+  kbl(linesep = "", booktabs = TRUE, align = "lll")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+Table @tbl-frogDF displays rows 1, 2, 3, and 150 of the dataset from the 431 clutches observed in the study.  Each row in the table corresponds to a single clutch, indicating where the clutch was collected (*altitude* and *latitude*), *egg.size*, *clutch.size*, *clutch.volume*, and *body.size* of the mother when available. "NA" corresponds to a missing value - the information on an individual female was not collected for that clutch. The recorded characteristics are referred to as \term{variables}; in this table, each column represents a variable.
+
+```{r}
+frog_var_name  <- c('altitude', 'latitude', 'egg.size',
+              'clutch.size', 'clutch.volume', 'body.size')
+frog_var_description  <- c('Altitude of the study site in meters above sea level',
+              'Latitude of the study site measured in degrees',
+              'Average diameter of an individual egg to the 0.01 mm',
+              'Estimated number of eggs in clutch',
+              'Volume of egg clutch in cubic mm' ,
+              'Length of mother frog in cm')
+frog_var_table  <- data.frame(frog_var_name, frog_var_description)
+frog_var_table  <- frog_var_table  |> 
+          rename('Variable name' = frog_var_name,
+                  'Variable description' = frog_var_description)
+
+```
+```{r}
+#| label:  tbl-frogVarDescriptions
+#| tbl-cap:  "Variables and their descriptions for the frog dataset"
+#| tbl-pos: H
+
+frog_var_table  |> 
+  kbl(linesep = "", booktabs = TRUE, align = "ll")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+It is important to check the definitions of variables, as they are not always obvious. For example, why has *clutch.size* not been recorded as whole numbers? For a given clutch, researchers counted approximately 5 grams' worth of eggs and then estimated the total number of eggs based on the mass of the entire clutch. Definitions of the variables are given in @tbl-frogVarDescriptions. The data discussed here are in the original scale; in the published paper, some values have undergone a natural log transformation.
+
+The data in Table @tbl-frogDF are organized as \index{data matrix}. Each row of a data matrix corresponds to an observational unit, and each column corresponds to a variable. A piece of the data matrix for the LEAP study introduced in Section @sec-case-study-preventing-peanut-allergies is shown in table @tbl-leapStudyResultsDF; the rows are study participants and three variables are shown for each participant. Data matrices are a convenient way to record and store data. If the data are collected for another individual, another row can easily be added; similarly, another column can be added for a new variable.
+
+\index{data!frog|)}
+
+## Types of variables {#sec-variable-types}
+
+Portland Oregon has built a comprehensive inventory of trees in the city, recording for each tree many variables, including the date the tree was added to the inventory, its common name, and the value of the tree both monetarily and as a carbon storage organism.
+
+
+```{r}
+library(pdxTrees)
+#pull data from specific parks using custom get_pdxTrees_parks() function 
+pdx <- get_pdxTrees_parks(park = c("Laurelhurst Park", 
+                                   "Kenilworth Park",
+                                   "Gov Tom McCall Waterfront Park", 
+                                   "Columbia Childrens Arboretum"))
+portland_trees  <- pdx  |> 
+                select(Inventory_Date, Common_Name, Tree_Height,
+                      Structural_Value, Carbon_Storage_lb)  |> 
+                slice(1:6)
+```
+```{r}
+#| label:  tbl-portland-trees
+#| tbl-cap:  "The first 6 trees in the Portland tree dataset"
+#| tbl-pos: H
+
+portland_trees |> 
+  kbl(linesep = "", booktabs = TRUE, align = "rrr")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+
+
+
+
+```
 
 

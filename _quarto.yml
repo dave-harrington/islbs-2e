@@ -23,6 +23,7 @@ book:
     - authors.qmd
     - preface.qmd
     - intro-to-data.qmd
+    - collecting-data.qmd
     - probability.qmd
     - distributions.qmd
     - inference-foundations.qmd
