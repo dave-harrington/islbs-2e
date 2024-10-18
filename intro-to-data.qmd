@@ -28,26 +28,19 @@ The study team enrolled children in the United Kingdom between 2006 and 2009, se
 
 At 5 years of age, each child was tested for peanut allergy using an oral food challenge (OFC): 5 grams of peanut protein in a single dose. A child was recorded as passing the oral food challenge if no allergic reaction was detected, and failing the oral food challenge if an allergic reaction occurred. These children had previously been tested for peanut allergy through a skin test, conducted at the time of study entry; the main analysis presented in the paper was based on data from 530 children with an earlier negative skin test.  Although a total of 542 children had an earlier negative skin test, data collection did not occur for 12 children. 
 
-Individual-level data from the study are shown in @tbl-leapStudyResultsDF, which shows 5 children in a dataset restricted to children with a negative skin prick test for a peanut allergy at the time of randomization. Each row represents a participant and shows the study ID number, treatment assignment and OFC outcome.  The data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+Individual-level data from the study are shown in @tbl-leapStudyResultsDF, which shows 5 children in a dataset restricted to children with a negative skin prick test for a peanut allergy at the time of randomization. Each row represents a participant and shows the`participant.ID` (an anonymous  participant ID),  `treatment.group` (treatment randomly assigned) and `overall.V60.outcome (result of the OFC at 60 months of age) .  The data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
 
 
-```{r}
-library(oibiostat)
- 
-LEAP_renamed <- LEAP |> 
-    rename(`Participant ID` = participant.ID,
-           Treatment = treatment.group,
-           Outcome = overall.V60.outcome)  |> 
-    select('Participant ID', Treatment, Outcome)   
-LEAP_trimmed <- LEAP_renamed |> 
-    slice(1:3, 529, 539)
-
-```
 
 ```{r}
 #| label:  tbl-leapStudyResultsDF
 #| tbl-cap:  "Five patients from the LEAP study"
 #| tbl-pos: H
+library(oibiostat)
+
+LEAP_trimmed <- LEAP |> 
+    select(participant.ID, treatment.group , overall.V60.outcome) |> 
+    slice(1:3, 529, 539)
 
 LEAP_trimmed  |> 
   kbl(linesep = "", booktabs = TRUE, align = "lll")|>
@@ -59,18 +52,33 @@ LEAP_trimmed  |>
 
 The data can be organized in the form of a two-way summary table; table @tbl-leapStudyResults shows the results grouped by treatment group and OFC outcome. 
 
-<!--
-two way table here.  simple version first.  Kable version produces errors
--->
 
 
 ```{r}
-library(xtable)
+#| label:  tbl-leapStudyResults
+#| tbl-cap:  "Results from the LEAP study"
+#| tbl-pos: H
+options(knitr.kable.NA = '')
 
-addmargins(table(LEAP_renamed$Treatment, LEAP_renamed$Outcome))
-  
-       
+LEAP_analysed <- LEAP |> 
+  filter(stratum == "SPT-Negative") |> 
+  filter(!is.na(overall.V60.outcome))
 
+LEAP_analysed |> 
+  count(overall.V60.outcome, treatment.group) |> 
+  group_by(treatment.group) |> 
+  pivot_wider(names_from = overall.V60.outcome, 
+              values_from = n) |> 
+  adorn_totals(where = c("row", "col")) |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")
+  )
+```
+
+```{r}
+  LEAP_analysed <- filter(LEAP, stratum == "SPT-Negative")
 ```
 
 The summary table makes it easy to identify patterns in the data. In the avoidance group, the proportion of children failing the OFC is $36/263 = 0.137$ ($13.7\%$); in the consumption group, the proportion of children failing the OFC is $5/267 = 0.019$ ($1.9\%$).  
@@ -95,10 +103,10 @@ The LEAP study illustrates some of the implicit issues in research in \index{evi
 
 In evolutionary biology, parental investment refers to the amount of time, energy, or other resources devoted towards raising offspring. This section introduces the *frog* dataset, collected as part of a 2013 study about maternal investment in a frog species [@chen2013maternal]. Reproduction is a costly process for female frogs, and involving a balance between individual egg size and total number of eggs produced. Researchers were interested in investigating how maternal investment varies with altitude and collected measurements on egg clutches found at breeding ponds across 11 study sites; for 5 sites, the body size of individual female frogs was also recorded.
 
+
 ```{r}
 frog_trimmed  <- frog  |> 
-   slice(1:3, 150)
-
+   slice(1:3, 150) 
 ```
 
 ```{r}
@@ -114,9 +122,12 @@ frog_trimmed |>
     latex_options = c("striped"),
     full_width = FALSE)
 ```
-Table @tbl-frogDF displays rows 1, 2, 3, and 150 of the dataset from the 431 clutches observed in the study.  Each row in the table corresponds to a single clutch, indicating where the clutch was collected (*altitude* and *latitude*), *egg.size*, *clutch.size*, *clutch.volume*, and *body.size* of the mother when available. "NA" corresponds to a missing value - the information on an individual female was not collected for that clutch. The recorded characteristics are referred to as \term{variables}; in this table, each column represents a variable.
+Table @tbl-frogDF displays rows 1, 2, 3, and 150 of the dataset from the 431 clutches observed in the study.  Each row in the table corresponds to a single clutch, indicating where the clutch was collected (`altitude` and `latitude`), `egg.size`, `clutch.size`, `clutch.volume`, and `body.size` of the mother when available. "NA" corresponds to a missing value - the information on an individual female was not collected for that clutch. The recorded characteristics are referred to as \term{variables}; in this table, each column represents a variable.
 
 ```{r}
+#| label:  tbl-frogVarDescriptions
+#| tbl-cap:  "Variables and their descriptions for the frog dataset"
+#| tbl-pos: H
 frog_var_name  <- c('altitude', 'latitude', 'egg.size',
               'clutch.size', 'clutch.volume', 'body.size')
 frog_var_description  <- c('Altitude of the study site in meters above sea level',
@@ -129,12 +140,6 @@ frog_var_table  <- data.frame(frog_var_name, frog_var_description)
 frog_var_table  <- frog_var_table  |> 
           rename('Variable name' = frog_var_name,
                   'Variable description' = frog_var_description)
-
-```
-```{r}
-#| label:  tbl-frogVarDescriptions
-#| tbl-cap:  "Variables and their descriptions for the frog dataset"
-#| tbl-pos: H
 
 frog_var_table  |> 
   kbl(linesep = "", booktabs = TRUE, align = "ll")|>
@@ -151,28 +156,65 @@ The data in Table @tbl-frogDF are organized as \index{data matrix}. Each row of 
 
 ## Types of variables {#sec-variable-types}
 
-Portland Oregon has built a comprehensive inventory of trees in the city, recording for each tree many variables, including the date the tree was added to the inventory, its common name, and the value of the tree both monetarily and as a carbon storage organism.
+\index{data!crabs|(}
+
+When spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand.  Additional male crabs may join the pair and fertilize the eggs as well, presumably increasing genetic diversity of the offspring. The additional male crabs are called satellites. The data originally appeared in Brockman [@brockmann1996satellite]  and can be found at the website for *Categorical Data Analysis, 3rd ed.*[@agresti2013categorical] and in the R package `asbio`. The dataset is used later in Chapter @sec-logistic-regression to illustrate logistic regression.
+
+The dataset contains observations on 173 female crabs, with 5 recorded measurements for each crab, so the data matrix consists of 173 rows and 5 columns. The carapace of a crab is the shell it carries on  its back; a horseshoe crab has two spines along the edge of its abdomen.  Table @tbl-crabsVarDescriptions contains the descriptions of the variables, and @tbl-crabsDF shows the rows for 6 randomly selected crabs.
 
 
 ```{r}
-library(pdxTrees)
-#pull data from specific parks using custom get_pdxTrees_parks() function 
-pdx <- get_pdxTrees_parks(park = c("Laurelhurst Park", 
-                                   "Kenilworth Park",
-                                   "Gov Tom McCall Waterfront Park", 
-                                   "Columbia Childrens Arboretum"))
-portland_trees  <- pdx  |> 
-                select(Inventory_Date, Common_Name, Tree_Height,
-                      Structural_Value, Carbon_Storage_lb)  |> 
-                slice(1:6)
-```
-```{r}
-#| label:  tbl-portland-trees
-#| tbl-cap:  "The first 6 trees in the Portland tree dataset"
+#| label:  tbl-crabsVarDescriptions
+#| tbl-cap:  "Variable definitions for horseshoe crab data"
 #| tbl-pos: H
 
-portland_trees |> 
-  kbl(linesep = "", booktabs = TRUE, align = "rrr")|>
+crabs_var_name <- c("color",
+                     "spine",
+                     "width",
+                     "satell",
+                     "weight")
+crabs_var_description <- c("color of the carapace",
+                            "condition of the spines along the edge of the abdomen",
+                            "width of the carapace in cm",
+                            "number of male satellites",
+                            "weight in kg")
+crabs_var_table  <- data.frame(crabs_var_name, crabs_var_description)
+crabs_var_table  <- crabs_var_table  |> 
+          rename('Variable name' = crabs_var_name,
+                  'Variable description' = crabs_var_description)
+
+crabs_var_table  |> 
+  kbl(linesep = "", booktabs = TRUE, align = "cc")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+
+```
+
+
+```{r}
+#| label:  tbl-crabsDF
+#| tbl-cap:  "Six observations from the frog dataset"
+#| tbl-pos: H
+
+library(asbio)
+data(crabs)
+set.seed(080548)
+crabs_df <-  crabs |> 
+  mutate(color = fct_recode(color,
+    "light medium" = "1",
+    "medium" = "2",
+    "dark medium" = "3",
+    "dark" = "4")) |> 
+  mutate(spine = fct_recode(spine,
+     "both good" = "1",
+     "one worn or broken" = "2",
+     "both worn or broken" = "3" )) |> 
+  sample_n(6)
+
+crabs_df |> 
+  kbl(linesep = "", booktabs = TRUE, align = "ccrr")|>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
     latex_options = c("striped"),
@@ -180,9 +222,47 @@ portland_trees |>
 ```
 
 
+The variables `width` and `weight` are \index{numerical variable} **numerical variables**. They take on quantitative values that can be added, subtracted, or averged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on all values within a specified range.  The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the largest number of satellites who can attach to a female horseshoe crab. 
+
+The variables `color` and `spine` are \index{categorical variable} **categorical variables**.  The values of categorical value are  names or labels; in this case the values are carapace colors or a label for the condition of the spines of the crab.  Arithmetic operations cannot be performed on categorical variables, but they can be tabulated.  When the labels of a categorical variable  have no natural ordering, the variable is a **nominal categorical variable**.   `Spine` is an **ordered categorical variable** since its categories indicate worsening conditions of the spines.  Categorical variables are also called factor variables in R.
+
+Other types of variables arise in specialized applications that are beyond the scope of this text. Character or string variables are sometimes used to record an open ended reponse to a question on a survey.  Dates are often coded in a dataset in a way that allows them to be manipulated with operations that extract the year or day of the week of a date.
 
 
+
+
+
+
+::: {.workedexample data-latex=""}
+Classify the variables in the `frog` dataset: `altitude`, `latitude`, `egg.size`, `clutch.size`, `clutch.volume`, and `body.size`.
+
+------------------------------------------------------------------------
+
+The variables `egg.size`, `clutch.size`, `clutch.volume`, and `body.size` are continuous numerical variables, and can take on all positive values.
+
+In the context of this study, the variables `altitude` and `latitude` are categorical variables, since the numerical values of the variables correspond to the 11 specific study sites where data were collected. Researchers were interested in exploring the relationship between altitude and maternal investment; it would be reasonable to consider `altitude` an ordinal categorical variable.
+:::
+
+::: {.guidedpractice data-latex=""}
+Characterize the variables `treatment.group} and `overall.V60.outcome` from the LEAP study. Answers to guided practice problems are provided in the footnotes. [^01-intro-to-data-1]
+:::
+
+[^01-intro-to-data-1]: These variables measure non-numerical quantities, and thus are categorical variables with two levels.
+
+::: {.guidedpractice data-latex=""}
+Suppose that on a given day, a research assistant collected data on the first 20 individuals visiting a walk-in clinic: age (measured as less than 21, 21 - 65, and greater than 65 years of age), sex, height, weight, and reason for the visit.  Classify each of the variables.[^01-intro-to-data-2]
+:::
+
+[^01-intro-to-data-2]: Height and weight are continuous numerical variables. Age as measured by the research assistant is ordinal categorical. Sex and the reason for the visit are nominal categorical variables.
+
+
+```{r}
+#| label: fig-variable-types
+#| out-width: 80%
+#| fig-cap: Breakdown of variables into their respective types
+#| fig-pos: H
+
+knitr::include_graphics("images/variableTypes.png")
 
 ```
-
 
