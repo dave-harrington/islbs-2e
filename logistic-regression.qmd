@@ -1,4 +1,4 @@
-# Logistic regression {#logistic-regression}
+# Logistic regression {#sec-logistic-regression}
 
 ```{r}
 #| include: false

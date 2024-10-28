@@ -4,10 +4,8 @@
 # Welcome to ISLBS-2e {.unnumbered .unlisted}
 :::
 
-::: under construction
-
+:::
 ISLBS-2e is currently under construction.
-
 :::
 
 <!--

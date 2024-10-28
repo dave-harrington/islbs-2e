@@ -7,9 +7,9 @@ source("_common.R")
 ```
 
 ::: {.chapterintro data-latex=""}
-Making observations and recording data are essential to empirical research and represent the beginning of a systematic approach to investigating scientific questions. The discipline of statistics focuses on addressing the following three questions: How should data be organized, summarized and explored? How can data best be collected? What can be learned from data? 
+Making observations and recording data are essential to empirical research and often begin a systematic approach to investigating scientific questions. The discipline of statistics focuses on addressing the following three questions: How should data be organized, summarized and explored? How can data best be collected? What can be learned from data?
 
-This chapter provides an introduction methods for summarizing and exploring data. 
+This chapter provides an introduction methods for summarizing and exploring data.
 :::
 
 ```{r}
@@ -19,16 +19,15 @@ terms_chp_1 <- c("data")
 
 ## Case study: Preventing peanut allergies {#sec-case-study-preventing-peanut-allergies}
 
-
 \index{data!LEAP|(}
 
-The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years and some observations have suggested that exposing infants to peanut-based foods, rather than excluding such foods from their diets, may be an effective strategy for preventing the development of peanut allergies (see @du2008early). The "Learning Early about Peanut Allergy" (LEAP, @du2015randomized) study was conducted in a controlled setting to investigate  whether early exposure to peanut products reduces the probability that a child will develop peanut allergies.
+The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years and some observations have suggested that exposing infants to peanut-based foods, rather than excluding such foods from their diets, may be an effective strategy for preventing peanut allergies (see @du2008early). The "Learning Early about Peanut Allergy" (LEAP, @du2015randomized) study was conducted in a controlled setting to investigate whether early exposure to peanut products reduces the probability that a child will develop a peanut allergy.
 
-The study team enrolled children in the United Kingdom between 2006 and 2009, selecting 640 infants between 4 and 11 months old with eczema, egg allergy, or both. Each child was randomly assigned to either the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams of peanut protein daily until 5 years of age, while children in the control group avoided consuming peanut protein until 5 years of age.
+The study team enrolled children in the United Kingdom between 2006 and 2009, selecting 640 infants between 4 and 11 months old with eczema, an egg allergy, or both. Each child was randomly assigned to either the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams of peanut protein daily until 5 years of age, while children in the control group avoided peanut protein  until 5 years of age.
 
-At 5 years of age, each child was tested for peanut allergy using an oral food challenge (OFC): 5 grams of peanut protein in a single dose. A child was recorded as passing the oral food challenge if no allergic reaction was detected, and failing the oral food challenge if an allergic reaction occurred. These children had previously been tested for peanut allergy through a skin test, conducted at the time of study entry; the main analysis presented in the paper was based on data from 530 children with an earlier negative skin test.  Although a total of 542 children had an earlier negative skin test, data collection did not occur for 12 children. 
+At age 5, each child was tested for a peanut allergy using an oral food challenge (OFC): 5 grams of peanut protein in a single dose. A child was recorded as passing the oral food challenge if no allergic reaction was detected, and failing the if an allergic reaction occurred.  The main analysis presented in the paper was based on data from 530 children with  earlier negative skin test at the time of study entry. Although a total of 542 children had an earlier negative skin test, data collection did not occur for 12 children.
 
-Individual-level data from the study are shown in @tbl-leapStudyResultsDF, which shows 5 children in a dataset restricted to children with a negative skin prick test for a peanut allergy at the time of randomization. Each row represents a participant and shows the`participant.ID` (an anonymous  participant ID),  `treatment.group` (treatment randomly assigned) and `overall.V60.outcome (result of the OFC at 60 months of age) .  The data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+Individual-level data from the study are shown in @tbl-leapStudyResultsDF, which shows 5 children in a dataset restricted to children with a negative skin prick test for a peanut allergy at the time of randomization. Each row represents a participant and shows the`participant.ID` (an anonymous participant ID), `treatment.group` (treatment randomly assigned) and `overall.V60.outcome` (result of the OFC at 60 months of age). The LEAP data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
 
 
 
@@ -50,9 +49,9 @@ LEAP_trimmed  |>
     full_width = FALSE)
 ```
 
-The data can be organized in the form of a two-way summary table; table @tbl-leapStudyResults shows the results grouped by treatment group and OFC outcome. 
+The data can be organized in a two-way summary table; table @tbl-leapStudyResults shows the results grouped by treatment group and OFC outcome.
 
-
+<!-- add percentages responding column -->
 
 ```{r}
 #| label:  tbl-leapStudyResults
@@ -69,6 +68,8 @@ LEAP_analysed |>
   group_by(treatment.group) |> 
   pivot_wider(names_from = overall.V60.outcome, 
               values_from = n) |> 
+  relocate(`FAIL OFC`, .after = `PASS OFC`) |>
+  mutate(`Proportion failing` = `FAIL OFC`/(`PASS OFC` + `FAIL OFC`)) |>
   adorn_totals(where = c("row", "col")) |> 
   kbl(linesep = "", booktabs = TRUE) |> 
   kable_styling(
@@ -77,32 +78,25 @@ LEAP_analysed |>
   )
 ```
 
-```{r}
-  LEAP_analysed <- filter(LEAP, stratum == "SPT-Negative")
-```
+The summary table makes it easy to identify patterns in the data. In the two groups combined, $15.6\%$ of the children failed the OFC, but the proportions failing in avoidance and consumption groups are very different.  In the avoidance group, the proportion of children failing the OFC is $36/263 = 0.137$ ($13.7\%$); in the consumption group, the proportion of children failing the OFC is $5/267 = 0.019$ ($1.9\%$).
 
-The summary table makes it easy to identify patterns in the data. In the avoidance group, the proportion of children failing the OFC is $36/263 = 0.137$ ($13.7\%$); in the consumption group, the proportion of children failing the OFC is $5/267 = 0.019$ ($1.9\%$).  
+The difference in the proportions of participants failing the OFC between the two groups is 11.8%; nearly $12\%$ more of the participants in the avoidance group failed the OFC than in the consumption group. The data can also be summarized by the ratio the two proportions ($0.137/0.019 = 7.31$); the proportion of participants failing the OFC in the avoidance group is more than 7 times larger as in the consumption group; i.e., the risk of failing the OFC was more than 7 times greater for participants in the avoidance group relative to the consumption group.
 
+Even without sophisticated methods of analysis, the results of the study are striking. Early exposure to peanut products may be an effective strategy for reducing the chances of developing peanut allergies later in life. But are these results definitive? In other words, is the $11.8\%$ difference between the two groups larger than one would expect by chance variation alone? The methods of inference in later chapters will provide the statistical tools to answer this question.
 
-The difference in the proportions of participants failing the OFC between the treatment groups 11.8\%; nearly $12\%$ more of the participants in the avoidance group failed the OFC than in the consumption group. The data can also be summarized by the ratio the two proportions ($0.137/0.019 = 7.31$);  the proportion of participants failing the OFC in the avoidance group is more than 7 times larger as in the consumption group; i.e., the risk of failing the OFC was more than 7 greater for participants in the avoidance group relative to the consumption group.
+In the language of medical research, LEAP was a clinical trial -- a study done to improved the understanding of an intervention in a clinical setting. In statistical terms, LEAP was an experiment involving human subjects -- a study done in a controlled setting to estimate the difference in outcome using two interventions to prevent peanut allergies. Experiments will be explored in more detail later in the text in Section @sec-experiments of Chapter @sec-collecting-data.  
 
-Even without any sophisticated methods of analysis, the results of the study are striking.  Early exposure to peanut products may be an effective strategy for reducing the chances of developing peanut allergies later in life. Are these results definitive? In other words, is the 11.8\% difference between the two groups larger than one would expect by chance variation alone? The material on inference in later chapters will provide the statistical tools to answer this question.
-
-
-The results also raise an important statistical issue: does the study provide definitive evidence that peanut consumption is beneficial? In other words, is the $11.8\%$ difference between the two groups larger than one would expect by chance variation alone? The material on inference in later chapters will provide the statistical tools to evaluate this question.
-
-::: {.data data-latex=""}
-The LEAP study illustrates some of the implicit issues in research in \index{evidence-based medicine}, some explicit and some implicit.  The study was done when a common approach to preventing peanut allergies among susceptible children was based on avoiding peanut products.  LEAP was an important step in overcoming that notion.  The parents of the infants participating in the study agreed to that their children could be randomly assigned to a treatment that would expose their children to peanut products.   Investigators conducting this and similar studies are ethically bound to ensure that the study is supported by prior data, that the study has a sound design, and is conducted responsibly
-:::
+The study illustrates some of the issues in research in \index{evidence-based medicine}, some explicit and some implicit. The study was done when a common approach to preventing peanut allergies among susceptible children was based on avoiding peanut products. LEAP was an important step in overcoming that notion by providing evidence that the previous approach of avoiding peanut products was not the best approach, no matter how natural it may have seemed. The parents of the infants participating in the study consented to allow their children to be randomly assigned to two interventions with uncertain value.  Investigators conducting this and similar studies are ethically bound to ensure that the study is supported by prior data, that the study has a sound design, and is conducted responsibly.  
 
 \index{data!LEAP|)}
 
-## Observations, variables, and data matrices {#sec-frog-data}
+## Organizing and classifying data {#sec-data-organization}
 
 \index{data!frog|(}
 
-In evolutionary biology, parental investment refers to the amount of time, energy, or other resources devoted towards raising offspring. This section introduces the *frog* dataset, collected as part of a 2013 study about maternal investment in a frog species [@chen2013maternal]. Reproduction is a costly process for female frogs, and involving a balance between individual egg size and total number of eggs produced. Researchers were interested in investigating how maternal investment varies with altitude and collected measurements on egg clutches found at breeding ponds across 11 study sites; for 5 sites, the body size of individual female frogs was also recorded.
+In evolutionary biology, parental investment refers to the amount of time, energy, or other resources devoted to raising offspring. This section introduces the `frog` dataset, collected as part of a 2013 study about maternal investment in a frog endemic to the Tibetan Plateau [@chen2013maternal]. Reproduction is a costly process for female frogs, and involves a balance between individual egg size and total number of eggs produced in a nest, called a clutch. The study team investigated how maternal investment varied with altitude, collecting measurements on egg clutches found at breeding ponds across 11 study sites; for 5 sites, the body size of individual female frogs was also recorded. The Chen study found that as environmental stress increased with increasing altitude, the female Tibetan frogs produced clutches with larger eggs and larger volumes instead of having more eggs.
 
+The `frog` data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
 
 ```{r}
 frog_trimmed  <- frog  |> 
@@ -114,6 +108,8 @@ frog_trimmed  <- frog  |>
 #| tbl-cap:  "Four observations from the frog dataset"
 #| tbl-pos: H
 
+options(knitr.kable.NA = 'NA', digits = 4)
+library(oibiostat)
 
 frog_trimmed |> 
   kbl(linesep = "", booktabs = TRUE, align = "lll")|>
@@ -122,7 +118,12 @@ frog_trimmed |>
     latex_options = c("striped"),
     full_width = FALSE)
 ```
-Table @tbl-frogDF displays rows 1, 2, 3, and 150 of the dataset from the 431 clutches observed in the study.  Each row in the table corresponds to a single clutch, indicating where the clutch was collected (`altitude` and `latitude`), `egg.size`, `clutch.size`, `clutch.volume`, and `body.size` of the mother when available. "NA" corresponds to a missing value - the information on an individual female was not collected for that clutch. The recorded characteristics are referred to as \term{variables}; in this table, each column represents a variable.
+
+Table @tbl-frogDF displays rows 1, 2, 3, and 150 of the dataset from the 431 clutches observed in the study. Each row in the table corresponds to a single clutch, indicating where the clutch was collected (`altitude` and `latitude`), the `egg.size`, `clutch.size`, `clutch.volume` of the nest, and the `body.size` of the mother when available. Each clutch is a **case**, sometimes called a **unit of observation** or an **observational unit**. When observations are made on people participating in a study, as in LEAP, the observational units are called **human subjects** or **participants**. The recorded characteristics are referred to as \index{variables} **variables**; in this table, each column represents a variable. The entries in a particular row are the values of the variables. "NA" corresponds to a missing value - the information on an individual female was not collected for that clutch.  Because the observations in the data are organized into rows and columns, the dataset is sometimes called a **data table** or a \term{data matrix} **data matrix**.  
+
+Data matrices are a convenient way to record and store data. If data are collected for another observational unit, a row can easily be added; similarly, another column can be added for a new variable. The \index{distribution} **distribution** of a variable is its collection of values. The distribution of the variable `clutch.volume`, for instance, is the set of values in the column of the `frog` data matrix with the label `clutch.volume.`
+
+It is important to check the definitions of variables, as they are not always obvious. For example, why has *clutch.size* not been recorded as whole numbers? For a given clutch, researchers counted approximately 5 grams worth of eggs and then estimated the total number of eggs based on the mass of the entire clutch. Definitions of the variables are given in @tbl-frogVarDescriptions. The data discussed here are in the original scale; in the published paper, some values have undergone a natural log transformation.
 
 ```{r}
 #| label:  tbl-frogVarDescriptions
@@ -148,9 +149,13 @@ frog_var_table  |>
     latex_options = c("striped"),
     full_width = FALSE)
 ```
-It is important to check the definitions of variables, as they are not always obvious. For example, why has *clutch.size* not been recorded as whole numbers? For a given clutch, researchers counted approximately 5 grams' worth of eggs and then estimated the total number of eggs based on the mass of the entire clutch. Definitions of the variables are given in @tbl-frogVarDescriptions. The data discussed here are in the original scale; in the published paper, some values have undergone a natural log transformation.
 
-The data in Table @tbl-frogDF are organized as \index{data matrix}. Each row of a data matrix corresponds to an observational unit, and each column corresponds to a variable. A piece of the data matrix for the LEAP study introduced in Section @sec-case-study-preventing-peanut-allergies is shown in table @tbl-leapStudyResultsDF; the rows are study participants and three variables are shown for each participant. Data matrices are a convenient way to record and store data. If the data are collected for another individual, another row can easily be added; similarly, another column can be added for a new variable.
+
+Datasets are collected to learn about the \index{population} **population** from which the observational units were selected. The clutches in the `frog` data were collected to learn about the maternal investment of frogs in the Tibetan plateau. The `frog` data are a **sample** from the population of frogs in that region. The `frog` data were gathered in an observational study; the principles and interpretation of observational studies are discussed in Section @sec-observational-studies of Chapter @sec-collecting-data.
+
+```{r}
+terms_chp_1 <- c(terms_chp_1, "data matrix")
+```
 
 \index{data!frog|)}
 
@@ -158,10 +163,9 @@ The data in Table @tbl-frogDF are organized as \index{data matrix}. Each row of 
 
 \index{data!crabs|(}
 
-When spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand.  Additional male crabs may join the pair and fertilize the eggs as well, presumably increasing genetic diversity of the offspring. The additional male crabs are called satellites. The data originally appeared in Brockman [@brockmann1996satellite]  and can be found at the website for *Categorical Data Analysis, 3rd ed.*[@agresti2013categorical] and in the R package `asbio`. The dataset is used later in Chapter @sec-logistic-regression to illustrate logistic regression.
+When spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand. Additional male crabs may join the pair and fertilize the eggs as well, presumably increasing genetic diversity of the offspring. The additional male crabs are called satellites. The dataset `crab` examined  here contains observations on $173$ female crabs, with $5$ recorded measurements for each crab, so the data matrix consists of $173$ rows and $5$ columns.  The data originally appeared in Brockman [@brockmann1996satellite] and can be found at the website for *Categorical Data Analysis, 3rd ed.*[@agresti2013categorical] and in the R package `asbio`.  The dataset is used later in Chapter @sec-logistic-regression to explore the relationship between the features of a female crab and the number of satellites it attracts.
 
-The dataset contains observations on 173 female crabs, with 5 recorded measurements for each crab, so the data matrix consists of 173 rows and 5 columns. The carapace of a crab is the shell it carries on  its back; a horseshoe crab has two spines along the edge of its abdomen.  Table @tbl-crabsVarDescriptions contains the descriptions of the variables, and @tbl-crabsDF shows the rows for 6 randomly selected crabs.
-
+Table @tbl-crabsVarDescriptions contains the descriptions of the variables, and @tbl-crabsDF shows the rows for 6 randomly selected crabs. The carapace of a crab is the shell it carries on its back; a horseshoe crab has two spines along the edge of its abdomen.
 
 ```{r}
 #| label:  tbl-crabsVarDescriptions
@@ -184,7 +188,7 @@ crabs_var_table  <- crabs_var_table  |>
                   'Variable description' = crabs_var_description)
 
 crabs_var_table  |> 
-  kbl(linesep = "", booktabs = TRUE, align = "cc")|>
+  kbl(linesep = "", booktabs = TRUE, align = "cl")|>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
     latex_options = c("striped"),
@@ -192,10 +196,9 @@ crabs_var_table  |>
 
 ```
 
-
 ```{r}
 #| label:  tbl-crabsDF
-#| tbl-cap:  "Six observations from the frog dataset"
+#| tbl-cap:  "Six observations from the crabs dataset"
 #| tbl-pos: H
 
 library(asbio)
@@ -221,40 +224,19 @@ crabs_df |>
     full_width = FALSE)
 ```
 
+The variables `width` and `weight` are \index{numerical variables} **numerical variables**, also called quantitative variables. They take on  values that can be added, subtracted, or averaged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on all values within a specified range. The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the largest number of satellites who can attach to a female horseshoe crab.
 
-The variables `width` and `weight` are \index{numerical variable} **numerical variables**. They take on quantitative values that can be added, subtracted, or averged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on all values within a specified range.  The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the largest number of satellites who can attach to a female horseshoe crab. 
+The variables `color` and `spine` are \index{categorical variables} **categorical variables**, also called qualitative variables. The values of categorical value are names or labels; in this case the values are carapace colors or the condition of the spines of the crab. Arithmetic operations cannot be performed on categorical variables, but they can be tabulated. When the labels of a categorical variable have no natural ordering, the variable is a **nominal categorical variable**. `Spine` is an **ordered categorical variable** since its categories indicate worsening conditions of the spines. Categorical variables are also called factor variables in R.
 
-The variables `color` and `spine` are \index{categorical variable} **categorical variables**.  The values of categorical value are  names or labels; in this case the values are carapace colors or a label for the condition of the spines of the crab.  Arithmetic operations cannot be performed on categorical variables, but they can be tabulated.  When the labels of a categorical variable  have no natural ordering, the variable is a **nominal categorical variable**.   `Spine` is an **ordered categorical variable** since its categories indicate worsening conditions of the spines.  Categorical variables are also called factor variables in R.
+\index{data!crabs|)}
 
-Other types of variables arise in specialized applications that are beyond the scope of this text. Character or string variables are sometimes used to record an open ended reponse to a question on a survey.  Dates are often coded in a dataset in a way that allows them to be manipulated with operations that extract the year or day of the week of a date.
+```{r}
+terms_chp_1 <- c(terms_chp_1, "numerical variable", "categorical variable")
+```
 
+Other types of variables arise in specialized applications that are not discussed in this text. Character or string variables are sometimes used to record an open ended response to a question on a survey. Dates are often coded so that they can  be manipulated with operations that extract the year or day of the week of a date.
 
-
-
-
-
-::: {.workedexample data-latex=""}
-Classify the variables in the `frog` dataset: `altitude`, `latitude`, `egg.size`, `clutch.size`, `clutch.volume`, and `body.size`.
-
-------------------------------------------------------------------------
-
-The variables `egg.size`, `clutch.size`, `clutch.volume`, and `body.size` are continuous numerical variables, and can take on all positive values.
-
-In the context of this study, the variables `altitude` and `latitude` are categorical variables, since the numerical values of the variables correspond to the 11 specific study sites where data were collected. Researchers were interested in exploring the relationship between altitude and maternal investment; it would be reasonable to consider `altitude` an ordinal categorical variable.
-:::
-
-::: {.guidedpractice data-latex=""}
-Characterize the variables `treatment.group} and `overall.V60.outcome` from the LEAP study. Answers to guided practice problems are provided in the footnotes. [^01-intro-to-data-1]
-:::
-
-[^01-intro-to-data-1]: These variables measure non-numerical quantities, and thus are categorical variables with two levels.
-
-::: {.guidedpractice data-latex=""}
-Suppose that on a given day, a research assistant collected data on the first 20 individuals visiting a walk-in clinic: age (measured as less than 21, 21 - 65, and greater than 65 years of age), sex, height, weight, and reason for the visit.  Classify each of the variables.[^01-intro-to-data-2]
-:::
-
-[^01-intro-to-data-2]: Height and weight are continuous numerical variables. Age as measured by the research assistant is ordinal categorical. Sex and the reason for the visit are nominal categorical variables.
-
+Figure @fig-variable-types shows the types of variables used in this text.
 
 ```{r}
 #| label: fig-variable-types
@@ -266,3 +248,337 @@ knitr::include_graphics("images/variableTypes.png")
 
 ```
 
+::: {.workedexample data-latex=""}
+Classify the variables in the `frog` dataset: `altitude`, `latitude`, `egg.size`, `clutch.size`, `clutch.volume`, and `body.size`.
+
+------------------------------------------------------------------------
+
+The variables `egg.size`, `clutch.size`, `clutch.volume`, and `body.size`  are continuous numerical variables.  The variables `altitude` and `latitude` are categorical variables, since their values correspond to the 11 specific study sites where data were collected. Since the study team was interested in the relationship between altitude and maternal investment, it would be reasonable to consider `altitude` an ordinal categorical variable.
+:::
+
+::: {.guidedpractice data-latex=""}
+Characterize the variables `treatment.group` and `overall.V60.outcome` from the LEAP study. Answers to guided practice problems are provided in the footnotes. [^intro-to-data-1]
+:::
+
+[^intro-to-data-1]: These variables measure non-numerical quantities, and thus are categorical variables, each with two levels.
+
+::: {.guidedpractice data-latex=""}
+Suppose that on a given day, a research assistant collected data on the first 20 individuals visiting a walk-in clinic: `age` (measured as less than 21, 21 - 65, and greater than 65 years of age), `gender`, `height`, `weight`, and `reason for the visit`. Classify each of the variables.[^intro-to-data-2]
+:::
+
+[^intro-to-data-2]: `Height` and `weight` are continuous numerical variables. Age as measured by the research assistant is `ordinal categorical`. `Sex` and `the reason for the visit` are nominal categorical variables.
+
+## Summarizing data {#sec-summarizing-data}
+
+### Categorical data
+
+Categorical data are summarized in tables, such as @tbl-crabs-colors-frequency showing the frequency of each color in  the carapace of the 173 crabs in the `crabs` data.
+
+```{r}
+#| label: tbl-crabs-colors-frequency
+#| tbl-cap:  "Distribution of colors of the 173 crabs in the crabs dataset"
+#| tbl-pos: H
+crabs |> 
+  mutate(color = fct_recode(color,
+    "light medium" = "1",
+    "medium" = "2",
+    "dark medium" = "3",
+    "dark" = "4")) |> 
+  count(color) |>
+  rename(Frequency = n)  |> 
+  adorn_totals(where = "row") |>
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")
+  )
+  
+
+```
+
+Table @tbl-crabs-colors-frequency is \index{frequency table} **frequency table**.  When the proportion of crabs with each color is added to the table it is called a \index{relative frequency table} **relative frequency table**, as in Table @tbl-crabs-colors-relative-frequency.
+
+```{r}
+#| label: tbl-crabs-colors-relative-frequency
+#| tbl-cap:  "Distribution of colors of the 173 crabs in the crabs dataset"
+#| tbl-pos: H
+
+crabs |> 
+  mutate(color = fct_recode(color,
+    "light medium" = "1",
+    "medium" = "2",
+    "dark medium" = "3",
+    "dark" = "4")) |> 
+  count(color) |>
+  mutate("Relative frequency" = n/sum(n)) |>
+  rename(Frequency = n) |> 
+  adorn_totals(where = "row") |>
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")
+  )
+  
+```
+
+Frequency and relative frequency tables are used with nominal categorical variables, where the labels have no natural ordering.  With ordered categorical variables it is useful to add a column of cumulative relative frequencies showing the proportion of cases with a label at or below a label in the natural ordering of the variable.
+
+```{r}
+#| label: tbl-frog-altitude-cumulative-frequency
+#| tbl-cap:  "Frequencies, relative frequencies and cumulative relative frequencies of the altitude of study
+#|    sites in the frog dataset."
+#| tbl-pos: H
+source("_common.R")
+
+frog |> 
+  count(altitude) |> 
+  mutate(`Relative frequency` = n/sum(n)) |>
+  mutate(`Cumulative relative frequency` = cumsum(`Relative frequency`)) |> 
+  rename(Frequency = n) |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")
+  )
+
+```
+
+
+### Numerical data
+
+Numerical data are usually summarized by the center and spread of their distribution of values. This section uses  `clutch.volume` in the `frog` data to discuss numerical summaries, also called \index{summary statistics} **summary statistics**.  Section @sec-relationships-in-data will explore the relationship between `altitude` and `clutch.volume`.
+
+The \index{mean} **mean**, sometimes called the \indexthis{average}{mean!average}, is a measure of center of a distribution and is denoted (generically) by $\overline{x}$. The average clutch volume in the `frog` data is calculated summing all the  volumes and dividing by the total number of clutches. For computational convenience, the volumes below have been rounded to the first decimal digit (the nearest tenth of a volume).
+
+\begin{align*}
+\overline{x} =& \frac{177.8 + 257.0 + \cdots + 933.3}{431} = 882.5\ \textrm{mm}^{3}.
+\end{align*}
+
+Since data are almost always a sample from a population, $\overline{x}$ is usually referred to as a \index{sample mean} **sample mean**. The \index{population mean} **population mean** of the population from which the sample was selected is denoted by the Greek letter $\mu$.
+
+::: {.important data-latex=""}
+**Mean.**
+
+The mean of a dataset is the sum of the observed values divided by the number of observations:
+
+\vspace{-5mm}
+
+$$ \bar{x} = \frac{x_1 + x_2 + \cdots + x_n}{n} $$
+:::
+
+The \index{median} **median** is another measure of center; it is the middle value of a distribution after the values have been ordered from smallest to largest. The median splits the distribution in two; half of the distribution are less than the median and half are larger. The middle is well-defined if there are an odd number of observations; the middle observation will have the same number of observations below and above it. If the distribution contains an even number of observations, the median is the average of two middle observations. There are $431$ clutch volumes in the dataset; the $216^{th}$ observation, $831.8\ \textrm{mm}^{3}$, has $215$ observations below and above it when the values are ordered.
+
+::: {.important data-latex=""}
+**Median: the number in the middle.**
+
+If the data are ordered from smallest to largest, the **median** is the middle observation. If there are an even number of observations, the median is the average of the two middle observations
+:::
+
+The \index{standard deviation} **standard deviation** and \index{interquartile range} **interquartile range** are two common measures of spread.
+
+The standard deviation describes the typical distance between an observation and the mean. The distance of a single observation from the mean is its \index{deviation} **deviation**. The deviations for the $1^{st}$, $2^{nd}$, $3^{rd}$, and $431^{st}$ observations in `clutch.volume` are:
+\begin{align*}
+x_1-\overline{x} &= 177.8 - 882.5 = -704.7 \hspace{5mm}\text{ } \\
+x_2-\overline{x} &= 257.0 - 882.5 = -625.5 \\
+x_3-\overline{x} &= 151.4 - 882.5 = -731.1 \\
+&\ \vdots \\
+x_{431}-\overline{x} &= 933.2 - 882.5 = 50.7
+\end{align*}
+The units for these $4$ values are mm$^3$.
+
+```{=html}
+<!--
+
+library(oibiostat)
+library(dplyr)
+
+x <- frog$clutch.volume
+x_bar <- round(mean(x), 1)
+x_bar
+
+
+sel_values <- c(first(x),
+              nth(x,2),
+              nth(x,3),
+              last(x))
+
+dev <- sel_values - x_bar
+dev_sq <- dev^2
+
+var(x)
+sd(x)
+
+-->
+```
+
+The \index{variance} **variance** of a distribution (also called the **sample variance**) is the average of the squares of these deviations, and is denoted by $s^2$. For the clutch volumes 
+
+\begin{align*}
+s^2 &= \frac{(-704.7)^2 + (-625.5)^2 + (-731.1)^2 + \cdots + (50.7)^2}{431-1} \\
+&= \frac{496,602.09 + 391,250.25 + 534,507.21 + \cdots + 2570.49}{430} \\
+&= 143,680.9 {\textrm{mm}^3}^2.
+\end{align*}
+
+The denominator is $n-1$ rather than $n$ for reasons that will be explained later.  The units of the variance are the square of the units of the original measurements, in this case mm$^3$-squared.
+
+The standard deviation $s$ is the square root of the variance: 
+$$
+s=\sqrt{143,680.9} = 379.05 \textrm{mm}^{3}.
+$$ 
+The \index{population standard deviation} **population standard deviation** of the population from which the sample was selected is denoted by the Greek letter $\sigma$. The units of the standard deviation is the same as the original scale of measurement.
+
+::: {.important data-latex=""}
+**Standard deviation.**
+
+The sample standard deviation is the square root of the sum of the squared distance of each value from the mean divided by the number of observations minus one:
+
+\vspace{-5mm}
+
+$$s = \sqrt{\frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}}$$
+:::
+
+The \index{interquartile range} **interquartile range**, or \index{IQR} **IQR** is the width of the middle 50% of the data. It is the difference between the first and third quartiles: $Q_3 - Q_1$. The first quartile ($Q_1$) is also called the $25^{th}$ percentile; i.e., 25% of the data fall below this value. The third quartile ($Q_3$) is the $75^{th}$ percentile. The first quartile $Q_1$ is the median of the half of the data below the overall median; $Q_3$ is the median of the upper half of the data. The median is sometimes denoted as $Q_2$, since it marks the second quartile (the $50^{th}$). The three values $Q_1$, $Q_2$ and $Q_3$ divide the data into 4 chunks, each with approximately 25% of the observations.
+
+<!--
+
+::: {.important data-latex=""}
+**Interquartile range (IQR).**
+
+The interquartile range (IQR) is $Q_3 - Q_1,$ where $Q_1$ and $Q_3$ are the $25^{th}$ and $75^{th}$ percentiles of a distribution. It measures the spread of the central 50% of a distribution.
+
+An $\alpha$ **percentile**\index{percentile} is a number with $\alpha$% of the observations below it and $100-\alpha$% of the observations above it. For example, the $90^{th}$ percentile `clutch.volume` is the value with 90% of the clutches below and 10% above that value.
+:::
+
+-->
+
+The median, mean, IQR and standard deviation are examples of \index{summary statistics} **summary statistics**, numerical summaries of the features of a distribution. The \index{five number summary} **five number summary**  is a compact summary providing the mean, median, the first and third quartiles, and the largest and smallest observations. Table @tbl-five-num-summ-clutch.volume shows the five number summary for `clutch.volume`, with the standard deviation added for good measure.
+
+```{r}
+#| label: tbl-five-num-summ-clutch.volume
+#| tbl-cap: |
+#|   The five number summary for clutch volume along with the standard deviation.
+#| tbl-pos: H
+library(oibiostat)
+summ_stat_clutch.volume <- frog |> 
+  summarize(
+    Minimum = min(clutch.volume),
+    `First Quartile` = quantile(clutch.volume, probs = 0.25),
+    Mean = mean(clutch.volume),
+    `Third Quantile` = quantile(clutch.volume, probs = 0.75),
+    Maximum = max(clutch.volume),
+    `Std. Dev` = sd(clutch.volume)
+  ) 
+
+summ_stat_clutch.volume |> 
+  kbl(linesep = "", booktabs = TRUE, align = "rrrrrr") |>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")
+  )
+
+```
+
+**revise discussion here to match new plot**
+
+The clutch volumes range in size from approximately $150$mm$^3$ to $2630$mm$^3$. The average volume is approximately $883$mm$^3$, while the median $831.8$mm$^3$ splits the ordered volumes in half. Approximately $50\%$ of the observations are between the first and third quartiles, $610$mm$^3$ and $1097$mm$^3$. The mean is larger than the median, and Figure @fig-clutch-vol-dotplot shows why.
+
+Figure  @fig-clutch-vol-dotplot is shows all clutch volumes plotted on a horizontal line.  There are $4$ values that seem uncharacteristically larger than the the rest; they are all larger than $2100$mm$^3$.  Arithmetic averages are sensitive to either extremely large or small observations.  This is easily seen in the small dataset $2,4,6,8,10$, where the mean and median are both $7$.  When the largest value $10$ is replaced by $30$, the median is unchanged but the mean increases to $10$.
+
+
+<!--
+
+x <- c(2, 4, 6, 8, 10)
+mean(x)
+sd(x)
+y <- c(2,4,6,8,30)
+mean(y)
+sd(y)
+
+-->
+
+**need native ggplot for this**
+
+
+
+```{r}
+#| label: fig-clutch-vol-dotplot
+#| echo: false
+#| out-width: 80%
+#| fig-cap: |
+#|   A dot plot showing the values of clutch volumes
+#| fig-alt: |
+#|   additional wording here
+
+knitr::include_graphics("images/frogClutchVolDotPlot.png")
+```
+
+
+
+The median is a \index{robust statistic} *robust statistic*, a summary statistic that is minimally affected by a few extreme observations.   For the same reason, the IQR is a robust measure of spread  of a distribution. When $10$ is replaced by $30$ in the small dataset of 5 numbers, the standard deviation increases from $3.16$ to $11.40$, while the IQR ($8 - 4 = 4$) is unchanged. 
+
+When the mean of a variable is much larger or smaller than the median, it is important inspect the data for uncharacteristically large or small observations to be sure they are not the result of measurement or recording errors. The five number summary of `clutch.volumes` suggests there are large observation distant from the mean, and Figure @fig-clutch-vol-dotplot shows those values. Numerical summary statistics should be paired with a visual display whenever possible. Section @sec-visualizing-data discusses visual displays in more detail.
+
+## Visualizing data {#sec-visualizing-data}
+
+### Categorical Data
+
+### Numerical data
+
+
+## Relationships in data {#sec-relationships-in-data}
+
+<!-- reorganize so scatterplot comes first, pick different country-->
+
+Table @tbl-leapStudyResults shows a \index{relationship} **relationship** between the study intervention and outcome. The two intervention groups had different outcomes when exposed to peanut products at 5 years of age. The risk of a peanut allergy was more than 7 times greater for participants in the avoidance group relative to the consumption group.
+
+When designing LEAP the study team hypothesized that the approaches to exposure to peanut products would lead to different outcomes. The outcome from the OFC was the \index{response variable} **response variable** in the study, and the intervention was a potential \index{explanatory variable} **explanatory variable**.
+
+Much of this text explores methods for studying relationships in data, examining numerical and graphical methods to display relationships. Studying relationships in data is a major goal of statistics, and, indeed, of research in general. Section @sec-relationships-in-data illustrates numerical and graphical methods for relatively simple relationships between two variables. Chapters @sec-simple-linear-regression, @sec-multiple-linear-regression and @sec-logistic-regression discuss statistical models to help understand the relationships among two or more variables.
+
+Even relationships between just two variables can take many forms. [The World Bank Data Group](https://data.worldbank.org/) provides free and open access to indicators of economic and social development in countries around the world. The data `wdi_2022` in the [openintro](http://openintrostat.github.io/openintro) R package contains data for some of those indicators for the year 2022. Figure @fig-wdi_2022-income-infant-mortality shows a \index{scatterplot} **scatterplot**
+
+```{r}
+#| label: fig-wdi_2022-income-infant-mortality
+#| fig-cap: A scatterplot of infant mortality rate (on the y-axis) versus the 
+#|    per-capita income for 217 countries as of 2022.  Infant mortality rate
+#|    is measured as infant deaths before 1 year of age among 1,000 live births.
+#| fig-alt: slightly modified text here
+
+library(oibiostat)
+library(tidyverse)
+ggplot(wdi_2022, aes(x = gni_percap, y = infant_mortality_rate)) +
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
+  labs(
+    x = "Income per capita",
+    y = "Infant mortality rate"
+  ) +
+  geom_point(
+    data = wdi_2022 |> filter(country == "Argentina"),
+    size = 3, stroke = 2, color = IMSCOL["red", "full"], shape = 1
+  ) +
+  geom_text(
+    data = wdi_2022 |> filter(country == "Argentina"),
+    label = "Argentina", fontface = "italic",
+    nudge_x = 21, nudge_y = -5, color = IMSCOL["red", "full"]
+  ) +
+  guides(color = FALSE) +
+  geom_segment(
+    data = wdi_2022 |> filter(country == "Argentina"),
+    aes(
+      x = 0, y = infant_mortality_rate, xend = gni_percap, 
+      yend = infant_mortality_rate,
+      color = IMSCOL["red", "full"]
+    ), linetype = "dashed"
+  ) +
+  geom_segment(
+    data = wdi_2022 |> filter(country == "Argentina"),
+    aes(
+      x = gni_percap, y = 0, xend = gni_percap, yend = infant_mortality_rate,
+      color = IMSCOL["red", "full"]
+    ), linetype = "dashed"
+  ) +
+  scale_x_continuous(labels = waiver()) +
+  scale_y_continuous(labels = waiver())
+```
+
+## Case study: developmental disability support {#sec-developmenta-disability}
