@@ -1,0 +1,222 @@
+---
+title: "Sample code for intro to data"
+author: "dh"
+date: "islbs-2e"
+
+fontsize: 11pt
+geometry: margin=1in
+
+output:
+  pdf_document:
+    
+    fig_width: 5
+    fig_height: 3.5
+---
+
+```{r}
+source("./_common.R")
+
+```
+
+```{r}
+library(oibiostat)
+library(tidyverse)
+frog_size <- frog |> 
+  dplyr::filter(altitude >  3485) |> 
+  p <- ggplot(aes(body.size, clutch.volume)) |> 
+  p <- p +  geom_point(color = "blue") |> 
+  p <- p + geom_smooth(method = "loess")
+
+```
+
+
+
+
+# frog |> 
+#   mutate(y = "  ") |> 
+#   ggplot(mapping=aes(x =  clutch.volume,y = y)) + 
+#   geom_point(shape = 21) +
+#   geom_beeswarm(dodge.width=0.8,cex=2) +
+#   labs(x = "", y = "") +
+#   scale_x_continuous(
+#     breaks = seq(0, 2500, 500))  +
+#   theme(axis.ticks.y = element_blank())
+
+
+
+<!-- alternative beeswarm -->
+
+```{r}
+library(oibiostat)
+library(beeswarm)
+
+df <- frog
+
+beeswarm(df$clutch.volume,
+         horizontal = TRUE,
+         col = "blue",
+         method = "compactswarm",
+         cex = 0.7,
+         axes = FALSE,
+        # axis(side = 1),
+         xlab = "Clutch volume")
+axis(1, seq(0,2800, 500))
+
+
+```
+
+
+```{r}
+#| label: fig-clutch-vol-beeswarm
+#| fig-cap: Beeswarm plot showing the distribution of clutch volumes in
+#|     the `frog` data.
+#| fig-alt: |
+#|   Beeswarm plot showing the distribution of clutch volumes.  The large values 
+#|   at the right edge of the plot cause the mean to be larger than the median.
+#| fig-width: 4
+#| fig-asp: 0.4
+
+library(ggbeeswarm)
+frog |> 
+ mutate(y = "  ") |> 
+  ggplot(mapping=aes(x =  clutch.volume, y = y)) + 
+  geom_point(shape = 21, cex = .5) +
+  geom_quasirandom(method = "pseudorandom", dodge.width = 0.5) +
+  scale_x_continuous(
+    breaks = seq(0, 2500, 500))  +
+  labs(x = "Clutch volume", y = "") +
+  theme(axis.ticks.y = element_blank())
+
+```
+
+
+
+```{r}
+#| label: fig-clutch-vol-beeswarm-base
+#| fig-cap: Beeswarm plot showing the distribution of clutch volumes in
+#|     the `frog` data.
+#| fig-alt: |
+#|   Beeswarm plot showing the distribution of clutch volumes.  The large values 
+#|   at the right edge of the plot cause the mean to be larger than the median.
+#| fig-width: 3
+#| fig-asp: 0.5
+library(beeswarm)
+df <- frog
+
+beeswarm(df$clutch.volume,
+         horizontal = TRUE,
+         col = IMSCOL["blue", "full"],
+         method = "compactswarm",
+         cex = 0.7,
+         axes = FALSE,
+         xlab = "Clutch volume")
+axis(1, seq(0,2800, 500))
+
+```
+
+
+```{r}
+#| label: fig-clutch-vol-beeswarm
+#| fig-cap: Beeswarm plot showing the distribution of clutch volumes in
+#|     the `frog` data.
+#| fig-alt: |
+#|   Beeswarm plot showing the distribution of clutch volumes.  The large values 
+#|   at the right edge of the plot cause the mean to be larger than the median.
+#| fig-width: 4
+#| fig-asp: 0.4
+
+library(ggbeeswarm)
+frog |> 
+  mutate(y = "  ") |> 
+  ggplot(mapping=aes(x =  clutch.volume,y = y)) + 
+  geom_point(shape = 21, cex = .5) +
+  geom_quasirandom(method = "pseudorandom", dodge.width = 0.1) +
+  scale_x_continuous(
+    breaks = seq(0, 2500, 500))  +
+  labs(x = "Clutch volume", y = "") +
+  theme(axis.ticks.y = element_blank())
+
+```
+
+<!--
+
+Looke at body.size vs altitude, body.size at the highest altitude, 
+clutch.volume vs body.size overall and at the highest altitude.
+Emphasize the weaknesses of the study as well as strengths.
+
+This is our analysis.
+
+Altitude and latitude are numeric variables in our coded dataset.  Acknowledge this
+
+-->
+
+# code for vars in frog data
+
+```{r}
+summary(frog$egg.size)
+summary(frog$clutch.size)
+summary(frog$altitude)
+hist(frog$egg.size)
+hist(frog$clutch.size)
+hist(frog$clutch.volume)
+plot(frog$clutch.size, frog$clutch.volume)
+plot(frog$egg.size, frog$clutch.volume)
+plot(frog$altitude, frog$clutch.size)
+plot(frog$altitude, frog$clutch.volume)
+plot(frog$altitude, frog$egg.size)
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(frog, aes(altitude, egg.size)) + 
+geom_point() +
+geom_smooth(method = "lm", se = FALSE)
+
+ggplot(frog, aes(altitude, clutch.size)) + 
+geom_point() +
+geom_smooth(method = "lm", se = FALSE)
+
+ggplot(frog, aes(altitude, clutch.volume)) + 
+geom_point() +
+geom_smooth(method = "lm", se = FALSE)
+
+ggplot(frog, aes(altitude, body.size)) + 
+geom_point() +
+geom_smooth(method = "lm", se = FALSE)
+
+
+```
+
+```{r}
+df <- danish.ed.primary
+summary(df$age)
+hist(df$age)
+table(df$sex, df$triage)
+boxplot(df$age)
+
+```
+
+```{r}
+df2 <- wdi_2022
+summary(df2$life_exp)
+boxplot(df2$life_exp)
+hist(df2$life_expect)
+boxplot(df2$gni_percap)
+hist(df2$gni_percap)
+boxplot(df2$infant_mortality_rate)
+
+
+```
+
+```{r}
+library(asbio)
+data(crabs)
+d <- crabs
+
+hist(d$weight)
+summary(d$weight)
+boxplot(d$weight)
+plot(d$weight, d$width)
+
+```

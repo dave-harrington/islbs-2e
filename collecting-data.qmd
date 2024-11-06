@@ -1,0 +1,26 @@
+# Collecting data {#sec-collecting-data}
+
+```{r}
+#| include: false
+
+source("_common.R")
+```
+
+::: {.chapterintro data-latex=""}
+Collecting data under development
+:::
+
+```{r}
+#| include: false
+terms_chp_1 <- c("data")
+```
+
+## Sampling from a population {#sec-sampling-populations}
+
+## Sample Surveys {#sec-sample-surveys}
+
+## Experiments {#sec-experiments}
+
+## Observational studies {#sec-observational-studies}
+
+

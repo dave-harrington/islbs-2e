@@ -1,0 +1,71 @@
+<!--
+[`Portland Tree Inventory project`](https://www.portland.gov/trees/get-involved/treeinventory) is a comprehensive inventory of trees in Portland, Oregon. The project records many variables for each tree, including the date the tree was added to the inventory, its common name,  the financial value of the tree and it value as a carbon storage organism.  
+
+
+```{r}
+library(pdxTrees)
+set.seed(080546)
+#pull data from specific parks using custom get_pdxTrees_parks() function 
+pdx <- get_pdxTrees_parks(park = c("Laurelhurst Park", 
+                                   "Kenilworth Park",
+                                   "Gov Tom McCall Waterfront Park", 
+                                   "Columbia Childrens Arboretum"))
+portland_trees  <- pdx  |> 
+                select(Inventory_Date, Common_Name, Tree_Height,
+                      Structural_Value, Carbon_Storage_lb, Park)  |> 
+                sample_n(6)
+```
+
+Table @tbl-portland-trees shows a few of these variables for a random selection of trees from 4 Portland Parks. ^[Laurelhurst Park, Kenilworth Park, Gove Tom
+McCall Waterfront Park and the Columbia Childrens Arboretum], and table @tbl-portland-trees-var-defs shows the definitions of these variables.  (The full dataset is available in the R package [`pdxTrees`](https://cran.r-project.org/web/packages/pdxTrees/index.html).)
+
+
+```{r}
+#| label:  tbl-portland-trees
+#| tbl-cap:  "A random selection of 6 trees in the Portland tree dataset"
+#| tbl-pos: H
+
+portland_trees |> 
+  kbl(linesep = "", booktabs = TRUE, align = "rrr")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+```{r}
+pdx_tree_var_name = c("Inventory_Date", "Common_Name", "Tree_Height", 
+                       "Structural_Value", "Carbon_Storage_lb",
+                       "Park")
+pdx_tree_var_description = c("Date of data collection",
+                              "Common name of the tree",
+                              "Height from the ground to the live top of the tree, measured in feet. 
+                              For dead trees, total height was measured.",
+                              "Monetary value of replacing the tree and the benefits that 
+                              it provides, based on methods from the Council of Tree and                                     Landscape Appraisers",
+                              "The amount of carbon (in lbs.) that is bound up in both 
+                              the above-ground and below-ground parts of the tree",
+                              "The park where the tree is located")
+pdx_var_table <- data.frame(pdx_tree_var_name, pdx_tree_var_description)
+pdx_var_table <- pdx_var_table |> 
+  rename("Variable name" = pdx_tree_var_name,
+         "Variable description" = pdx_tree_var_description)
+```
+```{r}
+#| label:  tbl-portland-trees-var-defs
+#| tbl-cap:  "Variables and their descriptions for the Portland tree dataset"
+#| tbl-pos: H
+
+pdx_var_table  |> 
+  kbl(linesep = "", booktabs = TRUE, align = "ll")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+The variables `Tree_Height`, `Structural_Value`, and `Carbon_Storage_lb` are **numerical variables**.  They take on numerical values, and it is reasonable to add, subtract, or take averages with these values.  `Structural_Value` and `Carbon_Storage_lb` are **continuous variables**, variables that can take on any value within a specified range. `Tree_Height` is a discrete variable, since it was  measured in feet and can take on only integer values.
+
+-->
+
+```

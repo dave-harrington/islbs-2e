@@ -162,6 +162,6 @@ The *OpenIntro* project would not have been possible without the dedication and 
 
 This text has benefited from feedback from Morgan Breitmeyer, Raji Balasubramanian, Diane Dolezel, Barbara Elashoff, Andrea Foulkes, Curry Hilton, Joe Hogan, Mike Jiroutek, Michael Parzen, Kevin Rader and Alice Zhao as well as the many excellent teaching fellows at Harvard College who assisted in courses using the book.  The cover design was provided by Pierre Baduel. David Diez provided assistance with editing and formatting the first edition, and Mine Çetinkaya-Rundel provided guidance in using Quarto.
 
-We would like to also thank the developers of the open-source tools that make the development and authoring of this book possible, e.g., [Quarto](https://quarto.org/), [tidyverse](https://tidyverse.org/), [tidymodels](https://tidymodels.org/), and [icons8](http://icons8.com/).
+We also thank the developers of the open-source tools that make the development and authoring of this book possible, e.g., [Quarto](https://quarto.org/), [tidyverse](https://tidyverse.org/), [tidymodels](https://tidymodels.org/), and [icons8](http://icons8.com/).  This project has benefitted from the intellectual generosity of scientists, public health practitioners and data scientists who have made their data available on public access web sites.
 
-We are also grateful to the many teachers, students, and other readers who have helped improve OpenIntro resources through their feedback.
+We are  grateful to the many teachers, students, and other readers who have helped improve OpenIntro resources through their feedback.
