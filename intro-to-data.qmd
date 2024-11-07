@@ -90,108 +90,15 @@ The study illustrates some of the issues in research in \index{evidence-based me
 
 ## Organizing and classifying data {#sec-data-organization}
 
-\index{data!frog|(}
-
-In evolutionary biology, parental investment refers to the amount of time, energy, or other resources devoted to raising offspring. This section introduces the `frog` dataset, collected as part of a 2013 study about maternal investment in a frog endemic to the Tibetan Plateau [@chen2013maternal]. Reproduction is a costly process, and for female frogs involves a balance between size and the number of eggs produced in a nest, called a clutch. The study team investigated how maternal investment varied with altitude across 11 sites,  estimating  the size and number of eggs in each clutch studied as well as the volume of the clutch, a measure that included the collection of eggs and the gelatinous membrane left behind by the female to protect the eggs in a harsh environment.   The body size of individual female frogs was also recorded at $5$ sites.
-
-The Chen study found that as environmental stress increased with increasing altitude, the female frogs produced clutches with larger eggs and larger clutch volumes instead of having more eggs. That relationship, along with an unexpected finding about the body size of the breeding females at high altitudes. is examined in  Sections @sec-summarizing-numerical-data and @sec-relationships-in-data.
-
-The `frog` data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
-
-```{r}
-frog_trimmed  <- frog  |> 
-   slice(1:3, 150) 
-```
-
-```{r}
-#| label:  tbl-frogDF
-#| tbl-cap:  "Four observations from the frog dataset"
-#| tbl-pos: H
-
-options(knitr.kable.NA = 'NA', digits = 4)
-
-frog_trimmed |> 
-  kbl(linesep = "", booktabs = TRUE, align = "lll")|>
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE)
-```
-
-Table @tbl-frogDF displays rows 1, 2, 3, and 150 of the dataset from the 431 clutches observed in the study. Each row in the table corresponds to a single clutch, indicating where the clutch was collected (`altitude` and `latitude`), the `egg.size`, `clutch.size`, `clutch.volume` of the nest, and the `body.size` of the mother when available. Each clutch is a **case**, sometimes called a **unit of observation** or an \index{observational unit} **observational unit**. When observations are made on people participating in a study, as in LEAP, the observational units are called \index{human subjects} **human subjects** or **participants**. The recorded characteristics are referred to as \index{variables} **variables**; in Table @tbl-frogDF, each row represents a case or an observational unit (a cluctch) and each column a variable. The entries in a row are the values of the variables for that case.  "NA" corresponds to a missing value.  There are missing observations for body size when it was not collected on the female producing the clutch. Because the observations in the data are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**.
-
-Data matrices are a convenient way to record and store data. If data are collected for another observational unit, a row can easily be added; similarly, another column can be added for a new variable. The \index{distribution} **distribution** of a variable is its collection of values. The distribution of the variable `clutch.volume`, for instance, is the set of values in the column of the `frog` data matrix with the label `clutch.volume.`
-
-It is important to check the definitions of variables, as they are not always obvious. For example, why has *clutch.size* not been recorded as whole numbers? For a given clutch, researchers counted approximately 5 grams worth of eggs and then estimated the total number of eggs based on the mass of the entire clutch. Definitions of the variables are given in @tbl-frogVarDescriptions. The data discussed here are in the original scale; in the published paper, some values have undergone a natural log transformation.
-
-```{r}
-#| label:  tbl-frogVarDescriptions
-#| tbl-cap:  "Variables and their descriptions for the frog dataset"
-#| tbl-pos: H
-frog_var_name  <- c('altitude', 'latitude', 'egg.size',
-              'clutch.size', 'clutch.volume', 'body.size')
-frog_var_description  <- c('Altitude of the study site in meters above sea level',
-              'Latitude of the study site measured in degrees',
-              'Average diameter of an individual egg to the 0.01 mm',
-              'Estimated number of eggs in clutch',
-              'Volume of egg clutch in cubic mm' ,
-              'Length of mother frog in cm')
-frog_var_table  <- data.frame(frog_var_name, frog_var_description)
-frog_var_table  <- frog_var_table  |> 
-          rename('Variable name' = frog_var_name,
-                  'Variable description' = frog_var_description)
-
-frog_var_table  |> 
-  kbl(linesep = "", booktabs = TRUE, align = "ll")|>
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE)
-```
-
-Datasets are collected to learn about the \index{population} **population** from which the observational units were selected. The clutches in the `frog` data were collected to learn about the maternal investment of frogs in the Tibetan plateau. The `frog` data are a **sample** from the population of frogs in that region. The `frog` data were gathered in an observational study; the principles and interpretation of observational studies are discussed in Section @sec-observational-studies of Chapter @sec-collecting-data.
-
-```{r}
-terms_chp_1 <- c(terms_chp_1, "data matrix")
-```
-
-\index{data!frog|)}
-
-## Types of variables {#sec-variable-types}
-
 \index{data!crabs|(}
 
-When spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand. Additional male crabs may join the pair and fertilize the eggs as well, presumably increasing genetic diversity of the offspring. The additional male crabs are called satellites. The dataset `crab` examined here contains observations on $173$ female crabs, with $5$ recorded measurements for each crab, so the data matrix consists of $173$ rows and $5$ columns. The data originally appeared in Brockman [@brockmann1996satellite] and can be found at the website for *Categorical Data Analysis, 3rd ed.*[@agresti2013categorical] and in the R package `asbio`. The dataset is used later in Chapter @sec-logistic-regression to explore the relationship between the features of a female crab and the number of satellites it attracts.
+When spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand. Additional male crabs may join the pair and fertilize the eggs as well, presumably increasing genetic diversity of the offspring. The additional male crabs are called satellites. The dataset `crabs` examined here contains observations on $173$ female crabs, with $5$ recorded measurements for each crab, so the data matrix consists of $173$ rows and $5$ columns. The data originally appeared in Brockman [@brockmann1996satellite] and can be found at the website for *Categorical Data Analysis, 3rd ed.*[@agresti2013categorical] and in the R package `asbio`. The dataset is used later in Chapter @sec-logistic-regression to explore the relationship between the features of a female crab and the number of satellites it attracts.
 
-Table @tbl-crabsVarDescriptions contains the descriptions of the variables, and @tbl-crabsDF shows the rows for 6 randomly selected crabs. The carapace of a crab is the shell it carries on its back; a horseshoe crab has two spines along the edge of its abdomen.
+Table @tbl-crabsDF shows data from $6$ randomly selected crabs from the $173$ observed in the study.  Each row in the table corresponds to a single crab, indicating the color of the carapace (the shell carried by the crab on its back),  the condtion of the two spines along the edge of its abdomen, the width of the carpace, the number of male satellites the crab has attracted and the weight of the crab.  Each crab is a **case**, sometimes called a **unit of observation** or an \index{observational unit} **observational unit**. When observations are made on people participating in a study, as in LEAP, the observational units are called \index{human subjects} **human subjects** or **participants**. The recorded characteristics are referred to as \index{variables} **variables**; in Table @tbl-crabsDF, each row represents a case or an observational unit (a cluctch) and each column a variable. The entries in a row are the values of the variables for that case.   Because the observations in the data are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**.
 
-```{r}
-#| label:  tbl-crabsVarDescriptions
-#| tbl-cap:  "Variable definitions for horseshoe crab data"
-#| tbl-pos: H
+Data matrices are a convenient way to record and store data. If data are collected for another observational unit, a row can easily be added; similarly, another column can be added for a new variable. The \index{distribution} **distribution** of a variable is its collection of values. The distribution of the variable `weight`, for instance, is the set of values in the column of the `crabs` data matrix with the label `weight.`
 
-crabs_var_name <- c("color",
-                     "spine",
-                     "width",
-                     "satell",
-                     "weight")
-crabs_var_description <- c("color of the carapace",
-                            "condition of the spines along the edge of the abdomen",
-                            "width of the carapace in cm",
-                            "number of male satellites",
-                            "weight in kg")
-crabs_var_table  <- data.frame(crabs_var_name, crabs_var_description)
-crabs_var_table  <- crabs_var_table  |> 
-          rename('Variable name' = crabs_var_name,
-                  'Variable description' = crabs_var_description)
 
-crabs_var_table  |> 
-  kbl(linesep = "", booktabs = TRUE, align = "cl")|>
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE)
-```
 
 ```{r}
 #| label:  tbl-crabsDF
@@ -221,9 +128,54 @@ crabs_df |>
     full_width = FALSE)
 ```
 
-The variables `width` and `weight` are \index{numerical variables} **numerical variables**, also called quantitative variables. They take on values that can be added, subtracted, or averaged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on all values within a specified range. The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the largest number of satellites who can attach to a female horseshoe crab.
 
-The variables `color` and `spine` are \index{categorical variables} **categorical variables**, also called qualitative variables. The values of categorical value are names or labels; in this case the values are carapace colors or the condition of the spines of the crab. Arithmetic operations cannot be performed on categorical variables, but they can be tabulated. When the labels of a categorical variable have no natural ordering, the variable is a **nominal categorical variable**. `Spine` is an **ordered categorical variable** since its categories indicate worsening conditions of the spines. Categorical variables are also called \index{factor variable} factor variables in R.
+Table @tbl-crabsVarDescriptions contains the descriptions of the variables. It is important to check the definitions of variables, as they are not always obvious.  In the `crabs` data, the definitions specify that the measurements of `width` and `weight` are in metric units and the `spine` records the condition of the two spines near the abdomen of each crab.
+
+
+
+```{r}
+#| label:  tbl-crabsVarDescriptions
+#| tbl-cap:  "Variable definitions for horseshoe crab data"
+#| tbl-pos: H
+
+crabs_var_name <- c("color",
+                     "spine",
+                     "width",
+                     "satell",
+                     "weight")
+crabs_var_description <- c("color of the carapace",
+                            "condition of the spines along the edge of the abdomen",
+                            "width of the carapace in cm",
+                            "number of male satellites",
+                            "weight in kg")
+crabs_var_table  <- data.frame(crabs_var_name, crabs_var_description)
+crabs_var_table  <- crabs_var_table  |> 
+          rename('Variable name' = crabs_var_name,
+                  'Variable description' = crabs_var_description)
+
+crabs_var_table  |> 
+  kbl(linesep = "", booktabs = TRUE, align = "cl")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+
+
+
+Datasets are collected to learn about the \index{population} **population** from which the observational units were selected. The `crabs` data were collected to learn about the features of female crabs that made them more attractive to males.  The `crabs` data were gathered in an observational study; the principles and interpretation of observational studies are discussed in Section @sec-observational-studies of Chapter @sec-collecting-data.
+
+```{r}
+terms_chp_1 <- c(terms_chp_1, "data matrix")
+```
+
+
+
+
+A variable is classified according the types of calculations the variable supports. The variables `width` and `weight` are \index{numerical variables} **numerical variables**, also called quantitative variables. They take on values that can be added, subtracted, or averaged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on all values within a specified range. The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the largest number of satellites who can attach to a female horseshoe crab.
+
+The variables `color` and `spine` are \index{categorical variables} **categorical variables**, also called qualitative variables. The values of categorical variables are names or labels; in this case the values are carapace colors or the condition of the spines of the crab. Arithmetic operations cannot be performed on categorical variables, but they can be tabulated. When the labels of a categorical variable have no natural ordering, the variable is a **nominal categorical variable**. `Spine` is an **ordered categorical variable** since its categories indicate worsening conditions of the spines. Categorical variables are also called \index{factor variable} factor variables in R.
 
 \index{data!crabs|)}
 
@@ -231,7 +183,7 @@ The variables `color` and `spine` are \index{categorical variables} **categorica
 terms_chp_1 <- c(terms_chp_1, "numerical variable", "categorical variable")
 ```
 
-Other types of variables arise in specialized applications that are not discussed in this text. Character or string variables are sometimes used to record an open ended response to a question on a survey. Dates are often coded so that they can be manipulated with operations that extract the year or day of the week of a date.  Image data are used to record the result of a photograph or other imaging procedure, such as a magnetic resonance imaging (MRI) scan of an organ or region of the body.
+Other types of variables arise in some applications that require specialized software to manipulate and are not discussed in this text. Character or string variables are sometimes used to record an open ended response to a question on a survey. Dates are often coded so that they can be manipulated with operations that extract the year or day of the week of a date.  Image data are used to record the result of a photograph or other imaging procedure, such as a magnetic resonance imaging (MRI) scan of an organ or region of the body.
 
 Figure @fig-variable-types shows the types of variables used in this text.
 
@@ -245,25 +197,20 @@ knitr::include_graphics("images/variableTypes.png")
 
 ```
 
+
 ::: {.workedexample data-latex=""}
-Classify the variables in the `frog` dataset: `altitude`, `latitude`, `egg.size`, `clutch.size`, `clutch.volume`, and `body.size`.
+In addition to the treatment and outcome variables shown in Table @tbl-leapStudyResultsDF,  the study team collected the age in months and sex of each participant and the results of the initial skin test for peanut allergies (negative or positive.)  Classify these variables, `treatment.group` and `overall.V60.outcome`. Answers to guided practice problems are provided in the footnotes. [^intro-to-data-1]
 
 ------------------------------------------------------------------------
+ The variables `treatment.group`, `overall.v60.outcome`, sex (male or female) and the result of the skin test all measure non-numerical quantities, and thus are categorical variables, each with two levels.  Age is a continuous variable.
 
-The variables `egg.size`, `clutch.size`, `clutch.volume`, and `body.size` are continuous numerical variables. The variables `altitude` and `latitude` have numerical values (meters above sea level and degrees of latitude) but are best thought of as categorical variables, since their values correspond to the 11 specific study sites where data were collected and would not be manipulated numerically. The variable `altitude` is an ordered categorical variable since its values can be ranked by meters above sea level.
 :::
 
 ::: {.guidedpractice data-latex=""}
-Characterize the variables `treatment.group` and `overall.V60.outcome` from the LEAP study. Answers to guided practice problems are provided in the footnotes. [^intro-to-data-1]
+Answers to guided practice problems are provided in the footnotes.[^intro-to-data-1]   Suppose that on a given day, a research assistant collected data on the first 20 individuals visiting a walk-in clinic: `age` (measured as less than 21, 21 - 65, and greater than 65 years of age), `gender`, `height`, `weight`, and `reason for the visit`.  Classify each of the variables. (Note: answers to Guided Practice exercises are provided in footnotes)[^01-data-hello-1]
 :::
 
-[^intro-to-data-1]: These variables measure non-numerical quantities, and thus are categorical variables, each with two levels.
-
-::: {.guidedpractice data-latex=""}
-Suppose that on a given day, a research assistant collected data on the first 20 individuals visiting a walk-in clinic: `age` (measured as less than 21, 21 - 65, and greater than 65 years of age), `gender`, `height`, `weight`, and `reason for the visit`. Classify each of the variables.[^intro-to-data-2]
-:::
-
-[^intro-to-data-2]: `Height` and `weight` are continuous numerical variables. Age as measured by the research assistant is `ordinal categorical`. `Sex` and `the reason for the visit` are nominal categorical variables.
+[^01-intro-to-data-1]: `Height` and `weight` are continuous numerical variables. Age as measured by the research assistant is `ordinal categorical`. `Sex` and `the reason for the visit` are nominal categorical variables.
 
 ## Summarizing and visualizing data {#sec-summarizing-visualizing-data}
 
@@ -325,25 +272,36 @@ crabs |>
 
 Frequency and relative frequency tables are used with nominal categorical variables, where the labels have no natural ordering. With ordered categorical variables it is useful to add a column of cumulative proportions showing the fraction of cases up and including each label in the natural ordering of the variable.
 
-Table @tbl-frog-altitude-cumulative-frequency shows the counts, proportions and cumulative proportions for the altitudes of the nests in the `frog` data. Two altitudes ($3462$, and $3493$ meters above sea level) were the most common; nearly $40\%$ of the observations were made at $3462$m. The cumulative relative frequency column shows that $66\%$ of the sites were at or below $3462$m.
+Table @tbl-crabs-spine-cumulative-frequency shows the counts, proportions and cumulative proportions for the spine condition of the crabs. Spine injuries are common in this group.  Only $21\%$ of the crabs have no worn or broken spines; $30\%$ have no more than one damages spine.
 
 Table @tbl-leapStudyResults is both a frequency and relative frequency table for LEAP, and shows the counts of the two possible responses to the oral challenge by intervention, along with the proportion of the oral challenge failures by intervention.
 
 ```{r}
-#| label: tbl-frog-altitude-cumulative-frequency
+#| label: tbl-crabs-spine-cumulative-frequency
 #| tbl-cap:  "Counts, proportions and cumulative proportions of the altitude of study
-#|    sites in the frog dataset.  Altitude is measured in meters above sea level"
-#| fig-alt: "Frequencies, proportions and cumulative proportions of the altitude of study
-#|    sites in the frog dataset.  Altitude is measured in meters above sea level"
+#|    sites in the `crabs` dataset."
+#| fig-alt: "Frequencies, proportions and cumulative proportions of spine condition
+#|    sites in the `crabs` dataset."
 #| tbl-pos: H
 source("_common.R")
 
-frog |> 
-  count(altitude) |> 
+crabs_df <-  crabs |> 
+  mutate(color = fct_recode(color,
+    "light medium" = "1",
+    "medium" = "2",
+    "dark medium" = "3",
+    "dark" = "4")) |> 
+  mutate(spine = fct_recode(spine,
+     "both good" = "1",
+     "one worn or broken" = "2",
+     "both worn or broken" = "3" ))
+
+crabs_df |> 
+  count(spine) |> 
   mutate(`Proportion` = n/sum(n)) |>
   mutate(`Cumulative proportion` = cumsum(`Proportion`)) |> 
   rename(Count = n) |> 
-  rename(Altitude = altitude) |> 
+  rename(`Spine condition` = spine) |> 
   kbl(linesep = "", booktabs = TRUE) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -388,6 +346,9 @@ crabs_color |>
   geom_col(fill = IMSCOL["green", "full"]) +
   labs(x = "Crab color", y = "Proportion")
 ```
+
+<!-- add a stacked bar chart here -->
+
 
 ### Numerical data {#sec-summarizing-numerical-data}
 
@@ -574,7 +535,7 @@ The median is a \index{robust statistic} **robust statistic**, a summary statist
 
 When the mean of a variable is much larger or smaller than the median, it is important inspect the data for unusually large or small observations to be sure they are not the result of measurement or recording errors. The five number summary of `clutch.volumes` suggests there are large observation distant from the mean, and Figure @fig-clutch-volume-dotplot shows those values. Numerical summary statistics should be paired with visual displays whenever possible.
 
-\index{box plot} **Box plots** provide a visual display of the robust measures of the location and spread of a distribution as well as the values that might influence the less robust mean and standard deviation, and is constructed from a five number summary.  Figure @fig-clutch-volume-dotplot-boxplot shows the dot plot in Figure @clutch-volume-dotplot and a box plot below it.  
+\index{box plot} **Box plots** provide a visual display of the robust measures of the location and spread of a distribution as well as the values that might influence the less robust mean and standard deviation, and is constructed from a five number summary.  Figure @fig-clutch-volume-dotplot-boxplot shows the dot plot in Figure @fig-clutch-volume-dotplot and a box plot below it.  
 
 In a box plot, the interquartile range is represented by a rectangle extending from the first to the third quartile, and the rectangle is split by the median (second quartile). The lines extending from first and third quartiles (sometimes called whiskers) reach toward $Q_1 - 1.5\times \textrm{IQR}$ and $Q_3 + 1.5\times \textrm{IQR}$. The whiskers always end at observed data points, so the values given by adding or subtracting $1.5\times IQR$ define the maximum reach of the whiskers. With `clutch.volume`, $Q_3 + 1.5 \times \textrm{IQR} = 1,096.5 + 1.5\times 486.4 = 1,826.1 \textrm {mm}^{3}$. Since there was no clutch with volume $1,826.1$ mm$^3$, so the upper whisker extends to $1,819.7$mm $^3$  the largest observation  smaller than $Q_3 + 1.5\times \textrm{IQR}$.
 

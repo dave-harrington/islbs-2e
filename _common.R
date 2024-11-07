@@ -37,6 +37,7 @@ suppressMessages(library(ukbabynames))
 suppressMessages(library(Stat2Data))
 suppressMessages(library(GGally))
 suppressMessages(library(mosaicData))
+suppressMessages(library(oibiostat))
 
 # knitr chunk options ----------------------------------------------------------
 
