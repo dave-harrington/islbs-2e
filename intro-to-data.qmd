@@ -20,6 +20,7 @@ terms_chp_1 <- c("data")
 
 \index{data!LEAP|(}
 
+Is there an effective way to prevent peanut allergies in infants?
 
 The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years and some studies have suggested that exposing infants to peanut-based foods, rather than excluding such foods from their diets, may be an effective strategy for preventing peanut allergies (see @du2008early). The "Learning Early about Peanut Allergy" (LEAP, @du2015randomized) study was conducted in a controlled setting to investigate whether early exposure to peanut products reduces the probability that a child will develop a peanut allergy.
 
@@ -92,13 +93,13 @@ The study illustrates some of the issues in research in \index{evidence-based me
 
 \index{data!crabs|(}
 
+What features of a female crab attracts males to fertilize her eggs?
+
 When spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand. Additional male crabs may join the pair and fertilize the eggs as well, presumably increasing genetic diversity of the offspring. The additional male crabs are called satellites. The dataset `crabs` examined here contains observations on $173$ female crabs, with $5$ recorded measurements for each crab, so the data matrix consists of $173$ rows and $5$ columns. The data originally appeared in Brockman [@brockmann1996satellite] and can be found at the website for *Categorical Data Analysis, 3rd ed.*[@agresti2013categorical] and in the R package `asbio`. The dataset is used later in Chapter @sec-logistic-regression to explore the relationship between the features of a female crab and the number of satellites it attracts.
 
-Table @tbl-crabsDF shows data from $6$ randomly selected crabs from the $173$ observed in the study.  Each row in the table corresponds to a single crab, indicating the color of the carapace (the shell carried by the crab on its back),  the condtion of the two spines along the edge of its abdomen, the width of the carpace, the number of male satellites the crab has attracted and the weight of the crab.  Each crab is a **case**, sometimes called a **unit of observation** or an \index{observational unit} **observational unit**. When observations are made on people participating in a study, as in LEAP, the observational units are called \index{human subjects} **human subjects** or **participants**. The recorded characteristics are referred to as \index{variables} **variables**; in Table @tbl-crabsDF, each row represents a case or an observational unit (a cluctch) and each column a variable. The entries in a row are the values of the variables for that case.   Because the observations in the data are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**.
+Table @tbl-crabsDF shows data from $6$ randomly selected crabs from the $173$ observed in the study. Each row in the table corresponds to a single crab, indicating the color of the carapace (the shell carried by the crab on its back), the condition of the two spines along the edge of its abdomen, the width of the carapace, the number of male satellites the crab has attracted and the weight of the crab. Each crab is a **case**, sometimes called a **unit of observation** or an \index{observational unit} **observational unit**. When observations are made on people participating in a study, as in LEAP, the observational units are called \index{human subjects} **human subjects** or **participants**. The recorded characteristics are referred to as \index{variables} **variables**; in Table @tbl-crabsDF, each row represents a case or an observational unit (a female crab) and each column a variable. The entries in a row are the values of the variables for that case. Because the observations in the data are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**.
 
 Data matrices are a convenient way to record and store data. If data are collected for another observational unit, a row can easily be added; similarly, another column can be added for a new variable. The \index{distribution} **distribution** of a variable is its collection of values. The distribution of the variable `weight`, for instance, is the set of values in the column of the `crabs` data matrix with the label `weight.`
-
-
 
 ```{r}
 #| label:  tbl-crabsDF
@@ -128,10 +129,7 @@ crabs_df |>
     full_width = FALSE)
 ```
 
-
-Table @tbl-crabsVarDescriptions contains the descriptions of the variables. It is important to check the definitions of variables, as they are not always obvious.  In the `crabs` data, the definitions specify that the measurements of `width` and `weight` are in metric units and the `spine` records the condition of the two spines near the abdomen of each crab.
-
-
+Table @tbl-crabsVarDescriptions contains the descriptions of the variables. It is important to check the definitions of variables, as they are not always obvious. In the `crabs` data, the definitions specify that the measurements of `width` and `weight` are in metric units and the `spine` records the condition of the two spines near the abdomen of each crab.
 
 ```{r}
 #| label:  tbl-crabsVarDescriptions
@@ -161,17 +159,11 @@ crabs_var_table  |>
     full_width = FALSE)
 ```
 
-
-
-
-Datasets are collected to learn about the \index{population} **population** from which the observational units were selected. The `crabs` data were collected to learn about the features of female crabs that made them more attractive to males.  The `crabs` data were gathered in an observational study; the principles and interpretation of observational studies are discussed in Section @sec-observational-studies of Chapter @sec-collecting-data.
+Datasets are collected to learn about the \index{population} **population** from which the observational units were selected. The `crabs` data were collected to learn about the features of female crabs that made them more attractive to males. The `crabs` data were gathered in an observational study; the principles and interpretation of observational studies are discussed in Section @sec-observational-studies of Chapter @sec-collecting-data.
 
 ```{r}
 terms_chp_1 <- c(terms_chp_1, "data matrix")
 ```
-
-
-
 
 A variable is classified according the types of calculations the variable supports. The variables `width` and `weight` are \index{numerical variables} **numerical variables**, also called quantitative variables. They take on values that can be added, subtracted, or averaged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on all values within a specified range. The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the largest number of satellites who can attach to a female horseshoe crab.
 
@@ -183,7 +175,7 @@ The variables `color` and `spine` are \index{categorical variables} **categorica
 terms_chp_1 <- c(terms_chp_1, "numerical variable", "categorical variable")
 ```
 
-Other types of variables arise in some applications that require specialized software to manipulate and are not discussed in this text. Character or string variables are sometimes used to record an open ended response to a question on a survey. Dates are often coded so that they can be manipulated with operations that extract the year or day of the week of a date.  Image data are used to record the result of a photograph or other imaging procedure, such as a magnetic resonance imaging (MRI) scan of an organ or region of the body.
+Other types of variables arise in some applications that require specialized software to manipulate and are not discussed in this text. Character or string variables are sometimes used to record an open ended response to a question on a survey. Dates are often coded so that they can be manipulated with operations that extract the year or day of the week of a date. Image data are used to record the result of a photograph or other imaging procedure, such as a magnetic resonance imaging (MRI) scan of an organ or region of the body.
 
 Figure @fig-variable-types shows the types of variables used in this text.
 
@@ -197,20 +189,17 @@ knitr::include_graphics("images/variableTypes.png")
 
 ```
 
-
 ::: {.workedexample data-latex=""}
-In addition to the treatment and outcome variables shown in Table @tbl-leapStudyResultsDF,  the study team collected the age in months and sex of each participant and the results of the initial skin test for peanut allergies (negative or positive.)  Classify these variables, `treatment.group` and `overall.V60.outcome`. Answers to guided practice problems are provided in the footnotes. [^intro-to-data-1]
+In addition to the treatment and outcome variables shown in Table @tbl-leapStudyResultsDF, the study team collected the age in months and sex of each participant and the results of the initial skin test for peanut allergies (negative or positive.) Classify these variables, `treatment.group` and `overall.V60.outcome`. Answers to guided practice problems are provided in the footnotes. \[\^intro-to-data-1\]
 
 ------------------------------------------------------------------------
- The variables `treatment.group`, `overall.v60.outcome`, sex (male or female) and the result of the skin test all measure non-numerical quantities, and thus are categorical variables, each with two levels.  Age is a continuous variable.
 
+The variables `treatment.group`, `overall.v60.outcome`, sex (male or female) and the result of the skin test all measure non-numerical quantities, and thus are categorical variables, each with two levels. Age is a continuous variable.
 :::
 
 ::: {.guidedpractice data-latex=""}
-Answers to guided practice problems are provided in the footnotes.[^intro-to-data-1]   Suppose that on a given day, a research assistant collected data on the first 20 individuals visiting a walk-in clinic: `age` (measured as less than 21, 21 - 65, and greater than 65 years of age), `gender`, `height`, `weight`, and `reason for the visit`.  Classify each of the variables. (Note: answers to Guided Practice exercises are provided in footnotes)[^01-data-hello-1]
+Answers to guided practice problems are provided in the footnotes.\[\^intro-to-data-1\] Suppose that on a given day, a research assistant collected data on the first 20 individuals visiting a walk-in clinic: `age` (measured as less than 21, 21 - 65, and greater than 65 years of age), `gender`, `height`, `weight`, and `reason for the visit`. Classify each of the variables. (Note: answers to Guided Practice exercises are provided in footnotes)\[\^01-data-hello-1\]
 :::
-
-[^01-intro-to-data-1]: `Height` and `weight` are continuous numerical variables. Age as measured by the research assistant is `ordinal categorical`. `Sex` and `the reason for the visit` are nominal categorical variables.
 
 ## Summarizing and visualizing data {#sec-summarizing-visualizing-data}
 
@@ -272,7 +261,7 @@ crabs |>
 
 Frequency and relative frequency tables are used with nominal categorical variables, where the labels have no natural ordering. With ordered categorical variables it is useful to add a column of cumulative proportions showing the fraction of cases up and including each label in the natural ordering of the variable.
 
-Table @tbl-crabs-spine-cumulative-frequency shows the counts, proportions and cumulative proportions for the spine condition of the crabs. Spine injuries are common in this group.  Only $21\%$ of the crabs have no worn or broken spines; $30\%$ have no more than one damages spine.
+Table @tbl-crabs-spine-cumulative-frequency shows the counts, proportions and cumulative proportions for the spine condition of the crabs. Spine injuries are common in this group. Only $21\%$ of the crabs have no worn or broken spines; $30\%$ have no more than one damages spine.
 
 Table @tbl-leapStudyResults is both a frequency and relative frequency table for LEAP, and shows the counts of the two possible responses to the oral challenge by intervention, along with the proportion of the oral challenge failures by intervention.
 
@@ -347,21 +336,117 @@ crabs_color |>
   labs(x = "Crab color", y = "Proportion")
 ```
 
-<!-- add a stacked bar chart here -->
-
+<!-- possibly add a stacked bar chart here -->
 
 ### Numerical data {#sec-summarizing-numerical-data}
 
-A numerical variables usually summarized by the center and spread of its distribution. This section uses `clutch.volume` in the `frog` data to discuss numerical summaries, also called \index{summary statistics} **summary statistics**. Section @sec-relationships-in-data will explore the relationships between `altitude` and `clutch.volume`, along with an unexpected relationship of `body.size` with these two variables.
+```{r, include = FALSE}
+library(pdxTrees)
+set.seed(080546)
 
-The \index{mean} **mean**, sometimes called the \indexthis{average}{mean!average}, is a measure of center of a distribution and is denoted (generically) by $\overline{x}$. The average clutch volume in the `frog` data is calculated by summing all the volumes and dividing by the total number of clutches, as illustrated below. For computational convenience, the volumes have been rounded to the first decimal digit (the nearest tenth of a volume).
+pdx <- get_pdxTrees_parks()
+mu <- mean(pdx$Carbon_Storage_lb, na.rm = TRUE)
+sigma <- sd(pdx$Carbon_Storage_lb, na.rm = TRUE)
+portland_park_trees <- pdx  |> 
+  dplyr::select(Common_Name, 
+         Condition, 
+         Tree_Height, 
+         Structural_Value, 
+         Carbon_Storage_lb, 
+         Pollution_Removal_value) |>  
+  drop_na() |> 
+  slice_sample(n = 500) 
+  
+size <- nrow(portland_park_trees)
 
-```{=tex}
-\begin{align*}
-\overline{x} =& \frac{177.8 + 257.0 + \cdots + 933.3}{431} = 882.5\ \textrm{mm}^{3}.
-\end{align*}
+
+                
 ```
-Since data are almost always a sample from a population, $\overline{x}$ is usually referred to as a \index{sample mean} **sample mean**. The \index{population mean} **population mean** of the population from which the sample was selected is denoted by the Greek letter $\mu$.  In the `frog` data, $\mu$ would be the mean clutch volume for all clutches in the region studied.
+
+During photosynthesis, trees remove carbon dioxide from the air, mix it with water, and convert it to sugars and oxygen. The sugars are then distributed throughout the tree, and the carbon in those sugars is stored in a process called carbon sequestration. Forests typically store twice as much carbon as they emit, and are one important component of mitigating the effect of greenhouse gasses on climate change. How much carbon do trees store?
+
+The [`Portland Tree Inventory project`](https://www.portland.gov/trees/get-involved/treeinventory) is a comprehensive inventory of trees in Portland, Oregon, compiled to help professionals and citizens protect and grow the  urban Portland forest.  The inventory was compiled separately for trees in neighborhoods and in parks; the park database has $34$ variables for the $25,534$ trees in Portland parks, including such diverse measurements as the age of the tree, its common and scientific name, its financial value, the amount of carbon storage in the tree and is financial value.  This section uses $6$ variables from a random sample of $`r size`$ trees. Tables @tbl-pdx-parks-df and @tbl-pdx-var-definitions show the data for the first 3 and last tree in the data and the variable definitions, respectively. All but the first two variables are numerical variables.
+
+```{r}
+#| label:  tbl-pdx-parks-df
+#| tbl-cap:  "The first 3 and last trees in the Portland tree data"
+#| tbl-pos: H
+
+portland_park_trees |> 
+  mutate(rn = row_number()) |> 
+  slice(1:3, max(rn)) |>
+  relocate(rn) |> 
+  rename(Case = rn) |> 
+  kbl(linesep = "", booktabs = TRUE, align = "rrr", digits = 3) |>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+```{r}
+#| label:  tbl-pdx-var-definitions
+#| tbl-cap:  "The first 3 and last of the 500 in the Portland tree data"
+#| tbl-pos: H
+
+pdx_tree_var_name = c("Common_Name", 
+                      "Condition",
+                      "Tree_Height", 
+                      "Structural_Value", 
+                      "Carbon_Storage_lb",
+                      "Pollution_removal_value")
+pdx_tree_var_description = c( "Common name of the tree",
+                              "A categorical variable with values Good, Fair, Poor, Dead",
+                              "Height from the ground to the live top of the tree,
+                              measured in feet. 
+                              For dead trees, total height was measured.",
+                              "Monetary value of replacing the tree and the benefits that 
+                              it provides, based on methods from the Council of Tree and                                                Landscape Appraisers",
+                              "The amount of carbon (in lbs.) that is bound up in both 
+                              the above-ground and below-ground parts of the tree",
+                              "The monetary value associated with tree effects on atmospheric                                       pollution, annually.")
+
+pdx_var_table <- data.frame(pdx_tree_var_name, pdx_tree_var_description)
+pdx_var_table |> 
+  rename("Variable name" = pdx_tree_var_name,
+         "Variable description" = pdx_tree_var_description) |> 
+  kbl(linesep = "", booktabs = TRUE, align = "ll")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+ The numerical variable `Carbon_Storage_lb` is an estimate of the amount of carbon stored in the tree.  What are some of the important features of its distribution?
+
+The distribution of a numerical variable is usually summarized by its center and spread. The \index{mean} **mean**, sometimes called the \indexthis{average}{mean!average}, is a measure of center of a distribution and is denoted (generically) by $\overline{x}$. The average carbon storage in these trees is calculated by summing all the storage values and dividing by the total number of trees, as illustrated below.
+
+```{r, include=FALSE}
+
+# for illustrating sample mean median
+# 
+x <- portland_park_trees$Carbon_Storage_lb
+x1 <- x[1]
+x2 <- x[2]
+x3 <- x[3]
+xl <- x[length(x)]
+m <- round(mean(x),2)
+M <- median(x)
+l <- length(x)
+sorted <- sort(x)
+middle_low <- sorted[250]
+middle_high <- sorted[251]
+
+
+```
+
+
+\begin{align*}
+\overline{x} =& \frac{`r x1` + `r x2` + `r x3` \cdots + `r xl`}{`r l`} = `r m`
+\textrm{lbs}.
+\end{align*}
+
+Since data are almost always a sample from a population, $\overline{x}$ is usually referred to as a \index{sample mean} **sample mean**. These data are a sample from the population of all trees in Portland parks. The \index{population mean} **population mean** of the population from which the sample was selected is denoted by the Greek letter $\mu$.[^ Population means almost never known because data on complete populations is rare.  Since the tree inventory includes all trees in Portland parks, the mean $\mu$ of `Carbon_Storage_lb` can be calculated and is $`r mu`$. ] In the tree data, $\mu$ would be the average of the amount of carbon storage of all $25,534$ trees in the Portland parks.^[ Population means almost never known because data on complete populations is rare.  Since the tree inventory includes all trees in Portland parks, the mean $\mu$ of `Carbon_Storage_lb` can be calculated and is $`r mu`$. ]
 
 ::: {.important data-latex=""}
 **Mean.**
@@ -373,7 +458,9 @@ The mean of a variable is the sum of the observed values divided by the number o
 $$ \bar{x} = \frac{x_1 + x_2 + \cdots + x_n}{n} $$
 :::
 
-The \index{median} **median** is another measure of center; it is the middle value of a distribution after the values have been ordered from smallest to largest. The median divides the distribution into two parts; half of the values are less than the median and half are larger. The middle value is well-defined if there are an odd number of observations; it will have the same number of observations below and above it. If the distribution contains an even number of observations, the median is the average of two middle observations. There are $431$ clutch volumes in the dataset; the $216^{th}$ observation, $831.8\ \textrm{mm}^{3}$, has $215$ observations below and above it when the values are ordered.
+The \index{median} **median** is another measure of center; it is the middle value of a distribution after the values have been ordered from smallest to largest. The median divides the distribution into two parts; half of the values are less than the median and half are larger. The middle value is well-defined if there are an odd number of observations; it will have the same number of observations below and above it. If the distribution contains an even number of observations, the median is the average of two middle observations. There are $`r size`$ trees in these data; after the carbon storage values have been sorted in ascending order, the median `r M` is the average of the observations in rows $250$ and $251$, $`r middle_low`$ and $`r middle_high`$ respectively. 
+
+
 
 ::: {.important data-latex=""}
 **Median: the number in the middle.**
@@ -381,57 +468,53 @@ The \index{median} **median** is another measure of center; it is the middle val
 If the data are ordered from smallest to largest, the **median** is the middle observation. If there are an even number of observations, the median is the average of the two middle observations
 :::
 
+```{r, include = FALSE}
+
+# for illustrating var and sd
+d1 <- x1 - m
+d2 <- x2 - m
+d3 <- x3 - m
+dl <- xl - m
+
+# squared deviations
+#
+d1_sq <-  round(d1^2, 2)
+d2_sq <-  round(d2^2, 2)
+d3_sq <-  round(d3^2, 2)
+dl_sq  <-  round(dl^2, 2)
+
+sd_den = length(x) - 1
+
+q <- round(sd(x), 2)
+q2 <- round(var(x), 2)
+
+
+```
+
 The \index{standard deviation} **standard deviation** and \index{interquartile range} **interquartile range** are two common measures of spread.
 
-The standard deviation describes the typical distance between an observation and the mean. The distance of a single observation from the mean is its \index{deviation} **deviation**. The deviations for the $1^{st}$, $2^{nd}$, $3^{rd}$, and $431^{st}$ observations in `clutch.volume` are: 
-\begin{align*}
-x_1-\overline{x} &= 177.8 - 882.5 = -704.7 \hspace{5mm}\text{ } \\
-x_2-\overline{x} &= 257.0 - 882.5 = -625.5 \\
-x_3-\overline{x} &= 151.4 - 882.5 = -731.1 \\
+The standard deviation describes the typical distance between an observation and the mean. The distance of a single observation from the mean is its \index{deviation} **deviation**. The deviations for the $1^{st}$, $2^{nd}$, $3^{rd}$, and $2549^{th}$ observations of carbon storage are: \begin{align*}
+x_1-\overline{x} &= `r x1` - `r m` = `r x1 - m` \hspace{5mm}\text{ } \\
+x_2-\overline{x} &= `r x2` - `r m` = `r x2 - m` \\
+x_3-\overline{x} &= `r x3` - `r m` = `r x3 - m` \\
 &\ \vdots \\
-x_{431}-\overline{x} &= 933.2 - 882.5 = 50.7
-\end{align*} The units for these $4$ values are mm$^3$.
+x_{2549}-\overline{x} &= `r xl` - `r m` = `r xl - m`.
+\end{align*} The units for these $4$ values are lb$^2$.
 
-```{=html}
-<!--
+The \index{variance} **variance** of a distribution (also called the **sample variance**) is the average of the squares of these deviations, and is denoted by $s^2$. For carbon storage,
 
-library(oibiostat)
-library(dplyr)
-
-x <- frog$clutch.volume
-x_bar <- round(mean(x), 1)
-x_bar
-
-
-sel_values <- c(first(x),
-              nth(x,2),
-              nth(x,3),
-              last(x))
-
-dev <- sel_values - x_bar
-dev_sq <- dev^2
-
-var(x)
-sd(x)
-
--->
-```
-The \index{variance} **variance** of a distribution (also called the **sample variance**) is the average of the squares of these deviations, and is denoted by $s^2$. For the clutch volumes
-
-```{=tex}
 \begin{align*}
-s^2 &= \frac{(-704.7)^2 + (-625.5)^2 + (-731.1)^2 + \cdots + (50.7)^2}{431-1} \\
-&= \frac{496,602.09 + 391,250.25 + 534,507.21 + \cdots + 2570.49}{430} \\
-&= 143,680.9.
+s^2 &= \frac{`r d1`^2 + (`r d2`)^2 + (`r d3`)^2 + \cdots + (`r dl`)^2}{`r sd_den`} \\
+&= \frac{`r d1_sq` + `r d2_sq` + `r d3_sq` + \cdots + `r dl_sq`}{`r sd_den`} \\
+&= `r q2`.
 \end{align*}
-```
-The denominator of the variance is $n-1$ rather than $n$ for reasons that will be explained later. The units of the variance are the square of the units of the original measurements, in this case mm$^3$-squared.
+
+The denominator of the variance is $n-1$ ($499$) rather than $n$ ($500$) for reasons that will be explained later. The units of the variance are the square of the units of the original measurements, in this case lb$^2$.
 
 The \index{standard deviation} **standard deviation** $s$ is the square root of the variance: 
 $$
-s=\sqrt{143,680.9} = 379.05 \textrm{mm}^{3}.
-$$ 
-The \index{population standard deviation} **population standard deviation** of the population from which the sample was selected is denoted by the Greek letter $\sigma$. The units of the standard deviation are the original scale of measurement.
+s=\sqrt{`r q2`} = `r q`  \textrm{lb}^{2}.
+$$ The \index{population standard deviation} **population standard deviation** of the population from which the sample was selected is denoted by the Greek letter $\sigma$.  In this case $\sigma$ is the standard deviation of the distribution of carbon storage values for all $25,534$ trees in  Portland parks.^[Calculated as $`r sigma`$ from the complete inventory.] 
 
 ::: {.important data-latex=""}
 **Standard deviation.**
@@ -443,39 +526,44 @@ The sample standard deviation is the square root of the sum of the squared dista
 $$s = \sqrt{\frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}}$$
 :::
 
-The \index{interquartile range} **interquartile range**, or \index{IQR} **IQR** is the width of the middle 50% of the data. It is the difference between the third and first quartiles: $Q_3 - Q_1$. The first quartile ($Q_1$) is also called the $25^{th}$ percentile; i.e., 25% of the data fall below this value. The third quartile ($Q_3$) is the $75^{th}$ percentile. The first quartile is the median of the half of the data below the overall median; $Q_3$ is the median of the upper half of the data. The median is sometimes denoted as $Q_2$, since it marks the second quartile (the $50^{th}$ percentile). The three values $Q_1$, $Q_2$ and $Q_3$ divide the data into 4 chunks, each with approximately 25% of the observations.
-
-
+The \index{interquartile range} **interquartile range**, or \index{IQR} **IQR** is the width of the middle 50% of the data. It is the distance between the third and first quartiles: $Q_3 - Q_1$. The first quartile ($Q_1$) is also called the $25^{th}$ percentile; i.e., $25\%$ of the data fall below this value. The third quartile ($Q_3$) is the $75^{th}$ percentile. The first quartile is the median of the half of the data below the overall median; $Q_3$ is the median of the upper half of the data. The median is sometimes denoted as $Q_2$, since it marks the second quartile (the $50^{th}$ percentile). The three values $Q_1$, $Q_2$ and $Q_3$ divide the data into 4 chunks, each with approximately 25% of the observations.
 
 ::: {.important data-latex=""}
 **Interquartile range (IQR).**
 
 The interquartile range (IQR) is $Q_3 - Q_1,$ where $Q_1$ and $Q_3$ are the $25^{th}$ and $75^{th}$ percentiles of a distribution. It measures the spread of the central 50% of a distribution.
 
-An $\alpha$ **percentile**\index{percentile} is a number with $\alpha$% of the observations below it and $100-\alpha$% of the observations above it. For example, the $90^{th}$ percentile `clutch.volume` is the value with 90% of the clutches below and 10% above that value.
+```{r}
+q_9 =  quantile(portland_park_trees$Carbon_Storage_lb, probs = 0.90)
+
+```
+
+An $\alpha$ **percentile**\index{percentile} is a number with $\alpha$% of the observations below it and $100-\alpha$% of the observations above it. For example, the $90^{th}$ percentile of `Carbon_Storage_lb` ($`r q_9`$) is larger than $90\%$ of the carbon values below and smaller than $10\%$.
 :::
 
-The \index{five number summary} **five number summary** is a compact numerical summary providing the largest and smallest observations, the first and third quartiles, and the median. Table @tbl-five-num-summ-clutch-volume shows the five number summary for `clutch.volume`.
+The \index{five number summary} **five number summary** is a compact numerical summary providing the largest and smallest observations, the first and third quartiles, and the median. Table @tbl-trees-five-num-summ-carbon shows the five number summary for `Carbon_Storage_lb`, with the mean added for good measure.
 
-```{r}
-#| label: tbl-five-num-summ-clutch-volume
+```{r five-num-summ}
+#| label: tbl-trees-five-num-summ-carbon
 #| tbl-cap: |
-#|   The five number summary for clutch volume in the `frog` data.
+#|   The five number summary for carbon storage values in Portland tree data.
 #| tbl-pos: H
-summ_stat_clutch.volume <- frog |> 
+summ_stat_portland_trees<- portland_park_trees |> 
   summarize(
-    Minimum = min(clutch.volume),
-    `First Quartile (Q1)` = quantile(clutch.volume, probs = 0.25),
-    Median = median(clutch.volume),
-    `Third Quantile (Q3)` = quantile(clutch.volume, probs = 0.75),
-    Maximum = max(clutch.volume)
+    Minimum = min(Carbon_Storage_lb),
+    `First Quartile (Q1)` = quantile(Carbon_Storage_lb, probs = 0.25),
+    Median = median(Carbon_Storage_lb),
+    Mean = mean(Carbon_Storage_lb),
+    `Third Quartile (Q3)` = quantile(Carbon_Storage_lb, probs = 0.75),
+    Maximum = max(Carbon_Storage_lb)
   ) 
 
-summ_stat_clutch.volume |> 
+summ_stat_portland_trees |> 
   mutate(across(where(is.numeric), ~ num(., digits = 1))) |> 
   kbl(linesep = "", 
       booktabs = TRUE, 
-      align = "rrrrr")  |>
+      align = "rrrrrr",
+      digits = 2)  |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
     latex_options = c("striped")
@@ -483,132 +571,156 @@ summ_stat_clutch.volume |>
 
 ```
 
-The clutch volumes range in size from approximately $150$mm$^3$ to $2630$mm$^3$.  The median $831.8$mm$^3$ splits the data in half. Approximately $50\%$ of the observations are between the first and third quartiles, $610$mm$^3$ and $1097$mm$^3$. The mean $883$mm$^3$ is considerably larger than the median. Figure @fig-clutch-volume-dotplot shows why.  
+```{r describing-five-num-summary}
+# values for text below
+# 
+cs_lb <- portland_park_trees$Carbon_Storage_lb
+min_nr <- min(cs_lb)
+min_r <- round(min_nr, 0)
+max_r <- round(max(cs_lb), 0)
+med <- median(cs_lb)
+q1_r <- round(quantile(cs_lb, probs = 0.25), 0)
+q3_r <- round(quantile(cs_lb, probs = 0.75), 0)
+iqr_r <- q3_r - q1_r
+m_r <- mean(cs_lb)
 
-The dot plot in Figure @fig-clutch-volume-dotplot divides the horizontal axis from $0$ to $2800$ into intervals or bins of width $20$mm$^3$, $(0, 20], (20, 40], \ldots, (2780, 2800]$.  The number of dots above each bin corresponds to the number of clutch volumes falling in that bin.  In addition to the expected clustering of observations between $Q_1$ and $Q_3$, the plot shows $11$ values uncharacteristically larger than the rest, all larger than $1575$mm$^3$; four of these are larger than $2000$mm$^3$. Arithmetic averages are sensitive to either extremely large or small observations. This is easily seen in the small dataset $2,4,6,8,10$, where the mean and median are both $6$. When the largest value $10$ is replaced by $30$, the median is unchanged but the mean increases to $10$. In the `frog` data the 11 large clutch volumes have shifted the mean to the right of the median.
+```
 
 
-```{r}
-#| label: fig-clutch-volume-dotplot
-#| fig-cap: Dot plot showing the distribution of clutch volumes in the `frog` data
-#| 
+The carbon storage values range in size from  $`r min_nr`$ to approximately $`r max_r`$lbs. The median $`r med`$ lbs splits the data in half. Approximately $50\%$ of the observations are between the first and third quartiles, $`r q1_r`$lbs and $`r q3_r`$lbs. The mean $`r m_r`$lbs is considerably larger than the median, and Figure @fig-trees-carbon-beeswarm shows why.
+
+The (aptly named) **beeswarm plot** \index{beeswarm plot} in Figure @fig-trees-carbon-beeswarm shows an interesting feature of the distribution of `Carbon_Storage_lb`.  In regions of the horizontal axis where the plot is wide (many bees are busy) there are a large number of observations. The plot narrows as the number of observations decreases.  There are many trees  storing relatively small amounts of carbon (less than $2,000$lbs), but a few with very large amounts (larger than $4,000$lbs), some larger than $10,000$ lbs.  Averages are sensitive to extreme values at one end of a distribution.  That can easily be seen in the small dataset $2, 4, 6, 8, 10$, where the mean and median are both $6$.  When the value $10$ is replaced by $40$, the mean increases to $12$,
+
+
+```{r beeswarm-carbon}
+#| label: fig-trees-carbon-beeswarm
+#| fig-cap: Beeswarm plot showing the distribution of carbon storage values in the Portland tree data
 #| fig-alt: |
-#|   Dot plot plot showing the distribution of clutch volumes.  The large values 
+#|   Beeswarm showing the distribution of carbon storage values in the Portland tree data.  The large
+#|        values 
 #|   at the right edge of the plot cause the mean to be larger than the median.
 #| fig-asp: 0.4
 
-ggplot(frog, aes(x = clutch.volume)) +
-  geom_dotplot(binwidth = 20, 
-  dotsize = 1.0, 
-  method = "histodot",
-  drop = FALSE) +
-  labs(x = NULL, y = NULL) +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  ) +
+library(ggbeeswarm)
+portland_park_trees |> 
+  mutate(y = "  ") |> 
+  ggplot(mapping=aes(x =  Carbon_Storage_lb, y = y)) + 
+  geom_point(shape = 20, cex = .05) +
+  geom_quasirandom(method = "pseudorandom", dodge.width = 0.05) +
   scale_x_continuous(
-    breaks = seq(0, 2800, 500)) +
-  labs(x = "Clutch volume") 
+    breaks = seq(0, 16000, 2000))  +
+  labs(x = "Carbon storage (lbs)", y = "") +
+  theme(axis.ticks.y = element_blank())
 
 ```
 
 
-
-
-
-```{=html}
-<!--
+```{r robust-example, include = FALSE}
 
 x <- c(2, 4, 6, 8, 10)
 mean(x)
-sd(x)
-y <- c(2,4,6,8,30)
-mean(y)
-sd(y)
+x_sd <- sd(x)
+y <- c(2,4,6,8,40)
+y_m <- mean(y)
+y_sd <- sd(y)
 
--->
 ```
 
-The median is a \index{robust statistic} **robust statistic**, a summary statistic that is minimally affected by a few extreme observations. It is a robust measure of the center of a distribution. For the same reason, the IQR is a robust measure of spread of a distribution. When $10$ is replaced by $30$ in the small dataset of 5 numbers, the standard deviation increases from $3.16$ to $11.40$, while the IQR ($8 - 4 = 4$) is unchanged.
+The median is a \index{robust statistic} **robust statistic** because unlike the mean it is  minimally affected by a few extreme observations at one end of a distribution.  For the same reason, the IQR is a robust measure of spread of a distribution, while the standard deviation is not. When $10$ is replaced by $40$ in the small dataset of 5 numbers, the standard deviation increases from $3.16$ to $15.81$, while the IQR ($8 - 4 = 4$) is unaffected..
 
-When the mean of a variable is much larger or smaller than the median, it is important inspect the data for unusually large or small observations to be sure they are not the result of measurement or recording errors. The five number summary of `clutch.volumes` suggests there are large observation distant from the mean, and Figure @fig-clutch-volume-dotplot shows those values. Numerical summary statistics should be paired with visual displays whenever possible.
+The beeswarm plot shows that numerical summary statistics should be paired with visual displays whenever possible.
 
-\index{box plot} **Box plots** provide a visual display of the robust measures of the location and spread of a distribution as well as the values that might influence the less robust mean and standard deviation, and is constructed from a five number summary.  Figure @fig-clutch-volume-dotplot-boxplot shows the dot plot in Figure @fig-clutch-volume-dotplot and a box plot below it.  
+\index{box plot} **Box plots** provide a visual display of the robust measures of the location and spread along with the values that might influence the less robust mean and standard deviation, and is constructed from a five number summary. Figure @fig-trees-carbon-beeswarm-boxplot shows the beeswarm plot in Figure @fig-trees-carbon-beeswarm and a box plot below it.
 
-In a box plot, the interquartile range is represented by a rectangle extending from the first to the third quartile, and the rectangle is split by the median (second quartile). The lines extending from first and third quartiles (sometimes called whiskers) reach toward $Q_1 - 1.5\times \textrm{IQR}$ and $Q_3 + 1.5\times \textrm{IQR}$. The whiskers always end at observed data points, so the values given by adding or subtracting $1.5\times IQR$ define the maximum reach of the whiskers. With `clutch.volume`, $Q_3 + 1.5 \times \textrm{IQR} = 1,096.5 + 1.5\times 486.4 = 1,826.1 \textrm {mm}^{3}$. Since there was no clutch with volume $1,826.1$ mm$^3$, so the upper whisker extends to $1,819.7$mm $^3$  the largest observation  smaller than $Q_3 + 1.5\times \textrm{IQR}$.
+```{r values-for-boxplot}
+# uses values calculated earlier
+# 
+lower_w <- q1_r - 1.5 * iqr_r
+upper_w <- q3_r + 1.5 * iqr_r
 
-Any observation that lies beyond the whiskers is shown with a dot; these observations are called outliers. An \index{outlier} **outlier** is a value that appears extreme relative to the rest of the data. There are several large outliers and no small outliers in `clutch.volume` indicating the presence of the unusually large egg clutches discussed earlier.
+```
+
+In a box plot, the interquartile range is represented by a rectangle extending from the first to the third quartile, and the rectangle is split by the median (second quartile). The lines extending from first and third quartiles (sometimes called whiskers) reach toward $Q_1 - 1.5\times \textrm{IQR}$ and $Q_3 + 1.5\times \textrm{IQR}$. The whiskers always end at observed data points, so the values given by adding or subtracting $1.5\times IQR$ define the maximum reach of the whiskers. 
+
+With `Carbon_Storage_lb`, $Q_1 - 1.5 \times \textrm{IQR} = `r q1_r` - 1.5\times `r iqr_r` = `r lower_w`$ lbs. The lower whisker extends only to $0$ since there are no negative values of `Carbon_Storage_lb`. The upper whisker extends to $`r q1_r` + 1.5\times `r iqr_r` = `r upper_w`$ lbs.
 
 
-The dot and box plots in Figure @fig-clutch-volume-dotplot-boxplot provide different views of distribution of `clutch.volume`.  The dot plot shows a large cluster of observations just below the median, a spike that is not matched elsewhere in the data.  There are some intriguing gaps in the distribution, some bins with no observations.
+Any observations beyond the whiskers is shown with dots and are labeled  outliers. An \index{outlier} **outlier** is a value that appears extreme relative to the rest of the data. There are many large outliers of `Carbon_Storage_lb`, as was suggested earlier by the beeswarm plot in Figure @fig-trees-carbon-beeswarm.
 
-The box plot hides those details in favor of showing the essential information about center and spread in a graphic that is perhaps easier to process.  The two graphs might be compared to the difference between reading a novel versus a one page review.
+The beeswarm and box plots in Figure @fig-trees-carbon-beeswarm-boxplot provide different views of a distribution. The detail in the beeswarm shows how the observations of carbon storage values become less common with larger values.
+The box plot hides those details in favor of showing the essential information about center and spread in a graphic that is perhaps easier to process. The two graphs might be compared to the difference between reading a novel versus a one page review.
 
-
-```{r}
-#| label: fig-clutch-volume-dotplot-boxplot
-#| fig-cap: Distribution of clutch volumes from the `frog' dataset.
+```{r carbon-beeswarm-boxplot}
+#| label: fig-trees-carbon-beeswarm-boxplot
+#| fig-cap: Distribution of `Carbon_Storage_lb` from the Portland trees data.
 #| fig-subcap:
-#|   - Dot plot
+#|   - Beeswarm plot
 #|   - Box plot
 #| fig-alt: |
-#|   Two plots showing the same variable, clutch.volume. The upper image is a 
-#|   dot plot, the lower is a box plot. 
+#|   Two plots showing the same variable, carbon storage in lbs. The upper image is a 
+#|   beeswarm plot, the lower is a box plot. 
 #| fig-asp: 0.3
 #| 
 
-ggplot(frog, aes(x = clutch.volume)) +
-  geom_dotplot(binwidth = 20,
-  dotsize = 1, 
-  method = "histodot",
-  drop = FALSE) +
-  labs(x = NULL, y = NULL) +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  ) +
+library(ggbeeswarm)
+portland_park_trees |> 
+  mutate(y = "  ") |> 
+  ggplot(mapping=aes(x =  Carbon_Storage_lb, y = y)) + 
+  geom_point(shape = 20, cex = .05) +
+  geom_quasirandom(method = "pseudorandom", dodge.width = 0.05) +
   scale_x_continuous(
-    breaks = seq(0, 2800, 500)) 
+    breaks = seq(0, 16000, 2000))  +
+  labs(x = "Carbon storage (lbs)", y = "") +
+  theme(axis.ticks.y = element_blank())
 
-ggplot(frog, aes(x = clutch.volume)) +
+ggplot(portland_park_trees, aes(x = Carbon_Storage_lb)) +
   geom_boxplot(outlier.size = 2.5) +
   theme(
     axis.title.y = element_blank(),
     axis.text.y = element_blank(),
     axis.ticks.y = element_blank()
   ) +
-  labs(x = "Clutch volume") +
+  labs(x = "Carbon  Storage (lbs)") +
   scale_x_continuous(
-    breaks = seq(0, 2800, 500)
+    breaks = seq(0, 16000, 2000)
   )
 
 ```
 
-A \index{histogram} **histogram**  provides a balance between the fine detail of a dot plot and the compact summary of a box plot.  In a histogram, observations are grouped into bins and the height of a bar above each bin is the number of observations in the bin.  Figure~\ref{frogBinnedClutchVolTable} shows the number of clutches with volumes in the intervals $(0,200]$mm$^3$, $(200, 400]$mm$^3$, $\ldots,  (2,600, 2,800]$mm$^3$.^[By default in R, the bins are left-open and right-closed; i.e., the intervals are of the form $(a, b]$. Thus, an observation with value 200 would fall into the 0-200 bin instead of the 200-400 bin.] These binned counts are plotted as bars in Figure @fig-clutch-volume-histogram.
+A \index{histogram} **histogram** provides a balance between the fine detail of a beeswarm and the compact summary of a box plot. In a histogram, observations are grouped into bins and the height of a bar above each bin is the number of observations in the bin. Figure @fig-trees-carbon-histogram is a histogram of the `Carbon_Storage_lb` distribution.  The width of each bin is $1,000$ lbs, corresponding to the intervals $[0,1000), [1000, 2,000), \ldots, [15,000, 16,000)$.^[The default interval for the histogram in R is closed on the left, open on the right.]
 
+**add a table of counts to this and check default intervals**
 
 
 ```{r}
-#| label: fig-clutch-volume-histogram
+#| label: fig-trees-carbon-histogram
 #| fig-cap: |
-#|   A histogram of the clutch volumes in the `frog` data.  The histogram shows the
-#|   few large clutch volumes discussed earlier
-#| fig-alt: |
-#|   A histogram of interest rate (ranging from close to 0 to more than 2500 cubic 
-#|   milometers).
+#|   A histogram of `Carbon_Storage_lb` in the Portland trees data.  The histogram shows the
+#|   few carbon storage values discussed earlier.
+#| fig-alt: | 
+#|   A histogram of `Carbon_Storage_lb` in the Portland trees data.  The histogram shows the
+#|   few carbon storage values discussed earlier.
+#|   
 #| fig-asp: 0.4
 
-ggplot(frog, aes(x = clutch.volume)) +
-  geom_histogram(breaks = seq(0, 2800, 200)) +
-  labs(x = "Clutch volume", y = "Count") +
+
+ggplot(portland_park_trees, aes(x = Carbon_Storage_lb)) +
+  geom_histogram(breaks = seq(0, 16000, 1000)) +
+  labs(x = "Carbon storage (lbs)", y = "Count") +
   scale_x_continuous(
-    breaks = seq(0, 2800, 500)
+    breaks = seq(0, 16000, 2000)
   )
 
 ```
+
+Histograms provide a view of the \index{data density} **data density**. Higher bars indicate more frequent observations, while lower bars represent relatively rare observations. Figure @fig-trees-carbon-histogram shows that most of trees store between $0$ and $4,000$ lbs of carbon, as was seen in Figure @fig-trees-carbon-beeswarm, and fewer trees store more than $6,000$ lbs.
+
+
+Histograms show the \index{shape} **shape** of a distribution\label{shapeFirstDiscussed}. The tails of a \index{symmetric distribution} **symmetric distribution** are roughly equal, with data trailing off from the center roughly equally in both directions. Asymmetry arises when one tail of the distribution is longer than the other, as in the histogram for carbon storage values. A distribution is said to be \termsub{right skewed}{skew!right skewed} when data trail off to the right, and \termsub{left skewed}{skew!left skewed} when data trail off to the left. Figure @fig-trees-carbon-histogram shows a right skewed distribution.
+
+
+The \index{mode} **mode**  of a distribution is the location of its prominent peak.   Figure @fig-singleBiMultiModalPlots} shows histograms that have one, two, or three major peaks. Such distributions are called \termsub{unimodal}{modality!unimodal}, \termsub{bimodal}{modality!bimodal}, and \termsub{multimodal}{modality!multimodal}, respectively. Any distribution with more than two prominent peaks is called multimodal. The less prominent peak in the unimodal distribution was not counted since it only differs from its neighboring bins by a few observations. Prominent is a subjective term, but it is usually clear in a histogram where the major peaks are.  
+
 
 
 
@@ -624,6 +736,7 @@ ggplot(frog, aes(x = clutch.volume)) +
 #|   distribution, and a multimodal distribution.
 #| fig-asp: 0.3
 #| out-width: 95%
+
 set.seed(080546)
 df_modes <- tibble(
   uni   = rchisq(65, 6),
@@ -645,13 +758,73 @@ p_multi <- ggplot(df_modes, aes(x = multi)) +
   geom_histogram(binwidth = 2) +
   labs(x = NULL, y = NULL) +
   ylim(0, 23) +
-  xlim(0, 30)
+  xlim(0, 40)
 
 p_uni + p_bi + p_multi
 ```
 
 
+```{r}
+#| label: fig-trees-height-histogram
+#| fig-cap: |
+#|   Two plots showing the same variable, `Tree_Height` in ft. The upper image is a 
+#|   box plot, the lower is a histogram. 
+#| fig-subcap:
+#|   - Box plot
+#|   - Histogram
+#| fig-alt: |
+#|   Two plots showing the same variable, `Tree_Height` in ft. The upper image is a 
+#|   box plot, the lower is a histogram. 
+#| fig-asp: 0.3
 
+
+ggplot(portland_park_trees, aes(x = Tree_Height)) +
+  geom_boxplot(outlier.size = 2.5) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  ) +
+  labs(x = "Tree Height (ft)") +
+  scale_x_continuous(
+    breaks = seq(0, 200, 20)
+  )
+
+ggplot(portland_park_trees, aes(x = Tree_Height)) +
+  geom_histogram(breaks = seq(0, 200, 10)) +
+  labs(x = "Height (ft)", y = "Count") +
+  scale_x_continuous(
+    breaks = seq(0, 200, 20)
+  )
+
+```
+
+```{r five-num-summ-height}
+#| label: tbl-trees-five-um-summ-height
+#| tbl-cap: |
+#|   The five number summary for `Tree Height` in Portland tree data.
+#| tbl-pos: H
+summ_stat_portland_trees<- portland_park_trees |> 
+  summarize(
+    Minimum = min(Tree_Height),
+    `First Quartile (Q1)` = quantile(Tree_Height, probs = 0.25),
+    Median = median(Tree_Height),
+    Mean = mean(Tree_Height),
+    `Third Quartile (Q3)` = quantile(Tree_Height, probs = 0.75),
+    Maximum = max(Tree_Height)
+  ) 
+
+summ_stat_portland_trees |> 
+  mutate(across(where(is.numeric), ~ num(., digits = 1))) |> 
+  kbl(linesep = "", 
+      booktabs = TRUE, 
+      align = "rrrrrr",
+      digits = 2)  |>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")
+  )
+```
 
 ## Relationships in data {#sec-relationships-in-data}
 
