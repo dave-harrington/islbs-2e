@@ -13,7 +13,7 @@ This chapter provides an introduction methods for summarizing and exploring data
 
 ```{r}
 #| include: false
-terms_chp_1 <- c("data")
+terms_chp_1 <- c("data") 
 ```
 
 ## Case study: Preventing peanut allergies {#sec-case-study-preventing-peanut-allergies}
@@ -28,9 +28,9 @@ The study team enrolled children in the United Kingdom between 2006 and 2009, se
 
 At age 5, each child was tested for a peanut allergy using an oral food challenge (OFC): 5 grams of peanut protein in a single dose. If a child showed no allergic reaction the intervention (treatment or control) received by the child, the outcome was recorded as a PASS; if the intervention received by the child failed to prevent an allergic reaction, the outcome was recorded as a FAIL. The main analysis presented in the paper was based on data from 530 children with a negative skin test at study entry. Although a total of 542 children had an earlier negative skin test, data collection did not occur for 12 children.
 
-Individual-level data from the study are shown in @tbl-leapStudyResultsDF, which shows 5 children in a dataset restricted to children with a negative skin prick test for a peanut allergy at the time of randomization. Each row represents a participant and shows the `participant.ID` (an anonymous participant identifier), `treatment.group` (the treatment randomly assigned) and `overall.V60.outcome` (result of the OFC at 60 months of age). The LEAP data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+Individual-level data from the study are shown in @tbl-leapStudyResultsDF, which shows $6$ children in a dataset restricted to children with a negative skin prick test for a peanut allergy at the time of randomization. Each row represents a participant and shows the `participant.ID` (an anonymous participant identifier), `treatment.group` (the treatment randomly assigned) and `overall.V60.outcome` (result of the OFC at 60 months of age). The LEAP data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
 
-```{r}
+```{r leap-trimmed}
 #| label:  tbl-leapStudyResultsDF
 #| tbl-cap:  "Five patients from the LEAP study"
 #| tbl-pos: H
@@ -50,9 +50,9 @@ LEAP_trimmed  |>
     full_width = FALSE)
 ```
 
-The data can be organized in a two-way summary table; table @tbl-leapStudyResults shows the results grouped by treatment group and OFC outcome.
+The data can be organized in a two-way summary table; @tbl-leapStudyResults shows the results grouped by treatment group and OFC outcome.
 
-```{r}
+```{r leap-study-results}
 #| label:  tbl-leapStudyResults
 #| tbl-cap:  "Results from the LEAP study"
 #| tbl-pos: H
@@ -77,27 +77,30 @@ LEAP_analyzed |>
   )
 ```
 
-The summary table makes it easy to identify patterns in the data. In the two groups combined, the intervention failed to prevent an allergy in $15.6\%$ of the children, but the proportions of failures the proportion of failures in the two groups are different. In the avoidance group, the proportion of OFC failures is $36/263 = 0.137$ ($13.7\%$); in the consumption group, it is $5/267 = 0.019$ ($1.9\%$).
 
-The difference in the proportions of OFC failures between the two groups is $11.8\%$; nearly $12\%$ more of the participants in the avoidance group tested positive in the avoidance versus than consumption groups. The data can also be summarized by the ratio the two proportions ($0.137/0.019 = 7.31$); the rate of a subsequent allergy the avoidance group is more than 7 times larger than in the consumption group; i.e., the risk of failing the a subsequent peanut allergy was more than 7 times greater in the avoidance group relative to the consumption group.
+The summary table makes it easy to identify patterns in the data. In the two groups combined, the intervention failed to prevent an allergy in $15.6\%$ of the children, but the proportions of failures in the two groups are different. In the avoidance group, the proportion of OFC failures is $36/263 = 0.137$ ($13.7\%$); in the consumption group, it is $5/267 = 0.019$ ($1.9\%$).
+
+The difference in the proportions of OFC failures between the two groups is $11.8\%$; nearly $12\%$ more of the participants tested positive in the avoidance versus than consumption groups. The data can also be summarized by the ratio the two proportions ($0.137/0.019 = 7.31$); the rate of a subsequent allergy the avoidance group is more than 7 times larger than in the consumption group; i.e., the risk of  a subsequent peanut allergy was more than 7 times greater in the avoidance group relative to the consumption group.
 
 Even without sophisticated methods of analysis, the results of the study are striking. Early exposure to peanut products may be an effective strategy for reducing the chances of developing peanut allergies later in life. But are these results definitive? In other words, is the $11.8\%$ difference between the two groups larger than one would expect by chance variation alone? The methods of inference in later chapters will provide the statistical tools to answer this question.
 
-In the language of medical research, LEAP was a clinical trial -- a study done to improved the understanding of an intervention in a clinical setting. In statistical terms, LEAP was an experiment involving human subjects -- a study done in a controlled setting to estimate the difference in outcome using two interventions to prevent peanut allergies. Experiments will be explored in more detail later in the text in Section @sec-experiments of Chapter @sec-collecting-data.
+In the language of medical research, LEAP was a \index{clinical trial} **clinical trial** -- a study done to improve the understanding of an intervention in a clinical setting. In statistical terms, LEAP was an \index{experiment} **experiment** involving human subjects -- a study done in a controlled setting to estimate the difference in outcome using two interventions. Experiments will be explored in more detail later in the text in Section @sec-experiments of Chapter @sec-collecting-data.
 
-The study illustrates some of the issues in research in \index{evidence-based medicine}, some explicit and some implicit, that are discussed in later chapters. The study was done when a common approach to preventing peanut allergies among susceptible children was based on avoiding peanut products. LEAP was an important step in overcoming that notion by providing evidence that the previous approach of avoiding peanut products was not the best approach, no matter how natural it may have seemed. The parents of the infants participating in the study consented to allow their children to be randomly assigned to one of two interventions with uncertain value. Investigators conducting this and similar studies are ethically bound to ensure that the study is supported by prior data, that the study has a sound design, and is conducted responsibly.
+The study illustrates some of the issues in research in \index{evidence-based medicine}, some explicit and some implicit, that are discussed in later chapters. The study was done when a common approach to preventing peanut allergies among susceptible children avoided peanut products. LEAP was an important step in overcoming that notion by providing evidence that the previous approach of avoiding peanut products was not the best approach, no matter how natural it may have seemed. The parents of the infants participating in the study consented to allow their children to be randomly assigned to one of two interventions with uncertain value. Investigators conducting this and similar studies are ethically bound to ensure that the study is supported by prior data, has a sound design and is conducted responsibly.
 
 \index{data!LEAP|)}
 
 ## Organizing and classifying data {#sec-data-organization}
 
+### Observations, variables and data matrices {#sec-data-observations}
+
 \index{data!crabs|(}
 
 What features of a female crab attracts males to fertilize her eggs?
 
-When spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand. Additional male crabs may join the pair and fertilize the eggs as well, presumably increasing genetic diversity of the offspring. The additional male crabs are called satellites. The dataset `crabs` examined here contains observations on $173$ female crabs, with $5$ recorded measurements for each crab, so the data matrix consists of $173$ rows and $5$ columns. The data originally appeared in Brockman [@brockmann1996satellite] and can be found at the website for *Categorical Data Analysis, 3rd ed.*[@agresti2013categorical] and in the R package `asbio`. The dataset is used later in Chapter @sec-logistic-regression to explore the relationship between the features of a female crab and the number of satellites it attracts.
+When spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand. Additional male crabs may join the pair and fertilize the eggs as well, presumably increasing genetic diversity of the offspring. The additional male crabs are called satellites. The dataset `crabs` examined here contains observations on $173$ female crabs, with $5$ recorded measurements for each crab. The data originally appeared in Brockman [@brockmann1996satellite] and can be found at the website for *Categorical Data Analysis, 3rd ed.*[@agresti2013categorical] and in the R package `asbio`. The dataset is used later in Chapter @sec-logistic-regression to explore the relationship between the features of a female crab and the number of satellites it attracts.
 
-Table @tbl-crabsDF shows data from $6$ randomly selected crabs from the $173$ observed in the study. Each row in the table corresponds to a single crab, indicating the color of the carapace (the shell carried by the crab on its back), the condition of the two spines along the edge of its abdomen, the width of the carapace, the number of male satellites the crab has attracted and the weight of the crab. Each crab is a **case**, sometimes called a **unit of observation** or an \index{observational unit} **observational unit**. When observations are made on people participating in a study, as in LEAP, the observational units are called \index{human subjects} **human subjects** or **participants**. The recorded characteristics are referred to as \index{variables} **variables**; in Table @tbl-crabsDF, each row represents a case or an observational unit (a female crab) and each column a variable. The entries in a row are the values of the variables for that case. Because the observations in the data are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**.
+@tbl-crabsDF shows data from $6$ randomly selected crabs from the $173$ observed in the study. Each row in the table corresponds to a single crab, indicating the color of the carapace (the shell carried by the crab on its back), the condition of the two spines along the edge of its abdomen, the width of the carapace, the number of male satellites the crab has attracted and the weight of the female. Each crab is a **case**, sometimes called a **unit of observation** or an \index{observational unit} **observational unit**. When observations are made on people participating in a study, as in LEAP, the observational units are called \index{human subjects} **human subjects** or \index{participants} **participants**. The recorded characteristics are referred to as \index{variables} **variables**; in @tbl-crabsDF, each row represents a case or an observational unit (a female crab) and each column a variable. The entries in a row are the values of the variables for that case. Because the observations are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**.
 
 Data matrices are a convenient way to record and store data. If data are collected for another observational unit, a row can easily be added; similarly, another column can be added for a new variable. The \index{distribution} **distribution** of a variable is its collection of values. The distribution of the variable `weight`, for instance, is the set of values in the column of the `crabs` data matrix with the label `weight.`
 
@@ -129,7 +132,7 @@ crabs_df |>
     full_width = FALSE)
 ```
 
-Table @tbl-crabsVarDescriptions contains the descriptions of the variables. It is important to check the definitions of variables, as they are not always obvious. In the `crabs` data, the definitions specify that the measurements of `width` and `weight` are in metric units and the `spine` records the condition of the two spines near the abdomen of each crab.
+@tbl-crabsVarDescriptions contains the descriptions of the variables. It is important to check the definitions of variables, as they are not always obvious. In the `crabs` data, the definitions specify that the measurements of `width` and `weight` are in metric units and the `spine` records the condition of the two spines near the abdomen of each crab.
 
 ```{r}
 #| label:  tbl-crabsVarDescriptions
@@ -159,15 +162,17 @@ crabs_var_table  |>
     full_width = FALSE)
 ```
 
-Datasets are collected to learn about the \index{population} **population** from which the observational units were selected. The `crabs` data were collected to learn about the features of female crabs that made them more attractive to males. The `crabs` data were gathered in an observational study; the principles and interpretation of observational studies are discussed in Section @sec-observational-studies of Chapter @sec-collecting-data.
+Datasets are collected to learn about a larger \index{population} **population**. The `crabs` data were collected to learn about the features of female crabs that made them more attractive to males. The data were gathered in an observational study; the principles and interpretation of observational studies are discussed in Section @sec-observational-studies of Chapter @sec-collecting-data.
 
 ```{r}
 terms_chp_1 <- c(terms_chp_1, "data matrix")
 ```
 
-A variable is classified according the types of calculations the variable supports. The variables `width` and `weight` are \index{numerical variables} **numerical variables**, also called quantitative variables. They take on values that can be added, subtracted, or averaged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on all values within a specified range. The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the largest number of satellites who can attach to a female horseshoe crab.
+### Types of variables {#sec-data-variable-types}
 
-The variables `color` and `spine` are \index{categorical variables} **categorical variables**, also called qualitative variables. The values of categorical variables are names or labels; in this case the values are carapace colors or the condition of the spines of the crab. Arithmetic operations cannot be performed on categorical variables, but they can be tabulated. When the labels of a categorical variable have no natural ordering, the variable is a **nominal categorical variable**. `Spine` is an **ordered categorical variable** since its categories indicate worsening conditions of the spines. Categorical variables are also called \index{factor variable} factor variables in R.
+A variable is classified according the types of calculations that can be done with the variable. The variables `width` and `weight` are \index{numerical variables} **numerical variables**, also called \index{quantitative variables} **quantitative variables**. They take on values that can be added, subtracted, or averaged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on all values within a specified range. The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the largest number of satellites who can attach to a female horseshoe crab.
+
+The variables `color` and `spine` are \index{categorical variables} **categorical variables**, also called \index{qualitative variables} **qualitative variables**. The values of categorical variables are names or labels; in this case the values are carapace colors or the condition of the spines of the crab. Arithmetic operations cannot be performed on categorical variables, but they can be tabulated. When the labels of a categorical variable have no natural ordering, the variable is a **nominal categorical variable**. `Spine` is an **ordered categorical variable** since its categories indicate worsening conditions of the spines. Categorical variables are also called \index{factor variable} **factor variables** in R.
 
 \index{data!crabs|)}
 
@@ -175,9 +180,9 @@ The variables `color` and `spine` are \index{categorical variables} **categorica
 terms_chp_1 <- c(terms_chp_1, "numerical variable", "categorical variable")
 ```
 
-Other types of variables arise in some applications that require specialized software to manipulate and are not discussed in this text. Character or string variables are sometimes used to record an open ended response to a question on a survey. Dates are often coded so that they can be manipulated with operations that extract the year or day of the week of a date. Image data are used to record the result of a photograph or other imaging procedure, such as a magnetic resonance imaging (MRI) scan of an organ or region of the body.
+Other types of variables arise in some applications that require specialized software to manipulate and are not discussed in this text. Character or string variables are sometimes used to record an open ended responses to a question on a survey. Dates are often coded so that they can be manipulated with operations that extract the year or day of the week. Image data are record the result of a photograph or other imaging procedure, such as a magnetic resonance imaging (MRI) scan of an organ or region of the body.
 
-Figure @fig-variable-types shows the types of variables used in this text.
+@fig-variable-types shows the types of variables used in this text.
 
 ```{r}
 #| label: fig-variable-types
@@ -190,27 +195,31 @@ knitr::include_graphics("images/variableTypes.png")
 ```
 
 ::: {.workedexample data-latex=""}
-In addition to the treatment and outcome variables shown in Table @tbl-leapStudyResultsDF, the study team collected the age in months and sex of each participant and the results of the initial skin test for peanut allergies (negative or positive.) Classify these variables, `treatment.group` and `overall.V60.outcome`. Answers to guided practice problems are provided in the footnotes. \[\^intro-to-data-1\]
+In addition to the treatment and outcome variables shown in @tbl-leapStudyResultsDF, the study team collected the `age` (in months) and `sex` of each participant and the results of the initial skin test for peanut allergies (negative or positive.) Classify  `treatment.group`, `overall.V60.outcome` and these additional variables. 
 
 ------------------------------------------------------------------------
 
-The variables `treatment.group`, `overall.v60.outcome`, sex (male or female) and the result of the skin test all measure non-numerical quantities, and thus are categorical variables, each with two levels. Age is a continuous variable.
+The variables `treatment.group`, `overall.v60.outcome`, `sex` (male or female) and the result of the skin test all measure non-numerical quantities, and thus are categorical variables, each with two levels. `Age` is a continuous variable.
 :::
 
 ::: {.guidedpractice data-latex=""}
-Answers to guided practice problems are provided in the footnotes.\[\^intro-to-data-1\] Suppose that on a given day, a research assistant collected data on the first 20 individuals visiting a walk-in clinic: `age` (measured as less than 21, 21 - 65, and greater than 65 years of age), `gender`, `height`, `weight`, and `reason for the visit`. Classify each of the variables. (Note: answers to Guided Practice exercises are provided in footnotes)\[\^01-data-hello-1\]
+Answers to guided practice problems are provided in the footnotes.[^01 intro-to-data-1] Suppose that on a given day, a research assistant collected data on the first 20 individuals visiting a walk-in clinic: `age` (measured as less than 21, 21 - 65, and greater than 65 years of age), `gender`, `height`, `weight`, and `reason for the visit`. Classify each of the variables. 
 :::
+
+[^01 intro-to-data-1]: The variables `height` and `weight` are continuous numerical variables. `Age` as measured by the research assistant is ordinal categorical. `Sex` and the reason for the visit are nominal categorical variables.
+
+<!-- edits to  here, 11/14 -->
 
 ## Summarizing and visualizing data {#sec-summarizing-visualizing-data}
 
 ### Categorical data {#sec-summarizing-categorical-data}
 
-Categorical data are summarized in tables, such as @tbl-crabs-colors-frequency showing the number of each color in the carapace of the 173 crabs in the `crabs` data.
+Categorical data are summarized in tables, such as @tbl-crabs-colors-frequency, which shows the number of crabs with each color.
 
 ```{r}
 #| label: tbl-crabs-colors-frequency
 #| tbl-cap:  "Distribution of colors of the 173 crabs in the crabs dataset.  The Count column
-#|    indicates the number of each color."
+#|    indicates the number of crabs with each of the colors."
 #| tbl-pos: H
 crabs |> 
   mutate(color = fct_recode(color,
@@ -232,7 +241,7 @@ crabs |>
 
 ```
 
-Table @tbl-crabs-colors-frequency is a \index{frequency table} **frequency table** showing the number of crabs of each color in the column labeled Count. When the proportion of crabs with each color is added to the table it is called a \index{relative frequency table} **relative frequency table**, as shown in Table @tbl-crabs-colors-relative-frequency.
+@tbl-crabs-colors-frequency is a \index{frequency table} **frequency table**; it shows that more females are color "medium" than any of the other three colors. When the proportion of crabs with each color is added to the table it is called a \index{relative frequency table} **relative frequency table**, as shown in @tbl-crabs-colors-relative-frequency.  In fact, the majority ($54.9\%$) of females are color "medium".
 
 ```{r}
 #| label: tbl-crabs-colors-relative-frequency
@@ -259,18 +268,16 @@ crabs |>
   
 ```
 
-Frequency and relative frequency tables are used with nominal categorical variables, where the labels have no natural ordering. With ordered categorical variables it is useful to add a column of cumulative proportions showing the fraction of cases up and including each label in the natural ordering of the variable.
+Frequency and relative frequency tables are typically used with nominal categorical variables, where the labels have no natural ordering. With ordered categorical variables it is useful to add a column of cumulative proportions showing the fraction of cases up to and including each label in the natural ordering of the variable.   @tbl-crabs-spine-cumulative-frequency shows the counts, proportions and cumulative proportions for the spine condition. Spine injuries are common in this group. Only $21\%$ of the crabs have no worn or broken spines; $30\%$ have at most one damaged spine.
 
-Table @tbl-crabs-spine-cumulative-frequency shows the counts, proportions and cumulative proportions for the spine condition of the crabs. Spine injuries are common in this group. Only $21\%$ of the crabs have no worn or broken spines; $30\%$ have no more than one damages spine.
-
-Table @tbl-leapStudyResults is both a frequency and relative frequency table for LEAP, and shows the counts of the two possible responses to the oral challenge by intervention, along with the proportion of the oral challenge failures by intervention.
+@tbl-leapStudyResults is a relative frequency table for LEAP, showing both the counts and proportions of the two responses to the oral challenge by intervention.
 
 ```{r}
 #| label: tbl-crabs-spine-cumulative-frequency
-#| tbl-cap:  "Counts, proportions and cumulative proportions of the altitude of study
-#|    sites in the `crabs` dataset."
-#| fig-alt: "Frequencies, proportions and cumulative proportions of spine condition
-#|    sites in the `crabs` dataset."
+#| tbl-cap:  "Counts, proportions and cumulative proportions of  spine condition 
+#|     in the `crabs` dataset."
+#| fig-alt: "Counts, proportions and cumulative proportions of spine condition
+#|    in the `crabs` dataset."
 #| tbl-pos: H
 source("_common.R")
 
@@ -300,9 +307,10 @@ crabs_df |>
 
 ```
 
-\index{bar plot} The **bar plots** in Figure @fig-crabs-counts-proportions provide a visual display of the information in Table @tbl-crabs-colors-relative-frequency. Since proportions are the counts divided the total sample size, the two figures have the same shape; a bar plot with proportions is a rescaling of the plot with counts.
+\index{bar plot} The **bar plots** in @fig-crabs-counts-proportions provide a visual display of the information in @tbl-crabs-colors-relative-frequency. Since proportions are the counts divided the total sample size, the two figures have the same shape; a bar plot with proportions is a re-scaling of the plot with counts.
 
-More interesting bar plots are used to display the relationship between two categorical variables and are discussed in Section @sec-relationships-in-data.
+Sections @sec-relationships-two-categorical and @sec-relationships-one-numerical-one-categorical explore how these and other features of female crabs are associated with the number of male satellites attracted during spawning.
+
 
 ```{r}
 #| label: fig-crabs-counts-proportions
@@ -326,21 +334,20 @@ crabs_color <-  crabs |>
 
 ggplot(crabs_color, aes(x = color)) +
   geom_bar(fill = IMSCOL["green", "full"]) +
-  labs(x = "Crab color", y = "Count")
+  labs(x = "Carapace color", y = "Count")
 
 crabs_color |>
   count(color) |>
   mutate(proportion = n / sum(n)) |>
   ggplot(aes(x = color, y = proportion)) +
   geom_col(fill = IMSCOL["green", "full"]) +
-  labs(x = "Crab color", y = "Proportion")
+  labs(x = "Carapace color", y = "Proportion")
 ```
 
-<!-- possibly add a stacked bar chart here -->
 
 ### Numerical data {#sec-summarizing-numerical-data}
 
-```{r, include = FALSE}
+```{r portland-tree-fetch, include = FALSE}
 library(pdxTrees)
 set.seed(080546)
 
@@ -358,14 +365,12 @@ portland_park_trees <- pdx  |>
   slice_sample(n = 500) 
   
 size <- nrow(portland_park_trees)
-
-
                 
 ```
 
-During photosynthesis, trees remove carbon dioxide from the air, mix it with water, and convert it to sugars and oxygen. The sugars are then distributed throughout the tree, and the carbon in those sugars is stored in a process called carbon sequestration. Forests typically store twice as much carbon as they emit, and are one important component of mitigating the effect of greenhouse gasses on climate change. How much carbon do trees store?
+During photosynthesis, trees remove carbon dioxide from the air, mix it with water, and convert it to sugars and oxygen. The sugars are then distributed throughout the tree, and the carbon in those sugars is stored in a process called carbon sequestration. Forests typically store twice as much carbon as they emit and are an important component in mitigating the effect of greenhouse gasses on climate change. How much carbon do trees store?
 
-The [`Portland Tree Inventory project`](https://www.portland.gov/trees/get-involved/treeinventory) is a comprehensive inventory of trees in Portland, Oregon, compiled to help professionals and citizens protect and grow the  urban Portland forest.  The inventory was compiled separately for trees in neighborhoods and in parks; the park database has $34$ variables for the $25,534$ trees in Portland parks, including such diverse measurements as the age of the tree, its common and scientific name, its financial value, the amount of carbon storage in the tree and is financial value.  This section uses $6$ variables from a random sample of $`r size`$ trees. Tables @tbl-pdx-parks-df and @tbl-pdx-var-definitions show the data for the first 3 and last tree in the data and the variable definitions, respectively. All but the first two variables are numerical variables.
+The [`Portland Tree Inventory project`](https://www.portland.gov/trees/get-involved/treeinventory) is a comprehensive inventory of trees in Portland, Oregon, compiled to help professionals and citizens protect and grow the urban Portland forest by showing the value of trees in the city.  The inventory was compiled separately for trees in neighborhoods and in parks; the park inventory was last completed in 2017 and has $34$ variables for the $25,534$ trees in Portland parks.  It includes diverse measurements such as the age of the tree, its common and scientific names, its financial value, the amount of carbon the tree stores in carbon sequestration, and its financial value.  This section uses $6$ variables from a random sample of $`r size`$ trees. Tables @tbl-pdx-parks-df and @tbl-pdx-var-definitions show the data for the first 3 and last trees and the variable definitions, respectively. All but the first two variables are numerical variables.
 
 ```{r}
 #| label:  tbl-pdx-parks-df
@@ -386,7 +391,7 @@ portland_park_trees |>
 
 ```{r}
 #| label:  tbl-pdx-var-definitions
-#| tbl-cap:  "The first 3 and last of the 500 in the Portland tree data"
+#| tbl-cap:  "Variable definitions in the Portland tree data"
 #| tbl-pos: H
 
 pdx_tree_var_name = c("Common_Name", 
@@ -416,12 +421,16 @@ pdx_var_table |>
     latex_options = c("striped"),
     full_width = FALSE)
 ```
+```{r total-carbon, include = FALSE}
+ds  <- portland_park_trees
+carb_sum  <- round(sum(ds$Carbon_Storage_lb),0)
+```
 
- The numerical variable `Carbon_Storage_lb` is an estimate of the amount of carbon stored in the tree.  What are some of the important features of its distribution?
+The numerical variable `Carbon_Storage_lb` is an estimate of the amount of carbon stored in the tree.  Collectively, the 500 trees in this sample were storing approximately $`r carb_sum` \,\textrm{lbs}$ (more than $4,800$ tons!) of carbon at the date of the last inventory (summer, 2017).  How are these amounts of sequestered carbon distributed among the trees?
 
-The distribution of a numerical variable is usually summarized by its center and spread. The \index{mean} **mean**, sometimes called the \indexthis{average}{mean!average}, is a measure of center of a distribution and is denoted (generically) by $\overline{x}$. The average carbon storage in these trees is calculated by summing all the storage values and dividing by the total number of trees, as illustrated below.
+The distribution of a numerical variable is usually summarized by its center and spread. The \index{mean} **mean**, sometimes called the \indexthis{average}{mean!average} average, is a measure of center of a distribution and is denoted (generically) by $\overline{x}$. The average carbon storage in these trees is calculated by summing all the storage values and dividing by the total number of trees, as illustrated below.
 
-```{r, include=FALSE}
+```{r illus-sample-mean, include=FALSE}
 
 # for illustrating sample mean median
 # 
@@ -442,11 +451,10 @@ middle_high <- sorted[251]
 
 
 \begin{align*}
-\overline{x} =& \frac{`r x1` + `r x2` + `r x3` \cdots + `r xl`}{`r l`} = `r m`
-\textrm{lbs}.
+\overline{x} =& \frac{`r x1` + `r x2` + `r x3` \cdots + `r xl`}{`r l`} = `r m`\,\textrm{lbs}.
 \end{align*}
 
-Since data are almost always a sample from a population, $\overline{x}$ is usually referred to as a \index{sample mean} **sample mean**. These data are a sample from the population of all trees in Portland parks. The \index{population mean} **population mean** of the population from which the sample was selected is denoted by the Greek letter $\mu$.[^ Population means almost never known because data on complete populations is rare.  Since the tree inventory includes all trees in Portland parks, the mean $\mu$ of `Carbon_Storage_lb` can be calculated and is $`r mu`$. ] In the tree data, $\mu$ would be the average of the amount of carbon storage of all $25,534$ trees in the Portland parks.^[ Population means almost never known because data on complete populations is rare.  Since the tree inventory includes all trees in Portland parks, the mean $\mu$ of `Carbon_Storage_lb` can be calculated and is $`r mu`$. ]
+Since data are almost always a sample from a population, $\overline{x}$ is referred to as a \index{sample mean} **sample mean**.  The \index{population mean} **population mean** of the population from which the sample was selected is denoted by the Greek letter $\mu$.  In the tree data, $\mu$ is the average of the amount of carbon stored in all $25,534$ trees in the Portland parks. ^[Population means almost never known because data on complete populations is rare.  Since the tree inventory includes all trees in Portland parks, the mean $\mu$ of `Carbon_Storage_lb` can be calculated and is $`r mu`$. ]
 
 ::: {.important data-latex=""}
 **Mean.**
@@ -458,7 +466,7 @@ The mean of a variable is the sum of the observed values divided by the number o
 $$ \bar{x} = \frac{x_1 + x_2 + \cdots + x_n}{n} $$
 :::
 
-The \index{median} **median** is another measure of center; it is the middle value of a distribution after the values have been ordered from smallest to largest. The median divides the distribution into two parts; half of the values are less than the median and half are larger. The middle value is well-defined if there are an odd number of observations; it will have the same number of observations below and above it. If the distribution contains an even number of observations, the median is the average of two middle observations. There are $`r size`$ trees in these data; after the carbon storage values have been sorted in ascending order, the median `r M` is the average of the observations in rows $250$ and $251$, $`r middle_low`$ and $`r middle_high`$ respectively. 
+The \index{median} **median** is another measure of center; it is the middle value of a distribution after the values have been ordered from smallest to largest. The median divides the distribution into two parts; half of the values are less than the median and half are larger. The middle value is well-defined if there are an odd number of observations; it will have the same number of observations below and above it. If the distribution contains an even number of observations, the median is the average of the two middle observations. There are $`r size`$ trees in these data; after the carbon storage values have been sorted in ascending order, the median $`r M`$ is the average of the observations in rows $250$ and $251$, $`r middle_low`$ and $`r middle_high`$ respectively. 
 
 
 
@@ -468,7 +476,7 @@ The \index{median} **median** is another measure of center; it is the middle val
 If the data are ordered from smallest to largest, the **median** is the middle observation. If there are an even number of observations, the median is the average of the two middle observations
 :::
 
-```{r, include = FALSE}
+```{r calcs-for-deviation-example, include = FALSE}
 
 # for illustrating var and sd
 d1 <- x1 - m
@@ -488,18 +496,20 @@ sd_den = length(x) - 1
 q <- round(sd(x), 2)
 q2 <- round(var(x), 2)
 
-
 ```
 
 The \index{standard deviation} **standard deviation** and \index{interquartile range} **interquartile range** are two common measures of spread.
 
-The standard deviation describes the typical distance between an observation and the mean. The distance of a single observation from the mean is its \index{deviation} **deviation**. The deviations for the $1^{st}$, $2^{nd}$, $3^{rd}$, and $2549^{th}$ observations of carbon storage are: \begin{align*}
+The standard deviation describes the typical distance between an observation and the mean. The distance of an observation from the mean is its \index{deviation} **deviation**. The deviations for the $1^{st}$, $2^{nd}$, $3^{rd}$, and $500^{th}$ observations of carbon storage are: 
+\begin{align*}
 x_1-\overline{x} &= `r x1` - `r m` = `r x1 - m` \hspace{5mm}\text{ } \\
 x_2-\overline{x} &= `r x2` - `r m` = `r x2 - m` \\
 x_3-\overline{x} &= `r x3` - `r m` = `r x3 - m` \\
 &\ \vdots \\
-x_{2549}-\overline{x} &= `r xl` - `r m` = `r xl - m`.
-\end{align*} The units for these $4$ values are lb$^2$.
+x_{500}-\overline{x} &= `r xl` - `r m` = `r xl - m`.
+\end{align*} 
+
+The units for these $4$ values are lb$^2$.
 
 The \index{variance} **variance** of a distribution (also called the **sample variance**) is the average of the squares of these deviations, and is denoted by $s^2$. For carbon storage,
 
@@ -511,42 +521,46 @@ s^2 &= \frac{`r d1`^2 + (`r d2`)^2 + (`r d3`)^2 + \cdots + (`r dl`)^2}{`r sd_den
 
 The denominator of the variance is $n-1$ ($499$) rather than $n$ ($500$) for reasons that will be explained later. The units of the variance are the square of the units of the original measurements, in this case lb$^2$.
 
-The \index{standard deviation} **standard deviation** $s$ is the square root of the variance: 
+The \index{sample standard deviation} **sample standard deviation** $s$ is the square root of the variance: 
 $$
-s=\sqrt{`r q2`} = `r q`  \textrm{lb}^{2}.
-$$ The \index{population standard deviation} **population standard deviation** of the population from which the sample was selected is denoted by the Greek letter $\sigma$.  In this case $\sigma$ is the standard deviation of the distribution of carbon storage values for all $25,534$ trees in  Portland parks.^[Calculated as $`r sigma`$ from the complete inventory.] 
+s=\sqrt{`r q2`} = `r q` \,\textrm{lbs}.
+$$ 
+
+The \index{population standard deviation} **population standard deviation** of the population from which the sample was selected is denoted by the Greek letter $\sigma$.  In this case $\sigma$ is the standard deviation of the distribution of carbon storage values for all $25,534$ trees in  Portland parks. ^[Calculated as $`r sigma`$ from the complete inventory.] 
 
 ::: {.important data-latex=""}
-**Standard deviation.**
+**Sample standard deviation.**
 
-The sample standard deviation is the square root of the sum of the squared distance of each value from the mean divided by the number of observations minus one:
+The sample standard deviation is the square root of the sum of the squared distances of each value from the mean divided by the number of observations minus one:
 
 \vspace{-5mm}
 
-$$s = \sqrt{\frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}}$$
+$$
+s = \sqrt{\frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}}
+$$
 :::
 
-The \index{interquartile range} **interquartile range**, or \index{IQR} **IQR** is the width of the middle 50% of the data. It is the distance between the third and first quartiles: $Q_3 - Q_1$. The first quartile ($Q_1$) is also called the $25^{th}$ percentile; i.e., $25\%$ of the data fall below this value. The third quartile ($Q_3$) is the $75^{th}$ percentile. The first quartile is the median of the half of the data below the overall median; $Q_3$ is the median of the upper half of the data. The median is sometimes denoted as $Q_2$, since it marks the second quartile (the $50^{th}$ percentile). The three values $Q_1$, $Q_2$ and $Q_3$ divide the data into 4 chunks, each with approximately 25% of the observations.
+The \index{interquartile range} **interquartile range**, or \index{IQR} **IQR**, is the width of the middle $50\%$ of the data. It is the distance between the third and first quartiles: $Q_3 - Q_1$. The first quartile ($Q_1$) is also called the $25^{th}$ percentile; i.e., $25\%$ of the data are less than $Q_1$. The third quartile ($Q_3$) is the $75^{th}$ percentile. The first quartile is the median of the half of the data below the overall median; $Q_3$ is the median of the upper half of the data. The median is sometimes denoted as $Q_2$, since it marks the second quartile (the $50^{th}$ percentile). The three values $Q_1$, $Q_2$ and $Q_3$ divide the data into 4 chunks, each with approximately $25\%$ of the observations. The standard deviation has a similar interpretation as a  measure of spread in symmetric distributions discussed later.
 
 ::: {.important data-latex=""}
 **Interquartile range (IQR).**
 
-The interquartile range (IQR) is $Q_3 - Q_1,$ where $Q_1$ and $Q_3$ are the $25^{th}$ and $75^{th}$ percentiles of a distribution. It measures the spread of the central 50% of a distribution.
+The interquartile range (IQR) is $Q_3 - Q_1,$ where $Q_1$ and $Q_3$ are the $25^{th}$ and $75^{th}$ percentiles of a distribution. It measures the spread of the central $50\%$ of a distribution.
+:::
 
-```{r}
-q_9 =  quantile(portland_park_trees$Carbon_Storage_lb, probs = 0.90)
+```{r, calc-90-quantile, include=FALSE}
+q_9 <-  quantile(portland_park_trees$Carbon_Storage_lb, probs = 0.90)
 
 ```
 
-An $\alpha$ **percentile**\index{percentile} is a number with $\alpha$% of the observations below it and $100-\alpha$% of the observations above it. For example, the $90^{th}$ percentile of `Carbon_Storage_lb` ($`r q_9`$) is larger than $90\%$ of the carbon values below and smaller than $10\%$.
-:::
+An $\alpha$ **percentile**\index{percentile} is a number with $\alpha$% of the observations below it and $(100-\alpha)$% of the observations above it. For example, the $90^{th}$ percentile of `Carbon_Storage_lb` ($`r q_9`$) is larger than $90\%$ of the carbon values and smaller than $10\%$.
 
-The \index{five number summary} **five number summary** is a compact numerical summary providing the largest and smallest observations, the first and third quartiles, and the median. Table @tbl-trees-five-num-summ-carbon shows the five number summary for `Carbon_Storage_lb`, with the mean added for good measure.
+The \index{five number summary} **five number summary** is a compact numerical summary providing the largest and smallest observations, the first and third quartiles, and the median. @tbl-trees-five-num-summ-carbon shows the five number summary for `Carbon_Storage_lb`, with the mean added for good measure.
 
 ```{r five-num-summ}
 #| label: tbl-trees-five-num-summ-carbon
 #| tbl-cap: |
-#|   The five number summary for carbon storage values in Portland tree data.
+#|   The five number summary and the mean for carbon storage values in Portland tree data.
 #| tbl-pos: H
 summ_stat_portland_trees<- portland_park_trees |> 
   summarize(
@@ -571,7 +585,7 @@ summ_stat_portland_trees |>
 
 ```
 
-```{r describing-five-num-summary}
+```{r describing-trees-five-num-summary, include=FALSE}
 # values for text below
 # 
 cs_lb <- portland_park_trees$Carbon_Storage_lb
@@ -582,14 +596,14 @@ med <- median(cs_lb)
 q1_r <- round(quantile(cs_lb, probs = 0.25), 0)
 q3_r <- round(quantile(cs_lb, probs = 0.75), 0)
 iqr_r <- q3_r - q1_r
-m_r <- mean(cs_lb)
+m_r <- round(mean(cs_lb),1)
 
 ```
 
 
-The carbon storage values range in size from  $`r min_nr`$ to approximately $`r max_r`$lbs. The median $`r med`$ lbs splits the data in half. Approximately $50\%$ of the observations are between the first and third quartiles, $`r q1_r`$lbs and $`r q3_r`$lbs. The mean $`r m_r`$lbs is considerably larger than the median, and Figure @fig-trees-carbon-beeswarm shows why.
+These trees store a large amount of carbon. The the amount of carbon stored in each tree ranges from  $`r min_nr`$ to approximately $`r max_r`$lbs. The median $`r med`$ lbs splits the data in half; $50\%$ of these trees store at least $1060$\,lbs,  Approximately $50\%$ of the observations are between the first and third quartiles, $`r q1_r`$\,lbs and $`r q3_r`\,\textrm{lbs}$. The mean $`r m_r`$lbs is considerably larger than the median, and @fig-trees-carbon-beeswarm shows why.
 
-The (aptly named) **beeswarm plot** \index{beeswarm plot} in Figure @fig-trees-carbon-beeswarm shows an interesting feature of the distribution of `Carbon_Storage_lb`.  In regions of the horizontal axis where the plot is wide (many bees are busy) there are a large number of observations. The plot narrows as the number of observations decreases.  There are many trees  storing relatively small amounts of carbon (less than $2,000$lbs), but a few with very large amounts (larger than $4,000$lbs), some larger than $10,000$ lbs.  Averages are sensitive to extreme values at one end of a distribution.  That can easily be seen in the small dataset $2, 4, 6, 8, 10$, where the mean and median are both $6$.  When the value $10$ is replaced by $40$, the mean increases to $12$,
+The (aptly named) **beeswarm plot** \index{beeswarm plot} in @fig-trees-carbon-beeswarm shows an interesting (and extraordinary) feature of the distribution.  In regions of the horizontal axis where the plot is wide (with many bees buzzing), there are large numbers of observations. The plot narrows as storage amounts increase and the number of observations decreases.  There are many trees  storing relatively smaller amounts of carbon (less than $2,000\,\textrm{lbs}$), but a few with very large amounts (larger than $4,000\,\textrm{lbs}$), some larger than $10,000\,\textrm{lbs}$.  Averages are sensitive to extreme values at one end of a distribution as is easily be seen in the small dataset $2, 4, 6, 8, 10$, where the mean and median are both $6$.  When the value $10$ is replaced by $40$, the mean increases to $12$,
 
 
 ```{r beeswarm-carbon}
@@ -614,7 +628,6 @@ portland_park_trees |>
 
 ```
 
-
 ```{r robust-example, include = FALSE}
 
 x <- c(2, 4, 6, 8, 10)
@@ -626,11 +639,11 @@ y_sd <- sd(y)
 
 ```
 
-The median is a \index{robust statistic} **robust statistic** because unlike the mean it is  minimally affected by a few extreme observations at one end of a distribution.  For the same reason, the IQR is a robust measure of spread of a distribution, while the standard deviation is not. When $10$ is replaced by $40$ in the small dataset of 5 numbers, the standard deviation increases from $3.16$ to $15.81$, while the IQR ($8 - 4 = 4$) is unaffected..
+The median is a \index{robust statistic} **robust statistic** because unlike the mean it is  minimally affected by a few extreme observations at one end of a distribution.  For the same reason, the IQR is a robust measure of spread of a distribution, while the standard deviation is not. When $10$ is replaced by $40$ in the small dataset of 5 numbers, the standard deviation increases from $3.2$ to $15.8$, while the IQR ($8 - 4 = 4$) is unaffected.
 
 The beeswarm plot shows that numerical summary statistics should be paired with visual displays whenever possible.
 
-\index{box plot} **Box plots** provide a visual display of the robust measures of the location and spread along with the values that might influence the less robust mean and standard deviation, and is constructed from a five number summary. Figure @fig-trees-carbon-beeswarm-boxplot shows the beeswarm plot in Figure @fig-trees-carbon-beeswarm and a box plot below it.
+\index{box plot} **Box plots** provide a visual display of the robust measures of the location and spread along with the values that might influence the less robust mean and standard deviation, and is constructed from a five number summary. @fig-trees-carbon-beeswarm-boxplot shows the beeswarm plot in @fig-trees-carbon-beeswarm and a box plot below it.
 
 ```{r values-for-boxplot}
 # uses values calculated earlier
@@ -642,13 +655,12 @@ upper_w <- q3_r + 1.5 * iqr_r
 
 In a box plot, the interquartile range is represented by a rectangle extending from the first to the third quartile, and the rectangle is split by the median (second quartile). The lines extending from first and third quartiles (sometimes called whiskers) reach toward $Q_1 - 1.5\times \textrm{IQR}$ and $Q_3 + 1.5\times \textrm{IQR}$. The whiskers always end at observed data points, so the values given by adding or subtracting $1.5\times IQR$ define the maximum reach of the whiskers. 
 
-With `Carbon_Storage_lb`, $Q_1 - 1.5 \times \textrm{IQR} = `r q1_r` - 1.5\times `r iqr_r` = `r lower_w`$ lbs. The lower whisker extends only to $0$ since there are no negative values of `Carbon_Storage_lb`. The upper whisker extends to $`r q1_r` + 1.5\times `r iqr_r` = `r upper_w`$ lbs.
+With `Carbon_Storage_lb`, $Q_1 - 1.5 \times \textrm{IQR} = `r q1_r` - 1.5\times `r iqr_r` = `r lower_w`$ lbs. The lower whisker extends only to $0$ since there are no negative values of `Carbon_Storage_lb`. The upper whisker reaches to $6487.5\,\textrm{lbs}$, the largest less than $`r q1_r` + 1.5\times `r iqr_r` = `r upper_w`\,\textrm{lbs}$.  
 
 
-Any observations beyond the whiskers is shown with dots and are labeled  outliers. An \index{outlier} **outlier** is a value that appears extreme relative to the rest of the data. There are many large outliers of `Carbon_Storage_lb`, as was suggested earlier by the beeswarm plot in Figure @fig-trees-carbon-beeswarm.
+Any observations beyond the whiskers are shown with dots and labeled  outliers. An \index{outlier} **outlier** is a value that is extreme relative to the rest of the data. There are many large outliers of `Carbon_Storage_lb`, as was suggested earlier by the beeswarm plot @fig-trees-carbon-beeswarm.
 
-The beeswarm and box plots in Figure @fig-trees-carbon-beeswarm-boxplot provide different views of a distribution. The detail in the beeswarm shows how the observations of carbon storage values become less common with larger values.
-The box plot hides those details in favor of showing the essential information about center and spread in a graphic that is perhaps easier to process. The two graphs might be compared to the difference between reading a novel versus a one page review.
+The beeswarm and box plots in @fig-trees-carbon-beeswarm-boxplot provide different views of a distribution. The detail in the beeswarm shows how the observations of carbon storage values become less common with larger values.  The box plot hides those details in favor of showing the essential information about center and spread in a graphic that is perhaps easier to process. The two graphs might be compared to the difference between reading a novel versus a one page review.
 
 ```{r carbon-beeswarm-boxplot}
 #| label: fig-trees-carbon-beeswarm-boxplot
@@ -687,12 +699,12 @@ ggplot(portland_park_trees, aes(x = Carbon_Storage_lb)) +
 
 ```
 
-A \index{histogram} **histogram** provides a balance between the fine detail of a beeswarm and the compact summary of a box plot. In a histogram, observations are grouped into bins and the height of a bar above each bin is the number of observations in the bin. Figure @fig-trees-carbon-histogram is a histogram of the `Carbon_Storage_lb` distribution.  The width of each bin is $1,000$ lbs, corresponding to the intervals $[0,1000), [1000, 2,000), \ldots, [15,000, 16,000)$.^[The default interval for the histogram in R is closed on the left, open on the right.]
+A \index{histogram} **histogram** provides a balance between the fine detail of a beeswarm and the compact summary of a box plot. In a histogram, observations are grouped into bins and the height of a bar above each bin is the number of observations in the bin. @fig-trees-carbon-histogram is a histogram of the `Carbon_Storage_lb` distribution.  The width of each bin is $1,000$ lbs, corresponding to the intervals $[0,1000), [1000, 2,000), \ldots, [15,000, 16,000)$.^[The default interval for the histogram in R is closed on the left, open on the right.]
 
 **add a table of counts to this and check default intervals**
 
 
-```{r}
+```{r trees-carbon-histogram}
 #| label: fig-trees-carbon-histogram
 #| fig-cap: |
 #|   A histogram of `Carbon_Storage_lb` in the Portland trees data.  The histogram shows the
@@ -713,18 +725,18 @@ ggplot(portland_park_trees, aes(x = Carbon_Storage_lb)) +
 
 ```
 
-Histograms provide a view of the \index{data density} **data density**. Higher bars indicate more frequent observations, while lower bars represent relatively rare observations. Figure @fig-trees-carbon-histogram shows that most of trees store between $0$ and $4,000$ lbs of carbon, as was seen in Figure @fig-trees-carbon-beeswarm, and fewer trees store more than $6,000$ lbs.
+Histograms provide a view of the \index{data density} **data density**. Higher bars indicate more frequent observations, while lower bars represent relatively rare observations. @fig-trees-carbon-histogram shows that most of trees store between $0$ and $4,000$ lbs of carbon, as was seen in @fig-trees-carbon-beeswarm, and fewer trees store more than $6,000$ lbs.
 
 
-Histograms show the \index{shape} **shape** of a distribution\label{shapeFirstDiscussed}. The tails of a \index{symmetric distribution} **symmetric distribution** are roughly equal, with data trailing off from the center roughly equally in both directions. Asymmetry arises when one tail of the distribution is longer than the other, as in the histogram for carbon storage values. A distribution is said to be \termsub{right skewed}{skew!right skewed} when data trail off to the right, and \termsub{left skewed}{skew!left skewed} when data trail off to the left. Figure @fig-trees-carbon-histogram shows a right skewed distribution.
+Histograms show the \index{shape} **shape** of a distribution\label{shapeFirstDiscussed}. The tails of a \index{symmetric distribution} **symmetric distribution** are roughly equal, with data trailing off from the center roughly equally in both directions. Asymmetry arises when one tail of the distribution is longer than the other, as in the histogram for carbon storage values. A distribution is said to be \termsub{right skewed}{skew!right skewed} when data trail off to the right, and \termsub{left skewed}{skew!left skewed} when data trail off to the left. @fig-trees-carbon-histogram shows a right skewed distribution.
 
 
-The \index{mode} **mode**  of a distribution is the location of its prominent peak.   Figure @fig-singleBiMultiModalPlots} shows histograms that have one, two, or three major peaks. Such distributions are called \termsub{unimodal}{modality!unimodal}, \termsub{bimodal}{modality!bimodal}, and \termsub{multimodal}{modality!multimodal}, respectively. Any distribution with more than two prominent peaks is called multimodal. The less prominent peak in the unimodal distribution was not counted since it only differs from its neighboring bins by a few observations. Prominent is a subjective term, but it is usually clear in a histogram where the major peaks are.  
+The \index{mode} **mode**  of a distribution is the location of its prominent peak.   @fig-singleBiMultiModalPlots} shows histograms that have one, two, or three major peaks. Such distributions are called \termsub{unimodal}{modality!unimodal}, \termsub{bimodal}{modality!bimodal}, and \termsub{multimodal}{modality!multimodal}, respectively. Any distribution with more than two prominent peaks is called multimodal. The less prominent peak in the unimodal distribution was not counted since it only differs from its neighboring bins by a few observations. Prominent is a subjective term, but it is usually clear in a histogram where the major peaks are.  
 
 
 
 
-```{r}
+```{r multi-modal-plots}
 #| label: fig-singleBiMultiModalPlots
 #| fig-cap: |
 #|   Counting only prominent peaks, the distributions are (left to right)
@@ -763,80 +775,56 @@ p_multi <- ggplot(df_modes, aes(x = multi)) +
 p_uni + p_bi + p_multi
 ```
 
+The sample standard deviation has a direct interpretation as a measure of spread when a distribution is symmetric.  The \index{empirical rule} **empirical rule** states that for symmetric distributions, approximately $68\%$ of the observations are within one standard deviation of the mean, $95\%$ are within two standard deviations, and $99.7\%$ are within three standard deviations.  The rule is based on the properties of bell-shaped distributions discussed in Chapter @sec-distributions, but it is a handy tool even without its theoretical basis.
 
-```{r}
-#| label: fig-trees-height-histogram
+
+```{r crab-width-sum-stat,  include = FALSE}
+library(asbio)
+dc  <- crabs
+summary(dc$width)
+m_c  <- round(mean(dc$width), 1)
+med_c  <- round(median(dc$width), 1)
+sd_c  <- round(sd(dc$width), 1) 
+int_1_lb  <- round(m_c - sd_c, 1)
+int_1_ub  <- round(m_c + sd_c, 1)
+int_2_lb  <- round(m_c - 2*sd_c, 1)
+int_2_ub  <- round(m_c + 2*sd_c, 1)
+int_3_lb  <- round(m_c - 3*sd_c, 1)
+int_3_ub  <- round(m_c + 3*sd_c, 2)
+
+```
+@fig-crabs-width-histogram is a histogram of distribution of female crab widths.  The distribution is approximately symmetric, with a slight right skewing; the mean $`r m_c`\,\textrm{cm}$ is only slightly larger than the  median $`r med_c` \,\textrm{cm}$.
+
+Applying the empirical rule, approximately $68\%$ of the female crabs should be between $`r  int_1_lb`$ and $`r int_1_ub`\,\textrm{cm}$ wide; $95\%$ should be between $`r  int_2_lb`$ and $`r int_2_ub`\,\textrm{cm}$ wide.
+
+
+```{r crab-width}
+#| label: fig-crabs-width-histogram
 #| fig-cap: |
-#|   Two plots showing the same variable, `Tree_Height` in ft. The upper image is a 
-#|   box plot, the lower is a histogram. 
-#| fig-subcap:
-#|   - Box plot
-#|   - Histogram
-#| fig-alt: |
-#|   Two plots showing the same variable, `Tree_Height` in ft. The upper image is a 
-#|   box plot, the lower is a histogram. 
-#| fig-asp: 0.3
+#|   A histogram of female crab `width` in the crabs data.  
+#| fig-alt: | 
+#|   A histogram of female crab `width` in the crabs data.  The distribution is slightly right-skewed but 
+#|      approximately symmetric.
+#|   
+#| fig-asp: 0.4
 
-
-ggplot(portland_park_trees, aes(x = Tree_Height)) +
-  geom_boxplot(outlier.size = 2.5) +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  ) +
-  labs(x = "Tree Height (ft)") +
+ggplot(crabs, aes(x = width)) +
+  geom_histogram(breaks = seq(20, 34, 1)) +
+  labs(x = "Female crab width (cm)", y = "Count") +
   scale_x_continuous(
-    breaks = seq(0, 200, 20)
-  )
-
-ggplot(portland_park_trees, aes(x = Tree_Height)) +
-  geom_histogram(breaks = seq(0, 200, 10)) +
-  labs(x = "Height (ft)", y = "Count") +
-  scale_x_continuous(
-    breaks = seq(0, 200, 20)
+    breaks = seq(20, 34,2)
   )
 
 ```
+The empirical rule does not apply to skewed distributions because the density of observations is different to the right and left of the mean. In many cases, a transformation or re-expressing of the data produces a symmetric distribution for the transformed data.  Because statistical software can be used to calculate percentiles of a distribution directly, transformations are less often used to estimate data density than in the past.  They are useful, however, in satisfying the conditions of some statistical models and will be discussed later in that context.
 
-```{r five-num-summ-height}
-#| label: tbl-trees-five-um-summ-height
-#| tbl-cap: |
-#|   The five number summary for `Tree Height` in Portland tree data.
-#| tbl-pos: H
-summ_stat_portland_trees<- portland_park_trees |> 
-  summarize(
-    Minimum = min(Tree_Height),
-    `First Quartile (Q1)` = quantile(Tree_Height, probs = 0.25),
-    Median = median(Tree_Height),
-    Mean = mean(Tree_Height),
-    `Third Quartile (Q3)` = quantile(Tree_Height, probs = 0.75),
-    Maximum = max(Tree_Height)
-  ) 
-
-summ_stat_portland_trees |> 
-  mutate(across(where(is.numeric), ~ num(., digits = 1))) |> 
-  kbl(linesep = "", 
-      booktabs = TRUE, 
-      align = "rrrrrr",
-      digits = 2)  |>
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped")
-  )
-```
+<!-- insert ladder of powers here?-->
 
 ## Relationships in data {#sec-relationships-in-data}
 
-<!-- reorganize so scatterplot comes first, pick different country-->
+### Two numerical variables {#sec-relationships-two-numerical}
 
-Table @tbl-leapStudyResults shows a \index{relationship} **relationship** between the study intervention and outcome. The two intervention groups had different outcomes when exposed to peanut products at 5 years of age. The risk of a peanut allergy was more than 7 times greater for participants in the avoidance group relative to the consumption group.
-
-When designing LEAP the study team hypothesized that the approaches to exposure to peanut products would lead to different outcomes. The outcome from the OFC was the \index{response variable} **response variable** in the study, and the intervention was a potential \index{explanatory variable} **explanatory variable**.
-
-Much of this text explores methods for studying relationships in data, examining numerical and graphical methods to display relationships. Studying relationships in data is a major goal of statistics, and, indeed, of research in general. Section @sec-relationships-in-data illustrates numerical and graphical methods for relatively simple relationships between two variables. Chapters @sec-simple-linear-regression, @sec-multiple-linear-regression and @sec-logistic-regression discuss statistical models to help understand the relationships among two or more variables.
-
-Even relationships between just two variables can take many forms. [The World Bank Data Group](https://data.worldbank.org/) provides free and open access to indicators of economic and social development in countries around the world. The data `wdi_2022` in the [openintro](http://openintrostat.github.io/openintro) R package contains data for some of those indicators for the year 2022. Figure @fig-wdi_2022-income-infant-mortality shows a \index{scatterplot} **scatterplot**
+Even relationships between just two variables can take many forms. [The World Bank Data Group](https://data.worldbank.org/) provides free and open access to indicators of economic and social development in countries around the world. The data `wdi_2022` in the [openintro](http://openintrostat.github.io/openintro) R package contains data for some of those indicators for the year 2022. @fig-wdi_2022-income-infant-mortality shows a \index{scatterplot} **scatterplot**
 
 ```{r}
 #| label: fig-wdi_2022-income-infant-mortality
@@ -884,4 +872,18 @@ ggplot(wdi_2022, aes(x = gni_percap, y = infant_mortality_rate)) +
   scale_y_continuous(labels = waiver())
 ```
 
-## Case study: developmental disability support {#sec-developmenta-disability}
+
+### Two categorical variables {#sec-relationships-two-categorical}
+ 
+
+
+@tbl-leapStudyResults shows a \index{relationship} **relationship** between the study intervention and outcome. The two intervention groups had different outcomes when exposed to peanut products at 5 years of age. The risk of a peanut allergy was more than 7 times greater for participants in the avoidance group relative to the consumption group.
+
+When designing LEAP the study team hypothesized that the approaches to exposure to peanut products would lead to different outcomes. The outcome from the OFC was the \index{response variable} **response variable** in the study, and the intervention was a potential \index{explanatory variable} **explanatory variable**.
+
+Much of this text explores methods for studying relationships in data, examining numerical and graphical methods to display relationships. Studying relationships in data is a major goal of statistics, and, indeed, of research in general. Section @sec-relationships-in-data illustrates numerical and graphical methods for relatively simple relationships between two variables. Chapters @sec-simple-linear-regression, @sec-multiple-linear-regression and @sec-logistic-regression discuss statistical models to help understand the relationships among two or more variables.
+
+
+### One numerical and one categorical variable {#sec-relationships-one-numerical-one-categorical}
+
+## Case study: developmental disability support {#sec-developmental-disability}
