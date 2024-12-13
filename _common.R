@@ -38,6 +38,7 @@ suppressMessages(library(Stat2Data))
 suppressMessages(library(GGally))
 suppressMessages(library(mosaicData))
 suppressMessages(library(oibiostat))
+suppressMessages(library(asbio))
 
 # knitr chunk options ----------------------------------------------------------
 

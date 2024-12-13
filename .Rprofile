@@ -10,7 +10,7 @@ options(bookdown.post.latex = function(x) {
 # See _common.R for other project settings
 # 
 # for running chunks without full render
-source("./_common.R")
+source("_common.R")
 
 # routinely clear workspace
 rm(list = ls())
