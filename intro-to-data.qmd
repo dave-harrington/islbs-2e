@@ -102,7 +102,7 @@ Importantly, the study required informed consent from parents to allow their chi
 
 During spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand. Additional male crabs, known as satellites, may join the pair and fertilize the eggs as well, potentially increasing genetic diversity of the offspring. 
 
-The dataset `crabs` examined here contains observations on $173$ female crabs, with $5$ recorded measurements for each crab. The data originally appeared in Brockman [@brockmann1996satellite] and is available at the website for *Categorical Data Analysis, 3rd ed.* [@agresti2013categorical] as well as in the R package `asbio`. The dataset is used later in this chapter and in @sec-logistic-regression to explore the relationship between the features of a female crab and the number of satellites it attracts.^[See https://horseshoecrab.org/ for more information about these interesting creatures.]  The $5$ variables in the data are defined in @tbl-crabs-variable-descriptions.
+The dataset `crabs` examined here contains observations on $173$ female crabs, with $5$ recorded measurements for each crab. The data originally appeared in Brockman [@brockmann1996satellite] and was used in *Categorical Data Analysis, 3rd ed.* [@agresti2013categorical]. It is available at Agresti's University of Florida web [`page`](https://users.stat.ufl.edu/~aa/cda/data.html). The dataset is used later in this chapter and in @sec-logistic-regression to explore the relationship between the features of a female crab and the number of satellites it attracts.^[See https://horseshoecrab.org/ for more information about these interesting creatures.]  The $5$ variables in the data are defined in @tbl-crabs-variable-descriptions.
 
 
 | Variable Name | Variable description |
@@ -121,19 +121,8 @@ It is important to check the definitions of variables, as they are not always cl
 
 A case is sometimes called a **unit of observation** or an \index{observational unit} **observational unit**. When observations are made on people participating in a study, as in LEAP, the observational units are called \index{human subjects} **human subjects** or \index{participants} **participants**. 
 
-```{r crabs-recoded}
-library(asbio)
-data(crabs)
-crabs_recoded <-  crabs |> 
-  mutate(color = fct_recode(color,
-    "light medium" = "1",
-    "medium" = "2",
-    "dark medium" = "3",
-    "dark" = "4")) |> 
-  mutate(spine = fct_recode(spine,
-     "both good" = "1",
-     "one worn or broken" = "2",
-     "both worn or broken" = "3" )) 
+```{r load-crabs}
+load("data/crabs.Rdata")
 ```
 
 ```{r crab-example-data}
@@ -141,7 +130,7 @@ crabs_recoded <-  crabs |>
 #| tbl-cap:  "Six observations from the crabs dataset"
 #| tbl-pos: H
 set.seed(080548) 
-crabs_recoded  |> 
+crabs  |> 
   sample_n(6) |>
   kbl(linesep = "", booktabs = TRUE, align = "llrr")|>
   kable_styling(
@@ -212,11 +201,6 @@ Categorical data are summarized in tables, such as @tbl-crabs-colors-frequency, 
 #|    indicates the number of crabs with each of the colors."
 #| tbl-pos: H
 crabs |> 
-  mutate(color = fct_recode(color,
-    "light medium" = "1",
-    "medium" = "2",
-    "dark medium" = "3",
-    "dark" = "4")) |> 
   count(color) |>
   rename(Color = color) |> 
   rename(Count = n)  |> 
@@ -239,11 +223,6 @@ crabs |>
 #| tbl-pos: H
 
 crabs |> 
-  mutate(color = fct_recode(color,
-    "light medium" = "1",
-    "medium" = "2",
-    "dark medium" = "3",
-    "dark" = "4")) |> 
   count(color) |>
   mutate("Proportion" = n/sum(n)) |>
   rename(Count = n) |>
@@ -271,18 +250,8 @@ Frequency and relative frequency tables are typically used with nominal categori
 #| tbl-pos: H
 source("_common.R")
 
-crabs_df <-  crabs |> 
-  mutate(color = fct_recode(color,
-    "light medium" = "1",
-    "medium" = "2",
-    "dark medium" = "3",
-    "dark" = "4")) |> 
-  mutate(spine = fct_recode(spine,
-     "both good" = "1",
-     "one worn or broken" = "2",
-     "both worn or broken" = "3" ))
 
-crabs_df |> 
+crabs |> 
   count(spine) |> 
   mutate(`Proportion` = n/sum(n)) |>
   mutate(`Cumulative proportion` = cumsum(`Proportion`)) |> 
@@ -312,20 +281,11 @@ crabs_df |>
 #|   is the most common color. 
 #| fig-width: 4
 #| layout-ncol: 2
-library(asbio)
-data(crabs)
-crabs_color <-  crabs |> 
-  mutate(color = fct_recode(color,
-    "light medium" = "1",
-    "medium" = "2",
-    "dark medium" = "3",
-    "dark" = "4")) 
-
-ggplot(crabs_color, aes(x = color)) +
+ggplot(crabs, aes(x = color)) +
   geom_bar(fill = IMSCOL["blue", "full"]) +
   labs(x = "Carapace color", y = "Count")
 
-crabs_color |>
+crabs |>
   count(color) |>
   mutate(proportion = n / sum(n)) |>
   ggplot(aes(x = color, y = proportion)) +
@@ -439,10 +399,12 @@ The mean of a variable is the sum of the observed values divided by the number o
 $$ \bar{x} = \frac{x_1 + x_2 + \cdots + x_n}{n} $$
 :::
 
-The \index{median} **median** is another measure of center; it is the middle value of a distribution after the values have been ordered from smallest to largest. The median divides the distribution into two parts; half of the values are less than the median and half are larger. The middle value is well-defined if there are an odd number of observations; it will have the same number of observations below and above it. If the distribution contains an even number of observations, the median is the average of the two middle observations. There are $`r portland_size`$ trees in these data; after the carbon storage values have been sorted in ascending order, the median $`r M`$ is the average of the observations in rows $250$ and $251$, $`r middle_low`$ and $`r middle_high`$ respectively.
+The \index{median} **median** is another measure of center; it is the middle value of a distribution after the values have been ordered from smallest to largest. The median divides the distribution into two equal parts; half of the values are less than the median and half are greater. When there are an odd number of observations, the middle value is well-defined as the single middle value with the same number of observations below and above it. If the there are an even number of observations, the median is the average of the two middle observations. 
+
+In the Portland tree data, there are $`r portland_size`$ trees.  When the After the carbon storage values have been sorted in ascending order, the median $`r M`$ is the average of the observations in rows $250$ and $251$, $`r middle_low`$ and $`r middle_high`$ respectively.
 
 ::: {.important data-latex=""}
-**Median: the number in the middle.**
+**Median**
 
 If the data are ordered from smallest to largest, the **median** is the middle observation. If there are an even number of observations, the median is the average of the two middle observations
 :::
@@ -510,7 +472,11 @@ s = \sqrt{\frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}}
 $$
 :::
 
-The \index{interquartile range} **interquartile range**, or \index{IQR} **IQR**, is the width of the middle $50\%$ of the data. It is the distance between the third and first quartiles: $Q_3 - Q_1$. The first quartile ($Q_1$) is also called the $25^{th}$ percentile; i.e., $25\%$ of the data are less than $Q_1$. The third quartile ($Q_3$) is the $75^{th}$ percentile. The first quartile is the median of the half of the data below the overall median; $Q_3$ is the median of the upper half of the data. The median is sometimes denoted as $Q_2$, since it marks the second quartile (the $50^{th}$ percentile). The three values $Q_1$, $Q_2$ and $Q_3$ divide the data into 4 chunks, each with approximately $25\%$ of the observations. The standard deviation has a similar interpretation as a measure of spread in symmetric distributions discussed later.
+
+The \index{interquartile range} **interquartile range**, or \index{IQR} **IQR**, measures the spread of the middle $50%$ of the data. It is the distance between the third quartile ($Q_3$) and the first quartile ($Q_1$), expressed as $Q_3 - Q_1$.  The first quartile ($Q_1$), also known as the $25^{th}$ percentile, is the value below which $25%$ of the data fall. Similarly, the third quartile ($Q_3$), or the $75^{th}$ percentile, is the value below which $75%$ of the data fall.  The standard deviation has a similar interpretation as a measure of spread in symmetric distributions discussed later.
+
+The first quartile ($Q_1$) is the median of the lower half of the data (below the overall median), while the third quartile ($Q_3$) is the median of the upper half of the data (above the overall median).  The overall median is sometimes referred to as $Q_2$, since it is the second quartile (the $50^{th}$ percentile). Together, $Q_1$, $Q_2$, and $Q_3$ divide the data into four equal chunks, each containing approximately $25%$ of the observations. 
+
 
 ::: {.important data-latex=""}
 **Interquartile range (IQR).**
@@ -570,7 +536,7 @@ m_r <- round(mean(cs_lb),1)
 
 ```
 
-These trees store a large amount of carbon. The the amount of carbon stored in each tree ranges from $`r min_nr`$ to approximately $`r max_r`$lbs. The median $`r med`$ lbs splits the data in half; $50\%$ of these trees store at least $1060$,lbs, Approximately $50\%$ of the observations are between the first and third quartiles, $`r q1_r`\,\textrm{lbs}$ and $`r q3_r`\,\textrm{lbs}$. The mean $`r m_r`$lbs is considerably larger than the median, and @fig-trees-carbon-beeswarm shows why.
+These trees store a large amount of carbon. The amount of carbon stored in each tree ranges from $`r min_nr`$ to approximately $`r max_r`$lbs. The median $`r med`$ lbs splits the data in half; $50\%$ of these trees store at least $1060$,lbs, Approximately $50\%$ of the observations are between the first and third quartiles, $`r q1_r`\,\textrm{lbs}$ and $`r q3_r`\,\textrm{lbs}$. The mean $`r m_r`$lbs is considerably larger than the median, and @fig-trees-carbon-beeswarm shows why.
 
 The (aptly named) **beeswarm plot** \index{beeswarm plot} in @fig-trees-carbon-beeswarm shows an interesting (and extraordinary) feature of the distribution. In regions of the horizontal axis where the plot is wide (with many bees buzzing), there are large numbers of observations. The plot narrows as storage amounts increase and the number of observations decreases. There are many trees storing relatively smaller amounts of carbon (less than $2,000\,\textrm{lbs}$), but a few with very large amounts (larger than $4,000\,\textrm{lbs}$), some larger than $10,000\,\textrm{lbs}$. Averages are sensitive to extreme values at one end of a distribution as is easily be seen in the small dataset $2, 4, 6, 8, 10$, where the mean and median are both $6$. When the value $10$ is replaced by $40$, the mean increases to $12$. The large values in the right tail of the beeswarm plot explain the large value for the variance of `Carbon_Storage_lb`.
 
@@ -635,6 +601,8 @@ Values beyond the whiskers are plotted with dots and labeled outliers. An \index
 
 The beeswarm and box plots in @fig-trees-carbon-beeswarm-boxplot provide different views of a distribution. The detail in the beeswarm shows how the observations of carbon storage values become less frequent as values of `Carbon_Storage_lb` increase. The box plot hides those details in favor of showing summarizing the center and spread of the data. The two graphs might be compared to the difference between reading a novel versus a skimming one page review.
 
+*axes not perfectly aligned, but had trouble with patchwork*
+
 ```{r carbon-beeswarm-boxplot}
 #| label: fig-trees-carbon-beeswarm-boxplot
 #| fig-cap: Distribution of `Carbon_Storage_lb` from the Portland trees data.
@@ -645,20 +613,24 @@ The beeswarm and box plots in @fig-trees-carbon-beeswarm-boxplot provide differe
 #|   Two plots showing the same variable, carbon storage in lbs. The upper image is a 
 #|   beeswarm plot, the lower is a box plot. 
 #| fig-asp: 0.3
-#| 
+#| layout-ncol: 1
 
 library(ggbeeswarm)
-portland_park_trees |> 
-  mutate(y = "  ") |> 
-  ggplot(mapping=aes(x =  Carbon_Storage_lb, y = y)) + 
+plot_df  <- portland_park_trees |> 
+  mutate(y = "  ") 
+
+ggplot(plot_df,
+  mapping=aes(x =  Carbon_Storage_lb, y = y)) + 
   geom_point(shape = 20, cex = .05) +
   geom_quasirandom(method = "pseudorandom", dodge.width = 0.05) +
   scale_x_continuous(
     breaks = seq(0, 18000, 2000))  +
-  labs(x = "Carbon storage (lbs)", y = "") +
-  theme(axis.ticks.y = element_blank())
+  labs(x = NULL, y = NULL) +
+  theme(axis.ticks.y = element_blank()) 
+  
 
-ggplot(portland_park_trees, aes(x = Carbon_Storage_lb)) +
+ggplot(plot_df, 
+  aes(x = Carbon_Storage_lb)) +
   geom_boxplot(outlier.size = 2.5) +
   theme(
     axis.title.y = element_blank(),
@@ -668,13 +640,14 @@ ggplot(portland_park_trees, aes(x = Carbon_Storage_lb)) +
   labs(x = "Carbon  Storage (lbs)") +
   scale_x_continuous(
     breaks = seq(0, 18000, 2000)
-  )
+  ) 
+
 
 ```
 
-A \index{histogram} **histogram** provides a balance between the detail of a beeswarm plot and the compact summary of a box plot. In a histogram, observations are grouped into bins and the height of a bar above each bin is the number of observations in the bin. @fig-trees-carbon-histogram is a histogram of the `Carbon_Storage_lb` distribution. The width of each bin is $2,000\, \textrm{lbs}$, and the bins correspond to the intervals $[0,2000), [2,000, 4,000), \ldots, [16,000, 18,000)$.[^intro-to-data-6] The number of observations in each bin is shown at the top of the bars.
+A \index{histogram} **histogram** provides a balance between the detail of a beeswarm plot and the compact summary of a box plot. In a histogram, observations are grouped into bins and the height of a bar above each bin is the number of observations in the bin. @fig-trees-carbon-histogram is a histogram of the `Carbon_Storage_lb` distribution. The width of each bin is $2,000\, \textrm{lbs}$, and the bins correspond to the intervals $[0,2000), [2,000, 4,000), \ldots, [16,000, 18,000)$.^[The default interval for the histogram in R is open on the left, closed on the right, but the convention was reversed for this plot because of the possibility that some trees might not be storing any carbon.] The number of observations in each bin is shown at the top of the bars.
 
-[^intro-to-data-6]: The default interval for the histogram in R is open on the left, closed on the right, but the convention was reversed for this plot because of the possibility that some trees might not be storing any carbon.
+*count on leftmost bar not fully visible*
 
 ```{r trees-carbon-histogram}
 #| label: fig-trees-carbon-histogram
@@ -689,7 +662,7 @@ A \index{histogram} **histogram** provides a balance between the detail of a bee
 
 ggplot(portland_park_trees, aes(x = Carbon_Storage_lb)) +
   geom_histogram(binwidth = 2000, closed = "left") +
-  stat_bin(binwidth = 2000, aes(label = ..count..), geom = "text", vjust = -0.5) +
+  stat_bin(binwidth = 2000, aes(label = after_stat(count), y = after_stat(count)), geom = "text", vjust = -0.5) +
   labs(x = "Carbon storage (lbs)", y = "Count") +
   scale_x_continuous(
     breaks = seq(0, 18000, 2000)
@@ -936,6 +909,9 @@ This section explores responses to education and health assessment questions fro
 
 : Variables used from the WVS data. {#tbl-wvs-var-descriptions} {tbl-colwidths="\[25,75\]"}
 
+*plot does  not center, at least in html*
+
+
 ```{r 9-country-table}
 #| label: tbl-wvs-9-countries
 #| tbl-cap:  "The number of cases in each of the 9 countries from the WVS data"
@@ -1059,6 +1035,8 @@ Bar plots can be modified to show graphically relationship in contingency tables
 - @fig-wvs-edu-health-barplot(c) is a \index{dodged bar plot} dodged bar plot, where separate bars for each health status category are displayed for each Educational_level. This plot also reflects the data in @tbl-wvs-edu-health, but makes it easier to identify of the number of responses for each `Health_status` category within each educational level. However, it also does not show the proportions that indicate the distribution of health status within educational level.
 
  In the WVS data, all three plots in @fig-wvs-edu-health-barplot are consistent with the observation that the distribution of `Health_status` varies little with `Educational_level`.
+
+*fix palette*
 
 
 ```{r wvs-edu-health-barplot}
@@ -1239,72 +1217,8 @@ Relative risk should only be calculated for data where the proportions $a/(a+b)$
 
 Methods for comparing numerical data across groups use \index{side-by-side box plots} **side-by-side box plots** or \index{stacked box plots} **stacked box plots** for exploring the distribution of a numerical variable across category.
 
-@fig-crabs-color-spine-satell-boxplot uses side-by-side box plots to show the distributions of `satell` (vertical axis) for the levels of the variable `color` and `spine` (horizontal axes).  The decreasing medians from left to right shows,  males tend to cluster around a spawning female less frequently as her color darkens.  The median number of satellites is larger than 4 for `light medium` females, while the at least $50\%$ of the dark females have no satellites, since the median is $0$.   The relationship between number of satellites shows no evident pattern.  Females with one worn or broken spine have fewer satellites that either of the other two categories. 
+*reorder factors in original construction*
 
-
-```{r crabs-color-spine-sat-box}
-#| label: fig-crabs-color-spine-satell-boxplot
-#| fig-cap: |
-#|   Two side-by-side box plots of the distribution number of male satellites.
-#| fig-subcap:
-#|   - Side-by-side box plot of number of satellites by female color
-#|   - Side-by-side box plot of number of satellites by female spine condition
-#| fig-alt: | 
-#|   The median number of male satellites shows a strong relationship with female color,
-#|    with numbers of satellites decreasing as color darkens. There is no evident relationship with 
-#     worsening spine condition.
-#| fig-asp: 0.4
-#| 
-
-ggplot(crabs_recoded, aes(x = color, y = satell)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Number of satellites", x = "Color") +
-  scale_y_continuous(breaks = seq(0, 16, 4))
-
-ggplot(crabs_recoded, aes(x = spine, y = satell)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Number of satellites", x = "Spine condition") +
-  scale_y_continuous(breaks = seq(0, 16, 4))
-
-```
-
-```{r crabs-color-spine-stacked-box}
-#| label: fig-crabs-color-spine-stacked-satell-boxplot
-#| fig-cap: |
-#|   Two stacked box plots of the distribution number of male satellites.
-#| fig-subcap:
-#|   - Stacked box plot of number of satellites by female color
-#|   - Stacked box plot of number of satellites by female spine condition
-#| fig-alt: | 
-#|   The median number of male satellites shows a strong relationship with female color,
-#|    with numbers of satellites decreasing as color darkens. There is no evident relationship with 
-#     worsening spine condition.
-#| fig-asp: 0.4
-#| 
-
-ggplot(crabs_recoded, aes(x = satell, y = color)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Color", x = "Number of satellites") +
-  scale_x_continuous(breaks = seq(0, 16, 4))
-
-ggplot(crabs_recoded, aes(x = satell, y = spine)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Spine condition", x = "Number of satellites") +
-  scale_x_continuous(breaks = seq(0, 16, 4))
-
-```
-
-
-```{=html}
-<!-- 
-side by side box plots of storage values by condition 
-levels of condition should be reordered
--->
-```
 
 ```{r}
 #| label: fig-trees-condition-carbon-boxplot
@@ -1318,14 +1232,52 @@ levels of condition should be reordered
 #| fig-asp: 0.4
 
 ggplot(portland_park_trees, aes(
-  x = Carbon_Storage_lb, 
-  y = reorder(Condition, -Carbon_Storage_lb))) +
+  y = Carbon_Storage_lb, 
+  x = reorder(Condition, -Carbon_Storage_lb))) +
   geom_boxplot() +
   scale_color_openintro("two") +
-  labs(y = "Tree Condition", x = "Carbon Storage (lbs") +
-  scale_x_continuous(
+  labs(y = "Carbon storage (lbs)", x = "Tree condition") +
+  scale_y_continuous(
     breaks = seq(0, 16000, 4000))
 ```
+
+*text does not match figures.  look at cowplot and plot_gridto ref subplots*
+
+@fig-crabs-color-spine-stacked-satell-boxplot uses  The median number of satellites is larger than 4 for `light medium` females, while the at least $50\%$ of the dark females have no satellites, since the median is $0$.   The relationship between number of satellites shows no evident pattern.  Females with one worn or broken spine have fewer satellites that either of the other two categories. 
+
+
+```{r crabs-color-spine-stacked-box}
+#| label: fig-crabs-color-spine-stacked-satell-boxplot
+#| fig-cap: |
+#|   Two stacked box plots of the distribution number of male satellites by color and by spine condition.
+#| 
+#| fig-alt: | 
+#|   The median number of male satellites shows a strong relationship with female color,
+#|    with numbers of satellites decreasing as color darkens. There is no evident relationship with 
+#     worsening spine condition.
+#| fig-asp: 0.4
+#| 
+library(patchwork)
+p1  <- ggplot(crabs, aes(x = satell, y = color)) +
+  geom_boxplot() +
+  scale_color_openintro("two") +
+  labs(y = "Color", x = NULL) +
+  scale_x_continuous(breaks = seq(0, 16, 4)) +
+  ggtitle("(a)")
+
+p2  <- ggplot(crabs, aes(x = satell, y = spine)) +
+  geom_boxplot() +
+  scale_color_openintro("two") +
+  labs(y = "Spine condition", x = "Number of satellites") +
+  scale_x_continuous(breaks = seq(0, 16, 4)) +
+  ggtitle("(b)")
+
+p1/p2
+
+
+
+```
+
 
 
 ### Two numerical variables {#sec-relationships-two-numerical}
