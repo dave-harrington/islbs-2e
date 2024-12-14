@@ -743,7 +743,6 @@ ggplot(crabs, aes(x = satell)) +
 The sample standard deviation has a direct interpretation as a measure of spread when a distribution is symmetric. The \index{empirical rule} **empirical rule** states that for symmetric, unimodal distributions, approximately $68\%$ of the observations are within one standard deviation of the mean, $95\%$ are within two standard deviations, and $99.7\%$ are within three standard deviations. The rule is based on the properties of bell-shaped distributions discussed in @sec-distributions, but it is a handy tool even without its theoretical basis.
 
 ```{r crab-width-summ-stat,  include = FALSE}
-library(asbio)
 dc  <- crabs
 summary(dc$width)
 m_c  <- round(mean(dc$width), 1)
