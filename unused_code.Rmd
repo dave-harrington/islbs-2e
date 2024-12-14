@@ -1,0 +1,141 @@
+@tbl-crabsVarDescriptions provides the definitions of the variables. It is important to check the definitions of variables, as they are not always clear. In the `crabs` data, the definitions specify that the measurements of `width` and `weight` are in metric units and the variable `spine` records the condition of the two spines near the abdomen of each crab.
+
+```{r}
+#| label:  tbl-crabsVarDescriptions
+#| tbl-cap:  "Variable definitions for horseshoe crab data"
+#| tbl-pos: H
+
+crabs_var_name <- c("color",
+                     "spine",
+                     "width",
+                     "satell",
+                     "weight")
+crabs_var_description <- c("color of the carapace",
+                            "condition of the spines along the edge of the abdomen",
+                            "width of the carapace in cm",
+                            "number of male satellites",
+                            "weight in kg")
+crabs_var_table  <- data.frame(crabs_var_name, crabs_var_description)
+crabs_var_table  <- crabs_var_table  |> 
+          rename('Variable name' = crabs_var_name,
+                  'Variable description' = crabs_var_description)
+
+crabs_var_table  |> 
+  kbl(linesep = "", booktabs = TRUE, align = "cl")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+
+
+```{r}
+#| label:  tbl-pdx-parks-df
+#| tbl-cap:  "The first 3 and last trees in the Portland tree data"
+#| tbl-pos: H
+
+portland_park_trees |> 
+  mutate(rn = row_number()) |> 
+  slice(1:3, max(rn)) |>
+  relocate(rn) |> 
+  rename(Case = rn) |> 
+  kbl(linesep = "", booktabs = TRUE, align = "rrr", digits = 3) |>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+
+Like relative frequency tables for the distribution a single categorical variable, contingency tables can be converted to show proportions. @tbl-wvs-edu-health-joint-prop show the proportion of responses for each cell in the table. The number $0.148$ in row `High`, column `Good` is the proportion of respondents with `Education_level` `High` and `Good` `Health_status`.  The values in the cells apart from the row and column totals are called elements of the joint distribution for education and health, since they specify the proportion of times each combination of values occur.  The Total column 
+
+
+```{r wvs-edu-health-joint-proportion}
+#| label: tbl-wvs-edu-health-joint-prop
+#| tbl-cap:  "Health rating by educational level, with joint proportions"
+#| tbl-pos: H
+wvs_hlth_edu_cc |>
+ count(Health_status, Education_level) |> 
+ mutate(proportion = n / sum(n)) |>
+ select(-n)  |> 
+ pivot_wider(names_from = Health_status, 
+              values_from = proportion) |> 
+ relocate("Very Good", .after = "Education_level")  |> 
+ arrange(replace(row_number(), 1, n() + 1)) |> 
+ adorn_totals(where = c("row", "col")) |> 
+ kbl(linesep = "", booktabs = TRUE, digits = 3) |> 
+ kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE) |>
+ add_header_above(c(" " = 1, "Health_status" = 5, " " = 1)) |>
+ column_spec(1, width = "8em") |>
+ column_spec(2:6, width = "4em")  
+
+```
+
+
+
+```{r}
+#| label: fig-leap-rel-freq-bar-plot
+#| fig-cap: |
+#|   Two bar plots displaying outcome by intervention in LEAP.
+#| fig-subcap:
+#|   - frequency bar plot showing counts
+#|   - relative frequency bar plot showing proportions
+#| fig-alt: |
+#|   Two bar plots (frequency and relative frequency) displaying outcome to the olfactory challenge test
+#|   The number of failures within each intervention is small, but the proportion of failures
+#|   in the avoidance group is more than 7 times as larger than in the consumption group.
+#| fig-width: 4
+#| layout-ncol: 2
+ LEAP_analyzed <- LEAP |> 
+  dplyr::filter(stratum == "SPT-Negative") |> 
+  dplyr::filter(!is.na(overall.V60.outcome))  |> 
+  mutate(Outcome = case_when(
+      overall.V60.outcome == "PASS OFC" ~ "Pass OFC",
+      overall.V60.outcome == "FAIL OFC" ~ "Fail OFC"))  |> 
+  mutate(intervention = case_when(
+    treatment.group == "Peanut Avoidance" ~ "Avoidance",
+    treatment.group == "Peanut Consumption" ~ "Consumption"))
+
+ggplot(LEAP_analyzed, aes(x = intervention, fill = Outcome)) +
+    scale_fill_manual(values = c(IMSCOL["red", "full"], IMSCOL["blue", "full"])) +
+    geom_bar() +
+    labs(x = "Intervention", y = "Count")
+
+ggplot(LEAP_analyzed, aes(x = intervention, fill = Outcome)) +
+   scale_fill_manual(values = c(IMSCOL["red", "full"], IMSCOL["blue", "full"])) +
+   geom_bar(position = "fill") +
+   labs(x = "Intervention", y = "Proportion") 
+
+```
+```{r crabs-color-spine-sat-box}
+#| label: fig-crabs-color-spine-satell-boxplot
+#| fig-cap: |
+#|   Two side-by-side box plots of the distribution number of male satellites.
+#| fig-subcap:
+#|   - Side-by-side box plot of number of satellites by female color
+#|   - Side-by-side box plot of number of satellites by female spine condition
+#| fig-alt: | 
+#|   The median number of male satellites shows a strong relationship with female color,
+#|    with numbers of satellites decreasing as color darkens. There is no evident relationship with 
+#     worsening spine condition.
+#| fig-asp: 0.4
+#| 
+
+ggplot(crabs_recoded, aes(x = color, y = satell)) +
+  geom_boxplot() +
+  scale_color_openintro("two") +
+  labs(y = "Number of satellites", x = "Color") +
+  scale_y_continuous(breaks = seq(0, 16, 4))
+
+ggplot(crabs_recoded, aes(x = spine, y = satell)) +
+  geom_boxplot() +
+  scale_color_openintro("two") +
+  labs(y = "Number of satellites", x = "Spine condition") +
+  scale_y_continuous(breaks = seq(0, 16, 4))
+
+```
+
