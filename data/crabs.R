@@ -15,3 +15,5 @@ crabs <-  crabs |>
                             "both worn or broken" = "3" )) 
 
 save(crabs, file = "data/crabs.Rdata")
+
+# check match with table 3 in Brockman

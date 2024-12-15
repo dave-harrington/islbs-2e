@@ -25,67 +25,11 @@ LEAP_analyzed |>
   )
 
 
-```{r leap-study-results-noprop}
-#| label:  tbl-leap-study-results-noprop
-#| tbl-cap:  "Results from the LEAP study"
-#| tbl-pos: H
-options(knitr.kable.NA = '')
-
-LEAP_analyzed <- LEAP |> 
-  dplyr::filter(stratum == "SPT-Negative") |> 
-  dplyr::filter(!is.na(overall.V60.outcome))
-
-LEAP_analyzed |> 
-  count(overall.V60.outcome, treatment.group) |> 
-  group_by(treatment.group) |> 
-  pivot_wider(names_from = overall.V60.outcome, 
-              values_from = n) |> 
-  relocate(`FAIL OFC`, .after = `PASS OFC`) |>
-  adorn_totals(where = c("row", "col"), name = "Sum") |> 
-  kbl(linesep = "", booktabs = TRUE) |> 
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped")
-  )
-```
 
 
-mutate(`Proportion failing` = `FAIL OFC`/(`PASS OFC` + `FAIL OFC`)) |>
 
 # crabs
 
-```{r crab-example-data}
-#| label:  tbl-crabsDF
-#| tbl-cap:  "Six observations from the crabs dataset"
-#| tbl-pos: H
-set.seed(080548) 
-crabs_DF  <- crabs_recoded  |> 
-  sample_n(6) |>
-  kbl(linesep = "", booktabs = TRUE, align = "llrr")|>
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE)
-```
-
-crabs_color <-  crabs |> 
-  mutate(color = fct_recode(color,
-    "light medium" = "1",
-    "medium" = "2",
-    "dark medium" = "3",
-    "dark" = "4")) 
-
-ggplot(crabs_color, aes(x = color, y = satell)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Number of satellites", x = "Color") +
-  scale_y_continuous(breaks = seq(0, 16, 4))
-
-ggplot(crabs_color, aes(x = spine, y = satell)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Number of satellites", x = "Spine condition") +
-  scale_y_continuous(breaks = seq(0, 16, 4))
 
 library(patchwork)
 p1  <- ggplot(crabs, aes(x = satell, y = color)) +
@@ -214,45 +158,6 @@ addmargins(table(df$Q275))
 
 
 
-df1 <- wvs_full |> 
-  rename(Country = B_COUNTRY_ALPHA)
-
-(addmargins(table(df1$Q47))) 
-(addmargins(table(df1$Q275)))
-(addmargins(table(df1$Country)))
-
-table(df1$Country, useNA = "ifany")  
-
-length(df1$Country)
-length(df1$Q47)
-length(df1$Q275)
-
-df2 <- df1 |> 
-  dplyr::filter(Country %in% c("ARG", "BRA"))
-                
-                             "CAN",  
-                             "CHN",
-                             "DEU",
-                             "EGY",
-                             "ETH",
-                             "JPN",
-                             "KEN",
-                             "NZL",
-                             "USA")
-  ) 
-  
-
-ßrelocate("Very Good", .after = "Education_level")  |> 
-  arrange(replace(row_number(), 1, n() + 1)) |>
-
-
-x_sort  <- sort(portland_park_trees$Carbon_Storage_lb, decreasing = TRUE)
-x_sort
-
-
-
-# too many dots?
-
 
 # Danish ED
 
@@ -273,33 +178,7 @@ ggplot(portland_park_trees, aes(x = Tree_Height, y = sqrt(Carbon_Storage_lb))) +
 	geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
 	labs(x = "Tree Height (ft)", y = "Square root of Carbon Storage (lbs)")
 
-pdx_tree_var_name = c("Common_Name", 
-                      "Condition",
-                      "Tree_Height", 
-                      "Structural_Value", 
-                      "Carbon_Storage_lb",
-                      "Pollution_removal_value")
-pdx_tree_var_description = c( "Common name of the tree",
-                              "A categorical variable with values Good, Fair, Poor, Dead",
-                              "Height from the ground to the live top of the tree,
-                              measured in feet. 
-                              For dead trees, total height was measured.",
-                              "Monetary value of replacing the tree and the benefits that 
-                              it provides, based on methods from the Council of Tree and Landscape Appraisers",
-                              "The amount of carbon (in lbs.) that is bound up in both 
-                              the above-ground and below-ground parts of the tree.  It is total amount of carbon that is currently stored in the biomass of a tree.",
-                              "The monetary value associated with tree effects on atmospheric  pollution, annually. Typically expressed in monetary terms, reflecting the cost savings associated with the tree's role in improving air quality")
 
-pdx_var_table <- data.frame(pdx_tree_var_name, pdx_tree_var_description)
-pdx_var_table |> 
-  rename("Variable name" = pdx_tree_var_name,
-         "Variable description" = pdx_tree_var_description) |> 
-  kbl(linesep = "", booktabs = TRUE, align = "ll")|>
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE)
-```
 
 # wvs tables
 # 
