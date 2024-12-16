@@ -101,11 +101,12 @@ Importantly, the study required informed consent from parents to allow their chi
 
 \index{data!crabs|(}
 
-During spawning, a female horseshoe crab migrates to shore with a male attached to her spine to lay clusters of eggs in the sand. Additional male crabs, known as satellites, may join the pair and fertilize the eggs as well, potentially increasing genetic diversity of the offspring.
+During spawning, a female horseshoe crab migrates to shore with a male attached to her posterior spines to lay clusters of eggs in the sand. Each cluster of eggs, called a clutch, typically contains 4,000 to 5,000 eggs. During a single nesting event, a female may lay 5 to 6 clutches. Unattached males, known as satellites, form groups around nesting pairs and compete with the attached males for fertilization by releasing sperm near the female’s eggs. Satellite males can achieve high fertilization rates, allowing older or damaged males to compete with the dominant male without dislodging him.^[See https://horseshoecrab.org/ for more information about these interesting creatures.]
 
-The dataset `crabs` examined here contains observations on  173  female crabs, with  5  recorded measurements for each crab. The data originally appeared in Brockman [@brockmann1996satellite] and was used in *Categorical Data Analysis, 3rd ed.* [@agresti2013categorical]. It is available at Agresti's University of Florida web [`page`](https://users.stat.ufl.edu/~aa/cda/data.html). The dataset is used later in this chapter and in @sec-logistic-regression to explore the relationship between the features of a female crab and the number of satellites it attracts.[^intro-to-data-1] The  5  variables in the data are defined in @tbl-crabs-variable-descriptions.
+In 1996, H.J. Brockmann [@brockmann1996satellite] conducted a comprehensive study of mating horseshoe crabs on two beaches along the Delaware (USA) shore. Her data suggested that satellites did not cluster randomly around mating pairs and that this clustering was not influenced by environmental conditions or the duration the mating pair had been on the beach. She hypothesized that unattached males were attracted to females with certain features.
 
-[^intro-to-data-1]: See https://horseshoecrab.org/ for more information about these interesting creatures.
+This section explores some of the variables Brockmann's team recorded 173 female-male mating pairs, described in more detail in Table 3 of her article. The dataset includes 5 recorded measurements for each mating pair and is available on Alan Agresti's University of Florida [`web page`](https://users.stat.ufl.edu/~aa/cda/data.html). This section introduces the variables in the data. @sec-relationships-one-numerical-one-categorical examines how some features of the female in a mating pair tend to attract unattached males.  The five variables in the data used here are defined in @tbl-crabs-variable-descriptions.
+
 
 | Variable Name | Variable description |
 |:------------------------------|:----------------------------------------|
@@ -115,7 +116,7 @@ The dataset `crabs` examined here contains observations on  173  female crabs, w
 | satell | The number of male satellites the crab has attracted |
 | weight | The weight of the female, in kg. |
 
-: Variable descriptions in the `crabs` data {#tbl-crabs-variable descriptions} {tbl-colwidths="\[25,75\]"}
+: Variable descriptions in the `crabs` data {#tbl-crabs-variable descriptions} {tbl-colwidths="[25,75]"}
 
 It is important to check the definitions of variables, as they are not always clear. In the `crabs` data, the definitions specify that the measurements of `width` and `weight` are in metric units and the variable `spine` records the condition of the two spines near the abdomen of each crab.
 
@@ -144,7 +145,7 @@ crabs  |>
 
 Because the observations are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**. Data matrices are a convenient way to record and store data. If data are collected for another observational unit, a new row can easily be added. Similarly, new column can be added for a new variable.
 
-Datasets are collected to learn about a larger \index{population} **population**. The `crabs` data were collected to learn about the features of female crabs that made them more attractive to males. The data were gathered in an observational study; the principles and interpretation of observational studies are discussed in @sec-observational-studies of @sec-collecting-data.
+Datasets are collected to learn about a larger \index{population} **population**. The `crabs` data were collected to learn about the features of female crabs that made them more attractive to male satellites. The data were gathered in an observational study; the principles and interpretation of observational studies are discussed in @sec-observational-studies of @sec-collecting-data.
 
 ```{r}
 terms_chp_1 <- c(terms_chp_1, "data matrix")
@@ -154,7 +155,7 @@ terms_chp_1 <- c(terms_chp_1, "data matrix")
 
 A variable is classified based on the types of calculations that can be performed with it. The variables `width` and `weight` are \index{numerical variables} **numerical variables**, also called \index{quantitative variables} **quantitative variables**. Their values can be added, subtracted, or averaged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on any value within a specified range. The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the maximum number of satellites who can attach to a female horseshoe crab.
 
-The variables `color` and `spine` are \index{categorical variables} **categorical variables**, also called \index{qualitative variables} **qualitative variables**. The values of categorical variables are names or labels; in this case the values are carapace colors or the condition of the spines of the crab. Arithmetic operations cannot be performed on categorical variables, but they can be tabulated. When the labels of a categorical variable have no natural ordering, such as `color`, it is a **nominal categorical variable**. `Spine` is an **ordered categorical variable** since its categories indicate worsening conditions of the spines. In R, categorical variables are also called \index{factor variable} **factor variables**.
+The variables `color` and `spine` are \index{categorical variables} **categorical variables**, also called \index{qualitative variables} **qualitative variables**. The values of categorical variables are names or labels; in this case the values are carapace colors or the condition of the spines of the crab. Arithmetic operations cannot be performed on categorical variables, but they can be tabulated. When the labels of a categorical variable have no natural ordering, it is referred to as a **nominal categorical variable**. Both `color` and `pine` is an **ordered categorical variable**, since color has a natural ordering from "light medium" to "dark" and the values of `spine` indicate worsening conditions of the female's spines. In R, categorical variables are also called \index{factor variable} **factor variables**.
 
 \index{data!crabs|)}
 
@@ -312,6 +313,12 @@ portland_park_trees <- pdx  |>
          Pollution_Removal_value,
          Carbon_Sequestration_value,
          Carbon_Sequestration_lb) |>  
+  mutate(Condition = factor(Condition,
+                            levels = c("Dead",
+                                       "Poor",
+                                       "Fair",
+                                       "Good"),
+                            ordered = TRUE)) |> 
   drop_na() |> 
   dplyr::slice_sample(n = 500) 
 
@@ -340,7 +347,7 @@ The inventory was compiled separately for trees in neighborhoods and parks and w
 | Variable Name | Variable description |
 |:------------------------------|:----------------------------------------|
 | Common_Name | Common name of the tree |
-| Condition | A categorical variable with values Good, Fair, Poor, Dead |
+| Condition | A categorical variable with values "Good", "Fair",  "Poor", "Dead"  |
 | Tree_Height | Height from the ground to the live top of the tree, measured in feet. For dead trees, total height was measured. |
 | Structural_Value | An estimate of the monetary value of replacing the tree and the benefits that it provides, based on methods from the Council of Tree and Landscape Appraisers |
 | Carbon_Storage_lb | An estimate of the amount of carbon (in lbs.) that is bound up in both the above-ground and below-ground parts of the tree. It is total amount of carbon that is currently stored in the biomass of a tree. |
@@ -604,6 +611,8 @@ Values beyond the whiskers are plotted with dots and labeled outliers. An \index
 
 The beeswarm and box plots in @fig-trees-carbon-beeswarm-boxplot provide different views of a distribution. The detail in the beeswarm shows how the observations of carbon storage values become less frequent as values of `Carbon_Storage_lb` increase. The box plot hides those details in favor of showing summarizing the center and spread of the data. The two graphs might be compared to the difference between reading a novel versus a skimming one page review.
 
+
+
 *axes not perfectly aligned, but had trouble with patchwork and cowplot*
 
 ```{r carbon-beeswarm-boxplot}
@@ -647,6 +656,7 @@ ggplot(plot_df,
 
 
 ```
+Box plots can be oriented horizontally with values of the variable on the horizontal axis as shown here, or vertically, with values on the vertical axis.
 
 A \index{histogram} **histogram** provides a balance between the detail of a beeswarm plot and the compact summary of a box plot. In a histogram, observations are grouped into bins and the height of a bar above each bin is the number of observations in the bin. @fig-trees-carbon-histogram is a histogram of the `Carbon_Storage_lb` distribution. The width of each bin is $2,000\, \textrm{lbs}$, and the bins correspond to the intervals  [0,2000), [2,000, 4,000), \ldots, [16,000, 18,000) .[^intro-to-data-6] The number of observations in each bin is shown at the top of the bars.
 
@@ -762,9 +772,9 @@ int_3_ub  <- round(m_c + 3*sd_c, 2)
 
 ```
 
-@fig-crabs-width-histogram is a histogram of distribution of female crab widths. The distribution is approximately symmetric, with a slight right skewing; the mean $`r m_c`\,\textrm{cm}$ is only slightly larger than the median $`r med_c` \,\textrm{cm}$.
+@fig-crabs-width-histogram is a histogram of distribution of female crab widths. The distribution is approximately symmetric, with a slight right skewing; the mean `r m_c`cm is only slightly larger than the median `r med_c`cm.
 
-Applying the empirical rule, approximately  68%  of the female crabs should be between  `r  int_1_lb`  and $`r int_1_ub`\,\textrm{cm}  wide;  95%  should be between $`r  int_2_lb`$ and $`r int_2_ub`\,\textrm{cm}$ wide.
+Applying the empirical rule, approximately  68%  of the female crabs should be between  `r  int_1_lb`  and `r int_1_ub`cm  wide;  95%  should be between `r  int_2_lb` and `r int_2_ub`cm wide.
 
 ```{r crab-width}
 #| label: fig-crabs-width-histogram
@@ -932,7 +942,7 @@ wvs_edu_health_cc |>
     scroll_box(width = "50%")
 ```
 
-For simplicity, this brief analysis skips two typically performed when preparing a survey for analysis. Because some people sampled do not respond to a survey, the respondents are usually not a completely representative sample from a country's population. The WVS data includes weights for each respondent that can be used to create a further sub-sample that matches the population demographics of each country. That has not been done with these data. In addition, respondents who participate in a survey always have the option not to provide a response. Instead of exploring the reasons for non-response to questions, this analysis is restricted to participants who chose to respond. A small number of respondents (`r n_dropped`) of the  `r n_original`  respondents in the original sample chose not to respond to at least one of the questions used here.
+For simplicity, this brief analysis skips two steps typically performed when preparing a survey for analysis. Because some people sampled do not respond to a survey, the respondents are usually not a completely representative sample from a country's population. The WVS data includes weights for each respondent that can be used to create a further sub-sample that matches the population demographics of each country. That has not been done with these data. In addition, respondents who participate in a survey always have the option not to provide a response. Instead of exploring the reasons for non-response to questions, this analysis is restricted to participants who chose to respond. A small number of respondents (`r n_dropped`) of the  `r n_original`  respondents in the original sample chose not to respond to at least one of the questions used here.
 
 ```{r wvs-table-elements, echo = FALSE}
 df <- wvs_edu_health_cc
@@ -948,7 +958,7 @@ t_cprop <- round(proportions(t, 2), 3)
 
 [^intro-to-data-9]: A contingency table is also called a two-way table, and the data in the table are often called cross-classified data.
 
-Contingency tables are characterized by the number of rows and columns corresponding to the levels of the two variables. @tbl-wvs-edu-health is a $3 \times 5$ table, with totals added for convenience. The \index{row totals} **row totals** in the column labeled `Sum` provide the total counts for each row, and the \index{column totals} **column totals** in the row labeled `Sum` are totals for each column. Collectively, these are referred to as the \index{marginal totals} **marginal totals**. Among the  `r n_cases`  respondents,  `r t_tot["Middle","Sum"]`  reported `Middle` education. The entry in the lower right corner is called the \index{grand total} **grand total**.
+Contingency tables are characterized by the number of rows and columns corresponding to the levels of the two variables. @tbl-wvs-edu-health is a 3 $\times$ 5 table, with totals added for convenience. The \index{row totals} **row totals** in the column labeled `Sum` provide the total counts for each row, and the \index{column totals} **column totals** in the row labeled `Sum` are totals for each column. Collectively, these are referred to as the \index{marginal totals} **marginal totals**. Among the  `r n_cases`  respondents,  `r t_tot["Middle","Sum"]`  reported `Middle` education. The entry in the lower right corner is called the \index{grand total} **grand total**.
 
 ```{r wvs-edu-health-tbl}
 #| label: tbl-wvs-edu-health
@@ -1121,11 +1131,12 @@ Among the participants reporting `Fair` health status, what proportion have a se
 
 **Two-by-two tables: relative risk**
 
-The results from medical and public health studies are often presented in \index{two-by-two tables} **2  $\times$ 2** tables, contingency tables for categorical variables that have two levels. For example, do children living in areas with high concentrations of air pollution tend to develop asthma? In a typical $2 \times 2$ table, the rows define two groups of participants (e.g., exposed to air pollution versus not), while the columns represents the two possible outcomes (e.g., developed asthma versus not).[^intro-to-data-14]
+The results from medical and public health studies are often presented in \index{two-by-two tables} **2  $\times$ 2** tables, contingency tables for categorical variables that have two levels. For example, do children living in areas with high concentrations of air pollution tend to develop asthma? In a typical 
+2 $\times$ 2 table, the rows define two groups of participants (e.g., exposed to air pollution versus not), while the columns represents the two possible outcomes (e.g., developed asthma versus not).[^intro-to-data-14]
 
-[^intro-to-data-14]: Since a $2 \times 2$ table is symmetric, the roles of rows and columns can be reversed, but it is customary to use rows for the explanatory variable and columns for the response, convention is followed here.
+[^intro-to-data-14]: Since a 2 $\times$ 2 table is symmetric, the roles of rows and columns can be reversed, but it is customary to use rows for the explanatory variable and columns for the response, convention is followed here.
 
-@tbl-gen-2x2-table shows the general form of a $2 \times 2$ table.
+@tbl-gen-2x2-table shows the general form of a 2 $\times$ 2 table.
 
 |             | Outcome A | Outcome B |                Sum |
 |------------:|----------:|----------:|-------------------:|
@@ -1133,11 +1144,11 @@ The results from medical and public health studies are often presented in \index
 | **Group 2** |       $c$ |       $d$ |            $c + d$ |
 |     **Sum** |    $a +c$ |     $b+d$ | $a + b + c+ d = n$ |
 
-: The general form of a $2 \times 2$ table {#tbl-gen-2x2-table}
+: The general form of a 2 $\times$ 2 table {#tbl-gen-2x2-table}
 
 @tbl-leap-study-results showing the results of LEAP in @sec-case-study-preventing-peanut-allergies has this form.
 
-Because of the simple structure of $2 \times 2$ tables, it is possible to calculate single number summaries of the strength of a relationship or association. In LEAP, the proportion of OFC failures in the avoidance group was  36/263 = 0.137 ; in the consumption group, it was  5/267 = 0.019 . These two proportions are a measure of the risk of a peanut allergy in each group. The ratio of the proportions (0.137/0.019 = 7.31) indicates that the risk of peanut allergy in the avoidance group is more than  7  times as large as that in the consumption group. The \index{relative risk} **relative risk** of an allergy, comparing the avoidance to the consumption group, is  7.31 . In statistical notation
+Because of the simple structure of 2 $\times$ 2 tables, it is possible to calculate single number summaries of the strength of a relationship or association. In LEAP, the proportion of OFC failures in the avoidance group was  36/263 = 0.137 ; in the consumption group, it was  5/267 = 0.019 . These two proportions are a measure of the risk of a peanut allergy in each group. The ratio of the proportions (0.137/0.019 = 7.31) indicates that the risk of peanut allergy in the avoidance group is more than  7  times as large as that in the consumption group. The \index{relative risk} **relative risk** of an allergy, comparing the avoidance to the consumption group, is  7.31 . In statistical notation
 
 \begin{align*}
 RR_{\textrm{failing OFC}} &= \dfrac{\textrm{proportion in avoidance group who failed OFC}}{\textrm{proportion in consumption group who failed OFC}} \\
@@ -1207,30 +1218,106 @@ Relative risk should only be calculated for data where the proportions $a/(a+b)$
 
 ### One numerical and one categorical variable {#sec-relationships-one-numerical-one-categorical}
 
-Methods for comparing numerical data across groups use \index{side-by-side box plots} **side-by-side box plots** or \index{stacked box plots} **stacked box plots** for exploring the distribution of a numerical variable across category.
+*return to this.  The discussion is unfinished, rambles, is filled with speculation, and does not properly account for the very different group sizes  Read the Portland documentation for findings and maintenance planning.  Some of this can go in the intro*
 
-*reorder factor levels in original construction*
+```{r portland-trees-numbers-for-text}
 
-```{r}
-#| label: fig-trees-condition-carbon-boxplot
+df <- portland_park_trees
+x <- df$Condition
+l <- length(x)
+a <- (x == "Dead")
+
+mean_carbon_dt <- round(mean(df$Carbon_Storage_lb[a]),1)
+med_carbon_dt <- round(median(df$Carbon_Storage_lb[a]),1)
+```
+
+
+In the Portland tree data, what is the relationship between the condition of a tree and the amount of carbon it stores?
+
+`Condition` is an ordered categorical variable with "Dead", "Poor", "Fair" and "Good", with the following definitions in the [`training manual`](https://www.portland.gov/sites/default/files/2020/training-book-2019-web-version.pdf) for the inventory project:
+
+- "Dead": Tree is dead and stands over 3ft high.  
+
+- "Poor": Tree is in a general state of decline as indicated by the presence of cavities, decay, conks,
+root heaving, or significant dead crown areas.
+
+- "Fair": Tree is in average condition. Tree may need some structural pruning and have some dead
+branches. Wounds are minimal and there is no major decay. Other signs and symptoms are
+minimal.
+
+- "Good": Tree is an excellent representative for it’s species. Roots are sound, trunk is solid with no
+bark damage, and crown is full with no significant structural problems. No wounds, decay, conks,
+cavities, root heaving or other symptoms.
+
+@tbl-trees-condition-frequency shows that the large majority (more than 86%) of the trees are in "Fair" condition.
+
+
+```{r trees-condition-freq-tbl}
+#| label: tbl-trees-condition-frequency
+#| tbl-cap:  "Distribution of tree condition for the 500 trees in the  in the Portland tree dataset."
+#| tbl-pos: H
+portland_park_trees |> 
+  count(Condition) |>
+  rename(Count = n)  |> 
+  adorn_totals(where = "row") |>
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE
+  )
+  
+
+```
+
+The \index{side-by-side box plots} **side-by-side box plots**  in @fig-trees-condition-carbon-store-boxplot show how the carbon stored varies with tree condition. There are 6 dead trees in this sample of `r l` but they are included in the box plots since they are storing a mean and median of `r mean_carbon_dt`lbs and `r med_carbon_dt`lbs, respectively.
+
+
+
+```{r trees-carbon-store-condition-boxplot}
+#| label: fig-trees-condition-carbon-store-boxplot
 #| fig-cap: |
 #|   Side-by-side box plots of the distribution carbon storage by tree condition.
 #| fig-alt: | 
-#|   Side-by-side box plots of the distribution carbon storage by tree condition.  The box 
-#|   plots are ordered from top to bottom in ascending order of the median of stored carbon
-#    in each group.  Surprisingly, even dead trees are storing carbon.
+#|   Side-by-side box plots of the distribution carbon storage by tree condition.  
+#|     
 #|   
 #| fig-asp: 0.4
 
 ggplot(portland_park_trees, aes(
   y = Carbon_Storage_lb, 
-  x = reorder(Condition, -Carbon_Storage_lb))) +
+  x = Condition)) +
   geom_boxplot() +
   scale_color_openintro("two") +
   labs(y = "Carbon storage (lbs)", x = "Tree condition") +
   scale_y_continuous(
     breaks = seq(0, 16000, 4000))
 ```
+
+The plot shows (unsurprisingly) that trees in better condition ("Fair" or "Good") store more carbon than trees in poorer condition.  However, even trees in poor condition may have some value as carbon storage organisms.  Several of those trees are storing more than 2000lbs of carbon, with 1 storing nearly 4000lbs. The plot shows why summary statistics without a graph can be misleading; the median carbon stored by the trees in poor condition is approximately the same as those in good condition.
+
+Since 86% of the trees are in "Fair" condition, the distribution of the carbon stored in those trees naturally reflects the distribution in the full sample of `r l` trees shown in @fig-trees-carbon-beeswarm-boxplot -- a skewed distribution with several large outliers.  The details in graphs often give rise to important questions.  What are the features of trees in fair condition that store large amount of carbon?  Does the have implications for forest management if resources become limited?
+
+Perhaps the trees in fair condition are older than those in good condition -- they have had more time to accumulate carbon.^[Tree age was not estimated in the inventory project]  What about the rate at which carbon is being sequestered? How does it vary with tree condition?  `Carbon_Sequestration_lb` is an estimate of the annual rate at which carbon is being stored. The box plots in @fig-trees-condition-carbon-seq-boxplot how that varies with condition.  Trees in good condition have the same median sequestration rate as those in fair condition.
+
+
+```{r}
+#| label: fig-trees-condition-carbon-seq-boxplot
+#| fig-cap: |
+#|   Side-by-side box plots of the distribution carbon sequestration rate by tree condition.
+#| fig-alt: | 
+#|   Side-by-side box plots of the distribution carbon storage by tree condition.  
+#|   
+#| fig-asp: 0.4
+
+ggplot(portland_park_trees, aes(
+  y = Carbon_Sequestration_lb, 
+  x = Condition)) +
+  geom_boxplot() +
+  scale_color_openintro("two") +
+  labs(y = "Carbon sequestration (lbs/year)", x = "Tree condition") 
+```
+
 
 *text does not match figures. look at cowplot and plot_gridto ref subplots*
 

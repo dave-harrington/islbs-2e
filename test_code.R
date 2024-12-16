@@ -27,7 +27,6 @@ LEAP_analyzed |>
 
 
 
-
 # crabs
 
 
@@ -110,19 +109,16 @@ portland_park_trees  <- pdx  |>
  
 # reordering factor levels
 
-trees_boxplot   <- portland_park_trees  |> 
-	mutate(cond = as.factor(Condition))  
-fct_relevel(trees_boxplot$cond, "Dead", "Poor", "Fair", "Good")
-
-ggplot(trees_boxplot, aes(x = Carbon_Storage_lb, y = cond)) +
+ggplot(portland_park_trees, aes(
+  y = Carbon_Sequestration_lb, 
+  x = Condition)) +
   geom_boxplot() +
   scale_color_openintro("two") +
-  labs(y = "Tree Condition", x = "Carbon Storage") +
-  scale_x_continuous(
-  	breaks = seq(0, 16000, 4000))
+  labs(y = "Carbon storage (lbs)", x = "Tree condition") 
 
-# reordering the fill var
 
+  scale_y_continuous(
+    breaks = seq(0, 16000, 4000))
 
 
 load("./data/WVS_Cross-National_Wave_7_Rdata_v6_0.rdata")

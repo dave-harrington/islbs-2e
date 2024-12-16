@@ -15,4 +15,4 @@ source("_common.R")
 # routinely clear workspace
 rm(list = ls())
 options(save.workspace = "no")
-# options(scipen = 999)
+options(scipen = 999)
