@@ -105,7 +105,9 @@ During spawning, a female horseshoe crab migrates to shore with a male attached 
 
 In 1996, H.J. Brockmann [@brockmann1996satellite] conducted a comprehensive study of mating horseshoe crabs on two beaches along the Delaware (USA) shore. Her data suggested that satellites did not cluster randomly around mating pairs and that this clustering was not influenced by environmental conditions or the duration the mating pair had been on the beach. She hypothesized that unattached males were attracted to females with certain features.
 
-This section explores some of the variables Brockmann's team recorded 173 female-male mating pairs, described in more detail in Table 3 of her article. The dataset includes 5 recorded measurements for each mating pair and is available on Alan Agresti's University of Florida [`web page`](https://users.stat.ufl.edu/~aa/cda/data.html). This section introduces the variables in the data. @sec-relationships-one-numerical-one-categorical examines how some features of the female in a mating pair tend to attract unattached males.  The five variables in the data used here are defined in @tbl-crabs-variable-descriptions.
+This section introduces and explores some of the variables Brockmann's team recorded on 173 female-male mating pairs.  These and other variables are summarized in Table 3 of her article. The dataset used here, referred to as `crabs`, includes 5 recorded measurements for each mating pair and is available on Alan Agresti's University of Florida [`web page`](https://users.stat.ufl.edu/~aa/cda/data.html).  Later, @sec-relationships-one-numerical-one-categorical examines how some features of the female in a mating pair tend to attract unattached males. 
+
+The five variables in `crabs` are defined in @tbl-crabs-variable-descriptions.
 
 
 | Variable Name | Variable description |
@@ -120,7 +122,7 @@ This section explores some of the variables Brockmann's team recorded 173 female
 
 It is important to check the definitions of variables, as they are not always clear. In the `crabs` data, the definitions specify that the measurements of `width` and `weight` are in metric units and the variable `spine` records the condition of the two spines near the abdomen of each crab.
 
-@tbl-crabsDF shows data from  6  randomly selected crabs from the  173  observed in the study. Each row represents a **case** (a single crab) and each column represents a recorded characteristic, called a \index{variable} **variable**. The entries in a row are the values of the variables for that case, and the \index{distribution} **distribution** of a variable is its collection of values. The distribution of the variable `weight`, for instance, is the set of values in the `weight` column.
+@tbl-crabsDF shows data from  6  randomly selected crabs from the  173 observed. Each row represents a **case** (a single crab) and each column represents a recorded characteristic, called a \index{variable} **variable**. The entries in a row are the values of the variables for that case, and the \index{distribution} **distribution** of a variable is its collection of values. The distribution of the variable `weight`, for instance, is the set of values in the `weight` column.
 
 A case is sometimes called a **unit of observation** or an \index{observational unit} **observational unit**. When observations are made on people participating in a study, as in LEAP, the observational units are called \index{human subjects} **human subjects** or \index{participants} **participants**.
 
@@ -145,10 +147,18 @@ crabs  |>
 
 Because the observations are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**. Data matrices are a convenient way to record and store data. If data are collected for another observational unit, a new row can easily be added. Similarly, new column can be added for a new variable.
 
-Datasets are collected to learn about a larger \index{population} **population**. The `crabs` data were collected to learn about the features of female crabs that made them more attractive to male satellites. The data were gathered in an observational study; the principles and interpretation of observational studies are discussed in @sec-observational-studies of @sec-collecting-data.
+Datasets are collected to learn about a larger \index{population} **population**. Brockmann's data were collected to learn about the features of female crabs that made them more attractive to male satellites. The data were gathered in an observational study; the principles and interpretation of observational studies are discussed in @sec-observational-studies of @sec-collecting-data.
 
 ```{r}
-terms_chp_1 <- c(terms_chp_1, "data matrix")
+terms_chp_1 <- c(terms_chp_1, c("data matrix",
+                                "data table",
+                                "case",
+                                "observational unit",
+                                "participant",
+                                "human subject",
+                                "distribution",
+                                "variable")
+                )
 ```
 
 ### Types of variables {#sec-data-variable-types}
@@ -160,10 +170,20 @@ The variables `color` and `spine` are \index{categorical variables} **categorica
 \index{data!crabs|)}
 
 ```{r}
-terms_chp_1 <- c(terms_chp_1, "numerical variable", "categorical variable")
+terms_chp_1 <- c(terms_chp_1, c("numerical variable",
+                                "quantitative variable",
+                                "qualitative variable",
+                                "continuous numerical variable",
+                                "discrete numerical variable",
+                                "categorical variable",
+                                "nominal categorical variable",
+                                "ordered categorical variable")
+                 )
 ```
 
-Other types of variables arise in certain applications, often requiring specialized software to manipulate, and are not discussed in this text. Character or string variables are sometimes used to record an open ended responses to a question on a survey. Dates are often coded so that they can be manipulated with operations that extract the year or day of the week. Image data record the results of a photograph or other imaging procedure, such as a magnetic resonance imaging (MRI) scan of an organ or region of the body.
+Other types of variables arise in certain applications, often requiring specialized software to manipulate, and are not discussed in this text. Text variables are used to record open ended responses to a question on a survey. Dates are often coded so that they can be manipulated with operations that extract the month or day of the week corresponding to a date. Image data record the results of a photograph or other imaging procedure, such as a magnetic resonance imaging (MRI) scan of an organ or region of the body.
+
+*JV: can you edit this image to change `All Variables` to `Variables in this text` or something similar?*
 
 @fig-variable-types shows the types of variables used in this text.
 
@@ -239,7 +259,7 @@ crabs |>
   
 ```
 
-Frequency and relative frequency tables are typically used with nominal categorical variables, where the labels have no natural ordering. For ordered categorical variables, it is useful to include a column of cumulative proportions showing the fraction of cases up to and including each category in the natural ordering of the variable.
+For ordered categorical variables, it is useful to include a column of cumulative proportions showing the fraction of cases up to and including each category in the natural ordering of the variable.
 
 @tbl-crabs-spine-cumulative-frequency shows the counts, proportions and cumulative proportions for the condition of the spines. Spine injuries are common in this group: only  21%  of the crabs have no worn or broken spines.
 
@@ -334,13 +354,11 @@ portland_size <- nrow(portland_park_trees)
 
 ```
 
-During photosynthesis, trees remove carbon dioxide from the air, combine it with water, and convert it to sugars and oxygen. [^intro-to-data-3] The sugars are then distributed throughout the tree, and the carbon in them is stored in a process called carbon sequestration. Forests typically store twice as much carbon as they emit and are an important component in mitigating the effect of greenhouse gasses on climate change. How much carbon do trees store?
+During photosynthesis, trees remove carbon dioxide from the air, combine it with water, and convert it to sugars and oxygen. ^[The sugars created during photosynthesis are primarily sucrose, glucose and fructose.] The sugars are then distributed throughout the tree, and the carbon in them is stored in a process called carbon sequestration. Forests typically store twice as much carbon as they emit and are an important component in mitigating the effect of greenhouse gasses on climate change. How much carbon do trees store?
 
-[^intro-to-data-3]: The sugars created during photosynthesis are primarily sucrose, glucose and fructose.
+Data from the [`Portland Oregon Tree Inventory project`](https://www.portland.gov/trees/get-involved/treeinventory)can be used to study that question. The project has compiled a comprehensive inventory of trees in Portland, Oregon, and is used with other data in maintenance planning for the Portland urban forest. The urban forest is a particularly valuable resource.  According to [`Portland’s city government`](https://www.portland.gov/council/documents/ordinance/passed/191975), trees provide an estimated $\$40$ an million annually in environmental benefits to Portland, including air pollution removal, avoided storm water runoff, and carbon sequestration. 
 
-The [`Portland Tree Inventory project`](https://www.portland.gov/trees/get-involved/treeinventory) is a comprehensive inventory of trees in Portland, Oregon, compiled to help professionals and citizens protect and grow the urban Portland forest by showing the value of trees in the city. According to [`Portland’s city government`](https://www.portland.gov/council/documents/ordinance/passed/191975), trees provide an estimated $\$40$ an million annually in environmental benefits to Portland, including air pollution removal, avoided storm water runoff, and carbon sequestration.
-
-The inventory was compiled separately for trees in neighborhoods and parks and was completed in 2017. It includes data on  25,534  trees in Portland parks, with  34  variables included for each case. These variables include each tree's common and scientific names, the amount of carbon stored, the annual rate of carbon sequestration, and the financial value of the tree -- both as a landscape asset and as a tool for mitigating greenhouse gasses. This section uses some of variables from a random sample of  `r portland_size`  trees.
+The inventory was compiled separately in neighborhoods and parks and was completed in 2017. It includes data on 25,534  trees in Portland parks, with 34 variables for each tree, including  common and scientific names, the amount of carbon stored, the annual rate of carbon sequestration, and the financial value of the tree -- both as a landscape asset and as a tool for mitigating greenhouse gasses. This section uses some of variables from a random sample of`r portland_size` trees in a dataset called `Portland park trees` to examine the distribution of sequestered (i.e., stored) carbon.  
 
 @tbl-portland-tree-descriptions shows the variable names and definitions. All but the first two variables are numerical variables.
 
@@ -658,7 +676,7 @@ ggplot(plot_df,
 ```
 Box plots can be oriented horizontally with values of the variable on the horizontal axis as shown here, or vertically, with values on the vertical axis.
 
-A \index{histogram} **histogram** provides a balance between the detail of a beeswarm plot and the compact summary of a box plot. In a histogram, observations are grouped into bins and the height of a bar above each bin is the number of observations in the bin. @fig-trees-carbon-histogram is a histogram of the `Carbon_Storage_lb` distribution. The width of each bin is $2,000\, \textrm{lbs}$, and the bins correspond to the intervals  [0,2000), [2,000, 4,000), \ldots, [16,000, 18,000) .[^intro-to-data-6] The number of observations in each bin is shown at the top of the bars.
+A \index{histogram} **histogram** provides a balance between the detail of a beeswarm plot and the compact summary of a box plot. In a histogram, observations are grouped into bins and the height of a bar above each bin is the number of observations in the bin. @fig-trees-carbon-histogram is a histogram of the `Carbon_Storage_lb` distribution. The width of each bin is $2,000\, \textrm{lbs}$, and the bins correspond to the intervals  [0,2000), [2,000, 4,000), $\ldots$, [16,000, 18,000) .[^intro-to-data-6] The number of observations in each bin is shown at the top of the bars.
 
 [^intro-to-data-6]: The default interval for the histogram in R is open on the left, closed on the right, but the convention was reversed for this plot because of the possibility that some trees might not be storing any carbon.
 
@@ -923,7 +941,7 @@ This section explores responses to education and health assessment questions fro
 
 : Variables used from the WVS data. {#tbl-wvs-var-descriptions} {tbl-colwidths="\[25,75\]"}
 
-*plot does not center, at least in html*
+*plot does not center, at least in html.  Perhaps a conflict with a CSS file*
 
 ```{r 9-country-table}
 #| label: tbl-wvs-9-countries
@@ -1231,10 +1249,9 @@ mean_carbon_dt <- round(mean(df$Carbon_Storage_lb[a]),1)
 med_carbon_dt <- round(median(df$Carbon_Storage_lb[a]),1)
 ```
 
+What can be learned from the data in `Portland park trees` about the relationship between the explanatory variable tree condition and the response variables amount of stored carbon (`Carbon_Storage_lb`) and the rate at which carbon is sequestered (`Carbon_Sequestration_lb`)?
 
-In the Portland tree data, what is the relationship between the condition of a tree and the amount of carbon it stores?
-
-`Condition` is an ordered categorical variable with "Dead", "Poor", "Fair" and "Good", with the following definitions in the [`training manual`](https://www.portland.gov/sites/default/files/2020/training-book-2019-web-version.pdf) for the inventory project:
+`Condition` is an ordered categorical variable with levels "Dead", "Poor", "Fair" and "Good", with the following definitions in the [`training manual`](https://www.portland.gov/sites/default/files/2020/training-book-2019-web-version.pdf) for the inventory project:
 
 - "Dead": Tree is dead and stands over 3ft high.  
 
@@ -1270,8 +1287,7 @@ portland_park_trees |>
 
 ```
 
-The \index{side-by-side box plots} **side-by-side box plots**  in @fig-trees-condition-carbon-store-boxplot show how the carbon stored varies with tree condition. There are 6 dead trees in this sample of `r l` but they are included in the box plots since they are storing a mean and median of `r mean_carbon_dt`lbs and `r med_carbon_dt`lbs, respectively.
-
+The \index{side-by-side box plots} **side-by-side box plots**  in @fig-trees-condition-carbon-store-boxplot show how carbon storage varies with tree condition. There are 6 dead trees in this sample of `r l` but they are included in the box plots since they are storing a mean and median of `r mean_carbon_dt`lbs and `r med_carbon_dt`lbs, respectively.
 
 
 ```{r trees-carbon-store-condition-boxplot}
@@ -1294,11 +1310,11 @@ ggplot(portland_park_trees, aes(
     breaks = seq(0, 16000, 4000))
 ```
 
-The plot shows (unsurprisingly) that trees in better condition ("Fair" or "Good") store more carbon than trees in poorer condition.  However, even trees in poor condition may have some value as carbon storage organisms.  Several of those trees are storing more than 2000lbs of carbon, with 1 storing nearly 4000lbs. The plot shows why summary statistics without a graph can be misleading; the median carbon stored by the trees in poor condition is approximately the same as those in good condition.
+The plot shows (unsurprisingly) that trees in better condition ("Fair" or "Good") store more carbon than trees in poorer condition.  However, even trees in poor condition may have some value as carbon storage organisms.  Several of those trees are storing more than 2000lbs of carbon, with 1 storing nearly 4000lbs. The plot shows why summary statistics without a graph can be misleading; the median carbon stored by the trees in poor condition is approximately the same as those in good condition, but the distributions are very different
 
-Since 86% of the trees are in "Fair" condition, the distribution of the carbon stored in those trees naturally reflects the distribution in the full sample of `r l` trees shown in @fig-trees-carbon-beeswarm-boxplot -- a skewed distribution with several large outliers.  The details in graphs often give rise to important questions.  What are the features of trees in fair condition that store large amount of carbon?  Does the have implications for forest management if resources become limited?
+Since 86% of the trees are in "Fair" condition, the distribution of the carbon stored in those trees naturally reflects the distribution in the full sample of `r l` trees shown in @fig-trees-carbon-beeswarm-boxplot -- a skewed distribution with several large outliers. Beyond describing the shapes of distributions, details in graphs often give rise to important questions and there are several suggested by even these simple graphs.  What are the features of trees in fair condition that store large amount of carbon? Are they near sources of greenhouse gasses, such as busy roads or factories?  If city resources are limited, should these trees be selected for additional maintenance to prevent their condition from declining?  Should access by the public be limited for these trees to mitigate possible damage?
 
-Perhaps the trees in fair condition are older than those in good condition -- they have had more time to accumulate carbon.^[Tree age was not estimated in the inventory project]  What about the rate at which carbon is being sequestered? How does it vary with tree condition?  `Carbon_Sequestration_lb` is an estimate of the annual rate at which carbon is being stored. The box plots in @fig-trees-condition-carbon-seq-boxplot how that varies with condition.  Trees in good condition have the same median sequestration rate as those in fair condition.
+Perhaps the trees in fair condition are likely older than those in good condition -- they have had more time to accumulate carbon.^[Tree age was not estimated in the inventory project]  What about the rate at which carbon is being sequestered? How does it vary with tree condition?  `Carbon_Sequestration_lb` is an estimate of the annual rate at which carbon is being stored. The box plots in @fig-trees-condition-carbon-seq-boxplot how that varies with condition.  Trees in "Good" condition have the same median sequestration rate as those in fair condition.  The data suggest that trees in good condition will mature into carbon storage organisms as valuable as those in "Fair" condition.
 
 
 ```{r}
@@ -1318,10 +1334,13 @@ ggplot(portland_park_trees, aes(
   labs(y = "Carbon sequestration (lbs/year)", x = "Tree condition") 
 ```
 
+The `crabs` data represents only a subset of the data gathered by Brockmann's team, but even so what can be learned about the attraction of male satellites to female/male mating pairs?
 
-*text does not match figures. look at cowplot and plot_gridto ref subplots*
+@fig-crabs-color-spine-stacked-satell-boxplot uses stacked box plots to show how the number of male satellite varies with the color of the female (plot a) and the conditions of her spine (plot b).  In this sample of 173 crabs male satellites favor lighter colored females. As female carapace colors change from dark to light the median number of satellites increases. The median number of satellites is larger than 4 for `light medium` females, while the at least  50%  of the dark females have no satellites, since the median is 0. Despite this trend, however, the outliers in the box plot corresponding to color "dark" show that 3 of the dark females have attracted 8 or more satellites.  
 
-@fig-crabs-color-spine-stacked-satell-boxplot uses The median number of satellites is larger than 4 for `light medium` females, while the at least  50%  of the dark females have no satellites, since the median is  0 . The relationship between number of satellites shows no evident pattern. Females with one worn or broken spine have fewer satellites that either of the other two categories.
+In contrast, the relationship between number of satellites shows no evident pattern. Females with one worn or broken spine have fewer satellites that either of the other two categories.
+
+*plot labeling should match earlier plots with subgraphs*
 
 ```{r crabs-color-spine-stacked-box}
 #| label: fig-crabs-color-spine-stacked-satell-boxplot
@@ -1339,60 +1358,271 @@ p1  <- ggplot(crabs, aes(x = satell, y = color)) +
   geom_boxplot() +
   scale_color_openintro("two") +
   labs(y = "Color", x = NULL) +
-  scale_x_continuous(breaks = seq(0, 16, 4)) +
-  ggtitle("(a)")
+  scale_x_continuous(breaks = seq(0, 16, 4)) 
 
 p2  <- ggplot(crabs, aes(x = satell, y = spine)) +
   geom_boxplot() +
   scale_color_openintro("two") +
   labs(y = "Spine condition", x = "Number of satellites") +
-  scale_x_continuous(breaks = seq(0, 16, 4)) +
-  ggtitle("(b)")
+  scale_x_continuous(breaks = seq(0, 16, 4)) 
 
-p1/p2
+combined_plot <- p1/p2 + 
+  plot_annotation(tag_level = "a")
+
+combined_plot
 
 
 ```
 
+Stacked, horizontally oriented box plots are useful when examining the same response variable (e.g., number of male satellites) in two or more categorical variables (e.g., color and spine condition) since the horizontal axes can be aligned, as in @fig-crabs-color-spine-stacked-satell-boxplot.
+
 ### Two numerical variables {#sec-relationships-two-numerical}
+
+Brockmann's research confirmed that in addition to the color of the female, satellite males were attracted to larger females.  In the `crabs` data, female size is represented  in the variables `width` and `weight`.  It is reasonable to expect that weight varies directly width and the two may provide similar information about female size.  Is that true in the `crabs` data?
+
+The relationship between 2 numerical variables can be explored with a \index{scatterplot} **scatterplot**, such as the one shown in @fig-crabs-width-weight-scatter.  In @fig-crabs-width-weight-scatter, `weight` (the vertical axis) is plotted against width (the horizontal axis). Scatterplots show a case-by-case view of the relationship between two numerical variables. 
+
+@fig-crabs-width-weight-scatter shows that `width` and `weight` are indeed closely related -- both variables increase or decrease together. The relationship is not perfect, since the points do not lie exactly on a line, but even though a few points fall outside the main cluster of points it seems reasonable to assume that female `width` and `weight` will have similar relationships with the response variable `satell`.
+
+
+
+
 
 ```{r}
 #| label: fig-crabs-width-weight-scatter
 #| fig-cap: |
-#|   A scatterplot showing the relationship between female crab width and weight in the crabs data.
+#|   A scatterplot showing the relationship between female crab width and weight 
+#|   in the crabs data.
 #| fig-alt: |
-#|    A scatterplot showing the relationship between female crab width and weight in the crabs data.
+#|    A scatterplot showing the relationship between female crab width and weight 
+#|    in the crabs data.
 #|    Except for a few outliers, the relationship is linear   
 ggplot(crabs, aes(x = width, y = weight))  +
   geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
-  labs(x = "Width (cm)", y = "Weight (kg)")
+  labs(x = "Width(cm)", y = "Weight(kg)")
 
+
+```
+
+@fig-crabs-width-weight-scatter shows that `width` and `weight` are indeed closely related -- both variables increase or decrease together. Two variables are \index{positively associated} **positively associated** if increasing values of one tend to occur with increasing values of the other; two variables are \index{negatively associated} **negatively associated** if increasing values of one variable occurs with decreasing values of the other. If there is no evident relationship between two variables, they are said to be \index{uncorrelated} **uncorrelated** or \index{independent} **independent**.  Width and weight are positively associated.
+
+When a relationship between two numerical variables tends to follow a straight line, it is called a \index{linear relationship} **linear relationship**.  @fig-crabs-width-weight-scatter-w-lines adds two lines to the scatterplot in @@fig-crabs-width-weight-scatter, a blue line is a smooth curve that that follows the trend in the data and a red straight line that best fits the data.^[@sec-simple-linear-regression covers the statistical methods for adding a best fitting line to a scatterplot].  Since the blue and red lines are similar, the relationship between `width` and `weight` is linear.  The more tightly the points cluster about a straight line in the plane, the stronger the relationship. 
+
+
+```{r}
+#| label: fig-crabs-width-weight-scatter-w-lines
+#| fig-cap: |
+#|   A scatterplot showing the relationship between female crab width and weight 
+#|   in the crabs data.
+#| fig-alt: |
+#|    A scatterplot showing the relationship between female crab width and weight 
+#|    in the crabs data.
+#|    Except for a few outliers, the relationship is linear   
+ggplot(crabs, aes(x = width, y = weight))  +
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
+  geom_smooth(method = "loess", se = FALSE, color = IMSCOL["blue", "full"]) +
+  geom_smooth(method = "lm", se = FALSE, color = IMSCOL["red", "full"]) +
+  labs(x = "Width(cm)", y = "Weight(kg)")
+
+
+```
+
+
+The relationship between `width` and `weight` is not perfect, since the points do not lie exactly on the red line, but it is strong enough to assume that the two variables will have similar relationships with the response variable `satell`.
+
+The two scatterplots in @fig-crabs-satell-width-weight-scatter confirm that assumption. @fig-crabs-satell-width-weight-scatter(a) shows a scatterplot of the response `satell` against the explanatory variable `width`; in @fig-crabs-satell-width-weight-scatter(b) `weight` has replaced `width`.  Both of these relationships are not as clear as the relationship between `width` and `weight`, so a smooth curve has been added to the plots to help show how number of male satellites varies with the two measurements for size.  Apart from small differences in the curves, they have the same general shape, both showing that number of satellites increases gradually with increasing values of the two explanatory variables.
+
+
+```{r}
+#| label: fig-crabs-satell-width-weight-scatter
+#| fig-cap: |
+#|   Two scatterplots showing the relationships between the explanatory
+#|      variables carapace width and female weight and the response variable number
+#|      of male satellites.
+#| fig-subcap: |
+#|    - Carapace width versus number of satellites
+#|    - Female weight versus number of satellites
+#| 
+#| fig-width: 4
+#| layout-ncol: 2
+ggplot(crabs, aes(x = width, y = satell)) +
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
+  geom_smooth(se = FALSE, color = IMSCOL["blue", "full"])
+
+
+ggplot(crabs, aes(x = weight, y = satell)) +
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
+  geom_smooth(se = FALSE, color = IMSCOL["blue", "full"])
 
 ```
 
 ```{r}
-#| label: fig-trees-height-carbon-scatter
-#| fig-cap: |
-#|   Two scatterplots showing the relationship between tree height and amount of carbon stored.
-#| fig-subcap:
-#|   - Scatterplot with both variables on original scale.
-#|   - Scatterplot after square root transformation applied to tree height
-#| fig-alt: |
-#|   Two scatterplots showing the relationship between tree height and amount of carbon stored.
-#|      In the original scale of measurement, the relationship is non-linear.  After transformation
-#|      the relationship is nearly linear (despite the increased variability for tall trees) 
-#| fig-width: 4
-#| layout-ncol: 2
-ggplot(portland_park_trees, aes(x = Tree_Height, y = Carbon_Storage_lb)) +
-  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
-  labs(x = "Tree Height (ft)", y = "Carbon Storage (lbs)")
+r_width_weight <- round(cor(crabs$width, crabs$weight), 2)
+r_width_satell <- round(cor(crabs$width, crabs$satell), 2)
+r_weight_satell <- round(cor(crabs$weight, crabs$satell), 2)
 
-ggplot(portland_park_trees, aes(x = Tree_Height, y = sqrt(Carbon_Storage_lb))) +
-  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
-  labs(x = "Tree Height (ft)", y = "Square root of Carbon Storage (lbs)")
 ```
 
+**Correlation**
+
+**Correlation** \index{correlation} is a numerical summary statistic that measures the strength of a linear relationship between two variables. It is denoted by $r$, the \index{correlation coefficient} **correlation coefficient**,  which takes on values between -1 and 1. The closer $r$ is to 1 or -1, the stronger the linear relationship.
+
+The correlation coefficient for width versus weight is $r$=`r r_width_weight`, reflecting the strength of the relationship.  For `satell` versus `width` or `weight` the two correlation coefficients are `r r_width_satell` and `r r_weight_satell`, respectively.  These two relationship are weaker that the `weight` versus `width` relationship, as is reflected by the more variable scatter in the plots.
+
+```{r correlation-plots}
+#| label: fig-correlation-plots
+#| fig-cap: | 
+#|  Scatterplots and their correlation coefficients. The first row shows 
+#|     positive associations and the second row shows negative associations. 
+#|     From left to right, strength of the linear association between $x$ and $y$ increases.
+#| 
+#| fig-asp: 0.5
+#| out-width: 100%
+#| 
+#| 
+#| 
+library(gridExtra)
+correlation_plot <- function(x_norm, z_norm, rho) {
+  y <- rho * x_norm + sqrt(1 - rho^2) * z_norm # Cholesky decomposition
+  correlation <- cor(x_norm, y)
+  data = cbind(x_norm, y)
+  p <- ggplot(data, aes(x = x_norm, y = y)) +
+    geom_point() +
+    labs(x = NULL,
+         y = NULL,
+         caption = paste("r = ", formatC(correlation, format = "f", digits = 2))) +
+    theme_void() +
+    theme(
+      panel.border = element_rect(colour = "gray", fill = NA, linewidth = 1),
+      strip.background = element_blank(),
+      strip.text.x = element_blank(),
+      plot.caption = element_text(hjust = 0.5,
+                                  size = rel(1.2)),
+      plot.margin=unit(c(0.2, 0.2, 0.2, 0.2),"cm")
+  ) 
+    
+  return(p)
+}
+set.seed(080546)
+n <- 100  
+rho <- 0.33  
+x <- rnorm(n)
+z <- rnorm(n)
+
+# 1st row
+# 
+p1 <- correlation_plot(x, z, 0.33)
+p2 <- correlation_plot(x, z, 0.69)
+p3 <- correlation_plot(x, z, 0.95)
+p4 <- correlation_plot(x, z, 1.00)
+
+# 2nd row
+# 
+p5 <- correlation_plot(x, z, -0.30)
+p6 <- correlation_plot(x, z, -0.64)
+p7 <- correlation_plot(x, z, -0.90)
+p8 <- correlation_plot(x, z, -1.00)
+
+#(p1 + p2 + p3 + p4)/(p5 + p6 + p7 + p8)
+
+# p1/p5 + p2/p6 + p3/p7 + p4/p8
+
+# p1 + p2 + p3 + p4
+# 
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, nrow = 2)
+
+```
+
+
+::: {.important data-latex=""}
+**Correlation coefficient**
+
+The correlation between two variables $x$ and $y$ is given by:
+\begin{align}
+  r &=  \frac{1}{n-1}\sum^{n}_{i=1}
+  \left(\frac{x_{i}-\overline{x}}
+  {s_{x}}\right)\left(\frac{y_{i}-\overline{y}}{s_{y}}\right),
+  \label{correlationEquation}
+\end{align}
+where $(x_1,y_1), (x_2,y_2), \ldots, (x_n, y_n)$ are the $n$ paired values of $x$ and $y$, and $s_x$ and $s_y$ are the sample standard deviations of the $x$ and $y$
+variables, respectively.
+:::
+
+
+
+
+
+```{r}
+#| label: fig-trees-height-carbon-scatter
+#| fig-cap: |
+#|   A scatterplot showing the relationship between tree height and amount of
+#|      carbon stored.
+#| 
+#| fig-alt: |
+#|   coming later
+#| fig-width: 4
+ggplot(portland_park_trees, aes(x = Tree_Height, y = Carbon_Storage_lb)) +
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
+  geom_smooth(method = "loess", se = FALSE, color = IMSCOL["blue", "full"]) +
+  geom_smooth(method = "lm", se = FALSE, color = IMSCOL["red", "full"]) +
+  labs(x = "Tree Height (ft)", y = "Carbon Storage (lbs)")
+
+
+```
+
+
+
 *put back infant mortality, show that transformations do not help*
+
+```{r}
+#| label: fig-wdi_2022-income-infant-mortality
+#| fig-cap: A scatterplot of infant mortality rate (on the y-axis) versus the 
+#|    per-capita income for 217 countries as of 2022.  Infant mortality rate
+#|    is measured as infant deaths before 1 year of age among 1,000 live births.
+#| fig-alt: slightly modified text here
+
+ggplot(wdi_2022, aes(x = gni_percap, y = infant_mortality_rate)) +
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
+  labs(
+    x = "Income per capita",
+    y = "Infant mortality rate"
+  ) +
+  geom_point(
+    data = wdi_2022 |> 
+    dplyr::filter(country == "Argentina"),
+    size = 3, stroke = 2, color = IMSCOL["red", "full"], shape = 1
+  ) +
+  geom_text(
+    data = wdi_2022 |> 
+    dplyr::filter(country == "Argentina"),
+    label = "Argentina", fontface = "italic",
+    nudge_x = 21, nudge_y = -5, color = IMSCOL["red", "full"]
+  ) +
+  guides(color = FALSE) +
+  geom_segment(
+    data = wdi_2022 |> 
+    dplyr::filter(country == "Argentina"),
+    aes(
+      x = 0, y = infant_mortality_rate, xend = gni_percap, 
+      yend = infant_mortality_rate,
+      color = IMSCOL["red", "full"]
+    ), linetype = "dashed"
+  ) +
+  geom_segment(
+    data = wdi_2022 |> 
+    dplyr::filter(country == "Argentina"),
+    aes(
+      x = gni_percap, y = 0, xend = gni_percap, yend = infant_mortality_rate,
+      color = IMSCOL["red", "full"]
+    ), linetype = "dashed"
+  ) +
+  
+  
+  scale_x_continuous(labels = waiver()) +
+  scale_y_continuous(labels = waiver())
+```
+
+
 
 
 ## Case study: developmental disability support {#sec-developmental-disability}
