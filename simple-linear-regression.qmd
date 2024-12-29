@@ -21,3 +21,31 @@ terms_chp_1 <- c("data")
 <!--
 \footnote{Sometimes, the predictor variable is referred to as the independent variable, and the response variable referred to as the dependent variable.}
 -->
+
+
+
+```{r}
+#| label: fig-trees-height-carbon-scatter
+#| fig-cap: |
+#|   A scatterplot showing the relationship between tree height and amount of
+#|      carbon stored.
+#| fig-alt: |
+#|   coming later
+
+load("./data/portland_park_trees.Rdata")
+ggplot(portland_park_trees, aes(x = Tree_Height, y = Carbon_Storage_lb)) +
+  geom_point(alpha = 0.3, 
+             fill = IMSCOL["black", "full"], 
+             shape = 21) +
+  geom_smooth(method = "loess", 
+              se = FALSE, 
+              color = IMSCOL["blue", "full"]) +
+  geom_smooth(method = "lm", 
+              se = FALSE, 
+              color = IMSCOL["red", "full"]) +
+  labs(
+    x = "Tree Height (ft)", 
+    y = "Carbon Storage (lbs)")
+
+
+```

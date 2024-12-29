@@ -252,6 +252,47 @@ ggplot(wdi_2022, aes(x = gni_percap, y = infant_mortality_rate)) +
   scale_y_continuous(labels = waiver())
 ```
 
+```{r dds-discr-box-hist}
+#| label: fig-dds-discr-boxplot-histogram
+#| fig-cap: Box plot and histogram of the distribution of `expenditures` in `dds.discr`
+#| fig-alt: |
+#|   Two plots showing the distribution of same variable, Expenditures. The upper image is a 
+#|   box plot, the lower is histogram. 
+#| fig-asp: 0.6
+#| layout-ncol: 1
+#| 
+
+library(patchwork)
+p1 <- ggplot(dds.discr, 
+       aes(x = expenditures)) +
+  geom_boxplot(outlier.size = 2.5) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank() 
+      ) +
+  labs(x = NULL, y = NULL) +
+  scale_x_continuous(limits = c(0, 80000))
+
+
+p2 <- ggplot(dds.discr,
+       aes(x = expenditures)) +
+  labs(x = "Expenditures (USD)", 
+       y = "Count") +
+  geom_histogram(binwidth = 5000, 
+                 closed = "left",
+                 position = "dodge",
+                 breaks = seq(0, 80000, 5000)) +
+  scale_y_continuous(limits = c(0,500))
+  
+  
+p1/p2
+
+
+
 
 
 ```
+
+
+

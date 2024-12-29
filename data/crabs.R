@@ -27,11 +27,11 @@ crabs <-  crabs_aa |>
                         levels =  c("both good",
                                     "one worn or broken",
                                     "both worn or broken"),
-                        ordered = TRUE))
+                        ordered = TRUE)) |> 
 
 table(crabs$color)
 table(crabs$spine)
-
+summary(crabs$weight)
 
 save(crabs, file = "data/crabs.Rdata")
 
