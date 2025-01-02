@@ -33,8 +33,6 @@ Incomplete draft, additions and proofing to come
 
 - Add definition/discussion of odds ratio to  @sec-relationships-two-categorical
 
-- Add dds case study
-
 - Add chapter summary, augment terms, add exercises
 
 - Association vs causation not covered yet; no mention of lurking variables
@@ -142,7 +140,7 @@ During spawning, a female horseshoe crab migrates to shore with a male attached 
 
 In 1996, H.J. Brockmann [@brockmann1996satellite] conducted a comprehensive study of mating horseshoe crabs on two beaches along the Delaware (USA) shore. Her data suggested that satellites did not cluster randomly around mating pairs and that this clustering was not influenced by environmental conditions or the duration the mating pair had been on the beach. She hypothesized that unattached males were attracted to females with certain features.
 
-This section introduces and explores some of the variables Brockmann's team recorded on 173 female-male mating pairs.  These and other variables are summarized in Table 3 of her article. The dataset used here, referred to as `crabs`, includes 5 recorded measurements for each mating pair and is available on Alan Agresti's University of Florida [`web page`](https://users.stat.ufl.edu/~aa/cda/data.html).  Later, @sec-relationships-one-numerical-one-categorical examines how some features of the female in a mating pair tend to attract unattached males. 
+This section introduces and explores some of the variables Brockmann's team recorded on 173 female-male mating pairs.  These and other variables are summarized in Table 3 of her article. The dataset used here, referred to as `crabs`, includes 5 recorded measurements for each mating pair and is available on Alan Agresti's University of Florida [web page](https://users.stat.ufl.edu/~aa/cda/data.html).  Later, @sec-relationships-one-numerical-one-categorical examines how some features of the female in a mating pair tend to attract unattached males. 
 
 The five variables in `crabs` are defined in @tbl-crabs-variable-descriptions.
 
@@ -393,7 +391,7 @@ portland_size <- nrow(portland_park_trees)
 
 During photosynthesis, trees remove carbon dioxide from the air, combine it with water, and convert it to sugars and oxygen. ^[The sugars created during photosynthesis are primarily sucrose, glucose and fructose.] The sugars are then distributed throughout the tree, and the carbon in them is stored in a process called carbon sequestration. Forests typically store twice as much carbon as they emit and are an important component in mitigating the effect of greenhouse gasses on climate change. How much carbon do trees store?
 
-Data from the [`Portland Oregon Tree Inventory project`](https://www.portland.gov/trees/get-involved/treeinventory)can be used to study that question. The project has compiled a comprehensive inventory of trees in Portland, Oregon, and is used with other data in maintenance planning for the Portland urban forest. The urban forest is a particularly valuable resource.  According to [`Portland’s city government`](https://www.portland.gov/council/documents/ordinance/passed/191975), trees provide an estimated $\$40$ an million annually in environmental benefits to Portland, including air pollution removal, avoided storm water runoff, and carbon sequestration. 
+Data from the [Portland Oregon Tree Inventory project](https://www.portland.gov/trees/get-involved/treeinventory)can be used to study that question. The project has compiled a comprehensive inventory of trees in Portland, Oregon, and is used with other data in maintenance planning for the Portland urban forest. The urban forest is a particularly valuable resource.  According to [Portland’s city government](https://www.portland.gov/council/documents/ordinance/passed/191975), trees provide an estimated $\$40$ an million annually in environmental benefits to Portland, including air pollution removal, avoided storm water runoff, and carbon sequestration. 
 
 The inventory was compiled separately in neighborhoods and parks and was completed in 2017. It includes data on 25,534  trees in Portland parks, with 34 variables for each tree, including  common and scientific names, the amount of carbon stored, the annual rate of carbon sequestration, and the financial value of the tree -- both as a landscape asset and as a tool for mitigating greenhouse gasses. This section uses some of variables from a random sample of`r portland_size` trees in a dataset called `Portland park trees` to examine the distribution of sequestered (i.e., stored) carbon.  
 
@@ -417,7 +415,7 @@ ds  <- portland_park_trees
 carb_sum  <- round(sum(ds$Carbon_Storage_lb),0)
 ```
 
-Some variables, such as `Carbon_Storage_lb`, cannot be measured directly and must be estimated from features of the tree that are observable, such as `Tree_Height` and `Condition`. The Portland team used tools available in [`i Tree`](https://www.itreetools.org/) to estimate data that could not be observed directly.
+Some variables, such as `Carbon_Storage_lb`, cannot be measured directly and must be estimated from features of the tree that are observable, such as `Tree_Height` and `Condition`. The Portland team used tools available in [i Tree](https://www.itreetools.org/) to estimate data that could not be observed directly.
 
 <!-- chatgpt proofing to here, 13 Dec 2024 -->
 
@@ -966,7 +964,7 @@ n_cases <- nrow(wvs_edu_health_cc)
 
 Studying a relationship begins with a question. This section uses the World Values Survey to explore whether health status varies with education.
 
-The [`World Values Survey`](https://www.worldvaluessurvey.org/WVSContents.jsp) (WVS) explores values, beliefs, and cultural norms across  100  countries representing  90%  of the world's population. A national team in each country is responsible for collecting a representative sample of all individuals between the ages 18 and 85 years, inclusive, with a minimum sample size of 1,200 respondents. Interviews are conducted in person, online or by phone, depending on the resources available in each country. The WVS began in 1981 and is conducted in waves; [`Wave 7`](https://www.worldvaluessurvey.org/WVSDocumentationWV7.jsp), the most recently conducted wave, was completed in 2022.
+The [World Values Survey](https://www.worldvaluessurvey.org/WVSContents.jsp) (WVS) explores values, beliefs, and cultural norms across  100  countries representing  90%  of the world's population. A national team in each country is responsible for collecting a representative sample of all individuals between the ages 18 and 85 years, inclusive, with a minimum sample size of 1,200 respondents. Interviews are conducted in person, online or by phone, depending on the resources available in each country. The WVS began in 1981 and is conducted in waves; [Wave 7](https://www.worldvaluessurvey.org/WVSDocumentationWV7.jsp), the most recently conducted wave, was completed in 2022.
 
 This section explores responses to education and health assessment questions from Wave 7 respondents from  9  selected countries, using a dataset with  `r n_vars`  variables and  `r n_cases`  cases. @tbl-wvs-var-descriptions shows the countries in the data used here and the coding for responses to the education and health status questions, and @tbl-wvs-9-countries shows number of respondents from each country.
 
@@ -1284,7 +1282,7 @@ med_carbon_dt <- round(median(df$Carbon_Storage_lb[a]),1)
 
 What can be learned from the data in `Portland park trees` about the relationship between the explanatory variable tree condition and the response variables amount of stored carbon (`Carbon_Storage_lb`) and the rate at which carbon is sequestered (`Carbon_Sequestration_lb`)?
 
-`Condition` is an ordered categorical variable with levels "Dead", "Poor", "Fair" and "Good", with the following definitions in the [`training manual`](https://www.portland.gov/sites/default/files/2020/training-book-2019-web-version.pdf) for the inventory project:
+`Condition` is an ordered categorical variable with levels "Dead", "Poor", "Fair" and "Good", with the following definitions in the [training manual](https://www.portland.gov/sites/default/files/2020/training-book-2019-web-version.pdf) for the inventory project:
 
 - "Dead": Tree is dead and stands over 3ft high.  
 
@@ -1712,65 +1710,37 @@ ggplot(df_cc, aes(x = gni_percap, y = infant_mortality_rate)) +
 The simple techniques for summarizing and visualizing data that have been introduced in this chapter may not seem especially powerful, but when applied in practice, they can be instrumental for gaining insight into the interesting features of a dataset. This section provides three examples of data-driven research questions that can be investigated through exploratory data analysis.
 -->
 
+<!--
+Sequencing the dds presentation
 
-In the United States, individuals with developmental disabilities typically receive services and support from state governments. In California, funds are allocated to developmentally-disabled residents through the California Department of Developmental Services (DDS). Individuals receiving DDS funds are referred to as ‘consumers’. California law specifies that no individual may be denied funds or services based on their race or ethnicity.
+- Background, a bit more about the disabilities
+- Joint dist eth/exp
+  - Table: remove counts
 
+- Distributions of response, explantory variables
+    - Eth box, numbers at the top
+    - Finsh with age distribution
+    - State that analysis will proceed with only White, White non-Hispanic
 
-In the early 2000s, a team of researchers examined the mean annual expenditures on consumers by ethnicity. They found that the mean annual expenditures for Hispanic consumers were approximately one-third of the mean expenditures for White not Hispanic consumers. This finding led to allegations of ethnic discrimination against the California DDS.
-
-
-Does this disparity suggest ethnic discrimination, or might there be additional factors influencing the relationship? This case study explores the relationship between the response variable, `expenditures`, and the explanatory variable, `ethnicity`, while investigating whether other variables may contribute to the observed differences.
-
-
-The dataset, `dds.discr`, from the R package `openintro`, represents a sample of 1,000 DDS consumers (out of a total population of approximately 250,000). It includes information on age, gender, ethnicity, and the amount of financial support provided per consumer by the DDS.^[The dataset is based on real attributes of consumers but has been altered to maintain privacy.] This dataset appears in @taylor2014simpson, which provides a similar but more detailed analysis than that presented here.
-
-*I could not find a reference to the specific claim of discrimination*
-
-
-@tbl-dds-discr-DF} shows the first five rows of the dataset, and the variables are described in @tbl-dds-discr-variables}.
-
-
-
-```{r dds-discr-df}
-#| label:  tbl-dds-discr-DF
-#| tbl-cap:  "First 5 rows of the DDS data matrix"
-#| tbl-pos: H
-
-dds.discr |>
-  slice(1:5) |> 
-  kbl(linesep = "", booktabs = TRUE, align = "lrrlrl")|>
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE)
-```
+- Relationships between response and explanatory variables
+    - Ethnicity/exp box plots (two groups)
+    - Sex/exp table or box
+    - Age/exp scatter (add color to scatter), box by category
+    
+- Relationships among the explanatory variables 
+    - Argument for looking at age/eth  Age distribution by eth Ca
+        - Rel freq bar, dogged bar, numbers at the top
+    - Rel freq table age/eth
+    
+- Relationship between eth/exp, accounting for age
 
 
+- Simpson's paradox
+    - Simple example, perhaps worked example
+    
+    
 
-| Variable Name | Variable description |
-|:------------------------------|:----------------------------------------|
-| id | Unique identification code for each resident |
-| age.cohort | Age as sorted into six groups, 0-5 years, 6-12 years, 13-17 years, 18-21 years, 22-50 years, and 51+ years |
-| age | Age, measured in years |
-| gender | Gender, recorded as either `Female` or `Male` |
-| expenditures | Amount of expenditures spent by the State on an individual annually, measured in US dollars (USD) |
-| ethnicity | Ethnic group, recorded as either `American Indian`, `Asian`, `Black`, `Hispanic`, `Multi Race`, `Native Hawaiian`, `Other`, or `White Not Hispanic` |
-
-: Variable descriptions for `dds.discr`. {#tbl-dds-discr-variables} {tbl-colwidths="[25,75]"}
-
-```{r summ-stat-exp-format}
-# values for text below
-# 
-expend <- dds.discr$expenditures
-min_nr <- min(expend)
-min_r <- round(min_nr, 0)
-max_r <- round(max(expend), 0)
-med <- median(expend)
-q1_r <- round(quantile(expend, probs = 0.25), 0)
-q3_r <- round(quantile(expend, probs = 0.75), 0)
-iqr_r <- q3_r - q1_r
-m_r <- round(mean(expend),1)
-```
+-->
 
 ```{r}
 dds_reformat <- dds.discr |> 
@@ -1790,25 +1760,219 @@ dds_reformat <- dds.discr |>
     "18 - 21",
     "22 - 50",
     "51+")
+  ) |> 
+  mutate(ethnicity = recode(
+    ethnicity,
+    "White not Hispanic" = "White non-Hispanic")
   )
 ```    
-  
-           
 
-Even when the primary intent of an analysis is to explore relationships in the data, it is important to first understand the characteristics of the variables by examining their distributions. In this dataset, key questions to guide the exploration include: *What is the range of annual expenditures?*, *Do consumers tend to be older or younger?*, and *Are there more consumers from one ethnic group than another?*
+In the United States, individuals with developmental disabilities typically receive services and support from state governments. These disabilities are generally lifetime chronic conditions such as autism and cerebral palsy.  In California, funds are allocated to developmentally-disabled residents through the California Department of Developmental Services (DDS). Individuals receiving DDS funds are referred to as ‘consumers’. California law specifies that no individual may be denied funds or services based on their race or ethnicity, age or gender.
+
+In the early 2000s, a team of researchers examined the mean annual expenditures on consumers by ethnicity. They found that the mean annual expenditures for Hispanic consumers were approximately one-third of the mean expenditures for White non-Hispanic consumers. This finding led to allegations of ethnic discrimination against the California DDS.
+
+The dataset, `dds.discr`, from the R package `openintro`, represents a sample of 1,000 DDS consumers (out of a total population of approximately 250,000). It includes information on age, gender, ethnicity, and the amount of financial support provided per consumer by the DDS.^[The dataset is based on real attributes of consumers but has been altered to maintain privacy.] This dataset appears in @taylor2014simpson, which provides a similar but more detailed analysis than that presented here.
+
+@tbl-dds-variables shows the definitions of the variables in the dataset.
+
+| Variable Name | Variable description |
+|:------------------------------|:----------------------------------------|
+| id | Unique identification code for each resident |
+| age.cohort | Age as sorted into six groups, 0-5 years, 6-12 years, 13-17 years, 18-21 years, 22-50 years, and 51+ years |
+| age | Age, measured in years |
+| gender | Gender, recorded as either `Female` or `Male` |
+| expenditures | Amount of expenditures spent by the State on an individual annually, measured in US dollars (USD) |
+| ethnicity | Ethnic group, recorded as either `American Indian`, `Asian`, `Black`, `Hispanic`, `Multi Race`, `Native Hawaiian`, `Other`, or `White non-Hispanic` |
+
+: Variable descriptions for `dds.discr`. {#tbl-dds-variables} {tbl-colwidths="[25,75]"}
+
+```{r numbers-for-dds-text}
+df <- dds_reformat
+a <- (df$ethnicity) == "Hispanic"
+b <- (df$ethnicity) == "White non-Hispanic"
+m_hisp <- round(mean(df$expenditures[a]), 0)
+med_hisp <- round(median(df$expenditures[a]), )
+m_not_hisp <- round(mean(df$expenditures[b]), 0)
+med_not_hisp <- round(median(df$expenditures[b]), 0)
+ratio_eth <- round(100 * m_hisp/m_not_hisp, 2)
+```
+
+
+Do the distributions of expenditures across ethnic groups suggest the possibility of ethnic bias, as claimed in the original assertion? The table @tbl-dds-exp-ethnicity-summ displays the mean and median expenditures (rounded to the nearest dollar) alongside the number of observations in each ethnic group. The mean expenditures vary significantly across groups.
+
+Among groups with more than 100 observations, the largest discrepancy is between Hispanic and White non-Hispanic, with mean expenditures of `r m_hisp` and `r m_not_hisp`, respectively. Hispanic expenditures were `r ratio_eth`% of those for White non-Hispanics, suggesting the possibility of bias in funding.
+
+
+```{r dds-exp-by-ethnicity-summ}
+#| label: tbl-dds-exp-ethnicity-summ
+#| tbl-cap: |
+#|      Mean and median expenditures (USD) and number of cases by ethnicity, `dds.dscr`
+#| alt-cap:  | 
+#|    The number of observations in the 3 ethnicity groups American Indian,
+#|       Native Hawaiian and Other are too small for those groups to be 
+#|       informative.
+#| tbl-pos: H
+dds_reformat |> 
+  group_by(ethnicity) |> 
+  summarise(
+    Mean = round(mean(expenditures), 0),  
+    Median = round(median(expenditures), 0),      
+    Count = n()                    
+  )  |> 
+  rename(Ethnicity = ethnicity) |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE
+  )
+  
+```
+Does this disparity suggest ethnic discrimination, or might additional factors influence the relationship? This case study examines the relationship between the response variable, `expenditures`, and the explanatory variable, `ethnicity`, while investigating whether the additional explanatory variables `age`, `age.cohort` and `gender` may contribute to the observed differences in funding across ethnic groups. Like many analyses, this one is guided by both interesting features in the data and hypotheses about the interrelationships among the variables.
+
+The analysis begins by exploring the distributions of the explanatory and response variables to  understand the characteristics of the 1,000 participants in the sample. Some tables and graphs may present the same information (e.g., a bar plot and a frequency table), but this redundancy is intentional. When preparing an analysis, it is useful to present results in both graphical and tabular formats to accommodate readers who benefit from visual displays as well as those who find data easier to interpret tables.  In some instances, tables and graphs provide complementary information.
+
+
+
+
+*I could not find a reference to the specific claim of discrimination.  Will query Taylor*
+
+
+
+
+
+```{r summ-stat-exp-format}
+# values for text below
+# 
+expend <- dds.discr$expenditures
+min_nr <- min(expend)
+min_r <- round(min_nr, 0)
+max_r <- round(max(expend), 0)
+med <- median(expend)
+q1_r <- round(quantile(expend, probs = 0.25), 0)
+q3_r <- round(quantile(expend, probs = 0.75), 0)
+iqr_r <- q3_r - q1_r
+m_r <- round(mean(expend),1)
+```
+
+
+  
+          
 
 
 **Distributions of the variables**
 
-@tbl-dds-discr-exp-five-num-summ and @fig-dds-discr-boxplot-histogram show the five number summary (plus the mean) and the right-skewed distribution of`expenditures`. As expected, the mean expenditures is larger than the median.  Even though mean `expenditures` is `r m_r`,  the majority of consumers have expenditures less than approximately the median, `r med`.  The mode at the left most bar in the histogram indicates that the largest number of expenditures are less than \$5,000.  The box plot shows that despite the right skewing, there are no outliers in the data set, but it does show at least one large observation that is not evident in the histogram --- the maximum expenditure `r max_r`(USD).
+What are the characteristics of the population in this sample?
 
-For the most consumers, expenditures are relatively low,  between \$0 and \$5,000.   The middle 50% of expenditures are between the first ($Q_1$) and third quartiles ($Q_3$), `r q1_r` (USD) and `r_q3_r`. There are some consumers with much higher expenditures,  between \$60,000 and \$80,000.
+A consumer's age recorded as `age` in years and `age.cohort`, consumers are grouped into one of six age categories that correspond to specific life phases.
+
+-  In the first three age categories, consumers are typically living with their parents while progressing through preschool, elementary/middle school, and high school.
+
+- Between 18 and 21, consumers are often transitioning from parental or foster homes to independent or supported living settings.
+
+-  From ages 22 – 50, individuals generally no longer live with parents or guardians but may continue to receive some support from family alongside support from DDS.
+
+- In the 51+ category, consumers often have no living parents and typically require the highest level of DDS support.
 
 
-```{r dds-discr-exp-five-num-summ}
-#| label: tbl-dds-discr-exp-five-num-summ
+@fig-dds-age-boxplot-histogram(a) illustrates the right-skewed distribution of age, showing that most consumers are younger than 30.  @fig-dds-age-boxplot-histogram(b) indicates that there are approximately 200 individuals in each of the middle four cohorts, whereas the other two cohorts contain about 100 individuals each.
+
+
+```{r}
+#| label: fig-dds-age-boxplot-histogram
+#| fig-cap: |
+#|   A histogram and bar plot showing the distributions of `age` and `age.cohort`
+#| fig-subcap: 
+#|    - Histogram of `age`, recorded in years
+#|    - Bar plot showing frequencies in the categories of `age.cohort`
+#| fig-width: 4
+#| layout-ncol: 2
+
+ggplot(dds_reformat, aes(x = age)) +
+  geom_histogram(binwidth = 10, 
+                 closed = "left",
+                 position = "dodge",
+                 breaks = seq(0, 100, 10)) +
+  labs(x = "Age", y = "Count")
+
+ggplot(dds_reformat, aes(x = age.cohort)) +
+  geom_bar(fill = IMSCOL["blue", "full"]) +
+  labs(x = "Age cohort", y = "Count")
+
+```
+
+The proportion of females and male consumers is nearly identical in this sample, as is shown in @tbl-dds-gender-relative-frequency.
+
+```{r dds-discr-gender-rel-freq-tbl}
+#| label: tbl-dds-gender-relative-frequency
+#| tbl-cap:  "Distribution of gender in `dds.discr`"
+#| tbl-pos: H
+
+dds_reformat |> 
+  count(gender) |>
+  mutate("Proportion" = n/sum(n)) |>
+  rename(Count = n) |>
+  rename(Gender = gender) |> 
+  adorn_totals(where = "row") |>
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE
+  )
+  
+```
+
+There are eight ethnic groups represented in `dds.discr`, as shown in both @fig-dds-ethnicity-barplot and The two largest groups, Hispanic and White non-Hispanic, together represent about 80\% of the consumers.  They are the only two categories with more than 200 participants --- `Hispanic` and `White non-Hispanic`.  There are very few participants with `ethniciy` recorded as `American Indian` or `Native Hawaiian`.
+
+```{r dds-ethnicity-rel-freq-tbl}
+#| label: tbl-dds-ethnicity-relative-frequency
+#| tbl-cap:  "Distribution of `ethnicity` in `dds.discr`"
+#| tbl-pos: H
+
+dds_reformat |> 
+  count(ethnicity) |>
+  mutate("Proportion" = n/sum(n)) |>
+  rename(Count = n) |>
+  rename(Ethnicity = ethnicity) |> 
+  adorn_totals(where = "row") |>
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE
+  )
+  
+```
+
+
+```{r dds-ethnicity-barplot}
+#| label: fig-dds-ethnicity-barplot
+#| fig-cap: |
+#|   A bar plot showing the distribution of `ethnicity`
+#| alt-cap: |
+#|   Coming
+#| fig-width: 8
+
+ggplot(dds_reformat, aes(x = ethnicity)) +
+  geom_bar(fill = IMSCOL["blue", "full"]) +
+  labs(x = "Recorded ethnicity", y = "Count")
+
+```
+
+In summary, this is a predominantly younger population with approximately equal numbers of males and female, and with a large majority either Hispanic or White non-Hispanic.
+
+What about the response variable, `expenditures`?
+
+@tbl-dds-exp-five-num-summ and @fig-dds-exp-boxplot-histogram show the five number summary (plus the mean) and the right-skewed distribution of`expenditures`. As expected, the mean expenditures is larger than the median.  Even though mean `expenditures` is \$`r m_r`,  the majority of consumers have expenditures less than approximately the median, \$`r med`.  The mode at the left most bar in the histogram indicates that the largest number of expenditures are less than \$5,000.  The box plot shows that despite the right skewing, there are no outliers in the data set, but it does show at least one large observation that is not evident in the histogram --- the maximum expenditure \$`r max_r`.
+
+For most consumers, expenditures are relatively low,  between \$0 and \$5,000.   The middle 50% of expenditures are between the first ($Q_1$) and third quartiles ($Q_3$), \$`r q1_r` and \$`r q3_r`. There are some consumers with much higher expenditures, between \$60,000 and \$80,000.
+
+
+```{r dds-exp-five-num-summ}
+#| label: tbl-dds-exp-five-num-summ
 #| tbl-cap: |
-#|   The five number summary and the mean for expenditures in `dds.discr`.  Va
+#|   The five number summary and the mean for expenditures in `dds.discr`.
 #| tbl-pos: H
 summ_stat_dds_discr <- dds.discr |> 
   summarize(
@@ -1833,16 +1997,13 @@ summ_stat_dds_discr |>
 
 ```
 
-```{r dds-discr-box-hist}
-#| label: fig-dds-discr-boxplot-histogram
+```{r dds-exp-box-hist}
+#| label: fig-dds-exp-boxplot-histogram
 #| fig-cap: Box plot and histogram of the distribution of `expenditures` in `dds.discr`
-#| sub-cap: 
-#|    - Histogram of age in years
-#|    - Bar plot of the age categories
 #| fig-alt: |
 #|   Two plots showing the distribution of same variable, Expenditures. The upper image is a 
 #|   box plot, the lower is histogram. 
-#| fig-asp: 0.4
+#| 
 #| 
 
 library(patchwork)
@@ -1874,130 +2035,28 @@ p1/p2 + plot_layout(heights = c(1,2))
 
 ```
 
-The distribution for `expenditures` shown in the histogram is a \index{mixture distribution} **mixture distribution**.  In a mixture distribution two or more subsets of observations appear to follow different underlying distributions.  Expenditures less than \$20,000 occur much more frequently in the range 0 - \$5,000 and become increasingly rare as expenditures increase to \$20,000.  Expenditures centered at approximately $42,000 are symmetrically distributed.
+The histogram in @fig-dds-exp-boxplot-histogram reveals an interesting feature not observed in other examples in this chapter. There appear to be two distinct types of `expenditure`: those less than \$20,000, which occur much more frequently in the \$0 – \$5,000 range and become increasingly rare as expenditures approach \$20,000, and higher expenditures between \$25,000 and \$60,000 annually, which appear symmetrically spread around  \$42,000.  
 
-A consumer's age in years is recorded as  `age`; in `age.cohort`, consumers are assigned to one of six age cohorts that match particular life phases. In the first three age cohorts, consumers are still living with their parents as they move through preschool, elementary/middle school, and high school. In the 18 - 21 cohort, consumers are typically transitioning from parental or foster homes to independent supported settings. From ages 22 - 50, individuals are generally no longer live with parents or guardians but may still receive some support from family. In the 51+ cohort, consumers often have no living parents and typically require the most amount of support.
+The remainder of this analysis is restricted to the Hispanic and White non-Hispanic subpopulations, as these two groups were highlighted in the original discrimination claim and represent the largest subgroups in this dataset.
 
-
-@fig-dds-discr-boxplot-histogram(a) reveals the right-skewing of `age` --- most consumers are younger than 30. @fig-dds-discr-boxplot-histogram(b) shows that here are approximately 200 individuals in each of the middle four cohorts, while there are about 100 individuals in the other two cohorts.
-
-```{r}
-#| label: fig-dds-discr-age-hist-barplot
-#| fig-cap: |
-#|   A histogram and bar plot showing the distributions of `age` and `age.cohort`
-#| fig-subcap: |
-#|    - Histogram of `age`, recorded in years
-#|    - Bar plot showing frequencies in the categoris of `age.cohort`
-#| fig-width: 4
-#| layout-ncol: 2
-
-ggplot(dds_reformat, aes(x = age)) +
-  geom_histogram(binwidth = 10, 
-                 closed = "left",
-                 position = "dodge",
-                 breaks = seq(0, 100, 10)) +
-  labs(x = "Age", y = "Count")
-
-ggplot(dds_reformat, aes(x = age.cohort)) +
-  geom_bar(fill = IMSCOL["blue", "full"]) +
-  labs(x = "Age cohort", y = "Count")
-
-```
-
-The proportion of females and male consumers is nearly identical in this sample , as is shown in @tbl-dds-discr-gender-relative-frequency.
-
-```{r dds-discr-gender-rel-freq-tbl}
-#| label: tbl-dds-discr-gender-relative-frequency
-#| tbl-cap:  "Distribution of gender in `dds.discr`"
-#| tbl-pos: H
-
-dds_reformat |> 
-  count(gender) |>
-  mutate("Proportion" = n/sum(n)) |>
-  rename(Count = n) |>
-  rename(Gender = gender) |> 
-  adorn_totals(where = "row") |>
-  kbl(linesep = "", booktabs = TRUE) |> 
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE
-  )
-  
-```
-
-There are eight ethnic groups represented in `dds.discr`. The two largest groups, Hispanic and White non-Hispanic, together represent about 80\% of the consumers.
-
-
-
-```{r dds-discr_ethnicity-barplot}
-#| label: fig-dds-discr-ethnicity-barplot
-#| fig-cap: |
-#|   A bar plot showing the distribution of `ethnicity`
-#| alt-cap: |
-#|   Coming
-#| fig-width: 8
-
-ggplot(dds_reformat, aes(x = ethnicity)) +
-  geom_bar(fill = IMSCOL["blue", "full"]) +
-  labs(x = "Recorded ethnicity", y = "Count")
-
-```
 
 **Relationships between the response (`expenditures`) and explanatory variables**
 
-```{r numbers-for-dds-text}
-df <- dds_reformat
-a <- (df$ethnicity) == "Hispanic"
-b <- (df$ethnicity) == "White not Hispanic"
-m_hisp <- round(mean(df$expenditures[a]), 0)
-m_not_hisp <- round(mean(df$expenditures[b]), 0)
-ratio_eth <- round(100 * m_hisp/m_not_hisp, 2)
-```
 
-Do the distributions of `expenditures` across ethnic groups show the possibility of ethnic bias, as in the original claim? @tbl-dds-expenditures-by-ethnicity-summ  shows the mean and median expenditures rounded to the nearest dollar, along with the number of observations by `ethnicity`. Mean `expenditures` vary widely across groups, but, consistent with the bar plots in @fig-dds-discr-ethnicity-barplot, three groups (`American Indian`, `Native Hawaiian` and `Other`) have too few observations to be informative.  Among the groups with more than 100 observations the largest discrepancy in mean expenditures is between `Hispanic` and `White not Hispanic`, `r m_hisp` versus `r m_not_hisp`.  Hispanic expenditures were `r ratio_eth`% of those for Whites, not Hispanic, suggesting the possibility of bias in funding.   This analysis focuses on those two groups.
-
-
-
-```{r tbl-dds-expenditures-by-ethnicity-summ}
-#| label: tbl-dds-expenditures-by-ethnicity-summ
-#| tbl-cap:  "Mean and median expenditures (USD) and number of cases by ethnicity, `dds.dscr`"
-#| alt-cap:  | 
-#|    The number of observations in the 3 ethnicity groups American Indian,
-#|       Native Hawaiian and Other are too small for those groups to be 
-#|       informative.
-#| tbl-pos: H
-dds_reformat |> 
-  group_by(ethnicity) |> 
-  summarise(
-    Mean = round(mean(expenditures), 0),  
-    Median = round(median(expenditures), 0),      
-    Count = n()                    
-  )  |> 
-  rename(Ethnicity = ethnicity) |> 
-  kbl(linesep = "", booktabs = TRUE) |> 
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE
-  )
-  
-```
-
-need text here
+@fig-dds-exp-ethnicity-boxplot shows the distribution of `expenditures` in `Hispanics` and `White non-Hispanics`. It is consistent with the summary statistics in the earlier @tbl-dds-exp-ethnicity-summ.  Median expenditure in Hispanics (`r med_hisp`(USD) is much lower than in White non-Hispanics(`r med_not_hisp `(USD)). 
 
 
 ```{r}
-#| label: dds-exp-ethicity-box-plot
+#| label: fig-dds-exp-ethnicity-boxplot
 #| fig-cap: |
-#|       Side by side box plots of expenditures, Hispanic and White not Hispanic
+#|       Side by side box plots of expenditures, Hispanic and White non-Hispanic
 #|          ethnic groups
 #| alt-cap: |
 #|       Coming
 #| fig-width: 8
 
 dds_reformat |> 
-  filter(ethnicity == "Hispanic" | ethnicity == "White not Hispanic") |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
   ggplot(aes(
   y = expenditures, 
   x = ethnicity)) +
@@ -2007,44 +2066,126 @@ dds_reformat |>
 
 ```
 
-insert text here
+There is good reason to expect a strong relationship between age and funding levels. As consumers age, they are less likely to live with parents or guardians and more likely to require increased assistance for housing, food, and supportive care. The six levels in `age.cohort` were constructed with this progression in mind.
+
+The side-by-side box plots in @fig-dds-exp-age-boxplot show the strong, positive relationship between age category and expenditures.  Median expenditures gradually increase until age 17, then increase noticeably in the 18 - 21 age group, followed by larger increases in the last two categories, when consumers are more likely to be living in settings requiring additional financial support from the DDS. @tbl-dds-exp-age-summ shows the mean and median expenditures in each of the age categories.
+
+
+
 
 ```{r}
-#| label: dds-ethicity-age-rel-freq-bar
-#| fig-cap: |
-#|       Relative frequency bar plot of ethnicity by age cohort.
+#| label: fig-dds-exp-age-boxplot
+#| fig-cap: Side by side box plots of expenditures by age category 
+#|      
 #| alt-cap: |
 #|       Coming
 #| fig-width: 8
 
 dds_reformat |> 
-  filter(ethnicity == "Hispanic" | ethnicity == "White not Hispanic") |> 
-  ggplot(aes(x = age.cohort, fill = ethnicity)) +
-  geom_bar(position = "fill") +
-  labs(x = "Age category",
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  ggplot(aes(
+  y = expenditures, 
+  x = age.cohort)) +
+  geom_boxplot() +
+  scale_color_openintro("two") +
+  labs(y = "Expenditures (USD)", x = "Age category") 
+
+```
+
+
+```{r tbl-dds-exp-age-summ}
+#| label: tbl-dds-exp-age-summ
+#| tbl-cap: |
+#|      Mean and median expenditures (USD) and number of cases by age category, `dds.dscr`
+#| alt-cap:  | 
+#|    Coming
+#| tbl-pos: H
+dds_reformat |> 
+  group_by(age.cohort) |> 
+  summarise(
+    Mean = round(mean(expenditures), 0),  
+    Median = round(median(expenditures), 0),      
+    Count = n()                    
+  )  |> 
+  rename("Age category" = age.cohort) |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE
+  )
+  
+```
+
+
+If the Hispanic population in California is younger than the White non-Hispanic population, the lower expenditures in Hispanics may be influenced by lower expenditures by age in @tbl-dds-exp-age-summ rather than ethnicity. The 2007 [California Current Population Survey Report](https://dof.ca.gov/wp-content/uploads/sites/352/Reports/Demographic_Reports/documents/CACPS07_final.pdf)
+states that "The median age for all race/ethnic groups in California was 34, ranging from 41 for Whites to 27 for Hispanics".  @fig-dds-eth-age-barplot shows a similar relationship between age and ethnicity in the `dds.discr` data.
+
+
+
+```{r dds-eth-age-freq-bar}
+#| label: fig-dds-eth-age-barplot
+#| fig-cap: |
+#|   Bar plots showing the relationship between `age.cohort` and `ethnicity`
+#| fig-subcap: 
+#|    - Relative frequency bar plot  
+#|    - Dodged bar plot
+#| fig-asp: 0.5
+#| layout-ncol: 1
+dds_plot <- dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") 
+
+ggplot(dds_plot, aes(x = age.cohort, fill = ethnicity)) +
+  geom_bar(show.legend = FALSE, position = "fill") +
+  labs(x = NULL,
        y = "Proportion",
        fill = "Ethnicity") 
 
+ggplot(dds_plot, aes(x = age.cohort, fill = ethnicity)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Age category",
+       y = "Count",
+       fill = "Ethnicity" ) +
+     theme(legend.position = "bottom") 
+
 ```
 
 insert text here
 
-```{r}
-#| label: dds-ethicity-dodged-bar
-#| fig-cap: |
-#|       A dodged bar plot showing the relationship between ethnicity and age
-#| alt-cap: |
-#|       Coming
-#| fig-width: 8
-dds_reformat |> 
-  filter(ethnicity == "Hispanic" | ethnicity == "White not Hispanic") |> 
-  ggplot(aes(x = age.cohort, fill = ethnicity)) +
-  geom_bar(position = "dodge") +
-  labs(x = "Age category",
-       y = "Count",
-       fill = "Ethnicity" ) 
+
+
+```{r dds-exp-simpson-tbl}
+#| label: tbl-dds-exp-simpson
+#| tbl-cap: |
+#|    Mean expenditures(USD) by ethnicity within age categories 
+#| alt-cap:  | 
+#|     Coming
+#| tbl-pos: H
+
+dds_simpson_tbl <- dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  group_by(age.cohort, ethnicity) |> 
+  summarise(
+    "Mean expenditures" = round(mean(expenditures), 0),
+    .groups = "drop"
+  )  |> 
+  pivot_wider(names_from = ethnicity, values_from = "Mean expenditures")   
+
+dds_simpson_tbl$Difference = dds_simpson_tbl$Hispanic - 
+  dds_simpson_tbl$'White non-Hispanic'  
+# could not get this simply transf to work pipe with mutate
+# Don't know why
+dds_simpson_tbl |> 
+  rename("Age cohort" = age.cohort) |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
 
 ```
+
+
 
 ## Chapter review {#sec-chp1-review}
 

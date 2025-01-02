@@ -294,5 +294,95 @@ p1/p2
 
 ```
 
+@tbl-dds-discr-DF} shows the first five rows of the dataset, and the variables are described in @tbl-dds-discr-variables}.
+
+
+
+```{r dds-discr-df}
+#| label:  tbl-dds-discr-DF
+#| tbl-cap:  "First 5 rows of the DDS data matrix"
+#| tbl-pos: H
+
+dds.discr |>
+  slice(1:5) |> 
+  kbl(linesep = "", booktabs = TRUE, align = "lrrlrl")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+
+
+Move to exercises
+
+In the scatterplot in fig-dds-age-exp-hist(a),  `expenditure` (vertical axis) is plotted against the continuous variable `age` (horizontal axis). It shows the relationship between age and expenditures evident in @fig-dds-age-boxplot, but in more detail.   The smooth line added to the plot shows the same gradual increase in expenditures until approximately age  20, with a sharp bend in the curve between roughly age 21 and 25. After age 25 expenditures... 
+
+```{r dds-age-exp-scatter-hist}
+#| label: fig-dds-age-exp-scatter-hist
+#| fig-cap: |
+#|       The relationship between `expenditures` and `age` and the distribution of 
+#|       `expenditures`, restricted to `Hispanics` and 
+#|          `White non-Hispanics`
+#| sub-cap: |
+#|    - Scatterplot of `expenditures` versus `age`
+#|    - Histogram of `expenditures`
+#| 
+#| alt-cap: |
+#|       Coming
+#| fig-width: 8
+#| layout-ncol: 2
+#| 
+dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  ggplot(aes(x = age, y = expenditures)) +
+  geom_point(alpha = 0.3,  
+             shape = 21, 
+             fill = IMSCOL["black", "full"],
+             position = position_jitter(width = 0.5, height = 0.6)) +
+  geom_smooth(method = "loess", se = FALSE, color = IMSCOL["blue", "full"]) +
+  labs(
+    x = "Age",
+    y = "Expenditures")
+
+dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  ggplot(aes(x = expenditures)) +
+  labs(x = "Expenditures (USD)", 
+       y = "Count") +
+  geom_histogram(binwidth = 5000, 
+                 closed = "left",
+                 position = "dodge",
+                 breaks = seq(0, 80000, 5000)) +
+  scale_y_continuous(limits = c(0,500))
+  
+  
+  
+
+```
+
+
+
+```{r dds-eth-dodged-bar}
+#| label: dds-ethnicity-dodged-bar
+#| fig-cap: |
+#|       A dodged bar plot showing the relationship between ethnicity and age
+#| alt-cap: |
+#|       Coming
+#| fig-width: 8
+dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  ggplot(aes(x = age.cohort, fill = ethnicity)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Age category",
+       y = "Count",
+       fill = "Ethnicity" ) 
+
+```
+
+
+
+
+
 
 

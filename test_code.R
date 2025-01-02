@@ -200,46 +200,20 @@ par(par_og) # restore original par
 # 
 
 
+dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  ggplot(aes(x = age, y = expenditures, color = ethnicity)) +
+  geom_point(alpha = 0.3,  shape = 21,
+             position = position_jitter(width = 0.5, height = 0.6)) +
+  labs(
+    x = "Age",
+    y = "Expenditures"
+  ) 
+  
 
-library(patchwork)
-p1 <- ggplot(dds.discr, 
-       aes(x = expenditures)) +
-  geom_boxplot(outlier.size = 2.5) +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  ) +
-  labs(x = "Expenditures (USD)") +
-  scale_x_continuous(
-    limits = c(0, 80000)
-  )
-p1
+geom_jitter()
 
 
 
+ggplot()
 
-p2 <- ggplot(dds.discr,
-       aes(x = expenditures)) +
-  labs(x = "Expenditures (USD)", 
-       y = "Count") +
-  geom_histogram(binwidth = 5000, 
-                 closed = "left") +
-  scale_x_continuous(
-   limits = c(0, 80000)
-  )
-
-p2
-
-aligned_plot <- p1/p2
-print(aligned_plot)
-
-
-
-g1 <- ggplotGrob(p1)
-g2 <- ggplotGrob(p2)
-g <- rbind(g1, g2, size = "max")
-
-# g$widths <- unit.pmax(g1$widths, g2$widths)
-# grid.newpage()
-grid.draw(g)
