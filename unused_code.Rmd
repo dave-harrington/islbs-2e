@@ -381,6 +381,369 @@ dds_reformat |>
 ```
 
 
+<!--  Old text begins here
+
+This case study examines the relationship between the response variable, `expenditures`, and the explanatory variable, `ethnicity`, while investigating whether the additional explanatory variables `age`, `age.cohort` and `gender` may contribute to the observed differences in funding across ethnic groups. Like many analyses, this one is guided by both interesting features in the data and hypotheses about the interrelationships among the variables.
+
+The analysis begins by exploring the distributions of the explanatory and response variables to  understand the characteristics of the 1,000 participants in the sample. Some tables and graphs may present the same information (e.g., a bar plot and a frequency table), but this redundancy is intentional. When preparing an analysis, it is useful to present results in both graphical and tabular formats to accommodate readers who benefit from visual displays as well as those who find data easier to interpret tables.  In some instances, tables and graphs provide complementary information.
+
+
+
+
+*I could not find a reference to the specific claim of discrimination.  Will query Taylor*
+
+
+
+
+
+```{r summ-stat-exp-format}
+# values for text below
+# 
+expend <- dds.discr$expenditures
+min_nr <- min(expend)
+min_r <- round(min_nr, 0)
+max_r <- round(max(expend), 0)
+med <- median(expend)
+q1_r <- round(quantile(expend, probs = 0.25), 0)
+q3_r <- round(quantile(expend, probs = 0.75), 0)
+iqr_r <- q3_r - q1_r
+m_r <- round(mean(expend),1)
+```
+
+
+  
+          
+
+
+**Distributions of the variables**
+
+What are the characteristics of the population in this sample?
+
+A consumer's age recorded as `age` in years and `age.cohort`, consumers are grouped into one of six age categories that correspond to specific life phases.
+
+-  In the first three age categories, consumers are typically living with their parents while progressing through preschool, elementary/middle school, and high school.
+
+- Between 18 and 21, consumers are often transitioning from parental or foster homes to independent or supported living settings.
+
+-  From ages 22 – 50, individuals generally no longer live with parents or guardians but may continue to receive some support from family alongside support from DDS.
+
+- In the 51+ category, consumers often have no living parents and typically require the highest level of DDS support.
+
+
+@fig-dds-age-boxplot-histogram(a) illustrates the right-skewed distribution of age, showing that most consumers are younger than 30.  @fig-dds-age-boxplot-histogram(b) indicates that there are approximately 200 individuals in each of the middle four cohorts, whereas the other two cohorts contain about 100 individuals each.
+
+
+```{r}
+#| label: fig-dds-age-boxplot-histogram
+#| fig-cap: |
+#|   A histogram and bar plot showing the distributions of `age` and `age.cohort`
+#| fig-subcap: 
+#|    - Histogram of `age`, recorded in years
+#|    - Bar plot showing frequencies in the categories of `age.cohort`
+#| fig-width: 4
+#| layout-ncol: 2
+
+ggplot(dds_reformat, aes(x = age)) +
+  geom_histogram(binwidth = 10, 
+                 closed = "left",
+                 position = "dodge",
+                 breaks = seq(0, 100, 10)) +
+  labs(x = "Age", y = "Count")
+
+ggplot(dds_reformat, aes(x = age.cohort)) +
+  geom_bar(fill = IMSCOL["blue", "full"]) +
+  labs(x = "Age cohort", y = "Count")
+
+```
+
+The proportion of females and male consumers is nearly identical in this sample, as is shown in @tbl-dds-gender-relative-frequency.
+
+```{r dds-discr-gender-rel-freq-tbl}
+#| label: tbl-dds-gender-relative-frequency
+#| tbl-cap:  "Distribution of gender in `dds.discr`"
+#| tbl-pos: H
+
+dds_reformat |> 
+  count(gender) |>
+  mutate("Proportion" = n/sum(n)) |>
+  rename(Count = n) |>
+  rename(Gender = gender) |> 
+  adorn_totals(where = "row") |>
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE
+  )
+  
+```
+
+There are eight ethnic groups represented in `dds.discr`, as shown in both @fig-dds-ethnicity-barplot and The two largest groups, Hispanic and White non-Hispanic, together represent about 80\% of the consumers.  They are the only two categories with more than 200 participants --- `Hispanic` and `White non-Hispanic`.  There are very few participants with `ethniciy` recorded as `American Indian` or `Native Hawaiian`.
+
+```{r dds-ethnicity-rel-freq-tbl}
+#| label: tbl-dds-ethnicity-relative-frequency
+#| tbl-cap:  "Distribution of `ethnicity` in `dds.discr`"
+#| tbl-pos: H
+
+dds_reformat |> 
+  count(ethnicity) |>
+  mutate("Proportion" = n/sum(n)) |>
+  rename(Count = n) |>
+  rename(Ethnicity = ethnicity) |> 
+  adorn_totals(where = "row") |>
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE
+  )
+  
+```
+
+
+```{r dds-ethnicity-barplot}
+#| label: fig-dds-ethnicity-barplot
+#| fig-cap: |
+#|   A bar plot showing the distribution of `ethnicity`
+#| alt-cap: |
+#|   Coming
+#| fig-width: 8
+
+ggplot(dds_reformat, aes(x = ethnicity)) +
+  geom_bar(fill = IMSCOL["blue", "full"]) +
+  labs(x = "Recorded ethnicity", y = "Count")
+
+```
+
+In summary, this is a predominantly younger population with approximately equal numbers of males and female, and with a large majority either Hispanic or White non-Hispanic.
+
+What about the response variable, `expenditures`?
+
+@tbl-dds-exp-five-num-summ and @fig-dds-exp-boxplot-histogram show the five number summary (plus the mean) and the right-skewed distribution of`expenditures`. As expected, the mean expenditures is larger than the median.  Even though mean `expenditures` is \$`r m_r`,  the majority of consumers have expenditures less than approximately the median, \$`r med`.  The mode at the left most bar in the histogram indicates that the largest number of expenditures are less than \$5,000.  The box plot shows that despite the right skewing, there are no outliers in the data set, but it does show at least one large observation that is not evident in the histogram --- the maximum expenditure \$`r max_r`.
+
+For most consumers, expenditures are relatively low,  between \$0 and \$5,000.   The middle 50% of expenditures are between the first ($Q_1$) and third quartiles ($Q_3$), \$`r q1_r` and \$`r q3_r`. There are some consumers with much higher expenditures, between \$60,000 and \$80,000.
+
+
+```{r dds-exp-five-num-summ}
+#| label: tbl-dds-exp-five-num-summ
+#| tbl-cap: |
+#|   The five number summary and the mean for expenditures in `dds.discr`.
+#| tbl-pos: H
+summ_stat_dds_discr <- dds.discr |> 
+  summarize(
+    Minimum = min(expenditures),
+    `First Quartile (Q1)` = quantile(expenditures, probs = 0.25),
+    Median = median(expenditures),
+    Mean = mean(expenditures),
+    `Third Quartile (Q3)` = quantile(expenditures, probs = 0.75),
+    Maximum = max(expenditures)
+  ) 
+
+summ_stat_dds_discr |> 
+  mutate(across(where(is.numeric), ~ num(., digits = 1))) |> 
+  kbl(linesep = "", 
+      booktabs = TRUE, 
+      align = "rrrrrr",
+      digits = 2)  |>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")
+  )
+
+```
+
+```{r dds-exp-box-hist}
+#| label: fig-dds-exp-boxplot-histogram
+#| fig-cap: Box plot and histogram of the distribution of `expenditures` in `dds.discr`
+#| fig-alt: |
+#|   Two plots showing the distribution of same variable, Expenditures. The upper image is a 
+#|   box plot, the lower is histogram. 
+#| 
+#| 
+
+library(patchwork)
+p1 <- ggplot(dds_reformat, 
+       aes(x = expenditures)) +
+  geom_boxplot(outlier.size = 2.5) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank() 
+      ) +
+  labs(x = NULL, y = NULL) +
+  scale_x_continuous(limits = c(0, 80000))
+
+
+p2 <- ggplot(dds_reformat,
+       aes(x = expenditures)) +
+  labs(x = "Expenditures (USD)", 
+       y = "Count") +
+  geom_histogram(binwidth = 5000, 
+                 closed = "left",
+                 position = "dodge",
+                 breaks = seq(0, 80000, 5000)) +
+  scale_y_continuous(limits = c(0,500))
+  
+  
+p1/p2 + plot_layout(heights = c(1,2))
+
+
+```
+
+The histogram in @fig-dds-exp-boxplot-histogram reveals an interesting feature not observed in other examples in this chapter. There appear to be two distinct types of `expenditure`: those less than \$20,000, which occur much more frequently in the \$0 – \$5,000 range and become increasingly rare as expenditures approach \$20,000, and higher expenditures between \$25,000 and \$60,000 annually, which appear symmetrically spread around  \$42,000.  
+
+The remainder of this analysis is restricted to the Hispanic and White non-Hispanic subpopulations, as these two groups were highlighted in the original discrimination claim and represent the largest subgroups in this dataset.
+
+
+**Relationships between the response (`expenditures`) and explanatory variables**
+
+
+@fig-dds-exp-ethnicity-boxplot shows the distribution of `expenditures` in `Hispanics` and `White non-Hispanics`. It is consistent with the summary statistics in the earlier @tbl-dds-exp-ethnicity-summ.  Median expenditure in Hispanics (\$`r med_hisp`) is much lower than in White non-Hispanics(\$`r med_not_hisp `. 
+
+
+```{r}
+#| label: fig-dds-exp-ethnicity-boxplot
+#| fig-cap: |
+#|       Side by side box plots of expenditures, Hispanic and White non-Hispanic
+#|          ethnic groups
+#| alt-cap: |
+#|       Coming
+#| fig-width: 8
+
+dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  ggplot(aes(
+  y = expenditures, 
+  x = ethnicity)) +
+  geom_boxplot() +
+  scale_color_openintro("two") +
+  labs(y = "Expenditures (USD)", x = "Ethnicity") 
+
+```
+
+There is good reason to expect a strong relationship between age and funding levels. As consumers age, they are less likely to live with parents or guardians and more likely to require increased assistance for housing, food, and supportive care. The six levels in `age.cohort` were constructed with this progression in mind.
+
+The side-by-side box plots in @fig-dds-exp-age-boxplot show the strong, positive relationship between age category and expenditures.  Median expenditures gradually increase until age 17, then increase noticeably in the 18 - 21 age group, followed by larger increases in the last two categories, when consumers are more likely to be living in settings requiring additional financial support from the DDS. @tbl-dds-exp-age-summ shows the mean and median expenditures in each of the age categories.
+
+
+
+
+```{r}
+#| label: fig-dds-exp-age-boxplot
+#| fig-cap: Side by side box plots of expenditures by age category 
+#|      
+#| alt-cap: |
+#|       Coming
+#| fig-width: 8
+
+dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  ggplot(aes(
+  y = expenditures, 
+  x = age.cohort)) +
+  geom_boxplot() +
+  scale_color_openintro("two") +
+  labs(y = "Expenditures (USD)", x = "Age category") 
+
+```
+
+
+```{r tbl-dds-exp-age-summ}
+#| label: tbl-dds-exp-age-summ
+#| tbl-cap: |
+#|      Mean and median expenditures (USD) and number of cases by age category, `dds.dscr`
+#| alt-cap:  | 
+#|    Coming
+#| tbl-pos: H
+dds_reformat |> 
+  group_by(age.cohort) |> 
+  summarise(
+    Mean = round(mean(expenditures), 0),  
+    Median = round(median(expenditures), 0),      
+    Count = n()                    
+  )  |> 
+  rename("Age category" = age.cohort) |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE
+  )
+  
+```
+
+If the California Hispanics are younger than White non-Hispanics, the lower total expenditures in Hispanics may be influenced by lower expenditures for young consumers rather than by ethnicity. 
+
+@fig-dds-eth-age-barplot shows a similar relationship between age and ethnicity in the `dds.discr` data.
+
+^[The 2007 [California Current Population Survey Report](https://dof.ca.gov/wp-content/uploads/sites/352/Reports/Demographic_Reports/documents/CACPS07_final.pdf)
+states that "The median age for all race/ethnic groups in California was 34, ranging from 41 for Whites to 27 for Hispanics". ]
+
+```{r dds-eth-age-freq-bar}
+#| label: fig-dds-eth-age-barplot
+#| fig-cap: |
+#|   Bar plots showing the relationship between `age.cohort` and `ethnicity`
+#| fig-subcap: 
+#|    - Relative frequency bar plot  
+#|    - Dodged bar plot
+#| fig-asp: 0.5
+#| layout-ncol: 1
+dds_plot <- dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") 
+
+
+ggplot(dds_plot, aes(x = age.cohort, fill = ethnicity)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Age category",
+       y = "Count",
+       fill = "Ethnicity" ) +
+     theme(legend.position = "bottom") 
+
+ggplot(dds_plot, aes(x = age.cohort, fill = ethnicity)) +
+  geom_bar(show.legend = FALSE, position = "fill") +
+  labs(x = NULL,
+       y = "Proportion",
+       fill = "Ethnicity") 
+
+```
+
+insert text here
+
+
+
+```{r dds-exp-simpson-tbl}
+#| label: tbl-dds-exp-simpson
+#| tbl-cap: |
+#|    Mean expenditures(USD) by ethnicity within age categories 
+#| alt-cap:  | 
+#|     Coming
+#| tbl-pos: H
+
+dds_simpson_tbl <- dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  group_by(age.cohort, ethnicity) |> 
+  summarise(
+    "Mean expenditures" = round(mean(expenditures), 0),
+    .groups = "drop"
+  )  |> 
+  pivot_wider(names_from = ethnicity, values_from = "Mean expenditures")   
+
+dds_simpson_tbl$Difference = dds_simpson_tbl$Hispanic - 
+  dds_simpson_tbl$'White non-Hispanic'  
+# could not get this simply transf to work pipe with mutate
+# Don't know why
+dds_simpson_tbl |> 
+  rename("Age cohort" = age.cohort) |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+
+```
+
+
+
 
 
 
