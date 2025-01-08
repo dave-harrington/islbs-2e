@@ -381,7 +381,7 @@ dds_reformat |>
 ```
 
 
-<!--  Old text begins here
+**Old dds text begins here**
 
 This case study examines the relationship between the response variable, `expenditures`, and the explanatory variable, `ethnicity`, while investigating whether the additional explanatory variables `age`, `age.cohort` and `gender` may contribute to the observed differences in funding across ethnic groups. Like many analyses, this one is guided by both interesting features in the data and hypotheses about the interrelationships among the variables.
 
@@ -391,8 +391,6 @@ The analysis begins by exploring the distributions of the explanatory and respon
 
 
 *I could not find a reference to the specific claim of discrimination.  Will query Taylor*
-
-
 
 
 
@@ -411,8 +409,7 @@ m_r <- round(mean(expend),1)
 ```
 
 
-  
-          
+
 
 
 **Distributions of the variables**
@@ -741,6 +738,9 @@ dds_simpson_tbl |>
     full_width = FALSE)
 
 ```
+
+
+
 
 
 

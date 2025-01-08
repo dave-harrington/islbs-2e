@@ -4,7 +4,7 @@
 # I have used original coding
 
 
-crabs_aa <- read.table("data/crabs_aa.txt", header = TRUE)
+crabs_aa <- read.table("crabs_aa.txt", header = TRUE)
 crabs <-  crabs_aa |> 
   mutate(color = case_when(
     color == 2 ~ "light medium",
@@ -27,13 +27,13 @@ crabs <-  crabs_aa |>
                         levels =  c("both good",
                                     "one worn or broken",
                                     "both worn or broken"),
-                        ordered = TRUE)) |> 
+                        ordered = TRUE)) 
 
 table(crabs$color)
 table(crabs$spine)
 summary(crabs$weight)
 
-save(crabs, file = "data/crabs.Rdata")
+save(crabs, file = "crabs.Rdata")
 
 # check match with table 3 in Brockman
 # 
