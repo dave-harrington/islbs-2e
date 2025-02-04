@@ -741,8 +741,274 @@ dds_simpson_tbl |>
 
 
 
+```{r association-plots-1}
+library(cowplot)
+correlation_plot <- function(x_norm, z_norm, rho) {
+  y <- rho * x_norm + sqrt(1 - rho^2) * z_norm # Cholesky decomposition
+  correlation <- cor(x_norm, y)
+  data = cbind(x_norm, y)
+  p <- ggplot(data, aes(x = x_norm, y = y)) +
+    geom_point() +
+    labs(x = NULL,
+         y = NULL,
+         ) +
+    theme(
+      panel.border = element_rect(colour = "gray", fill = NA, linewidth = 1),
+      strip.background = element_blank(),
+      strip.text.x = element_blank(),
+      plot.margin=unit(c(0.2, 0.2, 0.2, 0.2),"cm"),
+      axis.text.x = element_blank(), 
+      axis.ticks.x = element_blank(),
+      axis.text.y = element_blank(),  
+      axis.ticks.y = element_blank()
+  ) 
+  return(p)
+}
+set.seed(080546)
+n <- 100  
+rho <- 0.33  
+x <- rnorm(n)
+z <- rnorm(n)
+
+# 1st row
+# 
+p1 <- correlation_plot(x, z, runif(1, min = 0.70, max = 0.85 ))
+p2 <- correlation_plot(x, z, runif(1, min = -0.85, max = -0.70 ))
+p3 <- correlation_plot(x, z, runif(1, min = -0.05, max = 0.05))
+# p4 <- correlation_plot(x**2, z, 1.0)
+
+x <- seq(-2, 2, 0.04)
+y_nonlin <- x**2/2 + rnorm(length(x), mean = 0, sd = runif(1, min = .5, max = 1))
+
+data <- cbind(x, y_nonlin)
+
+p4 <- ggplot(data, aes(x = x, y = y_nonlin)) +
+      geom_point() +
+    labs(x = NULL,
+         y = NULL) +
+  theme(
+      panel.border = element_rect(colour = "gray", fill = NA, linewidth = 1),
+      strip.background = element_blank(),
+      strip.text.x = element_blank(),
+      plot.margin=unit(c(0.2, 0.2, 0.2, 0.2),"cm"),
+      axis.text.x = element_blank(), 
+      axis.ticks.x = element_blank(),
+      axis.text.y = element_blank(),  
+      axis.ticks.y = element_blank()
+  )
+  
+
+plot_grid(p1, p2, p3, p4, 
+          nrow = 1, 
+          labels = "auto",
+          hjust = +0.1, vjust = -0.5)
+
+```
 
 
+```{r}
+    #| fig-asp: 0.60
+    #| out-width: 95%
+    set.seed(080546)
+
+    # create x
+    x <- seq(0, 20, 0.2)
+
+    # create y_poslin: positive linear with x
+    y_poslin <- x * runif(1, min = 15, max = 20) + 
+      rnorm(length(x), mean = 0, sd = runif(1, min = 12, max = 15)) - 
+      runif(1, min = 0, max = 3)
+
+    # create y_neglin: negative linear with x
+    y_neglin <- x * -runif(1, min = 15, max = 20) + 
+      rnorm(length(x), mean = 0, sd = runif(1, min = 12, max = 15)) + 
+      max(y_poslin)
+
+    # create y_poscur: curved positive with x
+    y_poscur <- x^2 + rnorm(length(x), mean = -3, sd = runif(1, min = 12, max = 15))
+
+    # create y_none: no association with x
+    y_none <- x + rnorm(length(x), mean = 0, sd = runif(1, min = 30, max = 40)) +
+      mean(y_poslin)
+
+    # data frame
+    tibble(
+      x = x,
+      poslin = y_poslin,
+      neglin = y_neglin,
+      poscur = y_poscur,
+      none   = y_none
+    ) |>
+      pivot_longer(cols = -x, names_to = "type", values_to = "y") |>
+      arrange(type) |>
+      mutate(
+        type_num = case_when(
+          type == "poslin" ~ "(3)",
+          type == "neglin" ~ "(1)",
+          type == "poscur" ~ "(2)",
+          type == "none"   ~ "(4)"
+        ),
+        type_num = as.factor(type_num)
+        ) |>
+      ggplot(aes(x = x, y = y)) +
+      geom_point(alpha = 0.5) +
+      facet_grid(~type_num) +
+      theme(
+        axis.text = element_blank()
+      ) +
+      labs(x = NULL, y = NULL)
+```
+```{r}
+    #| fig-asp: 0.60
+    #| out-width: 95%
+    set.seed(082569)
+
+    # create x
+    x <- seq(0, 20, 0.2)
+
+    # create y_poslin: positive linear with x
+    y_poslin <- x * runif(1, min = 15, max = 20) + 
+      rnorm(length(x), mean = 0, sd = runif(1, min = 12, max = 15)) - 
+      runif(1, min = 0, max = 3)
+
+    # create y_neglin: negative linear with x
+    y_neglin <- x * -runif(1, min = 15, max = 20) + 
+      rnorm(length(x), mean = 0, sd = runif(1, min = 12, max = 15)) + 
+      max(y_poslin)
+
+    # create y_poscur: curved positive with x
+    y_poscur <- x^2 + rnorm(length(x), mean = -3, sd = runif(1, min = 12, max = 15))
+
+    # create y_none: no association with x
+    y_none <- x + rnorm(length(x), mean = 0, sd = runif(1, min = 30, max = 40)) +
+      mean(y_poslin)
+
+    # data frame
+    tibble(
+      x = x,
+      poslin = y_poslin,
+      neglin = y_neglin,
+      poscur = y_poscur,
+      none   = y_none
+    ) |>
+      pivot_longer(cols = -x, names_to = "type", values_to = "y") |>
+      arrange(type) |>
+      mutate(
+        type_num = case_when(
+          type == "poslin" ~ "(1)",
+          type == "neglin" ~ "(4)",
+          type == "poscur" ~ "(3)",
+          type == "none"   ~ "(2)"
+        ),
+        type_num = as.factor(type_num)
+        ) |>
+      ggplot(aes(x = x, y = y)) +
+      geom_point(alpha = 0.5) +
+      facet_grid(~type_num) +
+      theme(
+        axis.text = element_blank()
+      ) +
+      labs(x = NULL, y = NULL)
+```
+
+<!-- differences are too subtle, need another, similar example -->
+
+```{r ex-nrs-home-numbers}
+load("~/repos/islbs-2e/exercises/data/nrshome.Rdata")
+n = nrow(nrshome)
+
+```
+
+
+**Nursing home residents**  What is the age distribution of nursing home residents?  They are, naturally, older than the general population, but what more can be said about their ages.  The data in this exercise are from a larger 1980 study of nursing homes conducted by National Center for Health Services Research [@roper1986nursing]  The upper panel of plots below shows three histograms for age distributions for participants in `r n` participants in 36 for profit nursing homes in San Diego study.  The left-most histogram shows the age distribution for all residents in the study; the middle and right-most plots show the distributions for females and males separately.  The lower  panel contains a box plot of the age distribution and side-by-side box plots of the age distribution by gender.  [@lange1994case, Chapter 12] ^[The data used here are available at (Oxford University)[https://www.stats.ox.ac.uk/pub/datasets/csb/ch12.txt].]
+
+Use the plots to answer the following questions.
+
+  a. Discuss the features of the overall age distribution.  Is it symmetric? Is it uni- or multi-modal? What are the  approximate minimum and maximum ages?  Is there anything surprising about the distribution?
+  
+  b. What are the differences between the separate histograms for females and males?
+  
+  c. What can be learned from the side-by-side box plots that is not evident in the histograms.
+  
+  d. Are these data a reliable indicator of current ages in nursing homes in the United States?
+
+
+
+```{r ex-nrshome-age-gender-hist}
+library(patchwork)
+load("~/repos/islbs-2e/exercises/data/nrshome.Rdata")
+
+nrshome <- nrshome |> 
+  mutate(gender = factor(gender)) |> 
+  mutate(gender = fct_recode(
+    gender,
+    "Female" = "0",
+    "Male" = "1")
+  )
+
+p_all  <-  ggplot(data = nrshome, aes(x = age)) +
+  geom_histogram(bins = 20) +
+  labs(
+    caption = "Both genders"
+  ) +
+  theme(
+    plot.caption = element_text(hjust = 0.5,
+                                size = 12))
+
+  
+nrsfemales <-  nrshome |> 
+  filter( gender == "Female") 
+
+p_females <- ggplot(data = nrsfemales,
+                    aes(x = age)) +
+  geom_histogram(bins = 20) +
+  labs(
+    caption = "Females"
+  ) +
+  theme(
+    plot.caption = element_text(hjust = 0.5,
+                                size = 12))
+
+nrsmales <-  nrshome |> 
+  filter(gender == "Male") 
+
+p_males <- ggplot(data = nrsmales,
+                    aes(x = age)) +
+  geom_histogram(bins = 20) +
+  labs(
+    caption = "Males"
+  ) +
+  theme(
+    plot.caption = element_text(hjust = 0.5,
+                                size = 12))
+
+p_box_both <- ggplot(nrshome, aes( 
+  y = age)) +
+  geom_boxplot() +
+  labs(
+    caption = "Both genders"
+  ) +
+  theme(
+    plot.caption = element_text(hjust = 0.5,
+                                size = 12),
+    axis.text.x = element_blank(),  # Remove x-axis text
+    axis.ticks.x = element_blank()
+    )
+
+p_box <- ggplot(nrshome, aes(
+  x = gender, 
+  y = age)) +
+  geom_boxplot() +
+    labs(x = NULL, 
+         caption = "Gender"
+  ) +
+  theme(
+    plot.caption = element_text(hjust = 0.5,
+                                size = 12))
+
+(p_all + p_females + p_males)/( p_box_both + p_box) 
+
+```
 
 
 

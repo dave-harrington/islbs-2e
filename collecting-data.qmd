@@ -15,6 +15,96 @@ Collecting data under development
 terms_chp_1 <- c("data")
 ```
 
+## Case study
+
+## Case study: Preventing peanut allergies {#sec-case-study-preventing-peanut-allergies}
+
+\index{data!LEAP|(}
+
+Is there an effective way to prevent peanut allergies in infants?
+
+The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years. Some studies have suggested that exposing infants to peanut-based foods, rather than excluding them from their diets, may help prevent peanut allergies (see @du2008early). The "Learning Early about Peanut Allergy" (LEAP, @du2015randomized) study was conducted in a controlled setting to investigate whether early exposure to peanut products reduces the likelihood of developing a peanut allergy.
+
+The study team enrolled children in the United Kingdom between 2006 and 2009, selecting  640  infants between  4  and  11  months old who had eczema, an egg allergy, or both. Each child was randomly assigned to one of two groups: the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams of peanut protein daily until 5 years of age, while children in the control group avoided peanut protein during the same period.
+
+At age 5, each child underwent a peanut allergy test using an oral food challenge (OFC), which involved consuming 5 grams of peanut protein in a single dose. If a child showed no allergic reaction, the intervention (treatment or control) received by the child, the intervention they received was deemed a PASS; if the intervention failed to prevent an allergic reaction, the outcome was recorded as a FAIL.
+
+The primary analysis presented in the paper was based on data from  530 children with a negative skin test at study entry. Although a total of 542 children had an earlier negative skin test, data were unavailable for 12 children.
+
+Individual-level data from the study are shown in @tbl-leap-study-results-df, which shows 6 
+children in a dataset restricted to children with a negative skin prick test for a peanut allergy at the time of randomization. Each row represents a participant and shows the `participant.ID` (an anonymous participant identifier), `treatment.group` (the treatment randomly assigned) and `overall.V60.outcome` (result of the OFC at 60 months of age). The LEAP data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+
+```{r leap-trimmed}
+#| label:  tbl-leap-study-results-df
+#| tbl-cap:  "Five patients from the LEAP study"
+#| tbl-pos: H
+
+LEAP_trimmed <- LEAP |>
+  dplyr::select(
+    participant.ID,
+    treatment.group,
+    overall.V60.outcome) |>
+  slice(1:3, 529, 539)
+
+LEAP_trimmed  |> 
+  kbl(linesep = "", booktabs = TRUE, align = "lll")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+The data can be organized in a two-way summary table; @tbl-leap-study-results shows the results grouped by treatment group and OFC outcome.
+
+```{r leap-study-results}
+#| label:  tbl-leap-study-results
+#| tbl-cap:  "Results from the LEAP study"
+#| tbl-pos: H
+options(knitr.kable.NA = '')
+
+LEAP_analyzed <- LEAP |> 
+  dplyr::filter(stratum == "SPT-Negative") |> 
+  dplyr::filter(!is.na(overall.V60.outcome))
+
+LEAP_analyzed |> 
+  count(overall.V60.outcome, treatment.group) |> 
+  group_by(treatment.group) |> 
+  pivot_wider(names_from = overall.V60.outcome, 
+              values_from = n) |> 
+  relocate(`FAIL OFC`, .after = `PASS OFC`) |>
+  adorn_totals(where = c("row", "col"), name = "Sum") |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")
+ )
+```
+
+The summary table makes it easy to identify patterns in the data. In the two groups combined, the intervention failed to prevent an allergy in 15.6% (41/530) of the children, but the proportions of failures in the two groups are different. In the avoidance group, the proportion of OFC failures was  36/263 = 0.137  (13.7%); in the consumption group, it was  5/267 = 0.019  (1.9%).
+
+The difference in the proportions of OFC failures between the two groups is  11.8% ; nearly  12%  more of the participants tested positive in the avoidance versus than consumption groups. The data can also be summarized by the ratio the two proportions (0.137/0.019 = 7.31); the rate of a subsequent allergy the avoidance group is more than  7  times larger than in the consumption group; i.e., the risk of a subsequent peanut allergy was more than 7 times greater in the avoidance group relative to the consumption group.
+
+Even without advanced statistical methods, the results of the LEAP study are striking. Early exposure to peanut products appears to be an effective strategy for reducing the likelihood of developing peanut allergies later in life. But are these results definitive? In other words, is the  11.8%  difference between the two groups larger than one would expect by chance variation alone? The statistical methods introduced in later chapters will provide the tools to answer this question.
+
+In the language of medical research, LEAP was a \index{clinical trial} **clinical trial** -- a study done to improve the understanding of an intervention in a clinical setting. In statistical terms, LEAP was an \index{experiment} **experiment** involving human subjects -- a study done in a controlled setting to estimate the difference in outcome between two interventions. Experiments will be explored in more detail later in the text in @sec-experiments of @sec-collecting-data.
+
+This study illustrates important issues in \index{evidence-based medicine} **evidence-based medicine**. At the time of the study, the prevailing approach to preventing peanut allergies in at-risk children was to avoid peanut products altogether. LEAP was pivotal in challenging this belief, providing evidence that avoidance, while intuitive, was not the most effective strategy.
+
+Importantly, the study required informed consent from parents to allow their children to be randomly assigned to one of two interventions with uncertain outcomes. In return investigators were obligated to ensure that the study was justified by preliminary data, had a statistically sound design, and was conducted responsibly to protect the well-being of the participants. ^[The 2024 update to the World Medical Association Ethical Principles for Medical Research Involving Human Participants (also known as the Declaration of Helsinki) can be found in 
+@wma2024jama]
+
+
+```{r }
+#| include: false
+terms_chp_1 <- c("data", 
+                 "clinical trial",
+                 "experiment",
+                 "evidence-based medicine")
+```
+\index{data!LEAP|)}
+
+## Experiments {#sec-experiments}
+
 ## Sampling from a population {#sec-sampling-populations}
 
 ## Sample Surveys {#sec-sample-surveys}

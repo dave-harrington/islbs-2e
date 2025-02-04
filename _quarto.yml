@@ -34,6 +34,7 @@ book:
     - logistic-regression.qmd
     
   appendices:
+    - exercise-solutions.qmd
     - references.qmd
 
 bibliography: 

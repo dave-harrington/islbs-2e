@@ -1,0 +1,16 @@
+# Exercise solutions {#sec-exercise-solutions} 
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+
+
+```{r}
+#| include: false
+
+source("_common.R")
+```
+
+## Chapter 1 {#sec-exercise-solutions-01 .unlisted}
+
+::: exercises-solution
+{{< include exercises/_01-sa-intro-to-data.qmd >}}
+:::
