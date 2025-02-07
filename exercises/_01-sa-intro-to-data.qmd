@@ -1,0 +1,5 @@
+---
+title: "Shell for solutions"
+---
+
+Shell for future short answer solutions

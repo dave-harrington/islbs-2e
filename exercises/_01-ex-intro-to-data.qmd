@@ -1,0 +1,1412 @@
+
+*Organizing and classifying data*
+
+<!-- IMS, 01 #3 -->
+
+**Air pollution and birth outcomes, study components.** Researchers collected data to examine the relationship between air pollutants and preterm births in Southern California.
+    During the study air pollution levels were measured by air quality monitoring stations.
+    Specifically, levels of carbon monoxide were recorded in parts per million, nitrogen dioxide and ozone in parts per hundred million, and coarse particulate matter (PM~10~) in $\mu g/m^3$.
+    Length of gestation data were collected on 143,196 births between the years 1989 and 1993, and air pollution exposure during gestation was calculated for each birth.
+    The analysis suggested that increased ambient PM~10~$ and, to a lesser degree, CO concentrations may be associated with the occurrence of preterm births.  [@Ritz+Yu+Chapa+Fruin:2000]
+
+  a.  Identify the main research question of the study.
+
+  b.  Who are the subjects in this study, and how many are included?
+
+  c.  What are the variables in the study?
+        Identify each variable as numerical or categorical.
+        If numerical, state whether the variable is discrete or continuous.
+        If categorical, state whether the variable is ordinal.
+
+\vfill
+
+<!-- OI4, 1.4 -->
+
+**The Buteyko method, I.**  The Buteyko method is a shallow breathing technique developed by Konstantin 
+Buteyko, a Russian doctor, in 1952. Anecdotal evidence suggests that the Buteyko 
+method can reduce asthma symptoms and improve quality of life. In a scientific 
+study to determine the effectiveness of this method, researchers recruited 600 
+asthma patients aged 18-69 who relied on medication for asthma treatment. These 
+patients were randomly split into two research groups: one practiced the Buteyko 
+method and the other did not. Patients were scored on quality of life, activity, 
+asthma symptoms, and medication reduction on a scale from 0 to 10. On average, 
+the participants in the Buteyko group experienced a significant reduction in 
+asthma symptoms and an improvement in quality of life. [@McDowan:2003] 
+
+  a. Identify the main research question of the study.
+
+  b. Who are the subjects in this study, and how many are included?
+	
+  c. What are the variables in the study? Identify each variable as numerical or 
+categorical. If numerical, state whether the variable is discrete or continuous.
+If categorical, state whether the variable is ordinal.
+
+
+
+
+
+
+<!-- OI4, 1.5 -->
+
+**Cheaters, study components.** Researchers studying the relationship between honesty, age and self-control conducted an experiment on 160 children between the ages of 5 and 15.
+    Participants reported their age, sex, and whether they were an only child or not.
+    The researchers asked each child to toss a fair coin in private and to record the outcome (white or black) on a paper sheet, and said they would only reward children who report white.
+    [@Bucciol:2011]
+
+  a.  Identify the main research question of the study.
+
+  b.  Who are the subjects in this study, and how many are included?
+
+  c.  The study's findings can be summarized as follows: *"Half the students were explicitly told not to cheat and the others were not given any explicit instructions. In the no instruction group probability of cheating was found to be uniform across groups based on child's characteristics. In the group that was explicitly told to not cheat, girls were less likely to cheat, and while rate of cheating didn't vary by age for boys, it decreased with age for girls."* How many variables were recorded for each subject in the study in order to conclude these findings?  State the variables and their types.
+
+\vfill
+
+
+<!-- IMS 1. 17, hello data   Possibly modify using source csv-->
+
+**Stanford Open Policing.** The Stanford Open Policing project gathers, analyzes, and releases records from traffic stops by law enforcement agencies across the United States. Their goal is to help researchers, journalists, and policy makers investigate and improve interactions between police and the public. The following is an excerpt from a summary table created based off of the data collected as part of this project.
+    [@pierson2020large]
+
+```{r}
+    # data from https://raw.githubusercontent.com/5harad/openpolicing/master/results/data_for_figures/combined_data.csv
+    sop <- read_csv("data/stanford-open-policing-combined-data.csv")
+
+    sop_to_print <- sop |>
+      select(location, state, driver_race, stops_per_year, search_rate, arrest_rate) |>
+      filter(
+        location %in% c("APACHE COUNTY", "COCHISE COUNTY", "WOOD COUNTY"),
+        state %in% c("AZ", "WI")
+      ) |>
+      mutate(location = str_to_title(location)) |>
+      relocate(arrest_rate, .after = driver_race) |>
+      rename_with(str_to_title) |>
+      rename(
+        `County` = Location,
+        `Race / Ethnicity` = Driver_race,
+        `Arrest rate` = Arrest_rate,
+        `Stops / year` = Stops_per_year,
+        `Search rate` = Search_rate,
+      ) |>
+      mutate(across(everything(), as.character))
+
+    sop_top <- sop_to_print |> filter(State == "AZ") |> slice_head(n = 4)
+    sop_filler <- sop_to_print |>
+      slice(1) |>
+      mutate(across(everything(), str_replace, ".*", "..."))
+    sop_bottom <- sop_to_print |> filter(State == "WI") |> slice_tail(n = 2)
+
+    sop_top |>
+      bind_rows(sop_filler) |>
+      bind_rows(sop_bottom) |>
+      kbl(linesep = "", booktabs = TRUE, align = "lllccc") |>
+      kable_styling(
+        bootstrap_options = c("striped", "condensed"),
+        latex_options = "HOLD_position",
+        full_width = FALSE
+      ) |>
+      add_header_above(c(" " = 2, "Driver" = 2, "Car" = 2))
+```
+
+  a.  What variables were collected on each individual traffic stop in order to create the summary table above?
+
+  b.  State whether each variable is numerical or categorical.  If numerical, state whether it is continuous or discrete. If categorical, state whether it is ordinal or not.
+
+  c.  Suppose we wanted to evaluate whether vehicle search rates are different for drivers of different races.
+In this analysis, which variable would be the response variable and which variable would be the explanatory variable?
+
+\vfill
+
+
+**Smoking habits of UK residents.** A survey was conducted to study the smoking habits of 1,691 UK residents.  Below is a data frame displaying a portion of the data collected in this survey.  A blank cell indicates that data for that variable was not available for a given respondent.[^_01-ex-intro-to-data-12]
+
+
+```{r ex-uk-smoking}
+    set.seed(456)
+    smoking_to_print <- smoking |>
+      rename(sex = gender) |>
+      dplyr::select(sex, age, marital_status, gross_income, smoke, amt_weekends, amt_weekdays) |>
+      slice_sample(n = nrow(smoking)) |>
+      rownames_to_column() |>
+      rename(
+        weekend = amt_weekends,
+        weekday = amt_weekdays,
+        ` ` = rowname
+      )
+
+    smoking_1_to_5 <- smoking_to_print |>
+      slice(1:5) |>
+      mutate(across(everything(), as.character))
+
+    smoking_n <- smoking_to_print |>
+      slice(nrow(smoking)) |>
+      mutate(across(everything(), as.character))
+
+    smoking_filler <- smoking_to_print |>
+      slice(1) |>
+      mutate(across(everything(), ~ str_replace(.x, ".*", "...")))
+
+    smoking_1_to_5 |>
+      bind_rows(smoking_filler) |>
+      bind_rows(smoking_n) |>
+      kbl(linesep = "", booktabs = TRUE, align = "llllclcccl") |>
+      kable_styling(
+        bootstrap_options = c("striped", "condensed"),
+        latex_options = "HOLD_position",
+        full_width = FALSE
+      ) |>
+      add_header_above(c(" " = 6, "amount" = 2))
+```
+
+  a.  What does each row of the data matrix represent?
+
+  b.  How many participants were included in the survey?
+
+  c.  Indicate whether each variable is numerical or categorical.  If numerical, identify as continuous or discrete.  If categorical, indicate if the variable is ordinal.
+  
+<!-- 11 ODD (OI4, 1.13) -->
+
+**Air pollution and birth outcomes, study components.** Researchers collected data to examine the relationship between air pollutants and preterm births in Southern California. During the study air pollution levels were measured by air quality monitoring stations.  Specifically, levels of carbon monoxide were recorded in parts per million, nitrogen dioxide and ozone in parts per hundred million, and coarse particulate matter (PM$_{10}$) in $\mu g/m^3$.
+
+Length of gestation data were collected on 143,196 births between the years 1989 and 1993, and air pollution exposure during gestation was calculated for each birth.  The analysis suggested that increased ambient PM$_{10}$ and, to a lesser degree, CO concentrations may be associated with the occurrence of preterm births.
+    [@Ritz+Yu+Chapa+Fruin:2000]
+
+  a.  Identify the main research question of the study.
+
+  b.  Who are the subjects in this study, and how many are included?
+
+  c.  What are the variables in the study?
+        Identify each variable as numerical or categorical.
+        If numerical, state whether the variable is discrete or continuous.
+        If categorical, state whether the variable is ordinal.
+
+\vfill
+
+*Summarizing, visualizing data*
+
+<!-- IMS 5.8, I changed the numbers -->
+
+**Medians and IQRs.** For each part, compare distributions A and B based on their medians and IQRs.
+    You do not need to calculate these statistics; simply state how the medians and IQRs compare.  Plotting the points on a number line may be helpful.
+    Make sure to explain your reasoning.
+
+  a.  **A:** 2, 4, 6, 8, 10; **B:** -2, 4, 6, 8, 20
+
+  b.  **A:** 2, 4, 6, 8, 10; **B:** 12, 14, 16, 18, 20
+
+  c.  **A:** 2, 4, 6, 8, 10; **B:** 2, 4, 5, 8, 10
+
+  d.  **A:** 0, 10, 50, 60, 100; **B:** 0, 2, 10, 12, 20
+
+<!-- IMS odd problem, No 9 in 05-ex-explore-numerical  I changed the numbers -->
+
+**Means and SDs.** For each part, compare distributions A and B based on their means and standard deviations.
+    You do not need to calculate these statistics; simply state how the means and the standard deviations compare.  Plotting the points  on a number line may be helpful.
+    Make sure to explain your reasoning.
+
+  a.  **A:** 2, 4, 4, 6, 6, 8, 8, 10; **B:** 2, 4, 4, 6, 6, 8, 8, 20
+
+  b.  **A:** 2, 4, 4, 6, 6, 8, 8, 10; **B:** -2, 4, 4, 6, 6, 8, 8, 10;
+
+  c.  **A:** 1, 2, 3, 4, 5; **B:** -2, 2, 3, 4, 8
+
+  d.  **A:** 10, 20, 30, 40, 50; **B:** 1, 2, 30, 31, 32
+
+<!-- New problem -->
+
+**Five number summaries.**
+
+```{r ex-5-num-summ}
+fence_boundaries <- function(x) {
+  lf <- x[2] - 1.5 * (x[4] - x[2])
+  uf <- x[4] + 1.5 * (x[4] - x[2])
+  fences <- c(lf, uf)
+  return(fences)
+  }
+
+x <- c(5.3, 6.8, 7.2, 7.6, 9.1)
+y <- c(0, 28, 43.5, 78, 275)
+z <- c(2.3, 5.0, 7.4, 7.5, 8.0 )
+
+x_bdries <- fence_boundaries(x)
+y_bdries <- fence_boundaries(y)
+z_bdries <- fence_boundaries(z)
+
+
+
+```
+
+The table below contains 3 5-number summaries for hypothetical distributions.  In cases where the summary provides enough information, indicate whether each distribution is symmetric, skewed right or skewed left, how the median and mean will compare and whether or not there will low or high outliers.  
+
+| Summary statistic | (a)     | (b)   |  (c)   |
+|:------------------|---------------:|------------:|-------------:|
+| Minimum           | `r x[1]`          | `r y[1]`  |  `r z[1]`   |  
+| $Q_1$            | `r x[2]`          | `r y[2]`  |  `r z[2]`   | 
+| Median           | `r x[3]`          | `r y[3]`  |  `r z[3]`   | 
+| $Q_3$            | `r x[4]`          | `r y[4]`  |  `r z[4]`   | 
+| Maximum           | `r x[5]`          | `r y[5]`  |  `r z[5]`   | 
+
+<!-- IMS 5.10,  plots changed -->
+
+**Histograms and box plots, I.** Describe (in words) the distribution in the histograms below and match them to the box plots.
+
+```{r ex-match-hist-box}
+    #| out-width: 90%
+    #| fig-asp: 0.37
+    set.seed(080546)
+
+df <- tibble(
+      sym = rnorm(500, mean = 50, sd = 3),
+      uni = runif(500, min = 0, max = 100),
+      rs  = rgamma(500, shape = 3, rate = 2)
+    ) |>
+pivot_longer(cols = everything(), names_to = "type", values_to = "x") |>
+      arrange(type) |>
+      mutate(type_label = case_when(
+        type == "sym" ~ "(c)",
+        type == "uni" ~ "(b)",
+        type == "rs"  ~ "(a)",
+      ))
+
+p_hist <- ggplot(df, aes(x = x)) +
+      geom_histogram(bins = 10) +
+      facet_wrap(~type_label, scales = "free") +
+      theme(axis.text.y = element_blank()) +
+      labs(x = "", y = "")
+
+p_box <- df |>
+      mutate(type_label = case_when(
+        type == "sym" ~ "(1)",
+        type == "uni" ~ "(2)",
+        type == "rs"  ~ "(3)",
+      )) |>
+      ggplot(aes(y = x)) +
+      geom_boxplot(outlier.alpha = 0.8) +
+      facet_wrap(~type_label, scales = "free") +
+      theme(
+        axis.text.x = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()
+        ) +
+      labs(x = "", y = "")
+
+    p_hist / p_box
+```
+<!-- Similar to IMS 5.13 but different -->
+
+**Histograms and box plots, II.**  In the figure below, each histogram is paired with the box plot below it.  Describe the features of the distribution that are visible in the histogram but not in the box plot and vice versa.
+
+```{r ex-compare-hist-box}
+    #| out-width: 90%
+    #| fig-asp: 0.37
+
+set.seed(0802569)
+library(patchwork)
+
+df <- tibble(
+  uni   = rchisq(65, 6),
+  bi    = c(rchisq(22, 5.8), rnorm(43, 16.5, 2)),
+  multi = c(rchisq(20, 3), rnorm(30, 15, 1), rnorm(15, 25, 1.5))
+)
+
+hist_uni <- ggplot(df, aes(x = uni)) +
+  geom_histogram(binwidth = 2) +
+  labs(x = NULL, y = NULL) +
+  scale_x_continuous(breaks = seq(0, 30, 10)) +
+  ylim(0, 23) 
+hist_bi <- ggplot(df, aes(x = bi)) +
+  geom_histogram(binwidth = 2) +
+  labs(x = NULL, y = NULL) +
+  ylim(0, 23) +
+  scale_x_continuous(breaks = seq(0, 30, 10))
+hist_multi <- ggplot(df, aes(x = multi)) +
+  geom_histogram(binwidth = 2) +
+  labs(x = NULL, y = NULL) +
+  ylim(0, 23) +
+  scale_x_continuous(breaks = seq(0, 30, 10))
+
+box_uni <- ggplot(df, aes(y = uni)) +
+  geom_boxplot(outlier.alpha = 0.8) +
+  theme(
+    axis.text.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  labs(x = "", y = "")
+
+box_bi <- ggplot(df, aes(y = bi)) +
+  geom_boxplot(outlier.alpha = 0.8) +
+  theme(
+    axis.text.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  labs(x = "", y = "")
+
+box_multi <- ggplot(df, aes(y = multi)) +
+  geom_boxplot(outlier.alpha = 0.8) +
+  theme(
+    axis.text.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  labs(x = "", y = "")
+
+
+(hist_uni + hist_bi + hist_multi)/(box_uni + box_bi + box_multi)
+
+```
+<!-- Similar to IMS 5.13 -->
+
+**Histograms and box plots, III.**  In the figure below, each histogram is paired with the box plot below it.  Describe the features of the distribution that are visible in the histogram but not in the box plot and vice versa.
+
+```{r}
+library(patchwork)
+
+df <- wdi_2022 |> 
+  na.omit(female_prim_edu)
+
+
+hist_1 <- ggplot(data = df, aes(x = female_prim_edu)) +
+  geom_histogram(bins = 20) +
+  labs(
+    x = NULL,
+    y = NULL
+  )
+
+box_1 <- ggplot(data = df, aes(y = female_prim_edu)) +
+  geom_boxplot() +
+  theme(
+    axis.text.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  labs(x = "", y = "")
+ 
+df <- wdi_2022 |> 
+  na.omit(adult_lit_rate)
+
+hist_2 <- ggplot(data = df, aes(x = adult_lit_rate)) +
+  geom_histogram(bins = 20) +
+  labs(
+    x = NULL,
+    y = NULL
+  )
+
+box_2 <- ggplot(data = df, aes(y = adult_lit_rate)) +
+  geom_boxplot() +
+  theme(
+    axis.text.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  labs(x = "", y = "")
+
+df <- wdi_2022 |> 
+  na.omit(gdp_percap)
+
+hist_3 <- ggplot(data = df, aes(x = gdp_percap)) +
+  geom_histogram(bins = 20) +
+  labs(
+    x = NULL,
+    y = NULL
+  )
+
+box_3 <- ggplot(data = df, aes(y = gdp_percap)) +
+  geom_boxplot() +
+  theme(
+    axis.text.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  labs(x = "", y = "")
+
+(hist_1 + hist_2 + hist_3)/(box_1 + box_2 + box_3)
+
+
+```
+<!-- Modified from IMS 5.15, different settings -->
+
+**Distributions and appropriate statistics, I.**
+
+For each of the following, state whether you expect the distribution to be symmetric, right-skewed or left-skewed, and specify whether the mean or the median better represents a typical observation.  Also indicate whether the standard deviation is the better way to summarize the variability of the distribution.  Explain your reasoning in each case.
+
+  a. Routine systolic blood pressure measurements made during annual physicals.
+  
+  b. The under-five mortality rate (death before 5 years of age) in countries around the world.
+  
+  c. The weights of a random sample of freshman at a large university.
+  
+  d. The weights of the members of the football team at the university.
+  
+  e.  Age at death a particular country.
+  
+<!-- adapted from IMS 05-explore-numerical 16, even, different examples -->
+
+**Distributions and appropriate statistics, II.** For each of the following, state whether you expect the distribution to be symmetric, right skewed, or left skewed. Also specify whether the mean or median would best represent a typical observation in the data, and whether the variability of observations would be best represented using the standard deviation or IQR.  Explain your reasoning.
+
+  a. The length of stay (measured in days) for patients admitted to a hospital with acute myocardial infarction (one form of a heart attack), where most patients have relatively minor heart damage, but a few require more extensive in patient treatment.
+  
+  b. Time to recovery from an minor infectious disease after treatment with an antibiotic, where most patients recover quickly but 20% have a persistent infection.
+  
+  c. Time to recovery from an serious infectious disease after treatment with an antibiotic, where 15% of patients recover quickly but the remainder have a persistent infection.
+
+  d. Annual salaries at a major medical center where senior surgeons have much higher salaries than the rest of the staff.
+  
+  e. The weight in kilograms of the female students at a large state university.
+
+
+
+\vfill
+
+
+
+**Distributions and appropriate visualization.**  Specify the best graph to illustrate the features of distributions listed below, and specify a reason for your choice.
+
+  a. The distribution of the 4 methods athletic trainers typically use treat injuries: ice, therapeutic exercise, a hydrocollator (a temperature controlled water bath) and electrical stimulation, collected in a survey of 1500 trainers attending a conference.
+  
+  b. The center, spread and presence of outliers in last month's billing at a major hospital.
+  
+  c. The time denoting the upper 20% of the delays in being seen in a hospital emergency.
+  
+  d. The colors used on ID badges in a large organization with 6 categories of employees.
+  
+**Temperatures** The following figure from [this *NYT* article](https://www.nytimes.com/interactive/2017/07/28/climate/more-frequent-extreme-summer-heat.html) shows summer temperatures in the Northern Hemisphere for each decade since the 1980s relative to a fixed baseline average (1951 - 1980). If you are interested in reading more about the research this visualization is based on, refer to ["Perceptions of climate change"](https://www.pnas.org/content/109/37/E2415.full).
+
+![](./exercises/images/temps.png)
+
+
+  a. Describe how the distribution of summer temperatures has changed, comparing the 2005-2015 distribution to the distribution during 1951-1980 (shown in light grey). Be sure to reference specific features of the distributions.
+  
+  b. Write a single sentence conveying the main idea expressed in this data visualization, using language accessible to someone who has not taken a statistics course.
+
+
+
+```{r}
+all_countries <- nrow(wdi_2022)
+df <- wdi_2022 |> 
+  drop_na(life_expect)
+life_cc <- nrow(df)
+
+```
+
+
+**Life Expectancy**  In collaboration with national demographers,  the World Development Indicators also include the expected lifetime (in years) for a birth cohort.  In the`wdi_2022` data, life expectancy is available for `r life_cc` of the `r all_countries`.  Its distribution is shown in the histogram below.
+
+  a. Describe the distribution.
+  
+  b. How would you expect the mean and median to compare?
+  
+  c. Estimate the median, first and third quantiles of the distribution.
+  
+  d. What features of the data do you find interesting?
+
+```{r ex-wdi2022-life_expect}
+ggplot(df, aes(x = life_expect)) +
+  geom_histogram(binwidth = 5) +
+  stat_bin(binwidth = 5, aes(label = after_stat(count)), geom = "text", vjust = -0.1) +
+  labs(x = "Life Expectancy (years)", y = "Count") 
+
+```
+
+
+```{r ex-wdi-2022-adol-fert-numbers}
+all_countries <- nrow(wdi_2022)
+df <- wdi_2022 |> 
+  drop_na(adolesc_fert_rate)
+ad_fert_cc <- nrow(df)
+m <- median(df$adolesc_fert_rate)
+min <- min(df$adolesc_fert_rate)
+
+```
+
+
+**Adolescent fertility rate**  The adolescent fertility rate in a country is the number of births per 1000 women age 15-19 in a given year.  The histogram below shows the distribution of adolescent fertility rate in 2022 for the `r ad_fert_cc` countries in the `wdi_2022` data in the `openintro` R package.
+
+  a.  Describe the distribution.
+  
+  b.  How would you expect the mean and median to compare?
+  
+  c. Estimate the median of the distribution
+  
+  d. Are you surprised by the large values on the horizontal axis?  What does the value 150 mean?.
+  
+```{r ex-wdi2022-adol-fert-rate, echo=FALSE}
+ggplot(df, aes(x = adolesc_fert_rate)) +
+  geom_histogram(binwidth = 10, boundary = 0) +
+  labs(x = "Adolescent Fertilty Rate", y = "Count") 
+
+```
+
+
+
+```{r ex-basic-sanit-numbers}
+all_countries <- nrow(wdi_2022)
+df <- wdi_2022 |> 
+  drop_na(perc_basic_sanit)
+sanit_cc <- nrow(df)
+
+```
+
+**Access to sanitation**  As part of its World Development Indicators, the World Bank estimates the percent of the population in a country that has access to basic sanitation.  The histogram below shows the distribution of that measure for the `r sanit_cc` countries where the data were available among the `r all_countries` in the `wdi_2022` dataset.
+
+  a.  Describe the distribution.
+  
+  b.  How would you expect the mean and median to compare?
+  
+  c. Estimate the median and the first and third quartiles of the distribution.
+  
+  d. Explain to someone who has not studied statistics what can be learned from the histogram.
+  
+  e. Suppose the data for the `r all_countries - sanit_cc` became available.  Do you think the median would change?  Explain your logic.
+  
+```{r ex-wdi2022-sanit-percent}
+ggplot(df, aes(x = perc_basic_sanit)) +
+  geom_histogram(binwidth = 10, 
+                 boundary = 0)+
+  labs(x = "Percent access to sanitation", y = "Count") +
+  scale_x_continuous(breaks = c(0, 20, 40, 60, 80, 100)) +
+  labs(x = "Percent of population with basic sanitation", y = "Count") 
+
+```
+
+
+
+```{r}
+all_countries <- nrow(wdi_2022)
+df <- wdi_2022 |> 
+  drop_na(life_expect)
+life_cc <- nrow(df)
+
+```
+
+**Carbon footprints, I.** The following visualization is from a [data story examining the carbon footprint of plant-based protein sources](https://ourworldindata.org/less-meat-or-sustainable-meat) [@owid-less-meat-or-sustainable-meat]. The data first appeared in *Science* in 2018 [@poore2018reducing] and were reprocessed by Our World in Data. The distribution of greenhouse gas emissions per 100 grams of protein is shown for various foods. 
+
+![](./exercises/images/Carbon-footprint-of-protein-foods.png)
+
+  a. Using the information on notations on the plot, what is the structure of the data frame used to construct this plot.  How many rows does it have, what are the variables and what types are the variables?  
+  
+  b. What might be causing the variability in the distributions of emissions for each food type?
+
+  b. The white dot on each distribution marks the median greenhouse gas emissions for each food product. Explain why the median instead of the mean is preferable as a measure of center for these distributions.
+
+  c. For the greenhouse gas emissions for 100 grams of protein from cheese, do you expect the mean to be smaller or larger than the median?
+
+  d. Based on the graph, which food would you expect to have the smallest standard deviation of greenhouse gas emissions per 100 grams of protein? Briefly justify your reasoning. 
+
+\vfill
+
+**Carbon footprints, II.** The bar plot below is a different visualization of the carbon footprint of common foods.  For each food type, the length of a bar corresponds to the mean emissions level (in CO~2~ equivalents) per 100 grams of protein.  Some of the food names are different from the earlier plot and the two lists of food types are not identical but there is a large overlap. These data are also from the 2018 *Science* article, but reprocessed by Our World in Data. A version of the plot can found in the data explorer in a [environmetal impact of foods](https://ourworldindata.org/environmental-impacts-of-food)
+
+![](./exercises/images/greenhouse-gas-emissions-per-100-grams-of-protein.png)
+
+  a. What are the observational units/cases in the graph?  What are the variables for each case?
+  
+  b. Comparing this with the earlier graph, what different types of information are provided in the two graphs.
+  
+  c. Which plot do you think would be more effective in helping the general public understand the carbon foot print of various foods?  Explain your reasoning.
+
+
+**Air traffic control** Graphics that are very different from those studied in this chapter can be used to tell stories about data. In August 2023 the *New York Times*  published the article ["Airline Close Calls Happen Far More Often Than Previously Known"](https://www.nytimes.com/interactive/2023/08/21/business/airline-safety-close-calls.html?unlocked_article_code=Ss8hxCT-DRsHGkmpzM_cVs4_Z5LAM8UknXzAjsrKubotEHTJnqhYJqh2bPyR_6ZhdpkDBenHDuSTnbXNlC9VlnYWczvWMp9PuPfEZncw6bl2TGmU-O_QP_IbfqdBe3Y4K0EVz4lsRLZY8faHdHoKKwSw6kWBzofNzm_5YLyjN-AG68dVVQuRhz-mJpDrCY3h8rRSMtwoFTOfTGyVlEGhc072PQNtm7s92obpcUsIB0ckk4RcdZeDWgF5alO-46kAJZqoDjVeEob2_ac7avmpW-kfTrLYVNmXnXPyW2_Bi4DAe--1hk-jkWR3LUA7Hh2UzVxOS6sBo2JWeT484YJLkv5IZrdv_oP6i7CRTm45yfVuJY1xcA&smid=url-share) which includes the following visualization.
+
+![](./exercises/images/air_traffic_controller_staffing.png){width=75%}
+
+  a. What are the observational units/cases in the graph?
+  
+  b. What story is the graph telling? Limit your answer to at most three sentences.
+
+  c. Identify the variables displayed in this graph; i.e., what data are being used to generate the graph?  For each variable, specify its type.
+  
+  d. What does this graph do well?
+
+
+
+<!-- IMS, Odd problem, explore-numerical 23 -->
+
+**A new statistic.** The statistic $\frac{\bar{x}}{median}$ can be used as a measure of skewness. Suppose we have a distribution where all observations are greater than 0, $x_i > 0$. What is the expected shape of the distribution under the following conditions?
+Explain your reasoning.
+
+  a.  $\frac{\bar{x}}{median} = 1$
+
+  b.  $\frac{\bar{x}}{median} < 1$
+
+  c.  $\frac{\bar{x}}{median} > 1$
+
+\vfill
+
+<!-- ODD (OI4, 2.11),  -->
+
+
+<!-- add footnote for package data, awaiting data to be added to openintro -->
+
+```{r emp-rule-hyperuricemia}
+
+mn <- round(mean(hyperuricemia.samp$uric.acid), 2)
+med <- round(median(hyperuricemia.samp$uric.acid), 2)
+```
+
+
+**Hyperuricemia and the empirical rule**  Hyperuricemia is the presence of abnormally high levels of uric acid in the blood, a  condition than can lead to kidney stones and gout; hyperuricemia may also be responsible for chronic kidney disease, cardiovascular disease, and other metabolic disorders.  A large study in China examined the possible association between dietary magnesium and hyperuricemia; the histogram below shows the distribution of uric acid (in $\mu$mol/L) in a random sample of 500 participants in the study.
+
+  a. Will the value of the statistic for measuring skewness be $< 1$, $= 1$ or $> 1$?
+
+  b.  Would you expect the empirical rule to give accurate estimates of the middle 68% and 95% of the distribution?  Explain your reasoning.
+  
+  c.  The mean and standard deviation of the distribution are `r mn` and `r med`, respectively.  Regardless of your answer to (b), use the empirical rule to estimate quantiles for the upper 16% and 2.5% of the data.
+  
+
+
+```{r}
+hyperuricemia.samp |> 
+  ggplot(aes(x = uric.acid)) +
+  geom_histogram(binwidth = 50) +
+  stat_bin(binwidth = 50, aes(label = after_stat(count)), geom = "text", vjust = -0.1) +
+  labs(
+    x  = "Uric acid", 
+    y = "Count") +
+  scale_x_continuous(breaks = seq(0, 700, by = 50)) 
+```
+
+
+
+```{r echo=FALSE}
+n_males <- nrow(subset(hyperuricemia.samp, sex == 'male'))
+n_females <- nrow(subset(hyperuricemia.samp, sex == 'female'))
+
+```
+
+**Hyperuricemia in males and females** The histograms below show the distribution of uric acid (in $\mu$mol/L) in `r n_males` males and `n_females` females from the random sample of 500 participants in the previous exercise. [@zeng2015association] 
+
+```{r}
+p_males <- hyperuricemia.samp |> 
+  filter(sex == "male") |> 
+  ggplot(aes(x = uric.acid)) +
+  geom_histogram(binwidth = 40) +
+  labs(
+    x  = "Uric acid",
+    title = "Males")
+
+
+
+p_females <- hyperuricemia.samp |> 
+  filter(sex == "female") |> 
+  ggplot(aes(x = uric.acid)) +
+  geom_histogram(binwidth = 40) +
+  labs(
+    x  = "Uric acid",
+    title = "Females")
+
+p_males + p_females
+
+```
+
+  a.  Describe the features of each distribution between.
+  
+  b.  Which group will have the larger median uric acid?
+
+  c. A male is said to be hyperuricemic when uric acid exceeds 420$mu$mol/L, females when uric acid exceeds 360$mu$mol/L.  In this sample approximately what proportion of males and females are hyperuricemic?  (The width of each bin is 40$mu$mol/L.)
+  
+  d. What do you find interesting about the different definitions of hyperuricemia in males and females?
+
+<!-- remove, redundant with some of our newer problems  IMS 5.22
+
+ **Air quality.** Daily air quality is measured by the air quality index (AQI) reported by the Environmental Protection Agency.
+    This index reports the pollution level and what associated health effects might be a concern.
+    The index is calculated for five major air pollutants regulated by the Clean Air Act and takes values from 0 to 300, where a higher value indicates lower air quality.
+    AQI was reported for a 356 days in 2022 in Durham, NC. The histogram below shows the distribution of the AQI values on these days.[^_01-ex-intro-to-data-4]
+
+```{r ex-air-quality}
+    #| fig-asp: 0.35
+    ggplot(pm25_2022_durham, aes(x = daily_aqi_value)) +
+      geom_histogram(aes(y = stat(count) / sum(count)), 
+                     binwidth = 5) +
+      labs(x = "Daily AQI", y = "Proportion")
+```
+
+  a.  Estimate the median AQI value of this sample.
+
+  b.  Would you expect the mean AQI value of this sample to be higher or lower than the median?
+        Explain your reasoning.
+
+  c.  Estimate Q1, Q3, and IQR for the distribution.
+
+  d.  Would any of the days in this sample be considered to have an unusually low or high AQI?
+        Explain your reasoning.
+
+\vfill
+
+-->
+
+**Our World in Data**
+
+[Our World in Data](https://ourworldindata.org/) is an open-access publication featuring research and data to make progress against large global problems. Visit their website (there is a useful "Browse by Topic" on the top toolbar) to find an article that interests you and write a brief paragraph (no more than 4 sentences) about an idea or visualization you found compelling.  Include a link to the article in your answer. Here are two examples: [this article](https://ourworldindata.org/how-do-researchers-estimate-the-death-toll-caused-by-each-risk-factor-whether-its-smoking-obesity-or-air-pollution) explores how researchers estimate how many deaths are caused by risk factors; [this article](https://ourworldindata.org/how-do-researchers-study-the-prevalence-of-mental-illnesses) examines how researchers collect data on mental health and discusses how reliable that data may be. 
+
+
+*Relationships in data*
+
+**Treatment for tuberculosis, I.**  Tuberculosis (TB) is a treatable disease, but the success of a treatment course depends heavily on the patient completing the full course of treatment without interruption, typically 6 - 8 months.  A study conducted in Peru examined patient characteristics associated with a treatment interruption of more than 2 months.  The table below shows the relationship between the explanatory variable age of a participant (measured in decades) an whether or not treatment was interrupted (the response variable). [@lackey2015patient]
+
+  a. Calculate the row proportions for the table and explain their interpretation.
+  
+  b. Calculate the column proportions for the table and explain their interpretation.
+  
+  c. Which set of proportions are better to use when summarizing the results of this aspect of the study.
+  
+  d. Does age of the patient appear independent of a treatment interruption?
+
+
+
+```{r ex-tb-tx-interrupt}
+tb.interruption  |> 
+  na.omit(age.group)  |> 
+  na.omit(two.mo.interrupt)  |> 
+  mutate(two.mo.interrupt = if_else(two.mo.interrupt, "Yes", "No")) |> 
+  dplyr::count(age.group, two.mo.interrupt)  |> 
+  group_by(age.group) |> 
+  pivot_wider(names_from = two.mo.interrupt, 
+              values_from = n) |> 
+  rename("Age group" = age.group) |> 
+  adorn_totals(where = c("row", "col")) |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"))|> 
+  add_header_above(c(" " = 1, "Treatment Interruption" = 3))
+  
+
+```
+
+**MDR-TB**  Multidrug-resistant TB (MDR-TB) is a particularly aggressive form of the disease that requires longer and more intensive treatment.  The study in the example above recorded whether or not participants had been diagnosed with MDR_TB.  The table below shows the relationship between age of a participant and the presence of MDR-TB.
+
+
+  a. Calculate the row proportions for the table and explain their interpretation.
+  
+  b. Calculate the column proportions for the table and explain their interpretation.
+  
+  c. Is one set of proportions better to use when summarizing the results of this aspect of the study.
+  
+  d. Does age of the patient appear independent of the diagnosis of MDR-TB?
+  
+```{r ex-tb-age-mdrtb}
+tb.interruption  |> 
+  na.omit(age.group)  |> 
+  na.omit(mdr.tb)  |> 
+  dplyr::count(age.group, mdr.tb)  |> 
+  group_by(age.group) |> 
+  pivot_wider(names_from = mdr.tb, 
+              values_from = n) |> 
+  rename("Age group" = age.group) |> 
+  adorn_totals(where = c("row", "col")) |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")) |> 
+ add_header_above(c(" " = 1, "MDR-TB" = 3))
+      
+```
+
+<!-- IMS 4.7 -->
+
+**Meat consumption and life expectancy.** In data collected for @You:2022, total meat intake is associated with life expectancy (at birth) in 175 countries.  Meat intake is measured in kg per capita per year (averaged over 2011 to 2013).  The two ridge plots show an association between income and meat consumption (higher income countries tend to eat more meat) and an association between income and life expectancy (higher income countries have higher life expectancy).
+
+  a.  Do the graphs above demonstrate that meat consumption and life expectancy are associated?  That is, can you tell if countries with low meat consumption have low life expectancy?  Explain.
+
+  b.  Let's assume that you had a plot comparing meat consumption and life expectancy, and they *do* seem associated. Your friend says that the plot shows that high meat consumption leads to a longer life.  You correctly say, no, we can't tell if there is a causal relationship because the relationship is confounded by income level. Explain what you mean.
+
+  c.  How can you investigate the relationship between meat consumption and life expectancy in the presence of confounding variables (like income)?
+
+```{r}
+#| out-width: 95%
+#| fig-asp: 0.5
+    meat <- read_csv("./exercises/data/meat.csv", show_col_types = FALSE)
+   # meat <- read_csv("./data/meat.csv", show_col_types = FALSE)  for testing
+    p_meat <- meat |>
+      drop_na(life_0) |>
+      drop_na(gdp) |>
+      mutate(ses = cut(gdp, breaks = c(-Inf, 2000, 10000, Inf))) |>
+      mutate(income = case_when(
+        ses == "(-Inf,2e+03]" ~ "Low income",
+        ses == "(2e+03,1e+04]" ~ "Middle income",
+        ses == "(1e+04, Inf]" ~ "High income"
+      )) |>
+      mutate(income = fct_relevel(income, c("High income", "Middle income", "Low income"))) |>
+      ggplot(aes(
+        y = income, x = meat, group = income,
+        fill = income, linetype = income, color = income
+      )) +
+      geom_density_ridges(alpha = 0.8) +
+      scale_fill_openintro() +
+      scale_color_openintro() +
+      labs(y = "", x = "", subtitle = "Meat consumption (kg per capita)") +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+      guides(fill = "none", linetype = "none", color = "none")
+
+    p_life <- meat |>
+      drop_na(life_0) |>
+      drop_na(gdp) |>
+      mutate(ses = cut(gdp, breaks = c(-Inf, 2000, 10000, Inf))) |>
+      mutate(income = case_when(
+        ses == "(-Inf,2e+03]" ~ "Low income",
+        ses == "(2e+03,1e+04]" ~ "Middle income",
+        ses == "(1e+04, Inf]" ~ "High income"
+      )) |>
+      mutate(income = fct_relevel(income, c("High income", "Middle income", "Low income"))) |>
+      ggplot(aes(
+        y = income, x = life_0, group = income,
+        fill = income, linetype = income, color = income
+      )) +
+      geom_density_ridges(alpha = 0.8) +
+      scale_fill_openintro() +
+      scale_color_openintro() +
+      labs(y = "", x = "", subtitle = "Life expectancy (years)") +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+      guides(fill = "none", linetype = "none", color = "none")
+
+    p_meat / p_life
+```
+
+
+
+\vfill
+
+
+
+
+ **Migraine and acupuncture, I.** A migraine is a particularly painful type of headache, which patients sometimes wish to treat with acupuncture.
+    To determine whether acupuncture relieves migraine pain, researchers conducted a randomized controlled study where 89 individuals who identified as female diagnosed with migraine headaches were randomly assigned to one of two groups: treatment or control.
+    Forty-three (43) patients in the treatment group received acupuncture that is specifically designed to treat migraines.
+    Forty-six (46) patients in the control group received placebo acupuncture (needle insertion at non-acupoint locations).
+    Twenty-four (24) hours after patients received acupuncture, they were asked if they were pain free.
+    Results are summarized in the contingency table below.
+    Also provided is a figure from the original paper displaying the appropriate area (M) versus the inappropriate area (S) used in the treatment of migraine attacks.
+    [^_01-ex-intro-to-data-1] [@Allais:2011]
+
+```{r ex-migraine}
+    migraine |>
+      mutate(
+        group = toTitleCase(as.character(group)),
+        pain_free = toTitleCase(as.character(pain_free))
+      ) |>
+      count(group, pain_free) |>
+      pivot_wider(names_from = pain_free, values_from = n) |>
+      rename(Group = group) |>
+      kbl(linesep = "", booktabs = TRUE) |>
+      kable_styling(
+        bootstrap_options = c("striped", "condensed"),
+        latex_options = "HOLD_position",
+        full_width = FALSE
+      ) |>
+      add_header_above(c("", "Pain free?" = 2)) |>
+      column_spec(1:3, width = "5em")
+```
+
+  a.  What percent of patients in the treatment group were pain free 24 hours after receiving acupuncture?
+
+  b.  What percent were pain free in the control group?
+
+  c.  In which group did a higher percent of patients become pain free 24 hours after receiving acupuncture?
+
+  d.  Your findings so far might suggest that acupuncture is an effective treatment for migraines for all people who suffer from migraines.  However this is not the only possible conclusion.  What is one other possible explanation for the observed difference between the percentages of patients that are pain free 24 hours after receiving acupuncture in the two groups?
+
+  e.  What are the explanatory and response variables in this study?
+
+
+**Sinusitis and antibiotics, I.** Researchers studying the effect of antibiotic treatment for acute sinusitis compared to symptomatic treatments randomly assigned 166 adults diagnosed with acute sinusitis to one of two groups: treatment or control.
+    Study participants received either a 10-day course of amoxicillin (an antibiotic) or a placebo similar in appearance and taste.
+    The placebo consisted of symptomatic treatments such as acetaminophen, nasal decongestants, etc.
+    At the end of the 10-day period, patients were asked if they experienced improvement in symptoms.
+    The distribution of responses is summarized below.[^_01-ex-intro-to-data-2] [@Garbutt:2012]
+
+```{r ex-sinusitis}
+    sinusitis |>
+      mutate(
+        group = toTitleCase(as.character(group)),
+        self_reported_improvement = toTitleCase(as.character(self_reported_improvement))
+      ) |>
+      count(group, self_reported_improvement) |>
+      pivot_wider(names_from = self_reported_improvement, values_from = n) |>
+      rename(Group = group) |>
+      kbl(linesep = "", booktabs = TRUE) |>
+      kable_styling(
+        bootstrap_options = c("striped", "condensed"),
+        latex_options = "HOLD_position",
+        full_width = FALSE
+      ) |>
+      add_header_above(c("", "Improvement" = 2)) |>
+      column_spec(1:3, width = "5em")
+```
+
+  a.  What percent of patients in the treatment group experienced improvement in symptoms?
+
+  b.  What percent experienced improvement in symptoms in the control group?
+
+  c.  In which group did a higher percentage of patients experience improvement in symptoms?
+
+  d.  Your findings so far might suggest a real difference in the effectiveness of antibiotic and placebo treatments for improving symptoms of sinusitis.
+        However this is not the only possible conclusion.
+        What is one other possible explanation for the observed difference between the percentages patients who experienced improvement in symptoms?
+
+  e.  What are the explanatory and response variables in this study?
+
+\vfill
+
+**The microbiome and colon cancer.** A study was conducted to assess whether the abundance of particular bacterial species in the gastrointestinal system is associated with the development of colon cancer. The complete data matrix for the study contains 166 rows with measurements on 409 bacterial species.  The data matrix below shows a subset of the data collected in the study (the first 4 and the 73^rd^ case for 5 bacterial species.  Cancer stage is coded 1-4, with larger values indicating cancer that is more difficult to treat. The abundance levels are given for five bacterial species; abundance is calculated as the frequency of that species divided by the total number of bacteria from all species.  [@kostic2012genomic]
+	
+
+|		| age | gender | stage | bug 1 | bug 2 | bug 3 | bug 4 | bug 5 |
+|---:|----:|:------|------:|------:|------:|------:|------:|------:|		
+|		1 |  71 | Female |   2 | 0.03 | 0.09 | 0.52 | 0.00 | 0.00 | 
+|		2 |  53 | Female |   4 | 0.16 | 0.08 | 0.08 | 0.00 | 0.00 | 
+|		3 |  55 | Female |   2 | 0.00 | 0.01 | 0.31 | 0.00 | 0.00 | 
+|		4 |  44 | Male |   2 | 0.11 | 0.14 | 0.00 | 0.07 | 0.05 | 
+|		$\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ |
+|		73 |  48 | Female |   3 | 0.21 | 0.05 | 0.00 | 0.00 | 0.04 | 
+
+  a. What does each row of the data matrix represent?
+  
+  b. Identify explanatory and response variables.
+  
+  c. For each variable, indicate whether it is numerical or categorical. 	
+
+
+**Male versus female smokers**  The scatterplot below was was published by [Our World in Data](https://ourworldindata.org/) on January 10, 2025 as one of its Daily Insights.
+
+  a. Using the legend in the upper left of the figure, interpret the 45 degree line in the plot.
+  
+  b. The accompanying story reported that "Almost one-quarter of adults in the world smoke tobacco. However, there are significant differences by gender.  More than one-third of men smoke, while less than one in ten women do."  What is the relative risk the in the world's population that a male is a smoker compared to a female?
+  
+  c. Approximately what percentage of men and women smoke in Myanmar?
+  
+  d. In Myanmar, what is the approximate relative risk that a male in is a smoker compare to a female?
+  
+  e.  What can be learned from the cluster of purple points in the lower left corner of the plot?
+  
+
+![smoking and gender](./exercises/images/smoking-gender-owd.png)
+
+
+<!-- (OI4, 1.21 odd problem)  skipped for now.
+Note use of term confounding
+
+\eoce{\qt{Internet use and life expectancy\label{internet_life_expectancy}} The 
+	following scatterplot was created as part of a study evaluating the 
+	relationship between estimated life expectancy at birth (as of 2014) and 
+	percentage of internet users (as of 2009) in 208 countries for which such 
+	data were available.\footfullcite{data:ciaFactbook}
+	
+	\noindent\begin{minipage}[c]{0.44\textwidth}
+		\begin{parts}
+			\item Describe the relationship between life expectancy and percentage of 
+			internet users.
+			\item What type of study is this?
+			\item State a possible confounding variable that might explain this relationship 
+			and describe its potential effect.
+		\end{parts} \vspace{15mm}
+	\end{minipage}
+	\begin{minipage}[r]{0.55\textwidth}
+		\hfill\includegraphics[width = 0.87\textwidth]{ch_intro_to_data_oi_biostat/figures/eoce/internet_life_expectancy/internet_life_expectancy.pdf}
+	\end{minipage}
+}{}
+
+-->
+
+
+
+<!-- update this problem 
+
+% 24 EVEN (OI4, 1.40)
+
+\eoce{\qt{Income and education in US counties\label{income_education_county}} 
+	The scatterplot below shows the relationship between per capita income 
+	(in thousands of dollars) and percent of population with a bachelor's 
+	degree in 3,143 counties in the US in 2010.
+	
+	\noindent\begin{minipage}[c]{0.44\textwidth}
+		\begin{parts}
+			\item What are the explanatory and response variables?
+			\item Describe the relationship between the two variables. Make sure to discuss 
+			unusual observations, if any.
+			\item Can we conclude that having a bachelor's degree increases one's income?
+		\end{parts}\vspace{8mm}
+	\end{minipage}
+	\begin{minipage}[c]{0.55\textwidth}
+		\begin{center}
+			\includegraphics[width = 0.78\textwidth]{ch_intro_to_data_oi_biostat/figures/eoce/county_income_education/county_income_education_scatterplot.pdf}
+		\end{center}
+	\end{minipage}
+}{}
+
+-->
+
+
+    
+<!--
+% 31 ODD (OI4, 2.17)
+
+\eoce{\qt{Income at the coffee shop\label{income_coffee_shop}} The first histogram 
+	below shows the distribution of the yearly incomes of 40 patrons at a college 
+	coffee shop. Suppose two new people walk into the coffee shop: one making 
+	\$225,000 and the other \$250,000. The second histogram shows the new income 
+	distribution. Summary statistics are also provided. \\
+	\begin{minipage}[c]{0.5\textwidth}
+		\includegraphics[width=\textwidth]{ch_intro_to_data_oi_biostat/figures/eoce/income_coffee_shop/income_coffee_shop.pdf}
+	\end{minipage}
+	\begin{minipage}[c]{0.4\textwidth}
+		\begin{center}
+			\begin{tabular}{rrr}
+				\hline
+				& (1)       & (2) \\ 
+				\hline
+				n       & 40        & 42 \\ 
+				Min.    & 60,680    & 60,680 \\ 
+				1st Qu. & 63,620    & 63,710 \\ 
+				Median  & 65,240    & 65,350 \\ 
+				Mean    & 65,090    & 73,300 \\ 
+				3rd Qu. & 66,160    & 66,540 \\ 
+				Max.    & 69,890    & 250,000 \\ 
+				SD      & 2,122     & 37,321 \\ 
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{minipage}
+	\begin{parts}
+		\item Would the mean or the median best represent what we might think of as a 
+		typical income for the 42 patrons at this coffee shop? What does this say about 
+		the robustness of the two measures?
+		\item Would the standard deviation or the IQR best represent the amount of 
+		variability in the incomes of the 42 patrons at this coffee shop? What does 
+		this say about the robustness of the two measures?
+	\end{parts}
+}{}
+
+-->
+
+<!--  EVEN (OI4, 2.18) -->
+
+**Midrange** The *midrange* of a distribution is 
+the average of the maximum and the minimum of that distribution. Is this statistic 
+robust to outliers and extreme skew? Explain your reasoning.
+
+
+*Categorical data*
+
+<!-- 33 oi_biostat -->
+
+**Flossing habits** Suppose that an anonymous questionnaire is given to patients at a dentist's office once they arrive for an appointment. One of the questions asks "How often do you floss?", and four answer options are provided: a) at least twice a day, b) at least once a day, c) a few times a week, and d) a few times a month. At the end of a week, the answers are tabulated: 31 individuals chose answer a), 55 chose b), 39 chose c), and 12 chose d). 
+
+  a. Describe how these data could be numerically and graphically summarized.
+  
+  b. Assess whether the results of this survey can be generalized to provide information about flossing habits in the general population. 
+
+  
+<!-- odd problem, IMS and OI4 -->
+
+**Mammal life spans.** Data were collected on life spans (in years) and gestation lengths (in days) for 62 mammals. A scatterplot of life span versus length of gestation is shown below.[^_01-intro-to-data-3] [@Allison+Cicchetti:1975]
+
+  a.  What type of an association is apparent between life span and length of gestation?
+
+  b.  What type of an association would you expect to see if the axes of the plot were reversed, i.e., if we plotted length of gestation versus life span?
+
+  c.  Are life span and length of gestation independent? Explain your reasoning.
+
+```{r}
+    #| fig-asp: 0.5
+    #| fig-width: 4
+    #| out-width: 90%
+    ggplot(mammals, aes(x = gestation, y = life_span)) +
+      geom_point(alpha = 0.8) +
+      labs(x = "Gestation (days)", y = "Life Span (years)")
+```
+
+
+\vfill
+
+<!-- even problem IMS but plots have been changed, update solution -->
+
+```{r}
+correlation_plot <- function(x_norm, z_norm, rho) {
+  y <- rho * x_norm + sqrt(1 - rho^2) * z_norm # Cholesky decomposition
+  correlation <- cor(x_norm, y)
+  data = cbind(x_norm, y)
+  p <- ggplot(data, aes(x = x_norm, y = y)) +
+    geom_point() +
+    labs(x = NULL,
+         y = NULL,
+         ) +
+    theme(
+      panel.border = element_rect(colour = "gray", fill = NA, linewidth = 1),
+      strip.background = element_blank(),
+      strip.text.x = element_blank(),
+      axis.text.x = element_blank(), 
+      axis.ticks.x = element_blank(),
+      axis.text.y = element_blank(),  
+      axis.ticks.y = element_blank(),
+      aspect.ratio = 1
+  ) 
+  return(p)
+}
+```
+
+```{r}
+set.seed(080546)
+n <- 100  
+rho <- 0.33  
+x <- rnorm(n)
+z <- rnorm(n)
+
+
+p1 <- correlation_plot(x, z, runif(1, min = 0.70, max = 0.85 ))
+p2 <- correlation_plot(x, z, runif(1, min = -0.85, max = -0.70 ))
+p3 <- correlation_plot(x, z, runif(1, min = -0.05, max = 0.05))
+
+
+x <- seq(-2, 2, 0.04)
+y_nonlin <- x**2/2 + rnorm(length(x), mean = 0, sd = runif(1, min = .2, max = .5))
+
+data <- cbind(x, y_nonlin)
+
+p4 <- ggplot(data, aes(x = x, y = y_nonlin)) +
+      geom_point() +
+    labs(x = NULL,
+         y = NULL) +
+  theme(
+      panel.border = element_rect(colour = "gray", fill = NA, linewidth = 1),
+      strip.background = element_blank(),
+      strip.text.x = element_blank(),
+      axis.text.x = element_blank(), 
+      axis.ticks.x = element_blank(),
+      axis.text.y = element_blank(),  
+      axis.ticks.y = element_blank(),
+      aspect.ratio = 1
+  )
+
+
+```
+**Associations, I.** Indicate which of the plots show (a) a positive association, (b) a negative association, or (c) no association. Also determine if the positive and negative associations are linear or nonlinear.
+    Each part may refer to more than one plot.
+    
+```{r association-plots-1}
+library(cowplot)
+
+plot_grid(p1, p2, p3, p4, nrow = 2, 
+          labels = c("1", "2", "3", "4"),
+          label_colour = "blue",
+          label_fontface = "plain",
+          hjust = -2,
+          vjust = 8)
+
+```
+
+
+\vfill
+
+**Associations, II.** Indicate which of the plots show (a) a positive association, (b) a negative association, or (c) no association. Also determine if the positive and negative associations are linear or nonlinear.
+    Each part may refer to more than one plot.
+
+```{r association-plots-2}
+library(cowplot)
+
+p1 <- correlation_plot(x, z, runif(1, min = 0.70, max = 0.85 ))
+p2 <- correlation_plot(x, z, runif(1, min = -0.85, max = -0.70 ))
+p3 <- correlation_plot(x, z, runif(1, min = -0.05, max = 0.05))
+
+
+x <- seq(-2, 2, 0.04)
+y_nonlin <- x**3/2 + rnorm(length(x), mean = 0, sd = runif(1, min = .2, max = .5))
+
+data <- cbind(x, y_nonlin)
+
+p4 <- ggplot(data, aes(x = x, y = y_nonlin)) +
+      geom_point() +
+      labs(x = NULL,
+           y = NULL) +
+  theme(
+      panel.border = element_rect(colour = "gray", fill = NA, linewidth = 1),
+      strip.background = element_blank(),
+      strip.text.x = element_blank(),
+      axis.text.x = element_blank(), 
+      axis.ticks.x = element_blank(),
+      axis.text.y = element_blank(),  
+      axis.ticks.y = element_blank(),
+      aspect.ratio = 1
+  )
+  
+
+plot_grid(p1, p4, p2, p3, nrow = 2, 
+          labels = c("1", "2", "3", "4"),
+          label_colour = "blue",
+          label_fontface = "plain",
+          hjust = -3,
+          vjust = 8)
+
+```
+<!-- function for plots and correlation -->
+
+```{r ex-cor-plot -function}
+correlation_r_plot <- function(x_norm, z_norm, rho) {
+  y <- rho * x_norm + sqrt(1 - rho^2) * z_norm # Cholesky decomposition
+  correlation <- round(cor(x_norm, y), 2)
+  data = cbind(x_norm, y)
+  p <- ggplot(data, aes(x = x_norm, y = y)) +
+    geom_point() +
+    labs(x = NULL,
+         y = NULL) +
+    theme_void() +
+    theme(
+      panel.border = element_rect(colour = "gray", fill = NA, linewidth = 1),
+      strip.background = element_blank(),
+      strip.text.x = element_blank(),
+      aspect.ratio = 1
+    ) 
+  corr_list <- list("r" = correlation, "plot" = p)
+  return(corr_list)
+}
+
+```
+
+```{r ex-guess-corr-values}
+
+set.seed(080546)
+n <- 100  
+rho <- 0.33  
+x <- rnorm(n)
+z <- rnorm(n)
+
+
+corr_list_1 <- correlation_r_plot(x, z, 0.33)
+corr_list_2 <- correlation_r_plot(x, z, -0.40)
+corr_list_3 <- correlation_r_plot(x, z, 0.80)
+corr_list_4 <- correlation_r_plot(x, z, 0.05)
+
+
+r1 <- corr_list_1$r
+p1 <- corr_list_1$plot 
+
+r2 <- corr_list_2$r
+p2 <- corr_list_2$plot 
+
+r3 <- corr_list_3$r
+p3 <- corr_list_3$plot 
+
+r4 <- corr_list_4$r
+p4 <- corr_list_4$plot 
+  
+```
+
+**Match the correlations, I.** Match the correlations (a)-(d) with the plots 1-4.  (a) `r r1`, (b) `r r2`, (c) `r r3`, (d) `r r4`
+
+
+```{r ex-guess-corr-plots}
+library(cowplot)
+
+plot_grid(p1, p4, p2, p3, nrow = 2, 
+          labels = c("1", "2", "3", "4"),
+          label_colour = "blue",
+          label_fontface = "plain",
+          hjust = -2,
+          vjust = 8)
+
+```
+
+```{r guess-corr-values-2}
+corr_list_1 <- correlation_r_plot(x, z, -0.90)
+corr_list_2 <- correlation_r_plot(x, z, 0.4)
+corr_list_3 <- correlation_r_plot(x, z, 0.50)
+corr_list_4 <- correlation_r_plot(x, z, 0.10)
+
+
+r1 <- corr_list_1$r
+p1 <- corr_list_1$plot 
+
+r2 <- corr_list_2$r
+p2 <- corr_list_2$plot 
+
+r3 <- corr_list_3$r
+p3 <- corr_list_3$plot 
+
+r4 <- corr_list_4$r
+p4 <- corr_list_4$plot 
+
+```
+
+**Match the correlations, II.** Match the correlations (a)-(d) with the plots 1-4.  (a) `r r1`, (b) `r r2`, (c) `r r3`, (d) `r r4`
+```{r}
+library(cowplot)
+
+plot_grid(p1, p4, p2, p3, nrow = 2, 
+          labels = c("1", "2", "3", "4"),
+          label_colour = "blue",
+          label_fontface = "plain",
+          hjust = -2,
+          vjust = 8)
+
+```
+
+
+<!-- ch 1 No 39 oi_biostat -->
+
+**Anger and cardiovascular health** Trait anger is defined as a relatively stable personality trait that is manifested in the frequency, intensity, and duration of feelings associated with anger. People with high trait anger have rage and fury more often, more intensely, and with long-lasting episodes than people with low trait anger. It is thought that people with high trait anger might be particularly susceptible to coronary heart disease; 12,986 participants were recruited for a study examining this hypothesis. Participants were followed for five years. [@williams2000anger]
+
+The following table shows data for the participants identified as having normal blood pressure 
+
+|      |    | Trait anger score |     |   | 
+|:---------|--------:|--------:|--------:|------:|
+|  **CHD event** |  Low   |  Moderate  | High   | **Total**  |
+|  Yes    |  53   |    110  |   27   | 190   |
+|   No    |  3057 |    4704 |   606  | 8284  |
+|  **Total**  |  3110 |    4731 |   633 | 8474   |
+
+
+  a. What percentage of participants have moderate anger scores?
+  
+  b. What percentage of individuals who experienced a CHD event have moderate anger scores?
+  
+  c. What percentage of participants with high trait anger scores experienced a CHD event (i.e., heart attack)?
+  
+  d. What percentage of participants with low trait anger scores experienced a CHD event?
+  
+  e. Are individuals with high trait anger more likely to experience a CHD event than individuals with low trait anger? Calculate the relative risk of a CHD event for individuals with high trait anger compared to low trait anger.
+  
+  f. Researchers also collected data on various participant traits, such as level of blood cholesterol (measured in mg/dL). What graphical summary might be useful for examining how blood cholesterol level differs between anger groups?
+
+
+*Simpson's paradox*
+
+**Clinic billing**  Suppose the age distributions for the two clinics in the example of clinic billing in @sec-developmental-disability are more nearly equal: 60 of the 200 patients in Clinic A are less than 50 years old, while 140 of the Clinic B patients are less than 50.
+
+  a. What will be the average billing for the two clinics?
+  
+  b. Explain to someone who has not taken statistics how this differs from the example and why?
+  
+**College admissions**  Suppose a private, for profit college prepares students to work in health care.  The college has three degree programs: pharmacist, physician assistant, and nurse practitioner.  In the previous year, 1000 applicants applied for admission.  The table below shows hypothetical admissions data by sex of the applicant.
+
+  a. What is the overall admissions rate at this college?
+  
+  b. What are the admissions rates for females and males?
+  
+  c. Does the college appear to discriminate against  males in its admissions decisions?  Explain your answer.
+
+
+|  Program     | Females accepted (of applicants)  | Males accepted (of applicants) |
+|:-------------|----------------------------------:|--------------------------------:|
+| Pharmacy    |   10 of 86                            |    100 of 700                |
+| Physician assistant |   50 of 220                    |  60 of 260                  |
+| Nurse practitioner  |  20 of 70                      | 5 of 15                    |
+
+
+
+[^_01-ex-intro-to-data-1]: The [`migraine`](http://openintrostat.github.io/openintro/reference/migraine.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+
+[^_01-ex-intro-to-data-2]: The [`sinusitis`](http://openintrostat.github.io/openintro/reference/sinusitis.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+
+<!-- 
+[^_01-ex-intro-to-data-3]: The [`cia_factbook`](http://openintrostat.github.io/openintro/reference/cia_factbook.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+-->
+
+
+[^_01-ex-intro-to-data-4]: The [`pm25_2022_durham`](http://openintrostat.github.io/openintro/reference/pm25_2022_durham.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+
+<!-- uk smoking -->
+
+[^_01-ex-intro-to-data-12]: The [`smoking`](http://openintrostat.github.io/openintro/reference/smoking.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+
+[^_01-intro-to-data-3]: The [`mammals`](http://openintrostat.github.io/openintro/reference/mammals.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.

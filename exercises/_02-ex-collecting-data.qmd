@@ -1,0 +1,264 @@
+
+
+*Experiments*
+
+<!--  6 oi_biostat hummingbirds, should we use data in csv file?-->
+
+**Hummingbird taste behavior** Researchers hypothesized that a particular taste receptor in hummingbirds, T1R1-T1R3, played a primary role in dictating taste behavior; specifically, in determining which compounds hummingbirds detect as sweet. In a series of field tests, hummingbirds were presented simultaneously with two filled containers, one containing test stimuli and a second containing sucrose. The test stimuli included aspartame, erythritol, water, and sucrose. Aspartame is an artificial sweetener that tastes sweet to humans, but is not detected by hummingbird T1R1-T1R3 , while erythritol is an artificial sweetener known to activate T1R1-T1R3. [@baldwin2014evolution]
+
+Data were collected on how long a hummingbird drank from a particular container for a given trial, measured in seconds. For example, in one field test comparing aspartame and sucrose, a hummingbird drank from the aspartame container for 0.54 seconds and from the sucrose container for 3.21 seconds. 
+
+  a. Which tests are controls? Which tests are treatments?
+
+  b. Identify the response variable(s) in the study. Are they numerical or categorical?
+
+  c.  Describe the main research question.
+ 
+\vfill
+
+<!--oi_biostat, from blue_eggs_food probably move to experiments-->
+
+**Egg coloration** The evolutionary significance of variation in egg coloration among birds is not fully understood. One hypothesis suggests that egg coloration may be an indication of female quality, with healthier females being capable of depositing blue-green pigment into eggshells instead of using it for themselves as an antioxidant. In a study conducted on 32 collared flycatchers, half of the females were given supplementary diets before and during egg laying. Eggs were measured for darkness of blue color using spectrophotometry; for example, the mean amount of blue-green chroma was 0.594 absorbance units. Egg mass was also recorded. [@moreno2006experimental]
+
+  a. Identify the control and treatment groups.
+  
+  b. Describe the main research question.
+
+  c. Identify the primary response variable of interest, and whether it is numerical or categorical.
+
+\vfill
+
+**Herbal remedies**  Echinacea has been widely used as an herbal remedy for the common cold, but previous studies evaluating its efficacy as a remedy have produced conflicting results. In a new study, researchers randomly assigned 437 volunteers to receive either a placebo or echinacea treatment before being infected with rhinovirus. Healthy young adult volunteers were recruited for the study from the University of Virginia community. [@turner2005evaluation]
+
+  a. Identify the population of interest and the sample in this study.
+
+  b. Comment on whether or not the results of the study can be generalized to a larger population. 
+
+  c. Can the findings of the study be used to establish causal relationships? Justify your answer.
+
+<!-- 13 ODD (OI4, 1.15) -->
+
+**Buteyko method, II.** 	Exercise (ref?) introduces a study on using the Buteyko 
+	shallow breathing technique to reduce asthma symptoms and improve quality of life.
+	As part of this study 600 asthma patients aged 18-69 who relied on medication for 
+	asthma treatment were recruited and randomly assigned to two groups: one practiced 
+	the Buteyko method and the other did not. Those in the Buteyko group experienced,
+	on average, a significant reduction in asthma symptoms and an improvement in quality 
+	of life.
+	
+  a. Identify the population of interest and the sample in this study.
+
+  b. Comment on whether or not the results of the study can be generalized to the 
+		population, and if the findings of the study can be used to establish causal 
+		relationships.
+
+\vfill
+
+<!-- 14 EVEN (OI4, 1.30) edited -->
+
+**Vitamin supplements.**  In order to assess the effectiveness 
+	of taking large doses of vitamin C in reducing the duration of the common cold, 
+	researchers recruited 400 healthy volunteers from staff and students at a university. A 
+	quarter of the patients were randomly assigned a placebo, and the rest were randomly allocated between 1g Vitamin C, 3g Vitamin C, or 3g Vitamin C plus additives to be taken at onset of a cold for the following two days. All tablets had identical appearance and packaging. No significant differences were observed in any measure of cold duration or severity between the four medication groups, and the placebo group had the shortest duration of symptoms. [@Audera:2001]
+	
+  a. Was this an experiment or an observational study? Why?
+		
+  b. What are the explanatory and response variables in this study?
+		
+  c. Participants are ultimately able to choose whether or not to use the pills 
+		prescribed to them. We might expect that not all of them will adhere and take their 
+		pills. Does this introduce a confounding variable to the study? Explain your reasoning.
+
+<!-- oi_biostat, adapted from chicks_antioxidants -->
+
+**Chicks and antioxidants**  Environmental factors early in life can have long-lasting effects on an organism. In one study, researchers examined whether dietary supplementation with vitamins C and E influences body mass and corticosterone level in yellow-legged gull chicks. Chicks were randomly assigned to either the nonsupplemented group or the vitamin supplement experimental group. The initial study group consisted of 108 nests, with 3 eggs per nest. Chicks were assessed at age 7 days. (Adapted from @kim2013vitamins)
+
+  a. What type of study is this?
+		
+  b. What are the experimental and control treatments in this study?
+	
+  c. Explain why randomization is an important feature of this experiment.
+
+<!-- (OI4, 1.34) edited -->
+
+**Exercise and mental health.**  A researcher is interested in the effects of exercise on mental health and they propose the following study: Use stratified random sampling to recruit 18-30, 31-40 and 41-55 year olds from the population. Next, randomly assign half the subjects from each age group to exercise twice a week, and instruct the rest not to exercise. Conduct a mental health exam at the beginning and at the end of the study, and compare the results.
+
+  a. What type of study is this? 
+		
+  b. What are the treatment and control groups in this study?
+		
+  c. Does this study make use of blocking? If so, what is the blocking variable?
+		
+  d. Comment on whether or not the results of the study can be used to establish a causal relationship between exercise and mental health, and indicate whether or not the conclusions can be generalized to the population at large.
+
+  e. Suppose you are given the task of determining if this proposed study should get 
+		funding. Would you have any reservations about the study proposal?
+
+\vfill
+
+<!-- EVEN (OI4, 1.22) -->
+
+**Stressed out**  A study that  surveyed a random sample of otherwise healthy high school students found that they are more likely to get muscle cramps when they are stressed. The study also noted that students drink more coffee and sleep less when they are stressed.
+
+  a. What type of study is this?
+
+  b. Can this study be used to conclude a causal relationship between 
+increased stress and muscle cramps?
+
+  c. State possible lurking variables that might explain the observed 
+relationship between increased stress and muscle cramps. 
+
+<!-- 25 ODD (OI4, 1.41) -->
+
+**Eat better, feel better**  In a public health study on the effects of consumption of fruits and vegetables on psychological well-being in young adults, participants were randomly assigned to three 
+groups: (1) diet-as-usual, (2) an ecological momentary intervention involving text message reminders to increase their fruits and vegetable consumption plus a voucher to purchase them, or (3) a fruit and vegetable intervention in which participants were given two additional daily servings of fresh fruits and vegetables to consume on top of their normal diet. Participants were asked to take a nightly survey on their smartphones. 
+
+Participants were student volunteers at the University of Otago, New Zealand.At the end of the 14-day study, only participants in the third group showed improvements to their psychological well-being across the 14-days relative to the other groups.[@conner2017let]
+
+
+  a. What type of study is this?
+	
+  b. Identify the explanatory and response variables.
+
+  c. Comment on whether the results of the study can be generalized to the population.
+
+  d. Comment on whether the results of the study can be used to establish causal relationships.
+
+  e. A newspaper article reporting on the study states:
+> The results of this study provide proof that giving young adults
+> fresh fruits and vegetables to eat can have psychological benefits,
+> even over a brief period of time.
+
+  How would you suggest revising this statement so that it can be
+  supported by the study?
+  
+
+
+
+*Surveys*
+
+<!-- OI4, 1.14-->
+
+**Cheaters, II.**
+	Exercise ref? introduces a study where researchers 
+	studying the relationship between honesty, age, and self-control conducted an 
+	experiment on 160 children between the ages of 5 and 15. The researchers asked 
+	each child to toss a fair coin in private and to record the outcome (white or black) 
+	on a paper sheet, and said they would only reward children who report white. 
+	Half the students were explicitly told not to cheat and the others were not given 
+	any explicit instructions. Differences were observed in the cheating rates in the
+	instruction and no instruction groups, as well as some differences across 
+	children's characteristics within each group.
+
+  a. Identify the population of interest and the sample in this study.
+
+  b. Comment on whether or not the results of the study can be generalized to the 
+		population, and if the findings of the study can be used to establish causal 
+		relationships.
+		
+\vfill
+
+<!-- ODD (OI4, 1.23) context edited -->
+
+**Evaluate sampling methods** A university wants to assess how many hours of sleep students are getting per night. For each proposed method below, discuss whether the method is reasonable or not.
+
+  a. Survey a simple random sample of 500 students.
+
+  b. Stratify students by their field of study, then sample 10\% of students from each stratum.
+
+  c. Cluster students by their class year (e.g. freshmen in one cluster, sophomores in one cluster, etc.), then randomly sample three clusters and survey all students in those clusters.
+
+<!-- EVEN (OI4, 1.38) -->
+
+**City council survey** A city council has requested a household survey be conducted in a suburban area of their city. The area is broken into many distinct and unique neighborhoods, some including large homes, some with only apartments, and others a diverse mixture of housing structures. Identify the  methods described below, and comment on whether or not you think they  be effective in this setting.
+
+  a. Randomly sample 50 households from the city.
+		
+  b. Divide the city into neighborhoods, and sample 20 households from each 
+		neighborhood.
+		
+  c. Divide the city into neighborhoods, randomly sample 10 neighborhoods, 
+		and sample all households from those neighborhoods.
+		
+  d. Divide the city into neighborhoods, randomly sample 10 neighborhoods, 
+		and then randomly sample 20 households from those neighborhoods.
+		
+  e. Sample the 200 households closest to the city council offices.
+
+<!-- ODD (OI4, 1.39) -->
+
+**Flawed reasoning** Identify the flaw(s) in reasoning 
+in the following scenarios. Explain what the individuals in the study should 
+have done differently if they wanted to make such conclusions.
+
+  a. Students at an elementary school are given a questionnaire that they 
+are asked to return after their parents have completed it. One of the questions 
+asked is, ``Do you find that your work schedule makes it difficult for you to 
+spend time with your kids after school?" Of the parents who replied, 85% said 
+``no". Based on these results, the school officials conclude that a great 
+majority of the parents have no difficulty spending time with their kids 
+after school.
+
+  b. A survey is conducted on a simple random sample of 1,000 women who 
+recently gave birth, asking them about whether or not they smoked during 
+pregnancy. A follow-up survey asking if the children have respiratory problems 
+is conducted 3 years later, however, only 567 of these women are reached at the 
+same address. The researcher reports that these 567 women are representative 
+of all mothers.
+
+  c. An orthopedist administers a questionnaire to 30 of his patients who do 
+not have any joint problems and finds that 20 of them regularly go running. 
+He concludes that running decreases the risk of joint problems.
+
+<!-- EVEN (OI4, 1.28) -->
+
+**Reading the paper** Below are excerpts from two 
+articles published in the *NY Times*:
+
+  a. An article titled *Risks: Smokers Found More Prone to Dementia*
+states the following: [@news:smokingDementia]
+
+> Researchers analyzed data from 23,123 health plan members who 
+> participated in a voluntary exam and health behavior survey from 1978 to 1985, 
+> when they were 50-60 years old. 23 years later, about 25% of the group had 
+> dementia, including 1,136 with Alzheimer's disease and 416 with vascular 
+> dementia. After adjusting for other factors, the researchers concluded that 
+> pack-a-day smokers were 37% more likely than nonsmokers to develop dementia, 
+> and the risks went up with increased smoking; 44% for one to two packs a day; 
+> and twice the risk for more than two packs.
+
+Based on this study, can it be concluded that smoking causes dementia later in 
+life? Explain your reasoning.
+
+  b. Another article titled *The School Bully Is Sleepy* states the 
+following: [@news:bullySleep]
+
+
+> The University of Michigan study, collected survey data from 
+> parents on each child's sleep habits and asked both parents and teachers to 
+> assess behavioral concerns. About a third of the students studied were 
+> identified by parents or teachers as having problems with disruptive behavior 
+> or bullying. The researchers found that children who had behavioral issues and 
+> those who were identified as bullies were twice as likely to have shown 
+> symptoms of sleep disorders.
+
+A friend of yours who read the article says, ``The study shows that sleep 
+disorders lead to bullying in school children." Is this statement justified? 
+If not, how best can you describe the conclusion that can be drawn from this 
+study?
+
+\vfill
+
+*Observational studies*
+
+<!--  23 oi_biostat problem, odd -->
+
+
+**Alcohol consumption and STIs**  An observational study published in *The American Journal of Preventive Medicine* investigated the effects of an increased alcohol sales tax in Maryland on the rates of gonorrhea and chlamydia. After a tax increase from 6% to 9% in 2011, the statewide gonorrhea rate declined by 24%, the equivalent of 1,600 cases per year. In a statement to the *New York Times*, the lead author of the paper was quoted saying, 
+
+> Policy makers should consider raising liquor taxes if they're looking for ways to prevent sexually
+> transmitted infections. In the year and a half following the alcohol tax rise in Maryland, 
+> this prevented 2,400 cases of gonorrhea and saved half a million dollars in health care costs.
+
+Explain whether the lead author's statement is accurate. [@staras2016maryland]
+
