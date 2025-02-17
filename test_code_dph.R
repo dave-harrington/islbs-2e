@@ -75,34 +75,10 @@ axis(1, seq(0,2800, 500))
 
 #  portland trees
 
-library(pdxTrees)
-set.seed(080546)
-pdx <- get_pdxTrees_parks()
-portland_park_trees  <- pdx  |> 
-  select(Common_Name, 
-         Condition, 
-         Tree_Height, 
-         Structural_Value, 
-         Carbon_Storage_lb, 
-         Pollution_Removal_value
-         ) |> 
-  dplyr::slice_sample(n = 500)
-
-  # saving for easy use later
-
-
-load("./data/WVS_Cross-National_Wave_7_Rdata_v6_0.rdata")
-
-
-
-df <- `WVS_Cross-National_Wave_7_v6_0` 
-addmargins(table(df$Q47)) 
-addmargins(table(df$Q275))
-
-
-
 
 # Danish ED
+
+# useful example for relationships
 
 df <- danish.ed.primary
 summary(df$age)
@@ -110,87 +86,28 @@ hist(df$age^2)
 table(df$sex, df$triage)
 boxplot(df$age)
 
+library(RJSONIO)
 
-ggplot(portland_park_trees, aes(x = Tree_Height, y = Carbon_Storage_lb)) +
-	geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
-	labs(x = "Tree Height (ft)", y = "Carbon Storage (lbs)")
-
-# old style table; pipe tables are better than using kable below
-
-ggplot(portland_park_trees, aes(x = Tree_Height, y = sqrt(Carbon_Storage_lb))) +
-	geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
-	labs(x = "Tree Height (ft)", y = "Square root of Carbon Storage (lbs)")
+# Fetch the metadata
+metadata <- 
+  fromJSON("https://ourworldindata.org/grapher/correlation-between-child-mortality-and-mean-years-of-schooling-for-those-aged-15-and-older.metadata.json?v=1&csvType=filtered&useColumnShortNames=true&tab=table")
 
 
-
-library(cowplot)
-correlation_r_plot <- function(x_norm, z_norm, rho) {
-  y <- rho * x_norm + sqrt(1 - rho^2) * z_norm # Cholesky decomposition
-  correlation <- cor(x_norm, y)
-  data = cbind(x_norm, y)
-  p <- ggplot(data, aes(x = x_norm, y = y)) +
-    geom_point() +
-    labs(x = NULL,
-         y = NULL) +
-    theme_void() +
-    theme(
-      panel.border = element_rect(colour = "gray", fill = NA, linewidth = 1),
-      strip.background = element_blank(),
-      strip.text.x = element_blank(),
-      plot.margin=unit(c(0.2, 0.2, 0.2, 0.2),"cm")
-    ) 
-  corr_list <- list("r" = correlation, "plot" = p)
-  return(corr_list)
-}
-set.seed(080546)
-n <- 100  
-rho <- 0.33  
-x <- rnorm(n)
-z <- rnorm(n)
+mort_ed_owd <- read.csv("https://ourworldindata.org/grapher/correlation-between-child-mortality-and-mean-years-of-schooling-for-those-aged-15-and-older.csv?v=1&csvType=filtered&useColumnShortNames=true&tab=table&time=2020")
 
 
-corr_list_1 <- correlation_r_plot(x, z, 0.33)
-corr_list_2 <- correlation_r_plot(x, z, -0.40)
-corr_list_3 <- correlation_r_plot(x, z, 0.80)
-corr_list_4 <- correlation_r_plot(x, z, 0.05)
+plot_data <- mort_ed_owd |> 
+  filter(Year == 2020) |> 
+  rename(c_mortality= obs_value__indicator_under_five_mortality_rate__sex_total__wealth_quintile_total__unit_of_measure_deaths_per_100_live_births) |> 
+  rename(f_education = f_youth_and_adults__15_64_years__average_years_of_education) |> 
+  drop_na(c_mortality, f_education) |> 
+  dplyr::filter(Code != "" ) |> 
+  dplyr::filter(Entity != "World")
+ 
 
-
-r1 <- corr_list_1$r
-p1 <- corr_list_1$plot 
-
-r2 <- corr_list_2$r
-p2 <- corr_list_2$plot 
-
-r3 <- corr_list_3$r
-p3 <- corr_list_3$plot 
-
-r4 <- corr_list_4$r
-p4 <- corr_list_4$plot 
-  
-
-
-plot_grid(p1, p2, p3, p4, nrow = 1, 
-          labels = c("1", "2", "3", "4"),
-          label_colour = "blue",
-          label_fontface = "plain",
-          hjust = -2,
-          vjust = 2)
+ggplot(plot_data, aes(x = f_education, y = c_mortality)) +
+           geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21)
 
 
 
-p_all <- ggplot(data = hyperuricemia.samp, aes(x = uric.acid)) +
-  geom_histogram(binwidth = 40)
 
-p_males <- hyperuricemia.samp |> 
-  filter(sex == "male") |> 
-  ggplot(aes(x = uric.acid)) +
-  geom_histogram(binwidth = 40)
-
-p_males
-
-p_females <- hyperuricemia.samp |> 
-  filter(sex == "female") |> 
-  ggplot(aes(x = uric.acid)) +
-  geom_histogram(binwidth = 40)
-
-p_females

@@ -1,7 +1,47 @@
 
+<!--
+
+Add
+  - Meat consumption
+  - Graphic on age and trust, Rollins
+  - Data frame question using tb interruption, hyper, ed triage, recover
+
+Reorganize
+
+-->
+
 *Organizing and classifying data*
 
-<!-- IMS, 01 #3 -->
+
+**Somerville, MA.** Starting in 2011, city officials in Somerville MA city officials started measuring residents' overall happiness and satisfaction with many aspects of life in Somerville; their goal was to become the first city in the United States to systematically track people's happiness. The Happiness Survey is an initiative of the Mayor's Office of Analytics and Innovation (SomerStat)[https://www.somervillema.gov/departments/mayors-office/somerstat] and has the goal of supporting the local government's understanding of the quality of life in Somerville. 
+
+The happiness survey is sent out every two years to a random sample of Somerville households, with the instruction that each survey should be filled out by one person. The survey asks residents to rate their personal happiness, well-being, and satisfaction with City services. The combined dataset from 2011 to 2019 includes 1,534 responses to many times, a few of which are listed below.  The full dataset including the most recent data can be found at the (Somerville open data portal)[https://data.somervillema.gov/?sortBy=relevance&page=1&pageSize=20]. 
+
+
+  * `year`: year that response was collected
+  * `happy`: happiness rating, on a scale from 1 to 10 with 10 being most happy
+  * `satisfied_life`: rating for satisfaction with life in general, on a scale from 1 to 10 with 10 being most satisfied
+  * `satisfied_somerville`: rating for satisfaction with Somerville as a place to live, on a scale from 1 to 10 with 10 being most satisfied
+  * `age`: age in years
+  * `children_home`: whether respondent has children under 18 living at home
+  * `ward`: neighborhood ward the respondent lives in
+  * `precinct`: neighborhood precinct the respondent lives in
+  * `student`: whether respondent is a student
+  * `convenient_transport`: rating for how convenient it is to get to where you want to go, on a scale from 1 to 10 with 10 being most satisfied
+  * `direction_somerville`: whether respondent feels the City is headed in the right direction or is on the wrong track
+  * `housing`: whether respondent rents or owns their home
+  * `primary_transport`: primary form of transportation
+  * `lived_here`: years respondent has lived in Somerville
+  
+  a.  How many observations and variables are in the data? What does a row represent in the context of the data?
+
+  b. Identify which variables are numerical and which variables are categorical.
+
+  c.  What is a numerical variable that you would recommend be collected in the next version of the survey? Briefly explain why having information about this variable might help the local government to evaluate the quality of life in Somerville.. 
+
+
+
+<!-- IMS, 1.3, OI4, 1.13 -->
 
 **Air pollution and birth outcomes, study components.** Researchers collected data to examine the relationship between air pollutants and preterm births in Southern California.
     During the study air pollution levels were measured by air quality monitoring stations.
@@ -22,7 +62,7 @@
 
 <!-- OI4, 1.4 -->
 
-**The Buteyko method, I.**  The Buteyko method is a shallow breathing technique developed by Konstantin 
+**The Buteyko method.**  The Buteyko method is a shallow breathing technique developed by Konstantin 
 Buteyko, a Russian doctor, in 1952. Anecdotal evidence suggests that the Buteyko 
 method can reduce asthma symptoms and improve quality of life. In a scientific 
 study to determine the effectiveness of this method, researchers recruited 600 
@@ -42,7 +82,17 @@ categorical. If numerical, state whether the variable is discrete or continuous.
 If categorical, state whether the variable is ordinal.
 
 
+**Disaster prone counties** On September 30, 2024 The *New York Times* published the article ["Where Americans Have Been Moving Into Disaster-Prone Areas](https://www.nytimes.com/interactive/2024/09/30/climate/americans-moving-hurricane-wildfire-risk.html?unlocked_article_code=1.sE4.bO8u.ZidFCp4iDd2q&smid=url-share) which includes the following visualization. High risk counties were defined as those that regularly get hit by hurricanes and face major wildfires and floods; i.e., counties with high risk of natural disaster and extreme heat.  The latitude and longitude of each county was used to place it on a map of the United States.
 
+![](./exercises/images/disaster_migration_trends.png)
+
+  a. What are the observational units in the graph? What shape is being used to represent the observational units?
+
+  b.  Identify the variables displayed in this graph; i.e., what data are being used to generate the graph?  For each variable, specify its type.
+
+  c. What story is the graph telling about migration in the United States? Limit your answer to no more than four sentences? Be sure to reference specific supporting details in your answer.
+  
+  d. Does this map show a complete picture of migration?
 
 
 
@@ -62,7 +112,9 @@ If categorical, state whether the variable is ordinal.
 \vfill
 
 
-<!-- IMS 1. 17, hello data   Possibly modify using source csv-->
+
+
+<!-- IMS 1.17, hello data   Possibly modify using source csv-->
 
 **Stanford Open Policing.** The Stanford Open Policing project gathers, analyzes, and releases records from traffic stops by law enforcement agencies across the United States. Their goal is to help researchers, journalists, and policy makers investigate and improve interactions between police and the public. The following is an excerpt from a summary table created based off of the data collected as part of this project.
     [@pierson2020large]
@@ -165,21 +217,7 @@ In this analysis, which variable would be the response variable and which variab
   
 <!-- 11 ODD (OI4, 1.13) -->
 
-**Air pollution and birth outcomes, study components.** Researchers collected data to examine the relationship between air pollutants and preterm births in Southern California. During the study air pollution levels were measured by air quality monitoring stations.  Specifically, levels of carbon monoxide were recorded in parts per million, nitrogen dioxide and ozone in parts per hundred million, and coarse particulate matter (PM$_{10}$) in $\mu g/m^3$.
 
-Length of gestation data were collected on 143,196 births between the years 1989 and 1993, and air pollution exposure during gestation was calculated for each birth.  The analysis suggested that increased ambient PM$_{10}$ and, to a lesser degree, CO concentrations may be associated with the occurrence of preterm births.
-    [@Ritz+Yu+Chapa+Fruin:2000]
-
-  a.  Identify the main research question of the study.
-
-  b.  Who are the subjects in this study, and how many are included?
-
-  c.  What are the variables in the study?
-        Identify each variable as numerical or categorical.
-        If numerical, state whether the variable is discrete or continuous.
-        If categorical, state whether the variable is ordinal.
-
-\vfill
 
 *Summarizing, visualizing data*
 
@@ -454,11 +492,7 @@ For each of the following, state whether you expect the distribution to be symme
   
   e. The weight in kilograms of the female students at a large state university.
 
-
-
 \vfill
-
-
 
 **Distributions and appropriate visualization.**  Specify the best graph to illustrate the features of distributions listed below, and specify a reason for your choice.
 
@@ -539,6 +573,36 @@ ggplot(df, aes(x = adolesc_fert_rate)) +
 
 
 
+
+```{r}
+somerville <- read.csv("./exercises/data/somerville_clean.csv")
+# somerville <- read.csv("./data/somerville_clean.csv")
+n_total <- nrow(somerville)
+n_age <- sum(!is.na(somerville$age))
+
+```
+
+**Ages in Somerville** The histogram below show the age distribution for `r n_age` observations out of the `r n_total` in the data set for whom the variable `age` was available.
+
+  a. Describe the shape of the distribution.
+  
+  b. Should the center and spread be summarized with the mean and standard deviation or the median and IQR?
+  
+  c. Should the empirical rule be used to find the middle 95% of the data?
+  
+  d.  Because of its proximity to Boston and Cambridge, Somerville has become a popular place in which to live.  What does the histogram tell you about the demographics of Somerville?
+  
+
+```{r}
+somerville <- read.csv("./exercises/data/somerville_clean.csv")
+# somerville <- read.csv("./data/somerville_clean.csv")
+somerville |> 
+  na.omit(age) |> 
+  ggplot(aes(x = age)) +
+  geom_histogram(bins = 40)
+
+```
+
 ```{r ex-basic-sanit-numbers}
 all_countries <- nrow(wdi_2022)
 df <- wdi_2022 |> 
@@ -546,7 +610,6 @@ df <- wdi_2022 |>
 sanit_cc <- nrow(df)
 
 ```
-
 **Access to sanitation**  As part of its World Development Indicators, the World Bank estimates the percent of the population in a country that has access to basic sanitation.  The histogram below shows the distribution of that measure for the `r sanit_cc` countries where the data were available among the `r all_countries` in the `wdi_2022` dataset.
 
   a.  Describe the distribution.
@@ -570,7 +633,6 @@ ggplot(df, aes(x = perc_basic_sanit)) +
 ```
 
 
-
 ```{r}
 all_countries <- nrow(wdi_2022)
 df <- wdi_2022 |> 
@@ -584,14 +646,13 @@ life_cc <- nrow(df)
 ![](./exercises/images/Carbon-footprint-of-protein-foods.png)
 
   a. Using the information on notations on the plot, what is the structure of the data frame used to construct this plot.  How many rows does it have, what are the variables and what types are the variables?  
-  
   b. What might be causing the variability in the distributions of emissions for each food type?
 
-  b. The white dot on each distribution marks the median greenhouse gas emissions for each food product. Explain why the median instead of the mean is preferable as a measure of center for these distributions.
+  c. The white dot on each distribution marks the median greenhouse gas emissions for each food product. Explain why the median instead of the mean is preferable as a measure of center for these distributions.
 
-  c. For the greenhouse gas emissions for 100 grams of protein from cheese, do you expect the mean to be smaller or larger than the median?
+  d. For the greenhouse gas emissions for 100 grams of protein from cheese, do you expect the mean to be smaller or larger than the median?
 
-  d. Based on the graph, which food would you expect to have the smallest standard deviation of greenhouse gas emissions per 100 grams of protein? Briefly justify your reasoning. 
+  e. Based on the graph, which food would you expect to have the smallest standard deviation of greenhouse gas emissions per 100 grams of protein? Briefly justify your reasoning. 
 
 \vfill
 
@@ -707,7 +768,7 @@ p_males + p_females
   
   d. What do you find interesting about the different definitions of hyperuricemia in males and females?
 
-<!-- remove, redundant with some of our newer problems  IMS 5.22
+<!-- IMS 5.11 -->
 
  **Air quality.** Daily air quality is measured by the air quality index (AQI) reported by the Environmental Protection Agency.
     This index reports the pollution level and what associated health effects might be a concern.
@@ -734,11 +795,8 @@ p_males + p_females
 
 \vfill
 
--->
 
-**Our World in Data**
 
-[Our World in Data](https://ourworldindata.org/) is an open-access publication featuring research and data to make progress against large global problems. Visit their website (there is a useful "Browse by Topic" on the top toolbar) to find an article that interests you and write a brief paragraph (no more than 4 sentences) about an idea or visualization you found compelling.  Include a link to the article in your answer. Here are two examples: [this article](https://ourworldindata.org/how-do-researchers-estimate-the-death-toll-caused-by-each-risk-factor-whether-its-smoking-obesity-or-air-pollution) explores how researchers estimate how many deaths are caused by risk factors; [this article](https://ourworldindata.org/how-do-researchers-study-the-prevalence-of-mental-illnesses) examines how researchers collect data on mental health and discusses how reliable that data may be. 
 
 
 *Relationships in data*
@@ -804,6 +862,20 @@ tb.interruption  |>
       
 ```
 
+**Treatment for HIV in Rwanda.** The government of Rwanda has established a system for monitoring the number of cases of HIV infections and how individuals are treated [@rwanda_hiv_annual_report_2022_2023].  This graph shows the number of individuals starting on anti-retroviral therapy (ART) for HIV individuals by age and sex.
+
+![](./exercises/images/art_Rwanda.png)
+
+  a. What type of plot is this?
+  
+  b. Describe the data frame that would be used to create this plot.
+  
+  c. Speculate on the striking difference by sex in the number of individuals being treated in the age group 25 - 49.  Internet resources may be helpful.
+  
+  d. What one variable would you add to the data frame in (b) for the plot that might help explain the difference noted in (c).
+  
+  e. Your friend says that 6 standardized bar plots would use less space and be a preferable display.  Do you agree?
+
 <!-- IMS 4.7 -->
 
 **Meat consumption and life expectancy.** In data collected for @You:2022, total meat intake is associated with life expectancy (at birth) in 175 countries.  Meat intake is measured in kg per capita per year (averaged over 2011 to 2013).  The two ridge plots show an association between income and meat consumption (higher income countries tend to eat more meat) and an association between income and life expectancy (higher income countries have higher life expectancy).
@@ -864,14 +936,10 @@ tb.interruption  |>
     p_meat / p_life
 ```
 
-
-
 \vfill
 
 
-
-
- **Migraine and acupuncture, I.** A migraine is a particularly painful type of headache, which patients sometimes wish to treat with acupuncture.
+ **Migraine and acupuncture.** A migraine is a particularly painful type of headache, which patients sometimes wish to treat with acupuncture.
     To determine whether acupuncture relieves migraine pain, researchers conducted a randomized controlled study where 89 individuals who identified as female diagnosed with migraine headaches were randomly assigned to one of two groups: treatment or control.
     Forty-three (43) patients in the treatment group received acupuncture that is specifically designed to treat migraines.
     Forty-six (46) patients in the control group received placebo acupuncture (needle insertion at non-acupoint locations).
@@ -910,7 +978,7 @@ tb.interruption  |>
   e.  What are the explanatory and response variables in this study?
 
 
-**Sinusitis and antibiotics, I.** Researchers studying the effect of antibiotic treatment for acute sinusitis compared to symptomatic treatments randomly assigned 166 adults diagnosed with acute sinusitis to one of two groups: treatment or control.
+**Sinusitis and antibiotics.** Researchers studying the effect of antibiotic treatment for acute sinusitis compared to symptomatic treatments randomly assigned 166 adults diagnosed with acute sinusitis to one of two groups: treatment or control.
     Study participants received either a 10-day course of amoxicillin (an antibiotic) or a placebo similar in appearance and taste.
     The placebo consisted of symptomatic treatments such as acetaminophen, nasal decongestants, etc.
     At the end of the 10-day period, patients were asked if they experienced improvement in symptoms.
@@ -972,113 +1040,22 @@ tb.interruption  |>
 
   a. Using the legend in the upper left of the figure, interpret the 45 degree line in the plot.
   
-  b. The accompanying story reported that "Almost one-quarter of adults in the world smoke tobacco. However, there are significant differences by gender.  More than one-third of men smoke, while less than one in ten women do."  What is the relative risk the in the world's population that a male is a smoker compared to a female?
+  b. The accompanying story reported that "Almost one-quarter of adults in the world smoke tobacco. However, there are significant differences by gender.  More than one-third of men smoke, while less than one in ten women do."  What is the approximate ratio of male to female smokers in the world?  
   
   c. Approximately what percentage of men and women smoke in Myanmar?
   
-  d. In Myanmar, what is the approximate relative risk that a male in is a smoker compare to a female?
+  d. In Myanmar, what is the ratio of the proportion of male to female smokers?
   
   e.  What can be learned from the cluster of purple points in the lower left corner of the plot?
   
 
 ![smoking and gender](./exercises/images/smoking-gender-owd.png)
 
+**Our World in Data**
 
-<!-- (OI4, 1.21 odd problem)  skipped for now.
-Note use of term confounding
-
-\eoce{\qt{Internet use and life expectancy\label{internet_life_expectancy}} The 
-	following scatterplot was created as part of a study evaluating the 
-	relationship between estimated life expectancy at birth (as of 2014) and 
-	percentage of internet users (as of 2009) in 208 countries for which such 
-	data were available.\footfullcite{data:ciaFactbook}
-	
-	\noindent\begin{minipage}[c]{0.44\textwidth}
-		\begin{parts}
-			\item Describe the relationship between life expectancy and percentage of 
-			internet users.
-			\item What type of study is this?
-			\item State a possible confounding variable that might explain this relationship 
-			and describe its potential effect.
-		\end{parts} \vspace{15mm}
-	\end{minipage}
-	\begin{minipage}[r]{0.55\textwidth}
-		\hfill\includegraphics[width = 0.87\textwidth]{ch_intro_to_data_oi_biostat/figures/eoce/internet_life_expectancy/internet_life_expectancy.pdf}
-	\end{minipage}
-}{}
-
--->
+[Our World in Data](https://ourworldindata.org/) (OWD) is an open-access publication featuring research and data to make progress against large global problems. It scatterplot of proportions of male and female smokers can be found on OWD.   Visit the website (there is a useful "Browse by Topic" on the top toolbar) to find an article that interests you and write a brief paragraph (no more than 4 sentences) about an idea or visualization you found compelling.  Include a link to the article in your answer. Here are two examples: [this article](https://ourworldindata.org/how-do-researchers-estimate-the-death-toll-caused-by-each-risk-factor-whether-its-smoking-obesity-or-air-pollution) explores how researchers estimate how many deaths are caused by risk factors; [this article](https://ourworldindata.org/how-do-researchers-study-the-prevalence-of-mental-illnesses) examines how researchers collect data on mental health and discusses how reliable that data may be. 
 
 
-
-<!-- update this problem 
-
-% 24 EVEN (OI4, 1.40)
-
-\eoce{\qt{Income and education in US counties\label{income_education_county}} 
-	The scatterplot below shows the relationship between per capita income 
-	(in thousands of dollars) and percent of population with a bachelor's 
-	degree in 3,143 counties in the US in 2010.
-	
-	\noindent\begin{minipage}[c]{0.44\textwidth}
-		\begin{parts}
-			\item What are the explanatory and response variables?
-			\item Describe the relationship between the two variables. Make sure to discuss 
-			unusual observations, if any.
-			\item Can we conclude that having a bachelor's degree increases one's income?
-		\end{parts}\vspace{8mm}
-	\end{minipage}
-	\begin{minipage}[c]{0.55\textwidth}
-		\begin{center}
-			\includegraphics[width = 0.78\textwidth]{ch_intro_to_data_oi_biostat/figures/eoce/county_income_education/county_income_education_scatterplot.pdf}
-		\end{center}
-	\end{minipage}
-}{}
-
--->
-
-
-    
-<!--
-% 31 ODD (OI4, 2.17)
-
-\eoce{\qt{Income at the coffee shop\label{income_coffee_shop}} The first histogram 
-	below shows the distribution of the yearly incomes of 40 patrons at a college 
-	coffee shop. Suppose two new people walk into the coffee shop: one making 
-	\$225,000 and the other \$250,000. The second histogram shows the new income 
-	distribution. Summary statistics are also provided. \\
-	\begin{minipage}[c]{0.5\textwidth}
-		\includegraphics[width=\textwidth]{ch_intro_to_data_oi_biostat/figures/eoce/income_coffee_shop/income_coffee_shop.pdf}
-	\end{minipage}
-	\begin{minipage}[c]{0.4\textwidth}
-		\begin{center}
-			\begin{tabular}{rrr}
-				\hline
-				& (1)       & (2) \\ 
-				\hline
-				n       & 40        & 42 \\ 
-				Min.    & 60,680    & 60,680 \\ 
-				1st Qu. & 63,620    & 63,710 \\ 
-				Median  & 65,240    & 65,350 \\ 
-				Mean    & 65,090    & 73,300 \\ 
-				3rd Qu. & 66,160    & 66,540 \\ 
-				Max.    & 69,890    & 250,000 \\ 
-				SD      & 2,122     & 37,321 \\ 
-				\hline
-			\end{tabular}
-		\end{center}
-	\end{minipage}
-	\begin{parts}
-		\item Would the mean or the median best represent what we might think of as a 
-		typical income for the 42 patrons at this coffee shop? What does this say about 
-		the robustness of the two measures?
-		\item Would the standard deviation or the IQR best represent the amount of 
-		variability in the incomes of the 42 patrons at this coffee shop? What does 
-		this say about the robustness of the two measures?
-	\end{parts}
-}{}
-
--->
 
 <!--  EVEN (OI4, 2.18) -->
 
@@ -1086,8 +1063,6 @@ Note use of term confounding
 the average of the maximum and the minimum of that distribution. Is this statistic 
 robust to outliers and extreme skew? Explain your reasoning.
 
-
-*Categorical data*
 
 <!-- 33 oi_biostat -->
 
@@ -1120,7 +1095,7 @@ robust to outliers and extreme skew? Explain your reasoning.
 
 \vfill
 
-<!-- even problem IMS but plots have been changed, update solution -->
+<!-- IMS 1.2 but with new plots -->
 
 ```{r}
 correlation_plot <- function(x_norm, z_norm, rho) {
@@ -1149,7 +1124,6 @@ correlation_plot <- function(x_norm, z_norm, rho) {
 ```{r}
 set.seed(080546)
 n <- 100  
-rho <- 0.33  
 x <- rnorm(n)
 z <- rnorm(n)
 
@@ -1160,7 +1134,7 @@ p3 <- correlation_plot(x, z, runif(1, min = -0.05, max = 0.05))
 
 
 x <- seq(-2, 2, 0.04)
-y_nonlin <- x**2/2 + rnorm(length(x), mean = 0, sd = runif(1, min = .2, max = .5))
+y_nonlin <- -x**3/2 + rnorm(length(x), mean = 0, sd = runif(1, min = .2, max = .5))
 
 data <- cbind(x, y_nonlin)
 
@@ -1198,6 +1172,7 @@ plot_grid(p1, p2, p3, p4, nrow = 2,
 
 
 \vfill
+<!-- IMS 1.2 but with new plots -->
 
 **Associations, II.** Indicate which of the plots show (a) a positive association, (b) a negative association, or (c) no association. Also determine if the positive and negative associations are linear or nonlinear.
     Each part may refer to more than one plot.
@@ -1310,7 +1285,7 @@ plot_grid(p1, p4, p2, p3, nrow = 2,
 ```{r guess-corr-values-2}
 corr_list_1 <- correlation_r_plot(x, z, -0.90)
 corr_list_2 <- correlation_r_plot(x, z, 0.4)
-corr_list_3 <- correlation_r_plot(x, z, 0.50)
+corr_list_3 <- correlation_r_plot(x, z, 0.70)
 corr_list_4 <- correlation_r_plot(x, z, 0.10)
 
 
@@ -1342,6 +1317,63 @@ plot_grid(p1, p4, p2, p3, nrow = 2,
 ```
 
 
+
+```{r}
+mort_ed_owd <- read.csv("https://ourworldindata.org/grapher/correlation-between-child-mortality-and-mean-years-of-schooling-for-those-aged-15-and-older.csv?v=1&csvType=filtered&useColumnShortNames=true&tab=table&time=2020")
+
+
+countries <- mort_ed_owd |> 
+  filter(Year == 2020) |> 
+  rename(c_mortality= obs_value__indicator_under_five_mortality_rate__sex_total__wealth_quintile_total__unit_of_measure_deaths_per_100_live_births) |> 
+  rename(f_education = f_youth_and_adults__15_64_years__average_years_of_education) |> 
+  dplyr::filter(Code != "" ) |> 
+  dplyr::filter(Entity != "World") 
+  
+n_countries <- nrow(countries)
+
+countries_w_data <- countries |> 
+   drop_na(c_mortality, f_education)  
+
+n_cc <- nrow(countries_w_data)
+
+r_mort_edu <- cor(countries_w_data$c_mortality, countries_w_data$f_education)
+```
+ 
+**Childhood mortality, I.**  The scatterplot below shows the relationship between the explanatory variable female education (average number of years in school) and the response variable childhood mortality rate (the number of deaths under the age of 5 per 100 births). ^[United Nations Inter-agency Group for Child Mortality Estimation (2024) – with major processing by Our World in Data]  The data in the plot correspond to the `r n_cc` where data on these variables were available from the full set of `r n_countries`.  The red line in the plot is a straight line that best fits the data.
+
+  a. Describe the relationship between these variables.  Is it positive or negative, linear or nonlinear?
+  
+  b. Which of the following statements are true about the correlation between childhood mortality and education for women?  give a reason for your answer.
+  
+  (1) The correlation is negative and between -0.20 and -0.40.     
+  (2) The correlation is negative between -0.60 and -0.90;    
+  (3) The correlation is zero because there are regions of the plot where the relationship is not linear;    
+  (4) Correlation cannot be calculated in this case.
+  
+  c.  What does the red line suggest about the value of assuming that relationship between the childhood mortality and female education is perfectly linear?
+  
+  d. Data on both variables are not available for `r n_countries - n_cc` countries.  If this data became available where do you think the data points would lie in the scatterplot?  Explain your reasoning.
+ 
+```{r}
+ggplot(countries_w_data, aes(x = f_education, y = c_mortality)) +
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
+  geom_smooth(method = "lm", se = FALSE, color = IMSCOL["red", "full"]) +
+  labs(x = "Average total years in school, females age 15 - 64", y = "Childhood mortality rate")
+```
+
+**Childhood mortality, II**  The data used for the scatterplot in the previous exercise was used by Our World in Data to produce the scatterplot below. [@UN_IGME_2024].  The two plots use the same plot type (a scatterplot) to show the same relationship between the explanatory variable female education level and the response childhood mortality, but there obvious differences.
+
+  a. List  three pieces of additional information provided by this plot compared to the earlier one and specify the way in which that information is displayed in the plot.
+  
+  b.  If you were working with a research team interested in the specifics of the relationship between the explanatory and response variables, which plot would you prefer?  Explain why.
+  
+  c. If you were part of a team considering interventions to reduce the rate of childhood mortality  in high risk countries, which plot would you prefer?  Explain why.
+  
+
+
+
+![](./exercises/images/childhood-mortality-and-female-education.png)
+
 <!-- ch 1 No 39 oi_biostat -->
 
 **Anger and cardiovascular health** Trait anger is defined as a relatively stable personality trait that is manifested in the frequency, intensity, and duration of feelings associated with anger. People with high trait anger have rage and fury more often, more intensely, and with long-lasting episodes than people with low trait anger. It is thought that people with high trait anger might be particularly susceptible to coronary heart disease; 12,986 participants were recruited for a study examining this hypothesis. Participants were followed for five years. [@williams2000anger]
@@ -1364,18 +1396,44 @@ The following table shows data for the participants identified as having normal 
   
   d. What percentage of participants with low trait anger scores experienced a CHD event?
   
-  e. Are individuals with high trait anger more likely to experience a CHD event than individuals with low trait anger? Calculate the relative risk of a CHD event for individuals with high trait anger compared to low trait anger.
+  e. Are individuals with high trait anger more likely to experience a CHD event than individuals with low trait anger? 
   
   f. Researchers also collected data on various participant traits, such as level of blood cholesterol (measured in mg/dL). What graphical summary might be useful for examining how blood cholesterol level differs between anger groups?
 
 
-*Simpson's paradox*
+*Confounding, Simpson's paradox*
 
+**Confounders** For each of the following scenarios, list at least one confounding/lurking variable that makes the apparent association misleading.  In some cases the confounder is clear; in others you may  have to speculate about it.
+
+  a. Excessive coffee drinking is leads to an increased risk of lung cancer.
+  
+  b. Living near high voltage electrical transmission lines increases the risk of cancer.
+  
+  c. Using sun screen causes skin cancer.
+  
+  d. In large families, being born as the fifth child leads to Down syndrome.
+  
+  e. Frequent use of a ride-sharing service (such as Uber or Lyft) causes weight gain.
+  
+**Confounders** For each of the following scenarios, list at least one confounding/lurking variable that makes the apparent association misleading.  In some cases the confounder is clear; in others you may  have to speculate about it.
+
+  a. Eating ice cream causes skin cancer.
+  
+  b. Disproportionately more burglaries occur between June and September in North America, so higher daily temperature causes burglars to  be more active.
+  
+  c. Since international childhood mortality rates decrease with increasing education levels of females age 15 - 64, women with more education are better able to protect their children from diseases.
+  
+  d. Playing recordings of Mozart piano sonatas for in infant increase the chance they will be accepted to an elite University.
+  
+  e. Disproportionately more bicycle accidents occur between June and September in North America, so higher daily temperature cause cyclists to be careless.
+
+  f. The polio epidemic in North America in the 1950s was caused by eating ice cream. Hint:  Some research on the internet might help.
+  
 **Clinic billing**  Suppose the age distributions for the two clinics in the example of clinic billing in @sec-developmental-disability are more nearly equal: 60 of the 200 patients in Clinic A are less than 50 years old, while 140 of the Clinic B patients are less than 50.
 
   a. What will be the average billing for the two clinics?
   
-  b. Explain to someone who has not taken statistics how this differs from the example and why?
+  b. Explain to someone who has not taken statistics how this differs from the example in the text and why?
   
 **College admissions**  Suppose a private, for profit college prepares students to work in health care.  The college has three degree programs: pharmacist, physician assistant, and nurse practitioner.  In the previous year, 1000 applicants applied for admission.  The table below shows hypothetical admissions data by sex of the applicant.
 
@@ -1383,15 +1441,30 @@ The following table shows data for the participants identified as having normal 
   
   b. What are the admissions rates for females and males?
   
-  c. Does the college appear to discriminate against  males in its admissions decisions?  Explain your answer.
+  c. Does the college appear to discriminate against  females in its admissions decisions?  Explain your answer.
+  
+  d. Show that the number of females admitted is a weighted average of the number of females applying to each program weighted by the admissions proportion for the programs.
 
 
 |  Program     | Females accepted (of applicants)  | Males accepted (of applicants) |
 |:-------------|----------------------------------:|--------------------------------:|
-| Pharmacy    |   10 of 86                            |    100 of 700                |
+| Pharmacy    |   60 of 86                            |    400 of 700                |
 | Physician assistant |   50 of 220                    |  60 of 260                  |
-| Nurse practitioner  |  20 of 70                      | 5 of 15                    |
+| Nurse practitioner  |  24 of 70                      | 5 of 15                    |
 
+**Create a paradox**  Suppose a large health care organization recently hired hired 50 additional nurses and 20 additional IT staff.  Construct an example of Simpson's paradox in which the organization appeared to discriminate against males.
+
+<!-- IMS 4.8 -->
+
+**Florence Nightingale.** Florence Nightingale was a nurse in the Crimean War and an early statistician. In her notes, she opined, "In comparing the deaths of one hospital with those of another, any statistics are justly considered absolutely valueless which do not give the ages, the sexes, and the diseases of all the cases." [@nightingale:1859]
+
+  a.  Nightingale describes three confounding variables to consider when comparing death rates across hospitals.  What are they?  Describe what makes each variable potentially confounding.
+
+  b.  Provide two additional potential confounding variables for this situation.  Check to make sure that the variables are associated with both the explanatory variable (hospital) and the response variable (death).
+
+  c.  Why does Nightingale say that the statistics are "valueless" if given without being broken down by age, sex, and disease?  xsExplain.
+
+\vfill
 
 
 [^_01-ex-intro-to-data-1]: The [`migraine`](http://openintrostat.github.io/openintro/reference/migraine.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
