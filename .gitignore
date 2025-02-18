@@ -1,5 +1,5 @@
 _freeze/
-*.Rproj
+islbs.Rproj
 .Rproj.user
 .Rapp.history
 .Rhistory
@@ -31,3 +31,4 @@ index.tex
 index.pdf
 index.md
 index.synctex(busy)
+islbs.Rproj
