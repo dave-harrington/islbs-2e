@@ -1,3 +1,5 @@
+_freeze/
+*.Rproj
 .Rproj.user
 .Rapp.history
 .Rhistory
