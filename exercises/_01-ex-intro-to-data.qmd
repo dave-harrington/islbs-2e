@@ -98,9 +98,7 @@ If categorical, state whether the variable is ordinal.
 
 <!-- OI4, 1.5 -->
 
-**Cheaters, study components.** Researchers studying the relationship between honesty, age and self-control conducted an experiment on 160 children between the ages of 5 and 15.
-    Participants reported their age, sex, and whether they were an only child or not.
-    The researchers asked each child to toss a fair coin in private and to record the outcome (white or black) on a paper sheet, and said they would only reward children who report white.
+**Cheaters, study components.** Researchers studying the relationship between honesty, age and self-control conducted an experiment on 160 children between the ages of 5 and 15.  Participants reported their age, sex, and whether they were an only child or not.  The researchers asked each child to toss a fair coin in private and to record the outcome (white or black) on a paper sheet, and said they would only reward children who report white.
     [@Bucciol:2011]
 
   a.  Identify the main research question of the study.
