@@ -1,0 +1,544 @@
+---
+title: "Unused Code (JV)"
+output: html_document
+date: "2025-01-19"
+---
+
+## Case study: Preventing peanut allergies {#sec-case-study-preventing-peanut-allergies}
+
+\index{data!LEAP|(}
+
+Is there an effective way to prevent peanut allergies in infants?
+
+The proportion of young children with peanut allergies in Western countries has doubled in the last 10 years. Some studies have suggested that exposing infants to peanut-based foods may help prevent the development of peanut allergies (see @du2008early). The "Learning Early about Peanut Allergy" (LEAP, @du2015randomized) study was conducted in a controlled setting to investigate whether early exposure to peanut products reduces the likelihood of developing a peanut allergy, compared to avoidance of peanut products.
+
+The study team enrolled children in the United Kingdom between 2006 and 2009, selecting  640 infants between  4  and  11  months old who had eczema, an egg allergy, or both. Each child was randomly assigned to one of two groups: the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams of peanut protein daily until 5 years of age, while children in the control group avoided peanut protein during the same period.
+
+At age 5, each child underwent a peanut allergy test using an oral food challenge (OFC), which involved consuming 5 grams of peanut protein in a single dose. If a child showed no allergic reaction, the intervention (treatment or control) received by the child, the intervention they received was deemed a PASS; if the intervention failed to prevent an allergic reaction, the outcome was recorded as a FAIL.
+
+The primary analysis presented in the paper was based on data from  530 children with a negative skin test at study entry. Although a total of 542 children had an earlier negative skin test, data were unavailable for 12 children.
+
+Individual-level data from the study are shown in @tbl-leap-study-results-df, which shows 6 
+children in a dataset restricted to children with a negative skin prick test for a peanut allergy at the time of randomization. Each row represents a participant and shows the `participant.ID` (an anonymous participant identifier), `treatment.group` (the treatment randomly assigned) and `overall.V60.outcome` (result of the OFC at 60 months of age). The LEAP data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+
+```{r leap-trimmed}
+#| label:  tbl-leap-study-results-df
+#| tbl-cap:  "Five patients from the LEAP study"
+#| tbl-pos: H
+
+LEAP_trimmed <- LEAP |>
+  dplyr::select(
+    participant.ID,
+    treatment.group,
+    overall.V60.outcome) |>
+  slice(1:3, 529, 539)
+
+LEAP_trimmed  |> 
+  kbl(linesep = "", booktabs = TRUE, align = "lll")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+```
+
+The data can be organized in a two-way summary table; @tbl-leap-study-results shows the results grouped by treatment group and OFC outcome.
+
+```{r leap-study-results}
+#| label:  tbl-leap-study-results
+#| tbl-cap:  "Results from the LEAP study"
+#| tbl-pos: H
+options(knitr.kable.NA = '')
+
+LEAP_analyzed <- LEAP |> 
+  dplyr::filter(stratum == "SPT-Negative") |> 
+  dplyr::filter(!is.na(overall.V60.outcome))
+
+LEAP_analyzed |> 
+  count(overall.V60.outcome, treatment.group) |> 
+  group_by(treatment.group) |> 
+  pivot_wider(names_from = overall.V60.outcome, 
+              values_from = n) |> 
+  relocate(`FAIL OFC`, .after = `PASS OFC`) |>
+  adorn_totals(where = c("row", "col"), name = "Sum") |> 
+  kbl(linesep = "", booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped")
+ )
+```
+
+The summary table makes it easy to identify patterns in the data. In the two groups combined, the intervention failed to prevent an allergy in 15.6% (41/530) of the children, but the proportions of failures in the two groups are different. In the avoidance group, the proportion of OFC failures was  36/263 = 0.137  (13.7%); in the consumption group, it was  5/267 = 0.019  (1.9%).
+
+The difference in the proportions of OFC failures between the two groups is  11.8% ; nearly  12%  more of the participants tested positive in the avoidance versus than consumption groups. The data can also be summarized by the ratio the two proportions (0.137/0.019 = 7.31); the rate of a subsequent allergy the avoidance group is more than  7  times larger than in the consumption group; i.e., the risk of a subsequent peanut allergy was more than 7 times greater in the avoidance group relative to the consumption group.
+
+Even without advanced statistical methods, the results of the LEAP study are striking. Early exposure to peanut products appears to be an effective strategy for reducing the likelihood of developing peanut allergies later in life. But are these results definitive? In other words, is the  11.8%  difference between the two groups larger than one would expect by chance variation alone? The statistical methods introduced in later chapters will provide the tools to answer this question.
+
+In the language of medical research, LEAP was a \index{clinical trial} **clinical trial** -- a study done to improve the understanding of an intervention in a clinical setting. In statistical terms, LEAP was an \index{experiment} **experiment** involving human subjects -- a study done in a controlled setting to estimate the difference in outcome between two interventions. Experiments will be explored in more detail later in the text in @sec-experiments of @sec-collecting-data.
+
+This study illustrates important issues in \index{evidence-based medicine} **evidence-based medicine**. At the time of the study, the prevailing approach to preventing peanut allergies in at-risk children was to avoid peanut products altogether. LEAP was pivotal in challenging this belief, providing evidence that avoidance, while intuitive, was not the most effective strategy.
+
+Importantly, the study required informed consent from parents to allow their children to be randomly assigned to one of two interventions with uncertain outcomes. In return investigators were obligated to ensure that the study was justified by preliminary data, had a statistically sound design, and was conducted responsibly to protect the well-being of the participants. ^[The 2024 update to the World Medical Association Ethical Principles for Medical Research Involving Human Participants (also known as the Declaration of Helsinki) can be found in 
+@wma2024jama]
+
+
+```{r }
+#| include: false
+terms_chp_1 <- c("data", 
+                 "clinical trial",
+                 "experiment",
+                 "evidence-based medicine")
+```
+
+\index{data!LEAP|)}
+
+
+### Observations, variables and data matrices {#sec-data-observations}
+
+\index{data!crabs|(}
+
+During spawning, a female horseshoe crab migrates to shore with a male attached to her posterior spines to lay clusters of eggs in the sand. Each cluster of eggs, called a clutch, typically contains 4,000 to 5,000 eggs. During a single nesting event, a female may lay 5 to 6 clutches. Unattached males, known as satellites, form groups around nesting pairs and compete with the attached males for fertilization by releasing sperm near the female’s eggs. Satellite males can achieve high fertilization rates, allowing older or damaged males to compete with the dominant male without dislodging him.^[See https://horseshoecrab.org/ for more information about these interesting creatures.]
+
+In 1996, H.J. Brockmann [@brockmann1996satellite] conducted a comprehensive study of mating horseshoe crabs on two beaches along the Delaware (USA) shore. Her data suggested that satellites did not cluster randomly around mating pairs and that this clustering was not influenced by environmental conditions or the duration the mating pair had been on the beach. She hypothesized that unattached males were attracted to females with certain features.
+
+This section introduces and explores some of the variables Brockmann's team recorded on 173 female-male mating pairs.  These and other variables are summarized in Table 3 of her article. The dataset used here, referred to as `crabs`, includes 5 recorded measurements for each mating pair and is available on Alan Agresti's University of Florida [web page](https://users.stat.ufl.edu/~aa/cda/data.html).  Later, @sec-relationships-one-numerical-one-categorical examines how some features of the female in a mating pair tend to attract unattached males. 
+
+The five variables in `crabs` are defined in @tbl-crabs-variable-descriptions.
+
+
+| Variable Name | Variable description |
+|:------------------------------|:----------------------------------------|
+| color | The color of the carapace (the shell carried by the crab on its back), with 4 values "light medium", "medium", "dark medium", "dark" |
+| spine | The condition of the two spines along the edge of its abdomen, with 3 values "both good", "one worn or broken", "both worn or broken". |
+| width | The width of the carapace, in cm, |
+| satell | The number of male satellites the crab has attracted |
+| weight | The weight of the female, in grams. |
+
+: Variable descriptions in the `crabs` data {#tbl-crabs-variable descriptions} {tbl-colwidths="[25,75]"}
+
+It is important to check the definitions of variables, as they are not always clear. In the `crabs` data, the definitions specify that the measurements of `width` and `weight` are in metric units and the variable `spine` records the condition of the two spines near the abdomen of each crab.
+
+@tbl-crabsDF shows data from  6  randomly selected crabs from the  173 observed. Each row represents a **case** (a single crab) and each column represents a recorded characteristic, called a \index{variable} **variable**. The entries in a row are the values of the variables for that case, and the \index{distribution} **distribution** of a variable is its collection of values. The distribution of the variable `weight`, for instance, is the set of values in the `weight` column.
+
+A case is sometimes called a **unit of observation** or an \index{observational unit} **observational unit**. 
+```{r load-crabs}
+load("data/crabs.Rdata")
+```
+
+```{r crab-example-data}
+#| label:  tbl-crabsDF
+#| tbl-cap:  "Six observations from the crabs dataset"
+#| tbl-pos: H
+set.seed(080548) 
+crabs  |> 
+  sample_n(6) |>
+  select(-y) |> 
+  kbl(linesep = "", booktabs = TRUE, align = "llrrr")|>
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE)
+
+```
+
+Because the observations are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**. Data matrices are a convenient way to record and store data. If data are collected for another observational unit, a new row can easily be added. Similarly, new column can be added for a new variable.
+
+Datasets are collected to learn about a larger \index{population} **population**. Brockmann's data were collected to learn about the features of female crabs that made them more attractive to male satellites. The data were gathered in an observational study; the principles and interpretation of observational studies are discussed in @sec-observational-studies of @sec-collecting-data.
+
+```{r}
+terms_chp_1 <- c(terms_chp_1, c("data matrix",
+                                "data table",
+                                "case",
+                                "observational unit",
+                                "participant",
+                                "human subject",
+                                "distribution",
+                                "variable")
+                )
+```
+
+### Types of variables {#sec-data-variable-types}
+
+A variable is classified based on the types of calculations that can be performed with it. The variables `width` and `weight` are \index{numerical variables} **numerical variables**, also called \index{quantitative variables} **quantitative variables**. Their values can be added, subtracted, or averaged. The two variables `width` and `weight` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on any value within a specified range. The number of male satellites (`satell`) is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on one of a set of values, in this case an integer between 0 and the maximum number of satellites who can attach to a female horseshoe crab.
+
+The variables `color` and `spine` are \index{categorical variables} **categorical variables**, also called \index{qualitative variables} **qualitative variables**. The values of categorical variables are names or labels; in this case the values are carapace colors or the condition of the spines of the crab. Arithmetic operations cannot be performed on categorical variables, but they can be tabulated. When the labels of a categorical variable have no natural ordering, it is referred to as a \index{nominal categorical variable}  **nominal categorical variable**. Both `color` and `spine`  are \index{ordered categorical variable} **ordered categorical variables**, since color has a natural ordering from `light medium` to `dark` and the values of `spine` indicate worsening conditions of the female's spines. In R, categorical variables are also called \index{factor variable} **factor variables**.
+
+\index{data!crabs|)}
+
+```{r}
+terms_chp_1 <- c(terms_chp_1, c("numerical variable",
+                                "quantitative variable",
+                                "qualitative variable",
+                                "continuous numerical variable",
+                                "discrete numerical variable",
+                                "categorical variable",
+                                "nominal categorical variable",
+                                "ordered categorical variable")
+                 )
+```
+
+Other types of variables arise in certain applications, often requiring specialized software to manipulate, and are not discussed in this text. Text variables are used to record open ended responses to a question on a survey. Dates are often coded so that they can be manipulated with operations that extract the month or day of the week corresponding to a date. Image data record the results of a photograph or other imaging procedure, such as a magnetic resonance imaging (MRI) scan of an organ or region of the body.
+
+
+@fig-variable-types shows the types of variables explored in this text.
+```{r}
+#| label: fig-variable-types
+#| fig-cap: Types of variables explored in this text.
+#| fig-asp: 0.4
+#| fig-alt: |
+#|   Variables are classfied as numerical (either discrete
+#|   or continuous) or categorical (either ordinal or nominal).
+par_og <- par(no.readonly = TRUE) # save original par
+par(mar = rep(0, 4))
+plot(c(-0.15, 1.3), 0:1, type = "n", axes = FALSE)
+
+text(0.6, 0.9, "Variables in this text")
+rect(0.4, 0.8, 0.8, 1)
+
+text(0.25, 0.5, "Numerical")
+rect(0.1, 0.4, 0.4, 0.6)
+arrows(0.45, 0.78, 0.34, 0.62, length = 0.08)
+
+text(0.9, 0.5, "Categorical")
+rect(0.73, 0.4, 1.07, 0.6)
+arrows(0.76, 0.78, 0.85, 0.62, length = 0.08)
+
+text(0, 0.1, "Discrete")
+rect(-0.17, 0, 0.17, 0.2)
+arrows(0.13, 0.38, 0.05, 0.22, length = 0.08)
+
+text(0.39, 0.1, "Continuous")
+rect(0.25, 0, 0.53, 0.2)
+arrows(0.35, 0.38, 0.4, 0.22, length = 0.08)
+
+text(0.77, 0.105, "Ordinal")
+rect(0.64, 0, 0.9, 0.2)
+arrows(0.82, 0.38, 0.77, 0.22, length = 0.08)
+
+text(1.12, 0.1, "Nominal")
+rect(0.99, 0, 1.25, 0.2)
+arrows(1.02, 0.38, 1.1, 0.22, length = 0.08)
+par(par_og) # restore original par
+```
+
+
+::: {.workedexample data-latex=""}
+In addition to the treatment and outcome variables shown in @tbl-leap-study-results-df, the study team collected the `age` (in months) and `sex` of each participant and the results of the initial skin test for peanut allergies (negative or positive.) Classify `treatment.group`, `overall.V60.outcome` and these additional variables.
+
+------------------------------------------------------------------------
+
+The variables `treatment.group`, `overall.v60.outcome`, `sex` (male or female) and the result of the skin test all measure non-numerical quantities, and thus are categorical variables, each with two levels. `Age` is a continuous variable.
+:::
+
+
+```{r}
+pdxTrees_parks_sample
+```
+
+
+
+
+***
+
+**Transforming or re-expressing data**
+
+The empirical rule does not apply to skewed distributions because the density of observations is different to the right and left of the mean. In many cases, a transformation or re-expressing of the data produces a symmetric distribution for the transformed data. The three transformations listed in @tbl-transforming-data are the ones most commonly used with skewed data
+
+| Transformation | Recommended use |
+|:--------------------------------|:--------------------------------------|
+| $x^2$ | Unimodal, left-skewed distributions |
+| $\sqrt{x}$ | Count data or data moderately skewed right |
+| $\log_e{x}$ | More severely right skewed data. Data must have only positive values. Add a small constant to data with some zero values. |
+
+: Transformations to try with skewed data {#tbl-transforming-data} {tbl-colwidths="\[25,75\]"}
+
+In the Portland Tree Inventory, the Pollution Removal Value (`Pollution_Removal_value`) quantifies the annual economic benefits of a tree's capacity to remove air pollutants. It is typically expressed in monetary terms, reflecting the financial savings associated with the tree's role in improving air quality. The three histograms in @fig-trees-pollution-removal-histograms show the distributions of `Pollution_Removal_value` when (a) no transformation is applied and after square root (b) and logarithmic transformations. The square root transformation produces the more nearly symmetric distribution.
+
+```{r trees-transformed-pollution-histograms}
+#| label: fig-trees-pollution-removal-histograms
+#| fig-cap: Three histograms of `Pollution_Removal_value`.
+#| fig-subcap:
+#|   - No transformation (US dollars)
+#|   - Square root transformation.
+#|   - Natural log transformation.
+#| fig-alt: |
+#|   Three histograms of `Pollution_Removal_value` after transformation. The square root transformation produces an approximately symmetric distribution
+#| fig-width: 4
+#| layout-ncol: 3
+
+ggplot(pdxTrees_parks_sample, aes(x = Pollution_Removal_value)) +
+  geom_histogram(bins = 20)  +
+  labs(x = "Pollution removal value (US dollars)", y = "Count") 
+
+ggplot(pdxTrees_parks_sample, aes(x = sqrt(Pollution_Removal_value))) +
+  geom_histogram(bins = 20) +
+  labs(x = "Square root of pollution removal value", y = "Count") 
+
+ggplot(pdxTrees_parks_sample, aes(x = log(Pollution_Removal_value + 0.1))) +
+  geom_histogram(bins = 20) +
+  labs(x = "Natural log pollution removal value", y = "Count") 
+
+```
+
+```{r sqrt-pollution-summary}
+d <- pdxTrees_parks_sample
+root_pr <- sqrt(d$Pollution_Removal_value)
+m_root_pr <- round(mean(root_pr), 2)
+sd_root_pr <- round(sd(root_pr), 2)
+sq_pr_lb  <- m_root_pr - sd_root_pr
+sq_pr_lb  <- round(sq_pr_lb, 2)
+sq_pr_ub  <- m_root_pr + sd_root_pr
+sq_pr_ub  <- round(sq_pr_ub, 2)
+
+```
+
+
+::: {.guidedpractice data-latex=""}
+@fig-trees-height-trans-histograms shows histograms of `Tree_Height` in the original scale (a) and after square root (b) and log (c) transformations. Can the empirical rule be used with any of these three distributions? [^intro-to-data-9]
+:::
+
+[^intro-to-data-9]: No. On the original scale, the distribution is skewed right, and the distribution after a log transform is skewed left. The distribution after a square root transformation is symmetric, but it is not unimodal.
+
+```{r trees-transformed-height-histograms}
+#| label: fig-trees-height-trans-histograms
+#| fig-cap: Three histograms of the `Tree_Height`.
+#| fig-subcap:
+#|   - No transformation (ft)
+#|   - Square root transformation.
+#|   - Natural log transformation.
+#| fig-alt: |
+#|   Three histograms of `Tree_Height` after transformation. The square root transformation produces an approximately symmetric distribution
+#| fig-width: 4
+#| layout-ncol: 3
+
+ggplot(pdxTrees_parks_sample, aes(x = Tree_Height)) +
+  geom_histogram(bins = 20) +
+  labs(x = "Tree Height (ft)", y = "Count") 
+
+ggplot(pdxTrees_parks_sample, aes(x = sqrt(Tree_Height))) +
+  geom_histogram(bins = 20) +
+  labs(x = "Square root of Tree Height", y = "Count") 
+
+
+ggplot(pdxTrees_parks_sample, aes(x = log(Tree_Height))) +
+  geom_histogram(bins = 20) +
+  labs(x = "Natural log of Tree Height", y = "Count") 
+
+```
+
+::: {.workedexample data-latex=""}
+The mean and standard deviation for the distribution of the square root of `Pollution_Removal_value are respectively `r m_root_pr` and `r sd_root_pr`. Use the empirical rule to find the middle  68%  of the distribution.
+
+-----------------------------------------------------------------------
+
+Suppose $x$ = `Pollution_Removal_value}`. The middle  68%  of the distribution of $y = \sqrt{x}$ is in the interval $\overline{y} \pm \textrm{std. dev.} y =`r m_root_pr` \pm `r sd_root_pr`$, or (`r sq_pr_lb` , `r sq_pr_ub`). Squaring the left and right endpoints, the middle  68%  of the distribution of $x$ will be in the interval (`r sq_pr_lb^2` ,  `r sq_pr_ub^2`).
+:::
+
+***
+
+(JV: I don't think this example is clear. Why would we make the assumption that all of the non-respondents were in very poor health? I think this sort of exercise would be more useful in the next chapter with additional context of comparing to reference data.)
+
+::: {.workedexample data-latex=""}
+Very few of the respondents reported `Very Poor` health status. It may be the case that participants in very poor health did not respond to this question. Comment on whether this may have lead to a substantial under-estimate of the frequency of participants in very poor health.
+
+------------------------------------------------------------------------
+
+ `r n_dropped`  of the  `r n_original`  participants in the original sample chose not to respond to at least one of the questions about education or health status. If all of those non-responders were in very poor health, the number with very poor health would not be larger than  `r t_tot["Sum", "Very Poor"]`  +  `r n_dropped`  =  `r t_tot["Sum", "Very Poor"] +  n_dropped`  . The proportion of participants with very poor health is no larger than  `r (t_tot["Sum", "Very Poor"] +  n_dropped) / t_tot["Sum", "Sum"]` , more than double the proportion in @tbl-wvs-edu-health (`r t_tot["Sum", "Very Poor"] / t_tot["Sum", "Sum"]`). Under these assumptions @tbl-wvs-edu-health may well provide an under estimate of relative frequency of participants in very poor health.[^intro-to-data-10]
+:::
+
+[^intro-to-data-10]: @sec-sample-surveys discusses sources of bias in surveys in more detail.
+
+```{=html}
+<!-- guided practice about educational background 
+
+The proportion with a secondary school education  or less  (5136 + 9194)/19796 = 0.724 , or  74.2% .
+
+-->
+```
+
+
+***
+
+(JV: I don't think this example fits here.)
+
+::: {.workedexample data-latex=""}
+In these data, would `Health_status` be a reasonable explanatory variable for `Education_level`?
+
+------------------------------------------------------------------------
+
+No. `Health_status` is reflects perceived health at the time of the interview, while `Educational_level` refers to something in the past.
+:::
+
+
+***
+
+The numerical variable `Carbon_Storage_lb` is an estimate of the amount of carbon stored in the tree. Collectively, the  500  trees in this sample were storing approximately  `r carb_sum` \,\textrm{lbs}  (more than  4,800  tons!) of carbon at the date of the last inventory. How are these amounts of sequestered carbon distributed among the trees?
+
+***
+
+(JV: This is a nice fact but doesn't fit in with the data matrix section.)
+
+Collectively, the `r portland_size` trees in this sample were storing approximately  `r carb_sum` \,\textrm{lbs}  (more than  4,800  tons!) of carbon at the date of the last inventory. 
+
+***
+
+(JV: I don't think we need these definitions.)
+
+When observations are made on people participating in a study, as in LEAP, the observational units are called \index{human subjects} **human subjects** or \index{participants} **participants**.
+
+***
+
+**Two-by-two tables: relative risk**
+
+The results from medical and public health studies are often presented in \index{two-by-two tables} **2  $\times$ 2** tables, contingency tables for categorical variables that have two levels. For example, do children living in areas with high concentrations of air pollution tend to develop asthma? In a typical 
+2 $\times$ 2 table, the rows define two groups of participants (e.g., exposed to air pollution versus not), while the columns represents the two possible outcomes (e.g., developed asthma versus not).[^intro-to-data-14]
+
+[^intro-to-data-14]: Since a 2 $\times$ 2 table is symmetric, the roles of rows and columns can be reversed, but it is customary to use rows for the explanatory variable and columns for the response, convention is followed here.
+
+@tbl-gen-2x2-table shows the general form of a 2 $\times$ 2 table.
+
+|             | Outcome A | Outcome B |                Sum |
+|------------:|----------:|----------:|-------------------:|
+| **Group 1** |       $a$ |       $b$ |            $a + b$ |
+| **Group 2** |       $c$ |       $d$ |            $c + d$ |
+|     **Sum** |    $a +c$ |     $b+d$ | $a + b + c+ d = n$ |
+
+: The general form of a 2 $\times$ 2 table {#tbl-gen-2x2-table}
+
+@tbl-leap-study-results showing the results of LEAP in @sec-case-study-preventing-peanut-allergies has this form.
+
+Because of the simple structure of 2 $\times$ 2 tables, it is possible to calculate single number summaries of the strength of a relationship or association. In LEAP, the proportion of OFC failures in the avoidance group was  36/263 = 0.137 ; in the consumption group, it was  5/267 = 0.019 . These two proportions are a measure of the risk of a peanut allergy in each group. The ratio of the proportions (0.137/0.019 = 7.31) indicates that the risk of peanut allergy in the avoidance group is more than  7  times as large as that in the consumption group. The \index{relative risk} **relative risk** of an allergy, comparing the avoidance to the consumption group, is  7.31 . In statistical notation
+
+\begin{align*}
+RR_{\textrm{failing OFC}} &= \dfrac{\textrm{proportion in avoidance group who failed OFC}}{\textrm{proportion in consumption group who failed OFC}} \\
+    &= \dfrac{36/263}{5/267} \\ 
+    &= 7.31. 
+\end{align*}
+
+In most studies a relative risk of 1.5 or larger is considered important, so the relationship between intervention and outcome in LEAP is a strong one. Relative risk summarizes both the strength of a relationship (how much it differs from  1) and and its direction (whether is is larger or smaller than  1).
+
+::: {.workedexample data-latex=""}
+A study is conducted to assess the association between smoking and cardiovascular disease (CVD), in which researchers identified a cohort of individuals and categorized them according to smoking and disease status. If the relative risk of CVD is calculated as the ratio of the proportion of smokers with CVD to the proportion of non-smokers with CVD, interpret the results of the study if the relative risk equals 1, is less than 1, or greater than 1.
+
+------------------------------------------------------------------------
+
+A relative risk of 1 indicates that the risk of CVD is equal for smokers and non-smokers.
+
+A relative risk less than 1 indicates that smokers are at a lower risk of CVD than non-smokers; i.e., the proportion of individuals with CVD among smokers is lower than the proportion among non-smokers.
+
+A relative risk greater than 1 indicates that smokers are at a higher risk of CVD than non-smokers; i.e., the proportion of individuals with CVD among smokers is higher than the proportion among non-smokers.
+:::
+
+::: {.guidedpractice data-latex=""}
+For the study described above, suppose that of the 231 individuals, 111 are smokers. 40 smokers and 32 non-smokers have cardiovascular disease. Calculate and interpret the relative risk of CVD.[^intro-to-data-15]
+:::
+
+[^intro-to-data-15]: The relative risk of CVD, comparing smokers to non-smokers, is  (40/111)/(32/120) = 1.35 . Smoking is associated with a 35% increase in the probability of CVD; in other words, the risk of CVD is 35% greater in smokers compared to non-smokers.
+
+Relative risk relies on the assumption that the observed proportions of an event occurring in each group are representative of the risk, or incidence, of the event within the populations from which the groups are sampled. For example, in the LEAP data, the relative risk assumes that the proportions  33/263  and  5/267  are estimates of the proportions OFC failures in the larger populations of infants who would avoid or consume peanut products, respectively.
+
+::: {.workedexample data-latex=""}
+Suppose another study to examine the association between smoking and cardiovascular disease is conducted, but researchers use a different study design than described above. In this new study, 90 individuals with CVD and 110 individuals without CVD are recruited. Among those with CVD, 40 are smokers, while among those without CVD, 80 are non-smokers. Should relative risk be used to summarize the observations from the new study?
+
+------------------------------------------------------------------------
+
+Relative risk should not be calculated for these observations. Since the number of individuals with and without CVD is fixed by the study design, the proportion of individuals with CVD within a certain group (smokers or non-smokers) as calculated from the data is not a measure of CVD risk for that population.
+:::
+
+::: {.guidedpractice data-latex=""}
+For a study examining the association between tea consumption and esophageal carcinoma, researchers recruited 300 patients with carcinoma and 571 without carcinoma and administered a questionnaire about tea drinking habits (see @islami2009tea). Of the 47 individuals who reported regularly drinking green tea, 17 had carcinoma. Of the 824 individuals who reported never or very rarely drinking green tea, 283 had carcinoma. Evaluate whether the proportions  17/47  and  283/824  are representative of the incidence rate of carcinoma among individuals who regularly drink green tea and those who do not.[^intro-to-data-16]
+:::
+
+[^intro-to-data-16]: The proportions calculated from the study data should not be used as estimates of the incidence rate of esophageal carcinoma among individuals who drink green tea regularly and those who do not, since the study selected participants based on carcinoma status.
+
+::: {.important data-latex=""}
+**Relative Risk** The relative risk (RR) of Outcome A in @tbl-gen-2x2-table can be calculated using either Group 1 or Group 2 as the reference group:
+
+$$
+        RR_{\textrm{A, comparing Group 1 to Group 2}} = \dfrac{a/(a+b)}{c/(c+d)}
+$$
+
+$$
+RR_{\textrm{A, comparing Group 2 to Group 1}} = \dfrac{c/(c+d)}{a/(a+b)}
+$$
+
+Let $RR = RR_{\textrm{A, comparing Group 1 to Group 2}}$.
+
+-   If $RR > 1$ Group 1 members are more at risk for Outcome A than members Group 2.
+
+-   If $RR = 1$ the risk for Outcome A in the two groups is equal.
+
+-   If $RR < 1$ Group 1 members are less at risk for Outcome A than members of Group 2.
+
+Relative risk should only be calculated for data where the proportions $a/(a+b)$ and $c/(c+d)$ represent the incidence of Outcome A within the populations from which Groups 1 and 2 are sampled.
+:::
+
+```{r }
+#| include: false
+terms_chp_1 <- c(terms_chp_1, c("relative risk")
+                 )
+```
+
+*should we add OR?*
+
+***
+
+(JV: There no longer seem to be any dead trees in the sample of 500.)
+
+There are 6 dead trees in this sample of `r l` but they are included in the box plots since they are storing a mean and median of `r mean_carbon_dt`lbs and `r med_carbon_dt`lbs, respectively.
+
+***
+
+(JV: Trimming this section)
+
+Perhaps the trees in fair condition are likely older than those in good condition -- they have had more time to accumulate carbon.^[Tree age was not estimated in the inventory project]  What about the rate at which carbon is being sequestered? How does it vary with tree condition?  `Carbon_Sequestration_lb` is an estimate of the annual rate at which carbon is being stored. The box plots in @fig-trees-condition-carbon-seq-boxplot how that varies with condition.  Trees in "Good" condition have the same median sequestration rate as those in fair condition.  The data suggest that trees in good condition will mature into carbon storage organisms as valuable as those in "Fair" condition.
+
+
+```{r}
+#| label: fig-trees-condition-carbon-seq-boxplot
+#| fig-cap: |
+#|   Side-by-side box plots of the distribution of carbon sequestration rate by tree condition.
+#| fig-alt: | 
+#|   Side-by-side box plots of the distribution of carbon sequestration rate by tree condition.  
+#|   
+#| fig-asp: 0.4
+
+ggplot(pdxTrees_parks_sample, aes(
+  y = Carbon_Sequestration_lb, 
+  x = Condition)) +
+  geom_boxplot() +
+  scale_color_openintro("two") +
+  labs(y = "Carbon sequestration (lbs/year)", x = "Tree condition") 
+```
+
+
+***
+
+(JV: Removing the smoother)
+
+When a relationship between two numerical variables tends to follow a straight line, it is called a \index{linear relationship} **linear relationship**.  @fig-crabs-width-weight-scatter-w-lines adds two lines to the scatterplot in @@fig-crabs-width-weight-scatter, a blue line is a smooth curve that that follows the trend in the data and a red straight line that best fits the data.^[@sec-simple-linear-regression covers the statistical methods for adding a best fitting line to a scatterplot].  Since the blue and red lines are similar, the relationship between `width` and `weight` is linear.  The more tightly the points cluster about a straight line in the plane, the stronger the relationship. 
+
+
+```{r}
+#| label: fig-crabs-width-weight-scatter-w-lines
+#| fig-cap: |
+#|   A scatterplot showing the relationship between female crab width and weight 
+#|   in the crabs data.
+#| fig-alt: |
+#|    A scatterplot showing the relationship between female crab width and weight 
+#|    in the crabs data.
+#|    Except for a few outliers, the relationship is linear   
+ggplot(crabs, aes(x = width, y = weight))  +
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
+  geom_smooth(method = "loess", se = FALSE, color = IMSCOL["blue", "full"]) +
+  geom_smooth(method = "lm", se = FALSE, color = IMSCOL["red", "full"]) +
+  labs(x = "Width(cm)", y = "Weight(kg)")
+
+
+```
+
+
+The relationship between `width` and `weight` is not perfect, since the points do not lie exactly on the red line, but it is strong enough to assume that the two variables will have similar relationships with the response variable `satell`.
+
+***
+
+The two scatterplots in @fig-crabs-satell-width-weight-scatter confirm that assumption. @fig-crabs-satell-width-weight-scatter(a) shows a scatterplot of the response `satell` against the explanatory variable `width`; in @fig-crabs-satell-width-weight-scatter(b) `weight` has replaced `width`.  Both of these relationships are not as clear as the relationship between `width` and `weight`, so a smooth curve has been added to the plots to help show how number of male satellites varies with the two measurements for size.  Apart from small differences in the curves, they have the same general shape, both showing that number of satellites increases gradually with increasing values of the two explanatory variables.
