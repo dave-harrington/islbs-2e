@@ -25,6 +25,8 @@ Data were collected on how long a hummingbird drank from a particular container 
   b. Describe the main research question.
 
   c. Identify the primary response variable of interest, and whether it is numerical or categorical.
+  
+  d. Does this brief summary provide enough information to assess whether the 4 main principles of experimental design were followed?
 
 \vfill
 
@@ -132,7 +134,9 @@ Participants were student volunteers at the University of Otago, New Zealand.At 
   How would you suggest revising this statement so that it can be
   supported by the study?
   
+**Moderna Covid vaccine**
 
+The New England Journal of Medicine article reporting the effectiveness of [MRNA vaccine for Covid-19](https://www.nejm.org/doi/full/10.1056/nejmoa2035389) is publicly available.  Read the abstract and the methods section, then outline how the study followed the principles of experimental design.
 
 
 *Surveys*
