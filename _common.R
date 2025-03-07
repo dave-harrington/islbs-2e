@@ -95,7 +95,8 @@ ggplot2::update_geom_defaults("line", list(color = openintro::IMSCOL["gray", "fu
 ggplot2::update_geom_defaults("smooth", list(color = openintro::IMSCOL["gray", "full"]))
 ggplot2::update_geom_defaults("dotplot", list(color = openintro::IMSCOL["blue","full"], 
                                               fill = openintro::IMSCOL["blue","full"]))
-
+ggplot2::update_geom_defaults("violin", list(color = openintro::IMSCOL["blue","full"], 
+                                              fill = openintro::IMSCOL["blue","full"]))
 # function: caption helper -----------------------------------------------------
 
 caption_helper <- function(txt) {

@@ -45,8 +45,10 @@ bibliography:
 format:
   html:
     theme:
-      light: [cosmo, scss/ims-style.scss]
-      dark: [cosmo, scss/ims-style-dark.scss]
+     # light: [cosmo, scss/ims-style.scss]
+     # dark: [cosmo, scss/ims-style-dark.scss]
+      light: [cosmo, scss/islbs-style.scss]
+      dark: [cosmo, scss/islbs-style-dark.scss]
     code-link: true
     mainfont: Atkinson Hyperlegible
     monofont: Source Code Pro

@@ -147,7 +147,7 @@ LEAP was a designed  experiment to evaluate the effectiveness of peanut consumpt
 
 ![Design of the LEAP study](./images/leapBlocking.png){#fig-leap-design width=60%}
 
-*Example here of biology experiment*
+*Find a biology experiment better than Kim*
 
 There are important additional features in the design of experiments present with human subjects.
 

@@ -492,6 +492,10 @@ For each of the following, state whether you expect the distribution to be symme
 
 \vfill
 
+
+
+
+
 **Distributions and appropriate visualization.**  Specify the best graph to illustrate the features of distributions listed below, and specify a reason for your choice.
 
   a. The distribution of the 4 methods athletic trainers typically use treat injuries: ice, therapeutic exercise, a hydrocollator (a temperature controlled water bath) and electrical stimulation, collected in a survey of 1500 trainers attending a conference.
@@ -502,7 +506,7 @@ For each of the following, state whether you expect the distribution to be symme
   
   d. The colors used on ID badges in a large organization with 6 categories of employees.
   
-**Temperatures** The following figure from [this *NYT* article](https://www.nytimes.com/interactive/2017/07/28/climate/more-frequent-extreme-summer-heat.html) shows summer temperatures in the Northern Hemisphere for each decade since the 1980s relative to a fixed baseline average (1951 - 1980). If you are interested in reading more about the research this visualization is based on, refer to ["Perceptions of climate change"](https://www.pnas.org/content/109/37/E2415.full).
+**Temperatures** The following figure from [this *NYT* article](https://www.nytimes.com/interactive/2017/07/28/climate/more-frequent-extreme-summer-heat.html) shows the distribution of summer temperatures in the Northern Hemisphere for the period 1951 - 1980 and the decade from  2005 - 2015.  If you are interested in reading more about the research this visualization is based on, refer to ["Perceptions of climate change"](https://www.pnas.org/content/109/37/E2415.full).
 
 ![](./exercises/images/temps.png)
 
@@ -692,10 +696,14 @@ Explain your reasoning.
 
 \vfill
 
-<!-- ODD (OI4, 2.11),  -->
 
+**The empirical rule**  Assume the distribution of a variable $X$ is symmetric.
 
-<!-- add footnote for package data, awaiting data to be added to openintro -->
+  a. If $X$ has mean 100 and standard deviation 15, what are the upper and lower boundaries for the middle 68% and 95% of the distribution.
+  
+  b. If $X$ has mean 75 and standard deviation 10, what is the  95^th^ percentile?
+  
+  c. If the 68^th^ 95^th percentiles of $X$ are 60 and 80, what is its mean and standard deviation
 
 ```{r emp-rule-hyperuricemia}
 

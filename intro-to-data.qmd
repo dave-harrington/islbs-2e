@@ -31,9 +31,7 @@ Incomplete draft, additions and proofing to come
 
 - Modify color palette in bar plots of edu level and health in @fig-wvs-edu-health-barplot
 
-- Add definition/discussion of odds ratio to  @sec-relationships-two-categorical
-
-- Add chapter summary, exercises
+- Add chapter summary
 
 - Association vs causation not covered yet; delay until obs studies?
 
@@ -43,7 +41,7 @@ Incomplete draft, additions and proofing to come
 
 
 ::: {.chapterintro data-latex=""}
-Recording observations (i.e., collecting data) often represents the start of a systematic approach to investigating a scientific question. The discipline of statistics focuses on addressing the following three questions: How can data best be collected? How can data be organized, summarized, and explored? What can be learned from data?
+Formulating a question and recording observations (i.e., collecting data) often represents the start of a systematic approach to investigating the question. The discipline of statistics focuses on addressing the following three issues: How can data best be collected? How can data be organized, summarized, and explored? What can be learned from the data about possible answers to the question?  
 
 This chapter provides an introduction to methods for summarizing and exploring data; the next chapter will discuss principles of collecting data. 
 :::
@@ -106,11 +104,11 @@ During photosynthesis, trees remove carbon dioxide from the air, combine it with
 
 How much carbon do trees store? How does the amount of carbon stored relate to features such as tree height and type of tree?
 
-Data from the [Tree Inventory Project](https://www.portland.gov/trees/get-involved/treeinventory) can be used to study such questions. The project has compiled a comprehensive inventory of trees in Portland, Oregon; these data are important for managing Portland's urban forest, which is a particularly valuable resource.  According to [Portland’s city government](https://www.portland.gov/council/documents/ordinance/passed/191975), trees provide an estimated $40 million annually in environmental benefits to Portland, including air pollution removal, avoided storm water runoff, and carbon sequestration. 
+Data from the [Tree Inventory Project](https://www.portland.gov/trees/get-involved/treeinventory) can be used to explore such questions. The project has compiled a comprehensive inventory of trees in Portland, Oregon; these data are important for managing Portland's urban forest, which is a particularly valuable resource.  According to [Portland’s city government](https://www.portland.gov/council/documents/ordinance/passed/191975), trees provide an estimated $40 million annually in environmental benefits to Portland, including air pollution removal, avoided storm water runoff, and carbon sequestration. 
 
 The tree inventory represents a substantial data collection effort; Portland Parks \& Recreation (a Bureau of the City of Portland, Oregon) partnered with communities to measure nearly 280,000 trees since 2010. Information such as size, condition, species, and location were measured for each tree and these measurements were also used to estimate quantities such as a tree's amount of carbon stored and its financial value (both as a landscape asset and as a tool for mitigating greenhouse gases).
 
-How can all this information be used to better understand the urban forest? It would be impossible to make sense of the data by trying to read through the measurements for each tree one at a time. Instead, these data need to be organized in a way that makes it feasible to calculate summaries and identify trends. As defined in [*Data Feminism*](https://data-feminism.mitpress.mit.edu/pub/h1w0nbqp/release/3), "Data, after all, is information made tractable." The measurements collected in the field must be structured in a way that facilitates operations such as counting, sorting, and visualizing. 
+How can all this information be used to better understand the urban forest? It would be impossible to make sense of the data by trying to read through each of the measurements for each tree. Instead, these data need to be organized in a way that makes it feasible to calculate summaries and identify trends. As defined in [*Data Feminism*](https://data-feminism.mitpress.mit.edu/pub/h1w0nbqp/release/3), "Data, after all, is information made tractable." The measurements collected in the field must be structured in a way that facilitates operations such as counting, sorting, and visualizing. 
 
 @fig-trees-carbon-height-type shows how the relationship between amount of carbon removed from the atmosphere and tree height differs by functional type. Visualization is a powerful tool for exploring data as well as a compelling way to present data stories. Even without much additional familiarity with these data, a viewer can already glean some key ideas from the visualization, such as how most of the trees are either broadleaf deciduous (red dots) or coniferous evergreen (purple dots) and that the relationship between amount of carbon stored and tree height appears different for coniferous evergreen trees compared to the broadleaf deciduous trees. 
 
@@ -731,7 +729,7 @@ For `Carbon_Storage_lb`:
 
 -   The upper whisker potentially extends to $Q_3 + 1.5 \times \textrm{IQR} = `r q3_r` + 1.5\times `r iqr_r` = `r upper_w`$ lbs, but stops at `r upper_w_actual` lbs, the largest value less than $`r upper_w`\,\textrm{lbs}$.
 
-An \index{outlier} **outlier** is a value that is extreme relative to the rest of the data; these are shown as dots on the boxplot. There are many large outliers of `Carbon_Storage_lb`, as revealed earlier by the beeswarm plot @fig-trees-carbon-beeswarm.
+An \index{outlier} **outlier** is a value that is extreme relative to the rest of the data; these are shown as dots on the box plot. There are many large outliers of `Carbon_Storage_lb`, as revealed earlier by the beeswarm plot @fig-trees-carbon-beeswarm.
 
 The beeswarm and box plots in @fig-trees-carbon-beeswarm-boxplot provide different views of a distribution. The detail in the beeswarm plots shows how the observations of carbon storage values become less frequent as values of `Carbon_Storage_lb` increase. The box plot hides those details in favor of clearly summarizing the center and spread of the data. 
 
@@ -797,24 +795,66 @@ terms_chp_1 <- c(terms_chp_1, c("box plots",
 #|   few carbon storage values discussed earlier.
 #| fig-alt: | 
 #|   A histogram of `Carbon_Storage_lb` in the Portland trees data.  The histogram shows the
-#|   few carbon storage values discussed earlier.
+#|   few large carbon storage values  discussed earlier.
 #|   
 #| fig-asp: 0.6
 
 ggplot(pdxTrees_parks_sample, aes(x = Carbon_Storage_lb)) +
-  geom_histogram(binwidth = 2000, closed = "right") +
-  stat_bin(binwidth = 2000, aes(label = after_stat(count), y = after_stat(count)), geom = "text", vjust = -0.5) +
+  geom_histogram(breaks = seq(0, 18000, 2000), 
+                 closed = "right") +
+  stat_bin(breaks = seq(0, 18000, 2000), 
+           aes(label = ..count..), 
+           geom = "text", vjust = -0.5) +
   labs(x = "Carbon storage (lbs)", y = "Count") +
   scale_x_continuous(
     breaks = seq(0, 18000, 2000)
   ) +
-  scale_y_continuous(breaks = seq(0, 300, 50))
-
+  scale_y_continuous(breaks = seq(0, 300, 50),
+                     expand = expansion(mult = c(0, 0.1)))
 ```
 
 Histograms provide a view of the \index{data density} **data density**. Taller bars indicate more frequent observations, while shorter bars represent relatively rare observations. @fig-trees-carbon-histogram shows that most of trees store between 0 and 4,000 lbs of carbon, as was seen in @fig-trees-carbon-beeswarm, and fewer trees store more than  8,000 lbs.
 
 Histograms show the shape of a distribution. The tails of a \index{symmetric distribution} **symmetric distribution** are approximately equal, with data trailing off from the center roughly equally in both directions. Asymmetry arises when one tail of the distribution is longer than the other. A distribution is said to be \index{right-skewed} **right-skewed** when data trail off to the right, and \index{left-skewed} **left-skewed** when data trail off to the left. @fig-trees-carbon-histogram shows a right skewed distribution.
+
+To show data density directly, histograms are sometimes re-scaled so that the total area above bins (the sum of the width $\times$ height of the bars) adds to 1, and the label of the vertical axis corresponds to the height of the re-scaled bars.  For instance, the area under the left-most bin is slightly larger than (2000)(0.0003) = 0.60, so the proportion of the data in the interval (0, 2000) is at least 0.60.  More than 60% of the carbon storage values are $\leq$2000 lbs.
+
+```{r trees-carbon-histogram-density}
+#| label: fig-trees-carbon-histogram-density
+#| fig-cap: |
+#|   A histogram of `Carbon_Storage_lb` in the Portland trees data.  The histogram shows the data density directly.
+#| fig-asp: 0.6
+bin_width <- 2000
+ggplot(pdxTrees_parks_sample, aes(x = Carbon_Storage_lb)) +
+  geom_histogram(aes(y = ..density..), binwidth = bin_width, 
+                 closed = "right", boundary = 0) +
+  labs(x = "Carbon storage (lbs)", y = "Density") +
+  scale_x_continuous(
+    breaks = seq(0, 18000, 2000)
+  )
+  
+```
+
+@fig-trees-carbon-density shows a **density plot**\index{plot!density}\index{density plot} --  a smoothed version of a histogram with densities instead of counts.  Like the re-scaled histograms, density plots are constructed so that the total area under the curve is 1. 
+The details on how to draw density plots  are beyond the scope of this text, but the shape, scale, and spread of the observations are displayed similarly in a histogram as in a density plot.
+
+```{r trees-carbon-density}
+#| label: fig-trees-carbon-density
+#| fig-cap: |
+#|   A density plot of `Carbon_Storage_lb` in the Portland trees data.  
+#| fig-alt: | 
+#|   A density plot of `Carbon_Storage_lb` in the Portland trees data.  
+#|      The plot shows the extreme right skewing of the data 
+#|   
+#| fig-asp: 0.6
+ggplot(pdxTrees_parks_sample, aes(x = Carbon_Storage_lb)) +
+  geom_density(fill = IMSCOL[1, 1], alpha = 0.5) +
+  labs(x = "Carbon storage (lbs)", y = "Density") +
+  scale_x_continuous(
+    breaks = seq(0, 18000, 2000)
+  ) 
+```
+
 
 The \index{mode} **mode** of a distribution is the location of its prominent peak. @fig-single-bi-multi-modal-plots shows examples with histograms that have one, two, or three major peaks. Such distributions are called \index{unimodal} **unimodal**, \index{bimodal} **bimodal**, and \index{multimodal} **multimodal**, respectively. Any distribution with more than two prominent peaks is called multimodal. Prominent is a subjective term, but it is usually clear in a histogram where the major peaks are. The apparent number of peaks may also change if the number of bins is changed; a general tip is to choose a sufficiently high number of bins to see the overall shape, but not so high that the histogram is excessively jagged.
 
@@ -822,6 +862,7 @@ The \index{mode} **mode** of a distribution is the location of its prominent pea
 #| include: false
 terms_chp_1 <- c(terms_chp_1, c("distribution",
                                 "data density", 
+                                "density plot",
                                 "symmetric distribution",
                                 "right-skewed distribution",
                                 "left-skewed distribution",
@@ -919,7 +960,7 @@ int_3_ub  <- round(m_c + 3*sd_c, 2)
 
 ```
 
-@fig-crabs-width-histogram is a histogram of distribution of female crab widths. The distribution is approximately symmetric, with a slight right skewing; the mean `r m_c`cm is only slightly larger than the median `r med_c`cm.
+@fig-crabs-width-histogram is a histogram of distribution of female crab widths. The distribution is approximately symmetric, with a slight right skewing; the mean `r m_c`cm is only slightly larger than the median `r med_c`cm.  The standard deviation is `r sd_c`cm.
 
 Applying the empirical rule, approximately 68%  of the female crabs should be between  `r  int_1_lb`  and `r int_1_ub` cm  wide;  95%  should be between `r  int_2_lb` and `r int_2_ub` cm wide.
 
@@ -950,13 +991,16 @@ ggplot(crabs, aes(x = width)) +
 
 Earlier, @fig-trees-carbon-height-type visualized how the relationship between amount of carbon removed from the atmosphere and tree height differs by functional type. In this example, tree height and functional type are examples of **explanatory variables**, which have potentially useful information about the distribution of the \index{response variable} **response variable**, amount of carbon stored. Do taller trees tend to store more carbon? Does the relationship, or \index{association} **association**, between carbon storage and tree height differ for deciduous trees versus evergreen trees?
 
-Exploring relationships in data is a major goal of statistics, and, indeed, of research in general. Much of this text explores methods for studying relationships, including numerical and graphical methods to display relationships and the use of statistical models such as regression. This section illustrates numerical and graphical methods for simple relationships between two variables, beginning with two categorical variables. [Chapters @sec-simple-linear-regression], [-@sec-multiple-linear-regression] and [-@sec-logistic-regression] discuss regression models to explore relationships among two or more variables.
+Exploring relationships in data is a major goal of statistics, and, indeed, of research in general.  It is important to distinguish between simple associations, where the distribution of a response variable changes as the explanatory variable increases or decreases, and \index{causal relationship} **causal relationships**, where changes in the explanatory variable cause direct changes in the response.  Increasing the heat under a teapot on a stove causes the water to boil, a direct causal relationship.  In settings where afternoon tea is popular, the late afternoon hours might be associated with boiling water to make tea, but the clock does not cause the boiling.  Buying snow boots is associated with more broken bones in elders, but the causal relationship is walking on icy sidewalks.  Sales of snow boots increase in the winter.
+
+Much of this text explores methods for studying relationships, including numerical and graphical methods. This section illustrates numerical and graphical methods for simple associations between two variables, beginning with two categorical variables.  Study designs which examine causal relationships are discussed in @sec-collecting-data. 
 
 ```{r }
 #| include: false
 terms_chp_1 <- c(terms_chp_1, c("explanatory variable", 
                                 "response variable",
-                                "association")
+                                "association",
+                                "causal relationship")
                  )
 ```
 
@@ -1121,7 +1165,8 @@ All three plots in @fig-wvs-edu-health-barplot are consistent with the observati
 terms_chp_1 <- c(terms_chp_1, c("frequency bar plot", 
                                 "relative frequency bar plot",
                                 "dodged bar plot",
-                                "segmented bar plot")
+                                "segmented bar plot",
+                                "mosaic plot")
                  )
 ```
 
@@ -1159,6 +1204,25 @@ ggplot(wvs_edu_health_cc, aes(x = Education_level, fill = Health_status)) +
   theme(legend.position = "bottom")
 
 ```
+**Mosaic plots** \index{mosaic plots} combine aspects of relative frequency and dodged bar plots by showing the size of the levels of the explanatory variable and relative frequency of the response.  @fig-wvs-edu-health-mosaic is a  mosaic plot of the association between educational level (the columns in the plot) and health status (the stacked bars).  More of the respondents reported a `Middle` educational level, so it is the widest column.  The column for `High` educational level is the narrowest.  Within each column, the stacked bars show relative frequencies of `Health_status`.  As with the other three types of bar plots, the explanatory variable is normally used for the columns.
+
+```{r fig-wvs-edu-health-mosaic}
+#| label: fig-wvs-edu-health-mosaic
+#| fig-cap: |
+#|   A mosaic plot of the association between educational level and health status  
+#| fig-alt: | 
+#|   The width of the bars reflects the relative size of the educational level categories.
+#|      Middle education is the most frequent; High is the least frequent
+#|   
+#| fig-asp: 0.4
+ggplot(wvs_edu_health_cc) +
+  geom_mosaic(aes(x = product(Education_level), fill = Health_status)) +
+  labs(x = "Education level", y = "Health Status") +
+  guides(fill = FALSE)
+
+```
+
+
 
 What if the question of interest were instead: given that someone's reported health status is very good, are they more likely to have a high education level?
 
@@ -1200,7 +1264,6 @@ Among the participants reporting `Fair` health status, what proportion have a se
 [^intro-to-data-13]:  `r t_cprop["Middle", "Fair"]`  +  `r t_cprop["High", "Fair"]`  =  `r t_cprop["Middle", "Fair"] + t_cprop["High", "Fair"]` , or almost  70% .
 
 
-
 ### One numerical and one categorical variable {#sec-relationships-one-numerical-one-categorical}
 
 
@@ -1215,7 +1278,7 @@ mean_carbon_dt <- round(mean(df$Carbon_Storage_lb[a]),1)
 med_carbon_dt <- round(median(df$Carbon_Storage_lb[a]),1)
 ```
 
-How does the amount of stored carbon (`Carbon_Storage_lb`) and the rate at which carbon is sequestered (`Carbon_Sequestration_lb`) vary by tree condition?
+How does the amount of stored carbon (`Carbon_Storage_lb`) and the rate at which carbon is sequestered (`Carbon_Sequestration_lb`) vary by tree condition?  In statistical terms, what is the relationship between the explanatory variable tree condition and the response variable carbonn storage?
 
 `Condition` is an ordered categorical variable with levels "Dead", "Poor", "Fair", and "Good". As defined in the [training manual](https://www.portland.gov/sites/default/files/2020/training-book-2019-web-version.pdf) for the tree inventory project:
 
@@ -1227,7 +1290,7 @@ How does the amount of stored carbon (`Carbon_Storage_lb`) and the rate at which
 
 - "Good": Tree is an excellent representative for its species. Roots are sound, trunk is solid with no bark damage, and crown is full with no significant structural problems. No wounds, decay, conks, cavities, root heaving or other symptoms.
 
-@tbl-trees-condition-frequency shows that the large majority (more than 86%) of the trees are in "Fair" condition.
+@tbl-trees-condition-frequency shows that the large majority (more than 86%) of the trees are in "Fair" condition.  While there are a few dead trees in the complete inventory, there were none in this random sample.
 
 ```{r trees-condition-freq-tbl}
 #| label: tbl-trees-condition-frequency
@@ -1247,7 +1310,9 @@ pdxTrees_parks_sample |>
 
 ```
 
-The \index{side-by-side box plots} **side-by-side box plots**  in @fig-trees-condition-carbon-store-boxplot show how carbon storage varies with tree condition. @fig-trees-condition-carbon-store-violin offers a different view with  \index{side-by-side violin plots} **side-by-side violin plots** .
+The \index{side-by-side box plots} **side-by-side box plots**  in @fig-trees-condition-carbon-store-boxplot show how carbon storage varies with tree condition. 
+
+@fig-trees-condition-carbon-store-violin offers a different view with  \index{side-by-side violin plots} **side-by-side violin plots** .  Each violin plot is a hybrid of a box plot and density plot. The simplicity of a box plot makes it easy to identify quartiles and outliers, but hides detail on the data density of the response. Violin plots add this information by making the "violin" wider at values of the response where there are more observations.  The red dots in the violin plots denote the median carbon storage at each level tree condition, and the vertical bars extend from the first to the third quantile.
 
 ```{r }
 #| include: false
@@ -1287,11 +1352,13 @@ ggplot(pdxTrees_parks_sample, aes(
 ggplot(pdxTrees_parks_sample, aes(
   y = Carbon_Storage_lb, 
   x = Condition)) +
-  geom_violin() +
-  scale_color_openintro("two") +
+  geom_violin(alpha = 0.5) +
   labs(y = "Carbon storage (lbs)", x = "Tree condition") +
-  scale_y_continuous(
-    breaks = seq(0, 16000, 4000))
+  stat_summary(fun.min = function(x) quantile(x, 0.25), 
+               fun.max = function(x) quantile(x, 0.75), 
+               geom = "linerange", color = "black", linewidth = 1.2) +
+  stat_summary(fun = median, geom = "point", color = "red", size = 3) 
+  
 ```
 
 Unsurprisingly, trees in better condition ("Fair" or "Good") store more carbon than trees in poor condition. In the box plots, the median amount of carbon storage is higher for the Fair and Good groups than for the Poor group. The violin plots provide more detail as to the shape of the distributions, showing how the trees storing the most carbon tend to be in the "Fair" and "Good" groups. Yet while many trees in poor condition are storing relatively low amounts of carbons, some are still storing more than 2,000 lbs of carbon. 
@@ -1304,7 +1371,6 @@ What can be learned from the `crabs` data about the attraction of male satellite
 
 In contrast, the relationship between number of satellites and spine condition shows no clear pattern. Females with one worn or broken spine have fewer satellites that either of the other two categories.
 
-*plot labeling should match earlier plots with subgraphs*
 
 ```{r crabs-color-spine-stacked-box}
 #| label: fig-crabs-color-spine-stacked-satell-boxplot
@@ -1404,8 +1470,8 @@ ggplot(crabs, aes(x = width, y = weight))  +
 
 ```
 
-The relationship between `width` and `weight` is strong enough that it would be reasonable to expect that both variables will exhibit similar relationships with the `satell` variable. The two scatterplots in @fig-crabs-satell-width-weight-scatter confirm that assumption. @fig-crabs-satell-width-weight-scatter(a) shows a scatterplot of the response `satell` against the explanatory variable `width`; in @fig-crabs-satell-width-weight-scatter(b) `weight` has replaced `width`. While both of these relationships are not as clear as the relationship between `width` and `weight`, the plots show that number of satellites increases gradually with increasing values of the two explanatory variables.
-
+The relationship between `width` and `weight` is strong enough that it would be reasonable to expect that relationship between `width` and `sattel` would be similar to that between `weight` and `satell`. The two scatterplots in @fig-crabs-satell-width-weight-scatter confirm that is the case. @fig-crabs-satell-width-weight-scatter(a) shows a scatterplot of the response `satell` against the explanatory variable `width`; in @fig-crabs-satell-width-weight-scatter(b) `weight` has replaced `width`. Neither of these relationships are linear because of 
+the large number of crabs with no satellites depicted in the band of points along the horizontal axis.  
 ```{r}
 #| label: fig-crabs-satell-width-weight-scatter
 #| fig-cap: |
@@ -1419,13 +1485,13 @@ The relationship between `width` and `weight` is strong enough that it would be 
 #| fig-width: 4
 #| layout-ncol: 2
 ggplot(crabs, aes(x = width, y = satell)) +
-  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
-  geom_smooth(method = "lm", se = FALSE, color = IMSCOL["blue", "full"])
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) 
+# geom_smooth(method = "loess", se = FALSE, color = IMSCOL["blue", "full"])
 
 
 ggplot(crabs, aes(x = weight, y = satell)) +
-  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) +
-  geom_smooth(method = "lm", se = FALSE, color = IMSCOL["blue", "full"])
+  geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21) 
+#  geom_smooth(method = "loess", se = FALSE, color = IMSCOL["blue", "full"])
 
 ```
 
@@ -1447,8 +1513,7 @@ terms_chp_1 <- c(terms_chp_1, c("correlation",
 ```
 
 
-The correlation coefficient for width versus weight is $r$=`r r_width_weight`, reflecting the strength of the relationship.  For `satell` versus `width` or `weight` the two correlation coefficients are `r r_width_satell` and `r r_weight_satell`, respectively.  These two relationship are weaker than the `weight` versus `width` relationship, as reflected by the larger point clouds in @fig-crabs-satell-width-weight-scatter that show more variability around the trend line. 
-
+The correlation coefficient for width versus weight is $r$=`r r_width_weight`, reflecting the strength of the relationship.  
 
 Simulated data was used in @fig-correlation-plots to generate some scatterplots and associated correlation coefficients in linear relationships. The figure shows that the closer $r$ is to 1 or -1, the cluster of points shows less scatter and the trend in the linear relationship becomes more evident. 
 
@@ -1531,8 +1596,9 @@ df_cc <- wdi_2022 |>
   drop_na(gni_percap, infant_mortality_rate)
 
 r_cc <- cor(df_cc$infant_mortality_rate, df_cc$gni_percap)
-cc_pairs <- nrow(df)
+cc_pairs <- nrow(df_cc)
 
+missing <- all_countries - cc_pairs
 
 
 
@@ -1540,9 +1606,9 @@ cc_pairs <- nrow(df)
 
 When the relationship between an explanatory and response variable is linear, a correlation coefficient near 1 or -1 indicate that the linear relationship is a strong one.  But large correlation coefficients can occur in relationships that are not linear, so a correlation coefficient itself does not imply that a relationship is linear.
 
-@fig-wdi-2022-income-infant-mortality is a scatterplot of infant mortality vs per-capita income for `r cc_pairs` countries using data from the 2022 World Bank Indicators of economic development.^[The full data set includes data on `r all_countries` countries, but data on both income and infant mortality was not available for `r all_countries - cc_pairs` countries.]  The data are available in the dataset `wdi_2022` in R package `openintro`.  Infant mortality is calculated as the number of  infant deaths before 1 year of age among 1,000 live births.  Per-capita income is measured in US dollars.
+@fig-wdi-2022-income-infant-mortality is a scatterplot of infant mortality vs per-capita income for `r cc_pairs` countries using data from the 2022 World Bank Indicators of economic development.^[The full data set includes data on `r all_countries` countries, but data on both income and infant mortality was not available for `r missing` countries.]  The data are available in the dataset `wdi_2022` in R package `openintro`.  Infant mortality is calculated as the number of  infant deaths before 1 year of age among 1,000 live births.  Per-capita income is measured in US dollars but is adjusted for the buying power of each currency in its own country, using an economic measure called purchasing power parity.
 
-The correlation between infant mortality and income is `r r_cc `, indicating a potentially strong, negative relationship. However, @fig-wdi-2022-income-infant-mortality reveals the importance of visualizing the relationship instead of relying solely on the correlation coefficient. While infant mortality does tend to decrease as income increases, the relationship would be better summarized with a curve rather than a straight line. An increase in income per capita of 25,000 units is associated with a much more drastic change in infant mortality rate at lower income per capita than at higher income per capita.
+The correlation between infant mortality and income is `r r_cc `, indicating a potentially strong, negative relationship. However, @fig-wdi-2022-income-infant-mortality reveals the importance of visualizing the relationship instead of relying solely on the correlation coefficient. While infant mortality does tend to decrease as income increases, the relationship would be better summarized with a curve rather than a straight line. An increase in income per capita of $25,000 is associated with a much more drastic change in infant mortality rate at lower income per capita than at higher income per capita.
 
 ```{r wdi-infant-mort-gni-scatter}
 #| label: fig-wdi-2022-income-infant-mortality
@@ -1667,6 +1733,13 @@ The previous sections introduced some standard graphs for summarizing the relati
 knitr::include_graphics("images/nyt_megadrought_history.png")
 ```
 
+<!--
+For `satell` versus `width` or `weight` the two correlation coefficients are `r r_width_satell` and `r r_weight_satell`, respectively.  These two relationship are weaker than the `weight` versus `width` relationship, as reflected by the larger point clouds in @fig-crabs-satell-width-weight-scatter that show more variability around the trend line and the band of 0 values along the horizontal axis. 
+
+
+-->
+
+
 ## Case study: developmental disability support {#sec-developmental-disability}
 
 
@@ -1751,8 +1824,8 @@ Among groups with more than 100 observations, the largest discrepancy is between
 dds_reformat |> 
   group_by(ethnicity) |> 
   summarise(
-    Mean = comma(round(mean(expenditures), 0)),  
-    Median = comma(round(median(expenditures), 0)),      
+    Mean = (round(mean(expenditures), 0)),  
+    Median = (round(median(expenditures), 0)),      
     Count = n()                    
   )  |> 
   rename(Ethnicity = ethnicity) |> 
@@ -1766,7 +1839,7 @@ dds_reformat |>
   )
   
 ```
-Do these differences suggest ethnic discrimination, or might additional factors influence this apparent relationship? The data in @tbl-dds-exp-ethnicity-summ have been combined across the age categories of consumers, "lumping" the data into a single group for each ethnicity. When data are combined across levels of a categorical variable it is termed \index{aggregated data} **aggregated data**.  Data aggregated by age will not any relationship between age and expenditures.
+Do these differences suggest ethnic discrimination, or might additional factors influence this apparent relationship? The data in @tbl-dds-exp-ethnicity-summ have been combined across the age categories of consumers, "lumping" the data into a single group for each ethnicity. When data are combined across levels of a categorical variable it is termed \index{aggregated data} **aggregated data**.  Data aggregated across age groups cannot show any relationship between age and expenditures.
 
 There is good reason to expect a strong relationship between age and funding levels. As consumers age, they are less likely to live with parents or guardians and more likely to require increased assistance for housing, food, and supportive care. The six levels in `age.cohort` were constructed with this progression in mind.
 
@@ -1881,8 +1954,7 @@ Suppose a health care organization is being audited for the billing at its two u
 
 The data analytics team at the organization notices that the auditor has not accounted for different patient age mix at the two clinics. Clinic A is located at its community hospital in the suburbs, while B is located in a pharmacy in the financial district.   The patients in the financial district location tend to work in the technology sector and be younger than those in the suburban location, and older patients tend to have more serious conditions.  For simplicity, assume that patients age 50 or older are billed \$125 for each visit; patients less than 50 are billed $100 per visit.
 
-The auditor's data are based on a sample of 400 total visits to the two clinics, 200 to each.  The data are also evenly divided between the age groups, with 200 patients in each of the two age groups. 
-as expected, the distributions of patient ages differ in the two clinics.  In Clinic A 10% of the patients are less than 50 years old; 90% are 50 or older.  In Clinic B the reverse is true.  
+The auditor's data are based on a sample of 400 total visits to the two clinics, 200 to each.  The data are also evenly divided between the age groups, with 200 patients in each of the two age groups. As expected, the distributions of patient ages differ in the two clinics.  In Clinic A 10% of the patients are less than 50 years old; 90% are 50 or older.  In Clinic B the reverse is true.  
 
 @tbl-simpson-billing-example summarizes the data and adds a two columns showing total and per patient billing for each clinic.
 
@@ -1896,9 +1968,11 @@ as expected, the distributions of patient ages differ in the two clinics.  In Cl
 
 In clinic A, the total billing is (20)(100)  + (180)(125) = \$24,500, an average charge of $24,500/200 = \$122.50 per patient, while in B, the total billing is (180)(100) + (90)(125) = \$20,500, an average charge of \$105.50 dollars per patient.
 
-The auditor's calculations were correct, but Clinic A is not overcharging. By aggregating data across the two age groups the auditor failed to account for the different age distributions in the clinics.  Within each age group, Clinic A charges the same as B, but its total billing is larger because it treats older patients.  Age is a \index{lurking variable}, a variable that is associated with both response and explanatory variables and influences the explantory/response relationship.
+The auditor's calculations were correct, but Clinic A is not overcharging. By aggregating data across the two age groups the auditor failed to account for the different age distributions in the clinics.  Within each age group, Clinic A charges the same as B, but its total billing is larger because it treats older patients.  Age is a \index{confounding variable} **confounding variable** , a variable that is associated with both response and explanatory variables and influences the explanatory/response relationship.  Confounding variables are also called confounders.  If a potential confounder was not measured, it is sometimes called a \index{lurking variable} **lurking variable**.
 
-This particular example of a lurking variable illustrates \index{Simpson's Paradox} **Simpson's Paradox**, a setting in which an association observed in each of several groups may disappear or reverse direction once the groups are combined. In other words, an association between two variables $X$ and $Y$ may disappear or reverse direction once data are partitioned into subpopulations based on a third variable $Z$. 
+This particular example of a confounder illustrates \index{Simpson's Paradox} **Simpson's Paradox**, a setting in which an association observed in each of several groups may disappear or reverse direction once the groups are combined. Statistical terms, an association between two variables $X$ and $Y$ may disappear or reverse direction once data are partitioned into sub-populations based on a third variable $Z$. 
+
+The clinic billing example also  illustrates the difference between a observed association and a causal relationship.  Based on the association between clinic and average billing, the auditor mistakenly concluded that clinic staff were the cause of the differential billing.  Instead, the different age distributions at the two clinics was the cause.
 
 
 ```{r}
@@ -1963,6 +2037,7 @@ Both calculations are \index{weighted averages} **weighted averages**, calculati
 #| include: false
 terms_chp_1 <- c(terms_chp_1, c("weighted average",
                                 "Simpson's Paradox",
+                                "confounding variable",
                                 "lurking variable",
                                 "aggregated data")
                  )
@@ -2058,11 +2133,10 @@ The weights for the youngest four cohorts, which have lower expenditures, are hi
 
 :::
 
-
-The role of the lurking variable age cohort in the `dds.dscr` is shown graphically in @fig-dds-age-ethnicity-lurking. ^[In the first edition, age cohort was incorrectly labeled a confounder.]
+The role of the confounding variable age cohort in the `dds.dscr` is shown graphically in @fig-dds-age-ethnicity-confounding. ^[In the first edition, age cohort was incorrectly labeled a confounder.]
 
 ```{r}
-#| label: fig-dds-age-ethnicity-lurking
+#| label: fig-dds-age-ethnicity-confounding
 #| fig-align: center
 #| fig-asp: 0.4
 #| fig-cap: |
@@ -2070,7 +2144,7 @@ The role of the lurking variable age cohort in the `dds.dscr` is shown graphical
 #| fig-alt: |
 #|   The gray arrow with a ? is the apparent relationship between ethnicity and mean 
 #|   mean expenditures that led to the initial claim of discrimination.  The relationship
-#|   was influenced by the lurking variable age cohort.
+#|   was caused by the confounding variable age cohort.
 #| out-width: 60%
 par_og <- par(no.readonly = TRUE) # save original par
 par(mar = rep(0, 4))

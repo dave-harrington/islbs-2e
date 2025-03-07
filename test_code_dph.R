@@ -105,9 +105,4 @@ plot_data <- mort_ed_owd |>
   dplyr::filter(Entity != "World")
  
 
-ggplot(plot_data, aes(x = f_education, y = c_mortality)) +
-           geom_point(alpha = 0.3, fill = IMSCOL["black", "full"], shape = 21)
-
-
-
 
