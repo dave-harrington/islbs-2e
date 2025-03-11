@@ -13,35 +13,25 @@ Incomplete draft, additions and proofing to come
 
 :::{.todo data-latex=""}
 
-- Put in a proper citation for *Data Feminism*
-
-- Add density plots to @sec-summarizing-numerical-data
 
 - Add substantive detail to fig-alt captions
 
-- Add line graphs for time trends in public health.  Perhaps use Our World in Data.  Should be placed in a separate subsection in relationships between vars
+- Indexing of data is incomplete
 
 - Use patchwork to align plots in @fig-trees-carbon-beeswarm, label subplots with plot_annotation
 
 - Add guided practice and worked examples, esp relationships between 2 numerical variables
 
-- Details on how to read/interpret a scatterplot
-
 - More detail about the  infant mortality data: source, possible bias    
-
-- Modify color palette in bar plots of edu level and health in @fig-wvs-edu-health-barplot
 
 - Add chapter summary
 
-- Association vs causation not covered yet; delay until obs studies?
-
-- How/where to incorporate a guide to interpreting more complex visualizations (e.g., graphics in the *NYT*)
 
 :::
 
 
 ::: {.chapterintro data-latex=""}
-Formulating a question and recording observations (i.e., collecting data) often represents the start of a systematic approach to investigating the question. The discipline of statistics focuses on addressing the following three issues: How can data best be collected? How can data be organized, summarized, and explored? What can be learned from the data about possible answers to the question?  
+Formulating a question and collecting data often represent the start of a systematic approach to investigating a scientific question. The discipline of statistics focuses on addressing the following three issues: How can data best be collected? How can data be organized, summarized, and explored? What can be learned from the data about possible answers to the question?  
 
 This chapter provides an introduction to methods for summarizing and exploring data; the next chapter will discuss principles of collecting data. 
 :::
@@ -102,13 +92,13 @@ portland_size <- nrow(pdxTrees_parks_sample)
 
 During photosynthesis, trees remove carbon dioxide from the air, combine it with water, and convert it to sugars and oxygen.^[The sugars created during photosynthesis are primarily sucrose, glucose and fructose.] The sugars are then distributed throughout the tree's tissues. This process of capturing carbon from the air and storing it is called carbon sequestration. Forests typically store twice as much carbon as they emit and are an important component in mitigating the effect of greenhouse gases on climate change. 
 
-How much carbon do trees store? How does the amount of carbon stored relate to features such as tree height and type of tree?
+How much carbon do trees store? How does the amount of carbon stored relate to features such as tree height and type?
 
-Data from the [Tree Inventory Project](https://www.portland.gov/trees/get-involved/treeinventory) can be used to explore such questions. The project has compiled a comprehensive inventory of trees in Portland, Oregon; these data are important for managing Portland's urban forest, which is a particularly valuable resource.  According to [Portland’s city government](https://www.portland.gov/council/documents/ordinance/passed/191975), trees provide an estimated $40 million annually in environmental benefits to Portland, including air pollution removal, avoided storm water runoff, and carbon sequestration. 
+Data from the [Tree Inventory Project](https://www.portland.gov/trees/get-involved/treeinventory) can be used to explore such questions. The project has compiled a comprehensive inventory of trees in Portland, Oregon; these data are important for managing Portland's urban forest, a particularly valuable resource.  According to [Portland’s city government](https://www.portland.gov/council/documents/ordinance/passed/191975), trees provide an estimated $40 million annually in environmental benefits to Portland, including air pollution removal, reducing storm water runoff, and carbon sequestration. 
 
 The tree inventory represents a substantial data collection effort; Portland Parks \& Recreation (a Bureau of the City of Portland, Oregon) partnered with communities to measure nearly 280,000 trees since 2010. Information such as size, condition, species, and location were measured for each tree and these measurements were also used to estimate quantities such as a tree's amount of carbon stored and its financial value (both as a landscape asset and as a tool for mitigating greenhouse gases).
 
-How can all this information be used to better understand the urban forest? It would be impossible to make sense of the data by trying to read through each of the measurements for each tree. Instead, these data need to be organized in a way that makes it feasible to calculate summaries and identify trends. As defined in [*Data Feminism*](https://data-feminism.mitpress.mit.edu/pub/h1w0nbqp/release/3), "Data, after all, is information made tractable." The measurements collected in the field must be structured in a way that facilitates operations such as counting, sorting, and visualizing. 
+How can all this information be used to better understand the urban forest? It would be impossible to make sense of the data by trying to read through each of the measurements for each tree. Instead, these data need to be organized in a way that makes it feasible to calculate summaries and identify trends. As defined in [*Data Feminism*](https://data-feminism.mitpress.mit.edu/pub/h1w0nbqp/release/3) [@dignazio2023data], "Data, after all, is information made tractable." The measurements collected in the field must be structured in a way that facilitates operations such as counting, sorting, and visualizing. 
 
 @fig-trees-carbon-height-type shows how the relationship between amount of carbon removed from the atmosphere and tree height differs by functional type. Visualization is a powerful tool for exploring data as well as a compelling way to present data stories. Even without much additional familiarity with these data, a viewer can already glean some key ideas from the visualization, such as how most of the trees are either broadleaf deciduous (red dots) or coniferous evergreen (purple dots) and that the relationship between amount of carbon stored and tree height appears different for coniferous evergreen trees compared to the broadleaf deciduous trees. 
 
@@ -157,13 +147,13 @@ ds  <- pdxTrees_parks_sample
 carb_sum  <- round(sum(ds$Carbon_Storage_lb),0)
 ```
 
-When beginning to work with a dataset, it is important to clearly ascertain the definitions of variables and gain a basic understanding of how the data were collected. 
+When beginning to work with a dataset, it is important to  ascertain the definitions of variables and gain a basic understanding of how the data were collected. 
 
 Checking measurement units is a good starting point. A reliable data source should always clearly provide units and information about how variables are defined. Portland Parks & Recreation not only reported measurements units but also provides access to a [manual](https://www.portland.gov/sites/default/files/2020/training-book-2019-web-version.pdf) with the data protocol explaining how measurements were collected. For example, the manual notes that tree height should be recorded in feet and the final recorded measurement is an average of two measurements taken by two different team members.
 
-Some variables, such as `Carbon_Storage_lb`, cannot be measured directly and instead were estimated from observable features such as `Tree_Height` and `Condition`. The Portland team used tools available in [iTree](https://www.itreetools.org/) to estimate values for such variables. 
+Some variables, such as `Carbon_Storage_lb`, cannot be measured directly and instead are estimated from observable features such as `Tree_Height` and `Condition`. The Portland team used tools available in [iTree](https://www.itreetools.org/) to estimate values for such variables. 
 
-@tbl-pdxTreesDF shows data from 6 randomly selected trees from the `r portland_size` in this sample. Each row represents a **case** and each column represents a recorded characteristic, called a \index{variable} **variable**. A case can also be called an \index{observational unit} **observational unit**, which refers to the individual entity being measured. Since these variables are being observed for each tree, the cases in these data are trees.
+@tbl-pdxTreesDF shows data from 6 randomly selected trees from the `r portland_size` in this sample. Each row represents a **case** and each column represents a recorded characteristic, called a \index{variable} **variable**. A case may also be called an \index{observational unit} **observational unit**, which refers to the individual entity being measured. Since these variables are being observed for each tree, the cases in these data are trees.
 
 Because the observations are organized into rows and columns, the dataset is sometimes called a \index{data table} **data table** or a \term{data matrix} **data matrix**. Data matrices are a convenient way to record and store data. If data are collected for another observational unit, a new row can easily be added. Similarly, new column can be added for a new variable.
 
@@ -182,7 +172,7 @@ pdxTrees_parks_sample |>
 
 ```
 
-The Portland trees data were gathered to understand the \index{population} **population** of trees in Portland's urban forest. The Tree Inventory Project represents an example of a census, which is a complete count of all units in a population. In many settings, it is unfeasible to collect information on all observational units and instead, only a subset of units (i.e., a \index{sample} **sample**) will be observed. The principles of collecting representative samples will be discussed in @sec-collecting-data.
+The Portland trees data were gathered to understand the \index{population} **population** of trees in Portland's urban forest. The Tree Inventory Project represents an example of a census, which is a complete count of all units in a population. In many settings, it is not feasible to collect information on all observational units and instead, only a subset of units (i.e., a \index{sample} **sample**) will be observed. The principles of collecting representative samples will be discussed in @sec-collecting-data.
 
 ```{r}
 terms_chp_1 <- c(terms_chp_1, c("data matrix",
@@ -199,9 +189,9 @@ A variable like `Tree_Height` is considered a \index{numerical variable} **numer
 
 Not all variables that have numeric values have this property. Consider a dataset with information about students with a variable that records mobile phone numbers or a variable containing student identification numbers. While quantities such as a phone number or identification number consist of numeric values, taking the average of these values does not produce a quantity that has meaning in the context of the data. Variables that uniquely identify cases in a dataset can be referred to as \index{identification variables} **identification (ID) variables**.^[Note that identification variables do not have to take on numeric values and could instead be unique labels such as names.] 
 
-Numerical variables can be either continuous numerical variables or discrete numerical variables. Variables like `Tree_Height` or `Carbon_Sequestration_lb` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on any value within a specified range. A variable that, for example, counts the number of trunks a tree has, is instead considered a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on a limited set of values; in this case, the number of trunks can only be an positive integer value since a tree cannot have, say, 2.5 trunks.
+Numerical variables can be either continuous numerical variables or discrete numerical variables. Variables like `Tree_Height` or `Carbon_Sequestration_lb` are \index{numerical variable!continuous} **continuous numerical variables** because they can take on any value within a specified range. A variable that, for example, counts the number of trunks on a tree, is a \index{numerical variable!discrete} **discrete numerical variable**, a variable that can take on a limited set of values; in this case, the number of trunks can only be an positive integer value since a tree cannot have, say, 2.5 trunks.
 
-Variables like `Functional_Type` and `Condition` are \index{categorical variables} **categorical variables** (also called \index{qualitative variables} **qualitative variables**) because they take on values that are names or labels. When the labels of a categorical variable have no natural ordering, it is considered a \index{nominal categorical variable}  **nominal categorical variable**; otherwise, it is a \index{ordered categorical variable} **ordered categorical variable**. `Condition` is an ordered categorical variable since there is a natural progression in condition from worst condition to best condition: `Dead`, `Poor`, `Fair`, `Good`. In contrast, `Functional_Type` simply represents different types of trees. 
+Variables like `Functional_Type` and `Condition` are \index{categorical variables} **categorical variables** (also called \index{qualitative variables} **qualitative variables**) because they take on values that are names or labels. When the labels of a categorical variable have no natural ordering, it is a \index{nominal categorical variable}  **nominal categorical variable**; otherwise, it is an \index{ordered categorical variable} **ordered categorical variable**. `Condition` is an ordered categorical variable since there is a natural progression in condition from worst to best: `Dead`, `Poor`, `Fair`, `Good`. In contrast, `Functional_Type` simply represents different types of trees. 
 
 
 ```{r}
@@ -217,7 +207,7 @@ terms_chp_1 <- c(terms_chp_1, c("numerical variable",
                  )
 ```
 
-When data are collected, there may be some amount of data cleaning required before the data can be presented as numerical or categorical variables that are easily analyzed. An opinion survey might record open-ended responses to a survey which will initially appear as unstructured text data. Someone interested in analyzing whether the responses represent positive impressions might first need to apply specialized techniques to count the number of words in a response associated with positive emotions in order to construct a numerical variable. Other sorts of unstructured data include images, such as those from an imaging procedure like magnetic resonance imaging (MRI). Methods for handling unstructured data are not discussed in this text.
+When data are collected, there may be some amount of data cleaning required before the data can be presented as numerical or categorical variables that are easily analyzed. An opinion survey might record open-ended responses to a survey which will initially appear as unstructured text data. Someone interested in analyzing whether the responses represent positive impressions might first need to apply specialized techniques to count the number of words in a response associated with positive emotions to construct a numerical variable. Other sorts of unstructured data include images, such as those from an imaging procedure like magnetic resonance imaging (MRI). Methods for handling unstructured data are not discussed in this text.
 
 @fig-variable-types shows the main types of variables explored in this text. 
 ```{r}
@@ -275,6 +265,8 @@ Answers to guided practice problems are provided in the footnotes. Suppose that 
 
 [^intro-to-data-2]: The variables `height` and `weight` are continuous numerical variables. `Age` as measured by the research assistant is ordinal categorical. `Sex` and the reason for the visit are nominal categorical variables.
 
+\index{data!pdxTrees|)}
+
 ## Summarizing and visualizing data {#sec-summarizing-visualizing-data}
 
 While the specific methods for summarizing and visualizing data differ for a categorical variable as opposed to a numerical variable, the common goal is to understand the features of a variable's \index{distribution} **distribution**, i.e., its collection of values.
@@ -287,13 +279,13 @@ During spawning, a female horseshoe crab migrates to shore with a male attached 
 
 In 1996, H.J. Brockmann [@brockmann1996satellite] conducted a comprehensive study of mating horseshoe crabs on two beaches along the Delaware (USA) shore. Her data suggested that satellites did not cluster randomly around mating pairs and that this clustering was not influenced by environmental conditions nor the length of time the mating pair had been on the beach. She hypothesized that unattached males were attracted to females with certain features.
 
-The `crabs` data includes 5 recorded measurements for each female crab and is available on Alan Agresti's University of Florida [web page](https://users.stat.ufl.edu/~aa/cda/data.html). @tbl-crabs-variable-descriptions contains the variable descriptions for the `crabs` data and @tbl-crabsDF shows data from  6 randomly selected crabs from the 173 female crabs observed. 
+The `crabs` data includes 5 recorded measurements for each female crab and is available on Professor Alan Agresti's University of Florida [web page](https://users.stat.ufl.edu/~aa/cda/data.html). @tbl-crabs-variable-descriptions contains the variable descriptions and @tbl-crabsDF shows data from  6 randomly selected crabs from the 173 female crabs observed. 
 
 | Variable Name | Variable description |
 |:------------------------------|:----------------------------------------|
 | `color` | Color of the female crab's carapace (the shell carried by the crab on its back), with 4 values "light medium", "medium", "dark medium", "dark" |
 | `spine` | Condition of the two spines along the edge of female's abdomen, with 3 values "both good", "one worn or broken", "both worn or broken". |
-| `width` | Width of the female's carapace, in cm, |
+| `width` | Width of the female's carapace, in centimeters, |
 | `satell` | Number of male satellites the crab has attracted |
 | `weight` | Weight of the female, in grams. |
 
@@ -343,7 +335,7 @@ crabs |>
 
 ```
 
-@tbl-crabs-colors-frequency is a \index{frequency table} **frequency table**; it shows the counts within each category. A table with the proportions within each category is called a \index{relative frequency table} **relative frequency table**. @tbl-crabs-colors-relative-frequency shows how the majority of female crabs are in the "medium" carapace color category (54.9%). 
+@tbl-crabs-colors-frequency is a \index{frequency table} **frequency table**; it shows the counts within each category. A table with the proportions within each category is called a \index{relative frequency table} **relative frequency table**. @tbl-crabs-colors-relative-frequency shows that the majority of female crabs are in the "medium" carapace color category (54.9%). 
 
 ```{r crabs-color-rel-freq-tbl}
 #| label: tbl-crabs-colors-relative-frequency
@@ -431,10 +423,13 @@ crabs |>
   geom_col(fill = IMSCOL["blue", "full"]) +
   labs(x = "Carapace color", y = "Proportion")
 ```
+\index{data!crabs|)}
 
 ### Numerical data {#sec-summarizing-numerical-data}
 
 **Finding the center and spread of a distribution**
+
+\index{data!pdxTrees|(}
 
 The distribution of a numerical variable can be characterized by its center and its spread. While knowing the center of a distribution provides some information about the value of a typical observation, the spread conveys a sense of whether observations tend to be similar to each other.
 
@@ -463,7 +458,7 @@ middle_high <- sorted[251]
 \overline{x} =& \frac{`r x1` + `r x2` + `r x3` \cdots + `r xl`}{`r l`} = `r m`\,\textrm{lbs}.
 \end{align*}
 
-The quantity $\overline{x}$ is referred to as a \index{sample mean} **sample mean**, the mean of values in a sample. The \index{population mean} **population mean**, the mean of values in a population from which the sample was selected, is denoted by the Greek letter $\mu$. In the tree data, $\mu$ represents the average amount of carbon stored in all  25,534  trees in the Portland parks. [^intro-to-data-4]
+The quantity $\overline{x}$ is referred to as a \index{sample mean} **sample mean**, the mean of values in a sample. The \index{population mean} **population mean**, the mean of values in the population from which the sample was selected, is denoted by the Greek letter $\mu$. In the tree data, $\mu$ represents the average amount of carbon stored in all 25,534  trees in the Portland parks. [^intro-to-data-4]
 
 ```{r }
 #| include: false
@@ -473,7 +468,7 @@ terms_chp_1 <- c(terms_chp_1, c("mean",
 )
 ```
 
-[^intro-to-data-4]: Population means are almost never known because data on complete populations is rare. However, the tree inventory is a complete census all trees in Portland parks and so the mean $\mu$ of `Carbon_Storage_lb` can be calculated; it is  `r mu` lbs.
+[^intro-to-data-4]: Population means are almost never known because data on complete populations are rare. However, the tree inventory is a complete census all trees in Portland parks and so the mean $\mu$ of `Carbon_Storage_lb` can be calculated; it is  `r mu` lbs.
 
 ::: {.important data-latex=""}
 **Mean.**
@@ -486,7 +481,7 @@ $$ \bar{x} = \frac{x_1 + x_2 + \cdots + x_n}{n} $$
 :::
 
 
-The \index{median} **median** is another measure of center; it is the middle value of a distribution after the values have been ordered from smallest to largest. The median divides the distribution into two equal parts where half of the values are less than the median and half are greater. When there are an odd number of observations, there is one middle value with the same number of observations below and above it. If the there are an even number of observations, the median is the average of the two middle observations.
+The \index{median} **median** is another measure of center; it is the middle value of a distribution after the values have been ordered from smallest to largest. The median divides the distribution into two equal parts where half of the values are less than the median and half are greater. When there are an odd number of observations, there is one middle value with the same number of observations below and above it. When the number of observations is even, the median is the average of the two middle observations.
 
 ```{r }
 #| include: false
@@ -581,7 +576,7 @@ s = \sqrt{\frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}}
 $$
 :::
 
-The \index{interquartile range} **interquartile range**, or \index{IQR} **IQR**, is the distance between the third quartile ($Q_3$) and the first quartile ($Q_1$), expressed as $Q_3 - Q_1$. The first quartile ($Q_1$), also known as the 25^th^ percentile, is the value below which 25%  of the data fall.[^intro-to-data-6]
+The \index{interquartile range} **interquartile range**, or \index{IQR} **IQR**, is the distance between the third quartile ($Q_3$) and the first quartile ($Q_1$), expressed as $\text{IQR} = Q_3 - Q_1$. The first quartile ($Q_1$), also known as the 25^th^ percentile, is the value below which 25%  of the data fall.[^intro-to-data-6]
  Similarly, the third quartile ($Q_3$), or the 75^th^ percentile, is the value below which  75%  of the data fall. 
 
 The median can be referred to as $Q_2$, since it is the second quartile (the 50^th^ percentile). Together, $Q_1$, $Q_2$, and $Q_3$ divide the data into four equal chunks, each containing approximately 25%  of the observations.
@@ -591,7 +586,7 @@ q_9 <-  quantile(pdxTrees_parks_sample$Carbon_Storage_lb, probs = 0.90)
 
 ```
 
-[^intro-to-data-6]: An $\alpha$^th^ **percentile**\index{percentile} is a number with $\alpha$% of the observations below it and $(100-\alpha)$% of the observations above it. For example, the 90^th^ percentile of `Carbon_Storage_lb` (`r q_9`) is larger than  90%  of the carbon values and smaller than 10%.
+[^intro-to-data-6]: An $\alpha$^th^ **percentile** \index{percentile} is a number with $\alpha$% of the observations below it and $(100-\alpha)$% of the observations above it. For example, the 90^th^ percentile of `Carbon_Storage_lb` (`r q_9`) is larger than  90%  of the carbon values and smaller than 10%.
 
 ::: {.important data-latex=""}
 **Interquartile range (IQR).**
@@ -654,17 +649,19 @@ m_r <- round(mean(cs_lb),1)
 
 ```
 
-These trees store an impressive amount of carbon, ranging from  `r min_nr`  to approximately  `r max_r` lbs! The median  `r med`  lbs splits the data in half: 50%  of these trees store at least `r med`lbs of carbon. The middle 50% of the trees store between `r q1_r` lbs and `r q3_r` lbs of carbon. 
 
-The (aptly named) **beeswarm plot** \index{beeswarm plot} in @fig-trees-carbon-beeswarm shows an interesting feature of the distribution. In regions of the horizontal axis where the plot is wide, there are large numbers of observations. The plot narrows as storage amounts increase and the number of observations decreases. There are many trees storing relatively smaller amounts of carbon (less than 2,000 lbs), but a few with very large amounts such as 8,000 lbs and even greater than 14,000 lbs. Averages are sensitive to extreme values at one end of a distribution. The large values in the right tail of the beeswarm plot explain the large value for the variance of `Carbon_Storage_lb`, as well as why the mean is larger than the median.
+These 500 trees store an impressive amount of carbon, ranging from  `r min_nr`  to approximately  `r max_r`lbs! The median  `r med`lbs splits the data in half: 50%  of these trees store at least `r med`lbs of carbon. The middle 50% of the trees store between `r q1_r` lbs and `r q3_r` lbs of carbon. 
+
+The (aptly named) **beeswarm plot** \index{beeswarm plot} in @fig-trees-carbon-beeswarm shows an interesting feature of the distribution. In regions of the horizontal axis where the plot is wide, there are large numbers of observations. The plot narrows as storage amounts increase and the number of observations decreases. There are many trees storing relatively smaller amounts of carbon (less than 2,000lbs), but a few with very large amounts such as 8,000lbs and even greater than 14,000lbs. Averages are sensitive to extreme values at one end of a distribution. The large values in the right tail of the beeswarm plot explain the large value for the variance of `Carbon_Storage_lb`, as well as why the mean is larger than the median.
 
 ```{r beeswarm-carbon}
 #| label: fig-trees-carbon-beeswarm
 #| fig-cap: Beeswarm plot showing the distribution of carbon storage values in the Portland tree data
 #| fig-alt: |
-#|   Beeswarm showing the distribution of carbon storage values in the Portland tree data.  The large
-#|        values 
-#|   at the right edge of the plot cause the mean to be larger than the median.
+#|   Beeswarm plot showing the distribution of carbon storage values 
+#|     in the Portland tree data.
+#|     The large values at the right edge of the plot cause the mean to be larger 
+#|     than the median.
 #| fig-asp: 0.4
 
 library(ggbeeswarm)
@@ -685,7 +682,7 @@ pdxTrees_parks_sample |>
 ```{r robust-example, include = FALSE}
 
 x <- c(2, 4, 6, 8, 10)
-mean(x)
+mean(x) 
 x_sd <- sd(x)
 y <- c(2,4,6,8,40)
 y_m <- mean(y)
@@ -693,10 +690,9 @@ y_sd <- sd(y)
 
 ```
 
-The median is a \index{robust statistic} **robust statistic** because unlike the mean it is minimally affected by a few extreme observations at one end of a distribution. For the same reason, the IQR is a robust measure of spread of a distribution, while the standard deviation is not. 
-Consider a small dataset: `2, 4, 6, 8, 10`. The mean and median are both `6`. If `10` is replaced by `40`, the median remains the same but the mean increases to `12`. Similarly, the standard deviation would change from `3.2` to `15.8`, but the IQR would remain the same `8 - 4 = 4`. 
+The median is a \index{robust statistic} **robust statistic** because, unlike the mean, it is minimally affected by a few extreme observations at one end of a distribution. For the same reason, the IQR is a robust measure of spread of a distribution, while the standard deviation is not.  Consider a small dataset: `2, 4, 6, 8, 10`. The mean and median are both `6`. If `10` is replaced by `40`, the median remains the same but the mean increases to `12`. Similarly, the standard deviation would change from `3.2` to `15.8`, but the IQR would remain the same `8 - 4 = 4`. 
 
-Visual displays like a beeswarm plot are helpful complements for numerical summary statistics. 
+Visual displays like a beeswarm plot are helpful complements to numerical summary statistics. 
 
 ```{r }
 #| include: false
@@ -707,7 +703,7 @@ terms_chp_1 <- c(terms_chp_1, c("beeswarm plot",
 
 **Box plots and histograms**
 
-Unlike beeswarm plots, box plots and histograms do not directly show the values of each individual observation. \index{box plot} **Box plots** highlight the values of the first, second, and third quartiles. @fig-trees-carbon-beeswarm-boxplot shows the beeswarm plot in @fig-trees-carbon-beeswarm and a box plot below it.
+Unlike beeswarm plots, box plots and histograms do not show the values of each individual observation. \index{box plot} **Box plots** highlight the values of the first, second, and third quartiles. @fig-trees-carbon-beeswarm-boxplot shows the beeswarm plot in @fig-trees-carbon-beeswarm and a box plot below it.
 
 ```{r values-for-boxplot, include = F}
 # uses values calculated earlier
@@ -835,7 +831,7 @@ ggplot(pdxTrees_parks_sample, aes(x = Carbon_Storage_lb)) +
   
 ```
 
-@fig-trees-carbon-density shows a **density plot**\index{plot!density}\index{density plot} --  a smoothed version of a histogram with densities instead of counts.  Like the re-scaled histograms, density plots are constructed so that the total area under the curve is 1. 
+@fig-trees-carbon-density shows a **density plot** \index{plot!density}\index{density plot} --  a smoothed version of a histogram with densities instead of counts.  Like the re-scaled histograms, density plots are constructed so that the total area under the curve is 1. 
 The details on how to draw density plots  are beyond the scope of this text, but the shape, scale, and spread of the observations are displayed similarly in a histogram as in a density plot.
 
 ```{r trees-carbon-density}
@@ -911,8 +907,10 @@ p_multi <- ggplot(df_modes, aes(x = multi)) +
 p_uni + p_bi + p_multi
 ```
 
+\index{data!pdxTrees|)}
+
 ::: {.guidedpractice data-latex=""}
-@fig-crabs-satell-histogram shows a histogram for the discrete numerical variable `satell` (number of male satellites) in the 173 female crabs in the `crabs` data. Based on the histogram, describe the distribution and identify whether the median and IQR will be preferable summary statistics for conveying center and spread.[^intro-to-data-8]
+@fig-crabs-satell-histogram shows a histogram for the discrete numerical variable `satell` (number of male satellites) of the 173 female crabs in the `crabs` data. Based on the histogram, describe the distribution and identify whether the median and IQR will be preferable summary statistics for conveying center and spread.[^intro-to-data-8]
 :::
 
 [^intro-to-data-8]: The distribution of `satell` has a mode at 0; about 40\% (62) of the 173 females did not have any male satellites. The distribution is severely skewed right, indicating that while a large number of satellites is possible (as many as 15), attracting more than  7 is possible but rare. The shape of the histogram suggests that the median and IQR will be better measures of center and spread than the mean and standard deviation.
@@ -936,7 +934,9 @@ ggplot(crabs, aes(x = satell)) +
 
 **The empirical rule for symmetric distributions**
 
-The sample standard deviation has a direct interpretation as a measure of spread when a distribution is symmetric. The \index{empirical rule} **empirical rule** states that for symmetric, unimodal distributions, approximately  68%  of the observations are within one standard deviation of the mean,  95%  are within two standard deviations, and  99.7%  are within three standard deviations. The rule is based on the properties of bell-shaped distributions discussed in @sec-distributions.
+\index{data!crabs|(}
+
+The sample standard deviation has a direct interpretation as a measure of spread when a distribution is symmetric. The \index{empirical rule} **empirical rule** states that for symmetric, unimodal distributions, approximately  68%  of the observations are within one standard deviation of the mean, 95%  within two standard deviations, and  99.7% within three standard deviations. The rule is based on the properties of bell-shaped distributions discussed later in @sec-distributions.
 
 ```{r }
 #| include: false
@@ -962,7 +962,7 @@ int_3_ub  <- round(m_c + 3*sd_c, 2)
 
 @fig-crabs-width-histogram is a histogram of distribution of female crab widths. The distribution is approximately symmetric, with a slight right skewing; the mean `r m_c`cm is only slightly larger than the median `r med_c`cm.  The standard deviation is `r sd_c`cm.
 
-Applying the empirical rule, approximately 68%  of the female crabs should be between  `r  int_1_lb`  and `r int_1_ub` cm  wide;  95%  should be between `r  int_2_lb` and `r int_2_ub` cm wide.
+Applying the empirical rule, approximately 68%  of the female crabs should be between  `r  int_1_lb`  and `r int_1_ub`cm  wide;  95%  should be between `r  int_2_lb` and `r int_2_ub`cm wide.
 
 ```{r crab-width}
 #| label: fig-crabs-width-histogram
@@ -983,15 +983,13 @@ ggplot(crabs, aes(x = width)) +
 
 ```
 
-
-
-
+\index{data!crabs|)}
 
 ## Relationships in data {#sec-relationships-in-data}
 
 Earlier, @fig-trees-carbon-height-type visualized how the relationship between amount of carbon removed from the atmosphere and tree height differs by functional type. In this example, tree height and functional type are examples of **explanatory variables**, which have potentially useful information about the distribution of the \index{response variable} **response variable**, amount of carbon stored. Do taller trees tend to store more carbon? Does the relationship, or \index{association} **association**, between carbon storage and tree height differ for deciduous trees versus evergreen trees?
 
-Exploring relationships in data is a major goal of statistics, and, indeed, of research in general.  It is important to distinguish between simple associations, where the distribution of a response variable changes as the explanatory variable increases or decreases, and \index{causal relationship} **causal relationships**, where changes in the explanatory variable cause direct changes in the response.  Increasing the heat under a teapot on a stove causes the water to boil, a direct causal relationship.  In settings where afternoon tea is popular, the late afternoon hours might be associated with boiling water to make tea, but the clock does not cause the boiling.  Buying snow boots is associated with more broken bones in elders, but the causal relationship is walking on icy sidewalks.  Sales of snow boots increase in the winter.
+Exploring relationships in data is a major goal of statistics, and, indeed, of research in general.  It is important to distinguish between simple associations, where the distribution of a response variable changes as the explanatory variable increases or decreases, and \index{causal relationship} **causal relationships**, where changes in the explanatory variable cause direct changes in the response.  Increasing the heat under a teapot on a stove causes the water to boil, a direct causal relationship.  In settings where afternoon tea is popular, the late afternoon hours might be associated with boiling water to make tea, but the clock does not cause the boiling.  Increased sales of snow boots is associated with more broken bones in elders, but the causal relationship is walking on icy sidewalks.  Sales of snow boots increase in the winter.
 
 Much of this text explores methods for studying relationships, including numerical and graphical methods. This section illustrates numerical and graphical methods for simple associations between two variables, beginning with two categorical variables.  Study designs which examine causal relationships are discussed in @sec-collecting-data. 
 
@@ -1008,6 +1006,8 @@ terms_chp_1 <- c(terms_chp_1, c("explanatory variable",
 ### Two categorical variables {#sec-relationships-two-categorical}
 
 **Contingency tables**
+
+\index{data!World Values Survey|(}
 
 ```{r missing-count-wvs}
 
@@ -1049,7 +1049,7 @@ wvs_edu_health_cc |>
     position = "center")
 ```
 
-For simplicity, this brief analysis skips two steps typically performed when preparing a survey for analysis. Because some people sampled do not respond to a survey, the respondents are usually not a completely representative sample from a country's population. The WVS data includes weights for each respondent that can be used to create a further sub-sample that matches the population demographics of each country. That has not been done with these data. In addition, respondents who participate in a survey always have the option not to provide a response. Instead of exploring the reasons for non-response to questions, this analysis is restricted to participants who chose to respond. A small number of respondents (`r n_dropped`) of the  `r n_original`  respondents in the original sample chose not to respond to at least one of the questions used here.
+For simplicity, this brief analysis skips two important steps typically performed when preparing a survey for analysis. Because some people sampled do not respond to a survey, the respondents are usually not a completely representative sample from a country's population. The WVS data includes weights for each respondent that can be used to create a further sub-sample that matches the population demographics of each country. That has not been done with these data. In addition, respondents who participate in a survey always have the option not to provide a response. Instead of exploring the reasons for non-response to questions, this analysis is restricted to participants who chose to respond. A small number (`r n_dropped`) of the  `r n_original`  respondents in the original sample chose not to respond to at least one of the questions used here.
 
 ```{r wvs-table-elements, echo = FALSE}
 df <- wvs_edu_health_cc
@@ -1063,7 +1063,7 @@ t_cprop <- round(proportions(t, 2), 3)
 
 @tbl-wvs-edu-health is a **contingency table** \index{contingency table} showing the number of responses to the questions about highest education level attained and perceived health status. A contingency table summarizes data for two categorical variables.[^intro-to-data-9] The rows of @tbl-wvs-edu-health correspond to education levels and the columns to health status. The cells of the table contain the counts for each row and column combination. For instance,  `r t_tot["Middle", "Fair"]`  respondents reported a `Middle` level of education (at most a secondary school or specific job training) and `Fair` health status.
 
-[^intro-to-data-9]: A contingency table is also called a two-way table, and the data in the table are often called cross-classified data.
+[^intro-to-data-9]: A contingency table is also called a \index{two-way table} **two-way table**, and the data in the table are often called \index{cross-classified data} **cross-classified data**.
 
 Contingency tables are characterized by the number of rows and columns corresponding to the levels of the two variables. @tbl-wvs-edu-health shows 3 $\times$ 5 table (3 rows corresponding to education level, 5 rows corresponding to health status) that also include the \index{row totals} **row totals** and \index{column totals} **column totals** for convenience. Collectively, the row and column totals are referred to as the \index{marginal totals} **marginal totals**. The entry in the lower right corner is called the \index{grand total} **grand total**. Examining the totals shows that, for example, among the  `r n_cases`  respondents,  `r t_tot["Middle","Sum"]`  reported `Middle` education.
 
@@ -1072,7 +1072,9 @@ Contingency tables are characterized by the number of rows and columns correspon
 terms_chp_1 <- c(terms_chp_1, c("contingency table", 
                                 "row totals",
                                 "column totals",
-                                "marginal totals")
+                                "marginal totals",
+                                "two-way table",
+                                "cross-classified data")
                  )
 ```
 
@@ -1103,8 +1105,7 @@ wvs_edu_health_cc |>
 
 What else does the table tell us about the  `r t_tot["Sum", "Sum"]`  participants responding to the survey? A large majority of the participants (`r t_tot["Sum", "Good"]`  +  `r t_tot["Sum", "Very Good"]`  =  `r t_tot["Sum", "Good"] + t_tot["Sum", "Very Good"]`) responded that their health was `Good` to `Very Good`. A small number of respondents (`r t_tot["Sum", "Very Poor"]`) reported `Very Poor` health status. This is a generally healthy population.
 
-
-Does knowing someone’s education level provide meaningful information when predicting their health status? In other words, is `Educational_status` a useful explanatory variable for `Health_status`? 
+Does knowing someone’s education level provide meaningful information when predicting their health status? In other words, is `Educational_status` a useful explanatory variable for the response variable `Health_status`? 
 
 In @tbl-wvs-edu-health-row-prop, the counts in @tbl-wvs-edu-health have been replaced by \index{row proportion} **row proportions**, which represent the \index{conditional distribution} **conditional distribution** of `Health_status` for each level of `Education_level`. These proportions show how health status is distributed within each educational level.
 
@@ -1117,7 +1118,7 @@ terms_chp_1 <- c(terms_chp_1, c("row proportions",
 ```
 
 
-For example, of the  `r t_tot["Middle", "Sum"]`  respondents with a `Middle` level of education,  `r t_tot["Middle", "Good"]`  had `Good` health status, corresponding to a proportion of  `r t_tot["Middle", "Good"] / t_tot["Middle", "Sum"]` . Forty-six percent of the respondents among those with a secondary school education consider their health status good. The row proportions sum to 1 since everyone within each `Educational_level` is in one (and only one) of the `Health_status` categories.
+For example, of the  `r t_tot["Middle", "Sum"]`  respondents with a `Middle` level of education,  `r t_tot["Middle", "Good"]`  had `Good` health status, corresponding to a proportion of  `r t_tot["Middle", "Good"] / t_tot["Middle", "Sum"]`. Forty-six percent of the respondents among those with a secondary school education consider their health status good. The row proportions sum to 1 since everyone within each `Educational_level` is in one (and only one) of the `Health_status` categories.
 
 ```{r wvs-edu-health-row-proportion}
 #| label: tbl-wvs-edu-health-row-prop
@@ -1150,13 +1151,14 @@ Among the respondents with a bachelor's degree or higher, what proportion report
 
 The row proportions in @tbl-wvs-edu-health-row-prop show small differences across the rows but are reasonably consistent. For example, across the three education levels, the least frequent health status was `Very Poor`, while the most frequent was `Good`. At each level of education, the proportion reporting `Poor` health status is less than  10% ; the proportion reporting `Fair` health status falls within the range  20 - 30% . `Educational_level` does not appear to be a useful explanatory variable for `Health_status` since its distribution does not change much across the levels of `Health_status`.
 
+
 Bar plots can be modified to show relationships in contingency tables. @fig-wvs-edu-health-barplot shows three bar plots with `Educational_level` as an explanatory variable for the response `Health_status`.
 
 -   @fig-wvs-edu-health-barplot(a) is a \index{frequency bar plot} **frequency bar plot** showing the number of observations for the health status responses within each value of `Education_level`. The plot is also called a \index{stacked bar plot} **stacked bar plot** or \index{segmented bar plot} **segmented bar plot** and represents the data in @tbl-wvs-edu-health. It shows the total number of observations for each level of education, but does not make it easy to compare the proportions or the precise number of responses for each `Health_status` category.
 
--   @fig-wvs-edu-health-barplot(b) is a \index{relative frequency bar plot} relative frequency bar plot, illustrating the row proportions from @tbl-wvs-edu-health-row-prop. It displays the proportions of responses within each educational level, making it useful for comparing distributions. However, it obscures the number of responses in each category.
+-   @fig-wvs-edu-health-barplot(b) is a \index{relative frequency bar plot} **relative frequency bar plot**, illustrating the row proportions from @tbl-wvs-edu-health-row-prop. It displays the proportions of responses within each educational level, making it useful for comparing distributions. However, it obscures the number of responses in each category.
 
--   @fig-wvs-edu-health-barplot(c) is a \index{dodged bar plot} dodged bar plot, with separate bars for each health status category are displayed for each Educational_level. This plot also reflects the data in @tbl-wvs-edu-health, but makes it easier to identify of the number of responses for each `Health_status` category within each educational level. However, it also does not show the proportions that indicate the distribution of health status within educational level.
+-   @fig-wvs-edu-health-barplot(c) is a \index{dodged bar plot} **dodged bar plot**, with separate bars for each health status category displayed for each Educational_level. This plot also reflects the data in @tbl-wvs-edu-health, but makes it easier to identify of the number of responses for each `Health_status` category within each educational level. However, it also does not show the proportions that indicate the distribution of health status within educational level.
 
 All three plots in @fig-wvs-edu-health-barplot are consistent with the observation that in the WVS data the distribution of `Health_status` is fairly similar across different groups of `Educational_level`.
 
@@ -1223,8 +1225,7 @@ ggplot(wvs_edu_health_cc) +
 ```
 
 
-
-What if the question of interest were instead: given that someone's reported health status is very good, are they more likely to have a high education level?
+What if the question of interest reversed the roles of the explanatory and response variables: given that someone's reported health status is very good, are they more likely to have a high education level?
 
 In @tbl-wvs-edu-health-col-prop counts have been replaced by column proportions. The columns show the conditional distributions of educational level for each reported health status. In this table, `Health_status` serves as the explanatory variable for the response `Educational_level`. Among the respondents reporting `Very Good` for `Health_status`,  31.1%  had a bachelor's degree or higher. In contrast, among the respondents reporting `Very Poor`, only 15.1% had a bachelor's degree or higher. If someone reports `Very Good`, they are approximately twice as likely to have a high education than someone who reports `Very Poor`. 
 
@@ -1263,9 +1264,12 @@ Among the participants reporting `Fair` health status, what proportion have a se
 
 [^intro-to-data-13]:  `r t_cprop["Middle", "Fair"]`  +  `r t_cprop["High", "Fair"]`  =  `r t_cprop["Middle", "Fair"] + t_cprop["High", "Fair"]` , or almost  70% .
 
+\index{data!World Values Survey|)}
+
 
 ### One numerical and one categorical variable {#sec-relationships-one-numerical-one-categorical}
 
+\index{data!pdxTrees|(}
 
 ```{r portland-trees-numbers-for-text}
 
@@ -1278,7 +1282,7 @@ mean_carbon_dt <- round(mean(df$Carbon_Storage_lb[a]),1)
 med_carbon_dt <- round(median(df$Carbon_Storage_lb[a]),1)
 ```
 
-How does the amount of stored carbon (`Carbon_Storage_lb`) and the rate at which carbon is sequestered (`Carbon_Sequestration_lb`) vary by tree condition?  In statistical terms, what is the relationship between the explanatory variable tree condition and the response variable carbonn storage?
+How does the amount of stored carbon (`Carbon_Storage_lb`) and the rate at which carbon is sequestered (`Carbon_Sequestration_lb`) vary by tree condition?  In statistical terms, what is the relationship between the explanatory variable tree condition and the response variable carbon storage?
 
 `Condition` is an ordered categorical variable with levels "Dead", "Poor", "Fair", and "Good". As defined in the [training manual](https://www.portland.gov/sites/default/files/2020/training-book-2019-web-version.pdf) for the tree inventory project:
 
@@ -1290,7 +1294,7 @@ How does the amount of stored carbon (`Carbon_Storage_lb`) and the rate at which
 
 - "Good": Tree is an excellent representative for its species. Roots are sound, trunk is solid with no bark damage, and crown is full with no significant structural problems. No wounds, decay, conks, cavities, root heaving or other symptoms.
 
-@tbl-trees-condition-frequency shows that the large majority (more than 86%) of the trees are in "Fair" condition.  While there are a few dead trees in the complete inventory, there were none in this random sample.
+@tbl-trees-condition-frequency shows that the large majority (more than 86%) of the trees are in "Fair" condition.  While there are a few dead trees in the complete inventory, there were none in this random sample of 500.
 
 ```{r trees-condition-freq-tbl}
 #| label: tbl-trees-condition-frequency
@@ -1310,14 +1314,18 @@ pdxTrees_parks_sample |>
 
 ```
 
-The \index{side-by-side box plots} **side-by-side box plots**  in @fig-trees-condition-carbon-store-boxplot show how carbon storage varies with tree condition. 
+The \index{side-by-side box plots} **side-by-side box plots**  in @fig-trees-condition-carbon-store-boxplot show how carbon storage varies with tree condition. Unsurprisingly, trees in better condition ("Fair" or "Good") store more carbon than trees in poor condition. In the box plots, the median amount of carbon storage is higher for the Fair and Good groups than for the Poor group. Yet while many trees in poor condition are storing relatively low amounts of carbons, some are still storing more than 2,000 lbs of carbon. 
 
-@fig-trees-condition-carbon-store-violin offers a different view with  \index{side-by-side violin plots} **side-by-side violin plots** .  Each violin plot is a hybrid of a box plot and density plot. The simplicity of a box plot makes it easy to identify quartiles and outliers, but hides detail on the data density of the response. Violin plots add this information by making the "violin" wider at values of the response where there are more observations.  The red dots in the violin plots denote the median carbon storage at each level tree condition, and the vertical bars extend from the first to the third quantile.
+@fig-trees-condition-carbon-store-violin offers a different view with  \index{side-by-side violin plots} **side-by-side violin plots** .  Each \index{violin plot} **violin plot** is a hybrid of a box plot and density plot. The simplicity of a box plot makes it easy to identify quartiles and outliers, but hides detail on the data density of the response. Violin plots add this information by making the "violin" wider at values of the response where there are more observations. The violin plots provide more information about the shape of the distributions, showing how the trees storing the most carbon tend to be in the "Fair" and "Good" groups.  The violin plots shown here contain some of the information in a box plot; the red dots denote the median carbon storage at each level of tree condition, and the vertical bars extend from the first to the third quantile.  
+
+
 
 ```{r }
 #| include: false
 terms_chp_1 <- c(terms_chp_1, c("side-by-side box plots",
-                                "stacked box plots")
+                                "stacked box plots",
+                                "violin plots",
+                                "side-by-side violin plots")
                  )
 ```
 
@@ -1345,7 +1353,9 @@ ggplot(pdxTrees_parks_sample, aes(
 #| fig-cap: |
 #|   Side-by-side violin plots of the distribution of carbon storage by tree condition.
 #| fig-alt: | 
-#|   Side-by-side violin plots of the distribution of carbon storage by tree condition.  
+#|   Side-by-side violin plots of the distribution of carbon storage by tree condition. The 
+#|   red dot in the center is at the median of carbon storage and the vertical bars extend 
+#|   from the first to the third quartile.  
 #|   
 #| fig-asp: 0.4
 
@@ -1360,12 +1370,13 @@ ggplot(pdxTrees_parks_sample, aes(
   stat_summary(fun = median, geom = "point", color = "red", size = 3) 
   
 ```
-
-Unsurprisingly, trees in better condition ("Fair" or "Good") store more carbon than trees in poor condition. In the box plots, the median amount of carbon storage is higher for the Fair and Good groups than for the Poor group. The violin plots provide more detail as to the shape of the distributions, showing how the trees storing the most carbon tend to be in the "Fair" and "Good" groups. Yet while many trees in poor condition are storing relatively low amounts of carbons, some are still storing more than 2,000 lbs of carbon. 
+\index{data!pdxTrees|)}
 
 The details revealed in graphs often give rise to interesting questions to pursue further. It could be helpful for Portland to investigate the trees in fair condition yet storing unusually high amounts of carbon. If city resources are limited, should these trees be prioritized for additional maintenance to prevent their condition from declining? What factors explain why these trees store more carbon than others?
 
-What can be learned from the `crabs` data about the attraction of male satellites to female horseshoe crabs?
+\index{data!crabs|(}
+
+What can be learned from the `crabs` data about the attraction of male satellites to females?
 
 @fig-crabs-color-spine-stacked-satell-boxplot uses stacked box plots to show how the number of male satellites varies with the color of the female (plot a) and the conditions of her spine (plot b).  In this sample of 173 crabs, male satellites favor lighter colored females. As female carapace colors change from dark to light the median number of satellites increases. The median number of satellites is larger than 4 for light medium females, while at least 50% of dark females have no satellites (since the median is 0). The outliers in the box plot corresponding to `dark` show that 3 of the dark females have attracted 8 or more satellites.  
 
@@ -1408,7 +1419,7 @@ Stacked, horizontally oriented box plots are useful when examining the same resp
 
 ### Two numerical variables {#sec-relationships-two-numerical}
 
-Brockmann's research confirmed that in addition to female carapace color, female size was also associated with number of satellites. In the `crabs` data, female size is measured with the variables `width` and `weight`. It is reasonable to expect that weight varies directly with width. Is this true in the `crabs` data?
+Brockmann's research on horseshoe crab mating confirmed that in addition to female carapace color, female size was also associated with number of satellites. In the `crabs` data, female size is measured with the variables `width` and `weight`. It is reasonable to expect that weight varies directly with width. Is this true in the `crabs` data?
 
 ```{r, include = FALSE}
 # weight and width of largest crab
@@ -1417,9 +1428,9 @@ largest_crab_stats <- crabs %>%
   select(weight, width)
 ```
 
-The relationship between two numerical variables can be explored with a \index{scatterplot} **scatterplot**, such as the one shown in @fig-crabs-width-weight-scatter, where `weight` is plotted on the vertical axis against width on the horizontal axis. Scatterplots show a case-by-case view of the relationship between two numerical variables. For instance, the isolated point in the upper right corner of the plot represents a crab that weighs `r select(largest_crab_stats, weight) |> pull()` grams and is `r select(largest_crab_stats, width) |> pull()` cm wide.
+The relationship between two numerical variables can be explored with a \index{scatterplot} **scatterplot**, such as the one shown in @fig-crabs-width-weight-scatter, where `weight` is plotted on the vertical axis against `width` on the horizontal axis. Scatterplots show a case-by-case view of the relationship between two numerical variables. For instance, the isolated point in the upper right corner of the plot represents a crab that weighs `r select(largest_crab_stats, weight) |> pull()`gm and is `r select(largest_crab_stats, width) |> pull()`cm wide.
 
-@fig-crabs-width-weight-scatter shows that `width` and `weight` are indeed closely related; more specifically, they can be described as being positively associated since crabs with wider carapaces tend to have higher weight. Two variables are \index{positively associated} **positively associated** if increasing values of one tend to occur with increasing values of the other; two variables are \index{negatively associated} **negatively associated** if increasing values of one variable occurs with decreasing values of the other. If there is no evident relationship between two variables, they are said to be \index{uncorrelated} **uncorrelated** or \index{independent} **independent**. 
+@fig-crabs-width-weight-scatter shows that `width` and `weight` are indeed closely related; more specifically, they can be described as being positively associated since crabs with wider carapaces tend to be heavier. Two variables are \index{positively associated} **positively associated** if increasing values of one tend to occur with increasing values of the other; they are \index{negatively associated} **negatively associated** if increasing values of one occurs with decreasing values of the other. If there is no evident relationship between two variables, they are said to be \index{uncorrelated} **uncorrelated** or \index{independent} **independent**. 
 
 ```{r }
 #| include: false
@@ -1470,8 +1481,7 @@ ggplot(crabs, aes(x = width, y = weight))  +
 
 ```
 
-The relationship between `width` and `weight` is strong enough that it would be reasonable to expect that relationship between `width` and `sattel` would be similar to that between `weight` and `satell`. The two scatterplots in @fig-crabs-satell-width-weight-scatter confirm that is the case. @fig-crabs-satell-width-weight-scatter(a) shows a scatterplot of the response `satell` against the explanatory variable `width`; in @fig-crabs-satell-width-weight-scatter(b) `weight` has replaced `width`. Neither of these relationships are linear because of 
-the large number of crabs with no satellites depicted in the band of points along the horizontal axis.  
+The relationship between `width` and `weight` is strong enough that it would be reasonable to expect that relationship between `width` and `sattel` would be similar to that between `weight` and `satell`. The two scatterplots in @fig-crabs-satell-width-weight-scatter confirm that is the case. @fig-crabs-satell-width-weight-scatter(a) shows a scatterplot of the response `satell` against the explanatory variable `width`; in @fig-crabs-satell-width-weight-scatter(b) `weight` has replaced `width`. Neither of these relationships is linear because of  the large number of crabs with no satellites depicted in the band of points along the horizontal axis.  
 ```{r}
 #| label: fig-crabs-satell-width-weight-scatter
 #| fig-cap: |
@@ -1516,6 +1526,8 @@ terms_chp_1 <- c(terms_chp_1, c("correlation",
 The correlation coefficient for width versus weight is $r$=`r r_width_weight`, reflecting the strength of the relationship.  
 
 Simulated data was used in @fig-correlation-plots to generate some scatterplots and associated correlation coefficients in linear relationships. The figure shows that the closer $r$ is to 1 or -1, the cluster of points shows less scatter and the trend in the linear relationship becomes more evident. 
+
+\index{data!crabs|)}
 
 ```{r correlation-plots}
 #| label: fig-correlation-plots
@@ -1604,11 +1616,13 @@ missing <- all_countries - cc_pairs
 
 ```
 
-When the relationship between an explanatory and response variable is linear, a correlation coefficient near 1 or -1 indicate that the linear relationship is a strong one.  But large correlation coefficients can occur in relationships that are not linear, so a correlation coefficient itself does not imply that a relationship is linear.
+When the relationship between explanatory and response variables is linear, a correlation coefficient near 1 or -1 indicate that the linear relationship is a strong one.  But large correlation coefficients can occur in relationships that are not linear, so a correlation coefficient itself does not imply that a relationship is linear.
 
-@fig-wdi-2022-income-infant-mortality is a scatterplot of infant mortality vs per-capita income for `r cc_pairs` countries using data from the 2022 World Bank Indicators of economic development.^[The full data set includes data on `r all_countries` countries, but data on both income and infant mortality was not available for `r missing` countries.]  The data are available in the dataset `wdi_2022` in R package `openintro`.  Infant mortality is calculated as the number of  infant deaths before 1 year of age among 1,000 live births.  Per-capita income is measured in US dollars but is adjusted for the buying power of each currency in its own country, using an economic measure called purchasing power parity.
+\index{data!wdi_2022|(}
 
-The correlation between infant mortality and income is `r r_cc `, indicating a potentially strong, negative relationship. However, @fig-wdi-2022-income-infant-mortality reveals the importance of visualizing the relationship instead of relying solely on the correlation coefficient. While infant mortality does tend to decrease as income increases, the relationship would be better summarized with a curve rather than a straight line. An increase in income per capita of $25,000 is associated with a much more drastic change in infant mortality rate at lower income per capita than at higher income per capita.
+@fig-wdi-2022-income-infant-mortality is a scatterplot of infant mortality vs per-capita income for `r cc_pairs` countries using the dataset `wdi_2022` abstracted from the 2022 World Bank Indicators of economic development. ^[The full data set includes data on `r all_countries` countries, but data on both income and infant mortality was not available for `r missing` countries.]    Infant mortality is calculated as the number of  infant deaths before 1 year of age among 1,000 live births.  Per-capita income is measured in US dollars but is adjusted for the buying power of each currency in its own country, using an economic measure called purchasing power parity. The [`wdi_2022`](http://openintrostat.github.io/openintro/reference/wdi_2022.html)  data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package. 
+
+The correlation between infant mortality and income is `r r_cc `, indicating a potentially strong, negative relationship. However, @fig-wdi-2022-income-infant-mortality reveals the importance of visualizing the relationship instead of relying solely on the correlation coefficient. While infant mortality does tend to decrease as income increases, the relationship would be better summarized with a curve rather than a straight line. An increase in income per capita of $25,000 is associated with a much more drastic change in infant mortality rate at lower rather than higher income per capita.
 
 ```{r wdi-infant-mort-gni-scatter}
 #| label: fig-wdi-2022-income-infant-mortality
@@ -1715,11 +1729,11 @@ ggplot(df_cc, aes(x = gni_percap, y = infant_mortality_rate)) +
   scale_x_continuous(labels = waiver()) +
   scale_y_continuous(labels = waiver())
 ```
-
+\index{data!wdi_2022|)}
 
 ### More than two variables {#sec-relationships-more-than-two-variables}
 
-The previous sections introduced some standard graphs for summarizing the relationship between two variables a time: bar plots, side-by-side box plots (and violin plots), and scatterplots. However, a key aspect statistical thinking is multivariate thinking; in other words, exploring how numerous factors contribute to an outcome. Visualizing such relationships will often require going beyond the standard named graphs.
+The previous sections introduced some standard graphs for summarizing the relationship between two variables a time: bar plots, side-by-side box and violin plots, and scatterplots. However, a key aspect statistical thinking is multivariate thinking; in other words, exploring how numerous factors contribute to an outcome. Visualizing such relationships will often require going beyond the standard named graphs.
 
 @fig-nyt-megadrought-history is from a [*New York Times* data story](https://www.nytimes.com/interactive/2022/07/20/opinion/ancient-trees-climate-change.html) examining climate extremes based on data collected from the rings of living trees and architectural wooden beams in the American Southwest. Compelling data visualizations often incorporate information from several variables and may not necessarily look like one of the plots previously discussed in this chapter.
 
@@ -1733,23 +1747,12 @@ The previous sections introduced some standard graphs for summarizing the relati
 knitr::include_graphics("images/nyt_megadrought_history.png")
 ```
 
-<!--
-For `satell` versus `width` or `weight` the two correlation coefficients are `r r_width_satell` and `r r_weight_satell`, respectively.  These two relationship are weaker than the `weight` versus `width` relationship, as reflected by the larger point clouds in @fig-crabs-satell-width-weight-scatter that show more variability around the trend line and the band of 0 values along the horizontal axis. 
-
-
--->
 
 
 ## Case study: developmental disability support {#sec-developmental-disability}
 
+\index{data!dds.discr|(}
 
-*see source for comment about the analysis closer to 1ed*
-
-<!--
-
-The code for the more extended analysis can be found in unused_code.Rmd
-
--->
 
 ```{r}
 dds_reformat <- dds.discr |> 
@@ -1778,9 +1781,9 @@ dds_reformat <- dds.discr |>
 
 In the United States, individuals with developmental disabilities typically receive services and support from state governments. These disabilities are generally lifetime chronic conditions such as autism and cerebral palsy.  In California, funds are allocated to developmentally-disabled residents through the California Department of Developmental Services (DDS) and individuals receiving funds are referred to as ‘consumers’. California law specifies that no individual may be denied funds or services based on their ethnicity, age or gender.
 
-In the early 2000s, a team of researchers examined the mean annual expenditures on consumers by ethnicity and found that mean annual expenditures for Hispanic consumers were approximately one-third of that for White non-Hispanic consumers. This finding led to allegations of ethnic discrimination against the California DDS.
+In the early 2000s, a team of researchers examined the annual expenditures on consumers by ethnicity and found that mean annual expenditures for Hispanic consumers were approximately one-third of that for White non-Hispanic consumers. This finding led to allegations of ethnic discrimination against the California DDS.
 
-The dataset, `dds.discr`, from the R package `openintro`, represents a sample of 1,000 DDS consumers (out of a total population of approximately 250,000). It includes information on age, gender, ethnicity, and the amount of financial support provided per consumer by the DDS.^[The dataset is based on real attributes of consumers but has been altered to maintain privacy.] This dataset appears in @taylor2014simpson, which provides a similar but more detailed analysis than that presented here.
+The dataset, `dds.discr`, from the R package `openintro`, represents a sample of 1,000 DDS consumers (out of a total population of approximately 250,000). It includes information on age, gender, ethnicity, and the amount of financial support provided per consumer by the DDS.  ^[The dataset is based on real attributes of consumers but has been altered to maintain privacy.] The [`dds.dscr`](http://openintrostat.github.io/openintro/reference/dds.discr.html)  data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package. This dataset also appears in @taylor2014simpson, which provides a similar but more detailed analysis than that presented here.
 
 @tbl-dds-variables shows the definitions of the variables in the dataset.
 
@@ -1790,7 +1793,7 @@ The dataset, `dds.discr`, from the R package `openintro`, represents a sample of
 | age.cohort | Age in years in six categories: 0 - 5, 6 - 12, 13 - 17, 18 - 21, 22 - 50, and 51+ |
 | age | Age, measured in years |
 | gender | Gender, recorded as either Female or Male |
-| expenditures | Amount of expenditures spent by the State on an individual annually, measured in US dollars (USD) |
+| expenditures | Amount of expenditures spent annually by the State on an individual, measured in US dollars (USD) |
 | ethnicity | Ethnic group, recorded as either American Indian, Asian, Black, Hispanic, Multi Race, Native Hawaiian, Other, or White non-Hispanic |
 
 : Variable descriptions for `dds.discr`. {#tbl-dds-variables} {tbl-colwidths="[25,75]"}
@@ -1807,7 +1810,7 @@ ratio_eth <- round(100 * m_hisp/m_not_hisp, 1)
 ```
 
 
-Do the distributions of expenditures across ethnic groups suggest the possibility of ethnic bias, as claimed in the original assertion? The table @tbl-dds-exp-ethnicity-summ displays the mean and median expenditures (rounded to the nearest dollar) alongside the number of observations in each ethnic group. The mean expenditures vary significantly across groups.
+Do the distributions of expenditures across ethnic groups suggest the possibility of ethnic bias, as claimed in the original assertion? The table @tbl-dds-exp-ethnicity-summ displays the mean and median expenditures (rounded to the nearest dollar) alongside the number of observations in each ethnic group. The mean expenditures certainly vary across groups.
 
 Among groups with more than 100 observations, the largest discrepancy is between Hispanic and White non-Hispanic, with mean expenditures of \$`r comma(m_hisp)` and \$`r comma(m_not_hisp)`, respectively. Hispanic expenditures were `r ratio_eth`% of those for White non-Hispanics, suggesting the possibility of bias in funding.  This case study focuses on those two ethnic groups.
 
@@ -1839,9 +1842,7 @@ dds_reformat |>
   )
   
 ```
-Do these differences suggest ethnic discrimination, or might additional factors influence this apparent relationship? The data in @tbl-dds-exp-ethnicity-summ have been combined across the age categories of consumers, "lumping" the data into a single group for each ethnicity. When data are combined across levels of a categorical variable it is termed \index{aggregated data} **aggregated data**.  Data aggregated across age groups cannot show any relationship between age and expenditures.
-
-There is good reason to expect a strong relationship between age and funding levels. As consumers age, they are less likely to live with parents or guardians and more likely to require increased assistance for housing, food, and supportive care. The six levels in `age.cohort` were constructed with this progression in mind.
+Does this association between expenditures and ethnicity imply ethnic discrimination, or might additional factors influence this apparent relationship? There is good reason to expect a strong relationship between age and funding levels. As consumers age, they are less likely to live with parents or guardians and more likely to require increased assistance for housing, food, and supportive care. The six levels in `age.cohort` were constructed with this progression in mind.  The data in @tbl-dds-exp-ethnicity-summ have been combined across the age categories, "lumping" the data into a single group for each ethnicity. When data are combined across levels of a categorical variable it is termed \index{aggregated data} **aggregated data**.  Data aggregated across age groups cannot show any relationship between age and expenditures.
 
 The side-by-side box plots in @fig-dds-exp-age-boxplot show the strong, positive relationship between age category and expenditures in Hispanic and White non-Hispanic consumers.  Median expenditures gradually increase until age 17, then increase noticeably in the 18 - 21 age group, followed by larger increases in the last two categories, when consumers are more likely to be living in settings requiring additional financial support from the DDS. @tbl-dds-exp-age-summ shows the mean and median expenditures in each of the age categories.
 
@@ -1892,7 +1893,7 @@ dds_reformat |>
 
 
 
-California routinely records the age and ethnic distributions in its population and found that in 2007 --- the time these DDS data were analyzed --- Hispanics tended to be younger than White non-Hispanics. ^[The 2007 [California Current Population Survey Report](https://dof.ca.gov/wp-content/uploads/sites/352/Reports/Demographic_Reports/documents/CACPS07_final.pdf) reported that "The median age for all race/ethnic groups in California was 34, ranging from 41 for Whites to 27 for Hispanics".]
+California routinely records the age and ethnic distributions in its state population and found that in 2007 --- the time these DDS data were analyzed --- Hispanics tended to be younger than White non-Hispanics. ^[The 2007 [California Current Population Survey Report](https://dof.ca.gov/wp-content/uploads/sites/352/Reports/Demographic_Reports/documents/CACPS07_final.pdf) reported that "The median age for all race/ethnic groups in California was 34, ranging from 41 for Whites to 27 for Hispanics".]
 
 The bar plots in @fig-dds-eth-age-barplot show a similar relationship between age and ethnicity in the `dds.discr` data.  The dodged bar plot shows that up until age 21, fewer consumers in each age group are White non-Hispanic.  That trend reverses in the two age groups older than 22.  The relative frequency bar plot provides another view of this phenomenon -- increasing proportions of White non-Hispanic consumers across age groups, from approximately 27% in the 0 - 5 age group to more than 75% in the 51+ age group.
 
@@ -1950,7 +1951,7 @@ tot_bill_b_2 <- bill_young_1 * young_b + bill_old_1 * old_b
 ```
 
 
-Suppose a health care organization is being audited for the billing at its two urgent care clinics, Clinic A and Clinic B. The auditor finds that the average charge per patient at Clinic A is \$122.50 but is  \$102.50 at Clinic B. The auditor tells the CEO that the staff at Clinic A seems to be overcharging, in violation of federal and state law.  The auditor's data are based on a sample of 200 total visits evenly split between the 2 clinics.
+Suppose a health care organization is being audited for the billing at its two urgent care clinics, Clinic A and Clinic B. The auditor finds that the average charge per patient at Clinic A is \$122.50 but is  \$102.50 at Clinic B. The auditor tells the CEO that the staff at Clinic A seems to be overcharging, in violation of federal and state law.  
 
 The data analytics team at the organization notices that the auditor has not accounted for different patient age mix at the two clinics. Clinic A is located at its community hospital in the suburbs, while B is located in a pharmacy in the financial district.   The patients in the financial district location tend to work in the technology sector and be younger than those in the suburban location, and older patients tend to have more serious conditions.  For simplicity, assume that patients age 50 or older are billed \$125 for each visit; patients less than 50 are billed $100 per visit.
 
@@ -1959,10 +1960,10 @@ The auditor's data are based on a sample of 400 total visits to the two clinics,
 @tbl-simpson-billing-example summarizes the data and adds a two columns showing total and per patient billing for each clinic.
 
     
-| Clinic   | Patients $< 50$     | Patients $\ge 50$     | Total billing |  Per patient billing |
-| -------- | ------------------- | --------------------- | ------------- | -------------------- | 
-|  A       | 20                  | 180                   |    \$24,500   |    \$122.50         |
-|  B       | 180                  | 20                    |    \$20,500   |    \$102.50          |
+| Clinic   | Patients $< 50$ | Patients $\ge 50$ | Total billing |  Per patient billing |
+| -------- | ----------------| ----------------- | ------------- | -------------------- | 
+|  A       | 20               | 180              |    \$24,500   |    \$122.50         |
+|  B       | 180              | 20               |    \$20,500   |    \$102.50          |
 
 : Patient billing by clinic and age, hypothetical example {#tbl-simpson-billing-example} 
 
@@ -1970,9 +1971,9 @@ In clinic A, the total billing is (20)(100)  + (180)(125) = \$24,500, an average
 
 The auditor's calculations were correct, but Clinic A is not overcharging. By aggregating data across the two age groups the auditor failed to account for the different age distributions in the clinics.  Within each age group, Clinic A charges the same as B, but its total billing is larger because it treats older patients.  Age is a \index{confounding variable} **confounding variable** , a variable that is associated with both response and explanatory variables and influences the explanatory/response relationship.  Confounding variables are also called confounders.  If a potential confounder was not measured, it is sometimes called a \index{lurking variable} **lurking variable**.
 
-This particular example of a confounder illustrates \index{Simpson's Paradox} **Simpson's Paradox**, a setting in which an association observed in each of several groups may disappear or reverse direction once the groups are combined. Statistical terms, an association between two variables $X$ and $Y$ may disappear or reverse direction once data are partitioned into sub-populations based on a third variable $Z$. 
+This particular example of a confounder illustrates \index{Simpson's Paradox} **Simpson's Paradox**, a setting in which an association observed in each of several groups may disappear or reverse direction when the groups are combined. In statistical terms, an association between two variables $X$ and $Y$ may disappear or reverse direction once data are partitioned into sub-populations based on a third variable $Z$. 
 
-The clinic billing example also  illustrates the difference between a observed association and a causal relationship.  Based on the association between clinic and average billing, the auditor mistakenly concluded that clinic staff were the cause of the differential billing.  Instead, the different age distributions at the two clinics was the cause.
+The clinic billing example also illustrates the important distinction between an observed association and a causal relationship.  Based on the association between clinic and average billing, the auditor mistakenly concluded that clinic staff were the cause of the differential billing.  Instead, the different age distributions at the two clinics were the cause.
 
 
 ```{r}
@@ -2031,7 +2032,7 @@ A similar calculation for Clinic B shows
          &= (0.90)(100) + (0.10)(125).
 \end{align*}
 
-Both calculations are \index{weighted averages} **weighted averages**, calculations in which values are averaged after multiplying by weights rather than simply added then divided by the number of values (i.e., multiplied by the reciprocal of the number of values).  Clinic A has a smaller weight than B for the \$100 charge and a larger weight for the \$125 charge.  When the data are not partitioned by age, per patient average charges are weighted averaged across the categories of age.  Age is affecting the average even when not used explicitly in the analysis.
+Both calculations are \index{weighted averages} **weighted averages**, calculations in which values are averaged after multiplying by weights rather than simply added then divided by the number of values (i.e., multiplied by the reciprocal of the number of values).  Clinic A has a smaller weight than B for the \$100 charge and a larger weight for the \$125 charge.  When the data are not partitioned by age, per patient average charges are weighted averages across the categories of age.  Age is affecting the average even when not used explicitly in the analysis.
 
 ```{r }
 #| include: false
@@ -2046,7 +2047,7 @@ terms_chp_1 <- c(terms_chp_1, c("weighted average",
 
 
 ::: {.workedexample data-latex=""}
-Simpson's Paradox can create even more surprising results.  Suppose that the staff at Clinic A is more efficient than that at B, so that billing per patient in each age category are less in A than in B.  Specifically, assume that Clinic A staff bill \$90 for a patient less than 50 years old, and \$115 per patient for older patients, instead of the \$100 and \$125 in B.  Show that even though its billing is less than that in Clinic B for each age group, its overall average charge per patient is larger.
+Simpson's Paradox can create even more surprising results.  Suppose that the staff at Clinic A is more efficient than that at B, so that billing per patient in each age category is less in A than in B.  Specifically, assume that Clinic A staff bill \$90 for a patient less than 50 years old, and \$115 per patient for older patients, instead of the \$100 and \$125 in B.  Show that even though its billing is less than that in Clinic B for each age group, its overall average charge per patient is larger.
 
 ------------------------------------------------------------------------
 
@@ -2133,7 +2134,7 @@ The weights for the youngest four cohorts, which have lower expenditures, are hi
 
 :::
 
-The role of the confounding variable age cohort in the `dds.dscr` is shown graphically in @fig-dds-age-ethnicity-confounding. ^[In the first edition, age cohort was incorrectly labeled a confounder.]
+The role of the confounding variable age cohort in the `dds.dscr` is shown graphically in @fig-dds-age-ethnicity-confounding. 
 
 ```{r}
 #| label: fig-dds-age-ethnicity-confounding
@@ -2175,9 +2176,17 @@ text(0.595, 0.565, "?",
 par(par_og) # restore original par
 ```
 
+\index{data!dds.discr|)}
+
 ## Chapter review {#sec-chp1-review}
 
+
+
 ### Summary
+
+This chapter introduced important concepts in summarizing data numerically and graphically, both for individual variables and for relationships between variables.  The appropriate methods for summarizing data depend on the data type.  Categorical variables are summarized in tables and bar plots.  With numerical variables, summary statistics such as the mean or median characterize the center of a distribution; standard deviations and interquartile ranges are used to characterize its spread.  Beeswarm plots, box plots, violin plots, histograms and density plots all provide visual displays of the distributions of numerical variables.  These fundamental ways of exploring distributions will be used in many ways throughout the remaining chapters.
+
+The relationship or association between two variables can be summarized in contingency tables (two categorical variables), side-by-side box or violin plots (one categorical and one continuous variable), or scatterplots (two continuous variables).  It is important to distinguish between simple associations and causal relationships.  Most relationships observed in data are simple associations; studies designed to establish causal relationships are examined in @sec-collecting-data.
 
 
 ### Terms

@@ -103,6 +103,34 @@ plot_data <- mort_ed_owd |>
   drop_na(c_mortality, f_education) |> 
   dplyr::filter(Code != "" ) |> 
   dplyr::filter(Entity != "World")
- 
+
+#violin plots in dds
+#
+
+dds_reformat |> 
+  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
+  ggplot(aes(
+    y = expenditures, 
+    x = age.cohort)) +
+  geom_violin(alpha = 0.5) +
+  labs(y = "Expenditures (USD)", x = "Age catetory") +
+  stat_summary(fun.min = function(x) quantile(x, 0.25), 
+               fun.max = function(x) quantile(x, 0.75), 
+               geom = "linerange", color = "black", linewidth = 1.2) +
+  stat_summary(fun = median, geom = "point", color = "red", size = 3) 
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
 
 
