@@ -1733,7 +1733,7 @@ ggplot(df_cc, aes(x = gni_percap, y = infant_mortality_rate)) +
 
 ### More than two variables {#sec-relationships-more-than-two-variables}
 
-The previous sections introduced some standard graphs for summarizing the relationship between two variables a time: bar plots, side-by-side box and violin plots, and scatterplots. However, a key aspect statistical thinking is multivariate thinking; in other words, exploring how numerous factors contribute to an outcome. Visualizing such relationships will often require going beyond the standard named graphs.
+The previous sections introduced some standard graphs for summarizing the relationship between two variables a time: bar plots, side-by-side box and violin plots, and scatterplots. However, a key aspect of statistical thinking is multivariate thinking; in other words, exploring how numerous factors contribute to an outcome. Visualizing such relationships will require going beyond the standard named graphs.
 
 @fig-nyt-megadrought-history is from a [*New York Times* data story](https://www.nytimes.com/interactive/2022/07/20/opinion/ancient-trees-climate-change.html) examining climate extremes based on data collected from the rings of living trees and architectural wooden beams in the American Southwest. Compelling data visualizations often incorporate information from several variables and may not necessarily look like one of the plots previously discussed in this chapter.
 
@@ -1747,8 +1747,140 @@ The previous sections introduced some standard graphs for summarizing the relati
 knitr::include_graphics("images/nyt_megadrought_history.png")
 ```
 
+Rather than attempt to identify all data visualizations by a specific name (e.g., scatterplot), the statistician Leland Wilkinson proposed a grammar of graphics: a structured language for describing and producing any statistical graphic. Since the publishing of the first edition of *The Grammar of Graphics* in 1991, the grammar of graphics has been implemented in several statistical languages such as in `R` with Hadley Wickham's `ggplot2` package. 
 
+According to the grammar of graphics, all data visualizations are built out of the following main components:
 
+  * The data (i.e., a data frame containing the raw data)
+  
+  * Geometric objects that visually represent the data, such as bars, points, etc.
+  
+  * Aesthetic mappings which specify how variables in the data are mapped to aesthetic features (such as color, size, position, etc.) of the geometric representations
+  
+Decomposing a visualization with the grammar of graphics can be instructive for interpreting complex graphics that involve several variables.
+
+At first glance, @fig-nyt-megadrought-history doesn't appear to be one of the standard graphs. However, closer examination reveals that this visualization is similar to a relative frequency bar plot in which the bars are pushed together to form a contiguous pattern. According to the grammar of graphics, the geometric objects in this figure used to represent the data are bars. How are variables being mapped to the aesthetic features of the bars?
+
+  * There are three variables: year, percentage of land, and soil moisture percentile.
+  
+  * Year is mapped to the $x$-position; a bar on the right side of the graph corresponds to a larger value of year than a bar on the left side.
+  
+  * Percentage of land is mapped to the $y$-position; the height of a colored bar will be taller to indicate a higher value for proportion of land. For example, around the year 2000, the height of the dark green segments is very tall, indicating that this time, a majority of the soil had a moisture percentile falling into the dark green "wettest" category. 
+  
+  * Soil moisture percentile is mapped to color. Although soil moisture percentile is a numerical value, it is expressed on the graph as a categorical variable with six colors. The legend indicates that the cut points for the variable are at the 5th percentile, 25th percentile, 50th percentile, 75th percentile, and 95th percentile. Lower moisture percentiles are associated with brown and dark brown shades, while high moisture percentiles are associated with green and dark green shades. This is an example of a **diverging** \index{diverging} color palette, which uses two contrasting colors with more neutral shades in the center; this type of palette is useful for visualizing data in which both extreme low and extreme high values are of interest.
+  
+Thus, for a particular year, the distribution of color shows whether a drought was occurring; for example, years in which the bars are mainly a brown shade indicate that the soil was unusually dry. Examining how the color patterns change from left to right gives a sense of how soil moisture has changed over hundreds of years in the American Southwest.
+
+<!---
+
+Need to cite this paper: Dieleman JL, Beauchamp M, Crosby SW, et al. Tracking US Health Care Spending by Health Condition and County. JAMA. Published online February 14, 2025. doi:10.1001/jama.2024.26790
+
+--->
+
+@fig-jama-healthcare-spending is from an observational study conducted to examine which health conditions, types of care, and counties are associated with the highest levels of health care spending in the United States. While @fig-nyt-megadrought-history and this figure look quite different from each other, both use bars as the geometric objects.
+
+  * There are four variables: amount of health care spending, age group, sex, payer
+  
+  * Amount of health care spending is mapped to the $x$-position (i.e., determines the length of a bar), age group is mapped to the $y$-position (i.e. determines whether a bar is closer to the top or bottom of the graph), and color is mapped to payer.
+  
+  * Payer indicates whether the health care expenses are being paid by Medicare, Medicaid, private insurance, or by the individual incurring the expenses (i.e., out of pocket). This graph uses a **qualitative** \index{qualitative} color palette; distinct hues are used in order to avoid expressing a notion of order. Qualitative palettes are appropriate for nominal categorical data.
+  
+  * This visualization is **faceted** \index{facet} by sex; i.e., there is one bar graph for data on males and one bar graph for data on females. Faceting generates multiple graphs that each show a different subset of the data. 
+
+```{r}
+#| label: fig-jama-healthcare-spending
+#| out-width: 96%
+#| fig-cap: |
+#|   Example of a data visualization incorporating information from more
+#|   than two variables: health care spending, age, sex, and payer
+#| fig-pos: H
+knitr::include_graphics("images/jama_spending_a.png")
+```
+
+@fig-jama-healthcare-spending shows a number of relationships between health care spending, sex, age, and payer. Health care spending generally increases with age group, with the most spending occurring between ages 65 - 75 years regardless of sex and decreasing with subsequent age groups. Starting at age 65 years, Medicare accounts for the majority of health care spending. For the most part, spending patterns are similar for males and females, as seen by the approximate symmetry of the two bar graphs; there are some small differences, such as the approximately \$20 billion higher spending for females between the ages of 30 and 45 relative to males in the same age group, which is likely due to health care costs associated with childbirth. 
+
+::: {.guidedpractice data-latex=""}
+Identify the geometric object(s) and the variable mappings in @fig-trees-carbon-height-type. What type of color palette is being used?[^intro-to-data-14]
+:::
+
+[^intro-to-data-14]: The data are being represented by points. Tree height is mapped to $x$-position, amount of carbon sequestered is mapped to $y$-position, and functional type is mapped to color. A qualitative color palette is being used.
+
+Opportunity Insights is a research initiative based at Harvard University and led by Raj Chetty, John Friedman, and Nathaniel Hendren, with the goal of improving upward mobility in the United States by studying barriers to economic opportunity and translating findings into policy change.\footnote{https://opportunityinsights.org/} As part of a 2017 study to understand the effect of the higher education system on upward mobility, Chetty et al. constructed an anonymized dataset covering all college students in the United States from 1999 - 2013 (30 million students) that includes parental income distributions and student earnings outcomes by college. Monetary values are measured in 2015 dollars; i.e. adjusted for inflation to 2015 dollars. These data are in the `openintro` data package as the `opp_insights_college` dataset.
+
+Chetty et al. were particularly interested in characterizing colleges' mobility rates---at which colleges do the largest number of children come from poor families and end up in the upper middle class? They defined a college's mobility rate as the percentage of students with parents in the bottom income quintile who ended up in the top $x$% (in their mid-30s). The variable `mr_kq5_pq1` refers to the percentage of students with parents in the bottom income quintile who ended up in the top income quintile (i.e., top 20\%).
+
+@fig-opp-insights-mobility shows data on the ten schools in each selectivity tier that have the highest mobility rate, out of the four-year private and public non-profit colleges with enrollment higher than 2,000 students. Each college is represented by a point. Mobility rate (`mr_kq5_pq1`) is mapped to the $y$-position, annual cost of attendance for the bottom quintile (i.e., cost of attendance for students in the bottom income quintile after accounting for financial aid) is mapped to the $x$-position, selectivity tier is mapped to color, and instructional expenditures per capita is mapped to size. 
+
+As recorded in the data, school tier is an ordinal categorical variable. Schools are ranked based on how selective a school is; schools that admit a smaller percentage of applicants are more selective. The Ivy Plus schools are the most selective. The selectivity tiers are Ivy Plus, Other elite schools, Highly selective, Selective, and Nonselective. A **sequential** \index{sequential} color palette is used to express ordering; the progression of colors from light to dark implies ordering, unlike the use of different hues in a qualitative palette. 
+
+```{r, message = F}
+#| label: fig-opp-insights-mobility
+#| fig-cap: Relationship between upward mobility, cost of attendance for the bottom quintile, and school tier
+#| fig-width: 8.5
+#| fig-height: 11
+#| fig-asp: 1.5
+
+data("opp_insights_colleges")
+
+tab <- opp_insights_colleges |>
+  filter(ipeds_enrollment_2013 > 2000,
+         type != "for-profit",
+         tier_name != "Two-year (public and private not-for-profit)") |>
+  mutate(tier_name = droplevels(tier_name)) |>
+  mutate(tier_name = case_when(
+    tier_name == "Ivy Plus" ~ "Ivy Plus",
+    tier_name == "Other elite schools (private and public)" ~ "Other elite schools",
+    tier_name %in% c("Highly selective public", "Highly selective private") ~ "Highly selective",
+    tier_name %in% c("Selective public", "Selective private") ~ "Selective",
+  tier_name %in% c("Nonselective 4-year public", "Nonselective 4-year private") ~ "Nonselective"
+  )) |>
+  mutate(tier_name = fct_relevel(tier_name, 
+                                 "Ivy Plus", "Other elite schools",
+                                 "Highly selective", "Selective")) |>
+  group_by(tier_name) |>
+  slice_max(mr_kq5_pq1, n = 10) |>
+  select(name, tier_name, mr_kq5_pq1, 
+         scorecard_netprice_2013, exp_instr_pc_2013) |>
+  arrange(desc(exp_instr_pc_2013))
+
+#using colorRampPalette 
+#only take the 3rd - 9th colors in the palette
+library(RColorBrewer)
+BuPu <- brewer.pal(9, "BuPu")[3:9]
+BuPu_custom <- colorRampPalette(BuPu)(5)
+
+tab |>
+  ggplot(aes(x = scorecard_netprice_2013, y = mr_kq5_pq1,
+             col = tier_name, size = exp_instr_pc_2013)) +
+  geom_point(alpha = 0.70) +
+  #scale_color_viridis(discrete = TRUE, option = "plasma") +
+  #scale_color_brewer(type = "seq", palette = "BuPu", direction = -1) +
+  scale_color_manual(values = BuPu_custom) +
+  #scale_color_manual(values = colors) +
+  labs(color = "Tier Name",
+       size = "Instructional Expenditures Per Capita",
+       y = "Mobility Rate (KQ5)",
+       x = "Annual Cost of Attendance for Bottom Quintile (USD)") +
+  theme(legend.position = "bottom", legend.box = "vertical") +
+  guides(color = guide_legend(nrow = 2)) +
+  geom_text_repel(aes(label = name), size = 3, show.legend = FALSE,
+                  max.overlaps = Inf)
+```
+Unlike for some of the scatterplots shown earlier in this chapter, the points in @fig-opp-insights-mobility do not show an obvious pattern; i.e., a simple line or curve cannot be fit to these data. Indeed, relationships between variables often require a more thorough explanation than briefly being described as positive or negative.
+
+There is not a clear association between mobility rate and annual cost of attendance for low-income students, in the sense that knowing a school's cost of attendance isn't fully informative for predicting whether the school has a relatively high or low mobility rate. For example, on the right side of the graph with annual cost of attendance for the bottom quintile of almost \$30,000 are MCPHS University and Rose-Hulman Institute of Technology. While MCPHS University has a high mobility rate of almost 10\%, Rose-Hulman Institute of Technology has a mobility rate of less than 2.5\%.
+
+Notably, there is a cluster of selective schools (CUNY colleges) that have moderate instructional expenditures per student but unusually high mobility rates of around 10\% and higher, for which the cost of attendance is less than \$10,000. The Ivy Plus schools also cluster together and have some of the lowest annual costs of attendance in combination with the highest instructional expenditures per capita, but they tend to have a lower mobility rate (under 2.5\%) than the schools in other tiers.
+
+```{r }
+#| include: false
+terms_chp_1 <- c(terms_chp_1, c("diverging",
+                                "qualitative",
+                                "facet",
+                                "sequential")
+                 )
+```  
+  
 ## Case study: developmental disability support {#sec-developmental-disability}
 
 \index{data!dds.discr|(}
