@@ -1777,7 +1777,7 @@ Need to cite this paper: Dieleman JL, Beauchamp M, Crosby SW, et al. Tracking US
 
 --->
 
-@fig-jama-healthcare-spending is from an observational study conducted to examine which health conditions, types of care, and counties are associated with the highest levels of health care spending in the United States. While @fig-nyt-megadrought-history and this figure look quite different from each other, both use bars as the geometric objects.
+@fig-jama-healthcare-spending is from an observational study conducted to examine which health conditions, types of care, and counties are associated with the highest levels of health care spending in the United States [@dieleman2015tracking]. While @fig-nyt-megadrought-history and this figure look quite different from each other, both use bars as the geometric objects.
 
   * There are four variables: amount of health care spending, age group, sex, payer
   

@@ -15,7 +15,7 @@ Reorganize
 
 **Somerville, MA.** Starting in 2011, city officials in Somerville MA city officials started measuring residents' overall happiness and satisfaction with many aspects of life in Somerville; their goal was to become the first city in the United States to systematically track people's happiness. The Happiness Survey is an initiative of the Mayor's Office of Analytics and Innovation (SomerStat)[https://www.somervillema.gov/departments/mayors-office/somerstat] and has the goal of supporting the local government's understanding of the quality of life in Somerville. 
 
-The happiness survey is sent out every two years to a random sample of Somerville households, with the instruction that each survey should be filled out by one person. The survey asks residents to rate their personal happiness, well-being, and satisfaction with City services. The combined dataset from 2011 to 2019 includes 1,534 responses to many times, a few of which are listed below.  The full dataset including the most recent data can be found at the (Somerville open data portal)[https://data.somervillema.gov/?sortBy=relevance&page=1&pageSize=20]. 
+The happiness survey is sent out every two years to a random sample of Somerville households, with the instruction that each survey should be filled out by one person. The survey asks residents to rate their personal happiness, well-being, and satisfaction with City services. The combined dataset from 2011 to 2019 includes 1,534 responses to many items, a few of which are listed below.  The full dataset including the most recent data can be found at the (Somerville open data portal)[https://data.somervillema.gov/?sortBy=relevance&page=1&pageSize=20]. 
 
 
   * `year`: year that response was collected

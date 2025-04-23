@@ -17,7 +17,10 @@ terms_chp_1 <- c("data")
 
 
 
-## Case study: Preventing peanut allergies {#sec-case-study-preventing-peanut-allergies}
+
+## Randomized experiments {#sec-randomized-experiments}
+
+### Case study: Preventing peanut allergies {#sec-case-study-preventing-peanut-allergies}
 
 \index{data!LEAP|(}
 
@@ -25,7 +28,7 @@ Is there an effective way to prevent peanut allergies in young children?
 
 The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years. Some studies have suggested that exposing infants to peanut-based foods, rather than excluding those foods from their diets, may help prevent peanut allergies (see @du2008early). The "Learning Early about Peanut Allergy" (LEAP) ^[@du2015randomized] study was conducted in a controlled setting to investigate whether early exposure to peanut products reduces the likelihood of developing a peanut allergy.
 
-The study team enrolled children in the United Kingdom between 2006 and 2009, selecting  640 infants between  4  and  11  months old who had eczema, an egg allergy, or both. Each child was randomly assigned to one of two groups: the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams of peanut protein daily until 5 years of age, while children in the control group avoided peanut protein during the same period.  Each child was administered a skin test for a peanut allergy at the time of random assignment.  The outcome of the test was recorded, but children with either outcome (positive or negative) were enrolled
+The study team enrolled children in the United Kingdom between 2006 and 2009, selecting  640 infants between  4  and  11  months old who had eczema, an egg allergy, or both. Each child was randomly assigned to one of two groups: the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams (g) of peanut protein daily until 5 years of age, while children in the control group avoided peanut protein during the same period.  Each child was administered a skin test for a peanut allergy at the time of random assignment.  The outcome of the test was recorded, but children with either outcome (positive or negative) were enrolled
 
 At age 5, each child underwent a peanut allergy test using an oral food challenge (OFC), which involved consuming 5 grams of peanut protein in a single dose. If a child showed no allergic reaction, the outcome was labeled a PASS; if the child exhibited an allergic reaction, the outcome was recorded as a FAIL.
 
@@ -102,19 +105,19 @@ terms_chp_1 <- c("data",
 ```
 \index{data!LEAP|)}
 
-## Randomized experiments {#sec-randomized-experiments}
+### Principles of experimental design {#sec-priniciples-of-experimental-design}
 
-One major role of statistics in medical research is exploring the effectiveness of interventions. In statistical terms, this means establishing a causal association between an intervention and a response.  Randomized experiments are the most reliable way to establish causality.
+Two of the major goals of any study based on data are eliminating bias and minimizing uncertainty. \index{bias} **Bias** in a is a systematic error that causes observed results to deviate from the true phenomenon being studied, and \index{uncertainty} is the natural by product of chance variation.   One major role of statistics in medical research is exploring the effectiveness of interventions. In statistical terms, this means estimating without bias a causal association between an intervention and a respons with sufficient precision to make the observed association useful. [^Numerical measures of uncertainty are discussed in @sec-inference-foundations] Randomized experiments are the most reliable way to meet these goals.
 
-LEAP was a designed  experiment to evaluate the effectiveness of peanut consumption in reducing the likelihood of a child to develop a peanut allergy.  Like all good studies, it was based on a specific research question: does peanut consumption reduce the likelihood of a peanut allergy compared to peanut avoidance.  In addition, it included a specification of the response variable:  the outcome to an oral food challenge at age 5.   Equally importantly, the study design of was based on the four main principles of experimental design: control, randomization, replication and blocking.  
+LEAP was a designed  experiment to evaluate the effectiveness of peanut consumption in reducing the likelihood of a child to develop a peanut allergy.  Like all good studies, it was based on a specific research question: does peanut consumption reduce the likelihood of a peanut allergy compared to peanut avoidance.  In addition, it included a specification of the response variable:  the outcome to an oral food challenge at age 5.   Equally importantly, the study design of was based on four main principles of experimental design: control, randomization, replication and blocking.  
 
-1. **Control**  When selecting participants for a study, researchers \index{control} **control** for extraneous variables and choose a sample of participants that is representative of the population of interest. For example, participation in a study might be restricted to individuals who have a condition that suggests they may benefit from the intervention being tested. Infants enrolled in the LEAP study were required to be between 4 and 11 months of age, with severe eczema and/or allergies to eggs.  The infants in the consumption group were fed at least 6gms of peanut protein per week.
+1. **Control**  When selecting participants for a study, researchers \index{control} **control** for extraneous variables and choose a sample of participants that is representative of the population of interest. For example, participation in a study might be restricted to individuals who have a condition that suggests they may benefit from the intervention being tested. Infants enrolled in the LEAP study were required to be between 4 and 11 months of age, with severe eczema and/or allergies to eggs.  The infants in the consumption group were fed at least 6g of peanut protein per week. 
 
-2. **Randomization** Randomly assigning patients to treatment groups ensures that the distribution of a potential confounders should (on average) be the same in the in the groups.  In this case the treatment groups are said to be balanced (on average) with respect to both known and unknown variables.    For example, randomization in the LEAP study ensures that the proportion of males to females is approximately the same in both groups. Additionally, perhaps some infants were more susceptible to peanut allergy because of an undetected genetic condition; under randomization, it is reasonable to assume that such infants were present in approximately equal numbers in both groups. By eliminating confounding, the treatments received is the only systematic difference between the two groups and differences in outcome between the groups can  be reasonably attributed to the treatment.  In LEAP infants were randomly assigned to one of two treatment groups, but randomization is also used when comparing more that two interventions.
+2. **Randomization** Randomly assigning patients to treatment groups ensures that the distribution of a potential confounders should (on average) be the same in the in the groups.  In this case the treatment groups are said to be balanced (on average) with respect to both known and unknown variables.    For example, randomization in the LEAP study ensures that the proportion of males to females is approximately the same in both groups. Additionally, perhaps some infants were more susceptible to peanut allergy because of an undetected genetic condition; under randomization, it is reasonable to assume that such infants were present in approximately equal numbers in both groups. By eliminating confounding, the treatments received is the only systematic difference between the two groups and differences in outcome between the groups can  be reasonably attributed to the treatment. Without that balance, confounding could lead to biased conclusions about causality. In LEAP infants were randomly assigned to one of two treatment groups, but randomization is also used when comparing more that two interventions.
 
 Random assignment of the intervention is not guaranteed to balance the groups perfectly.  Chance variation in the random assignments can in rare instances produce large differences in the distribution of a confounder in the intervention groups.  When a potential confounder has been measured that should be noted.  When a potential confounder has not been measured and the lack of balance is not evident, one simply trusts the randomization.
 
-3. **Replication** The results of a study conducted on a larger number of cases are more reliable than in smaller studies.  In a single study, \index{replication} **replication** is accomplished by collecting a sufficiently large sample. The LEAP study randomized a total of 640 infants.
+3. **Replication** The results of a study conducted on a larger number of cases are more reliable than in smaller studies.  In a single study, \index{replication} **replication** is accomplished by collecting a sufficiently large sample, and reduces uncertainty in the conclusions. The LEAP study randomized a total of 640 infants.
 
 4. **Blocking** Experiments use \index{blocking} **blocking** when there are a small number of variables other than the intervention may have an important on influence the response. Participants are grouped into \term{blocks} according to certain attributes and then randomized to treatment group within each block. This aspect of a design is also referred to as \index{stratifying} **stratifying**. The LEAP study team stratified infants into two cohorts based on the outcome of the skin test at enrollment: the presence or absence of a red, swollen mark (a wheal).  Infants were then randomized between peanut consumption and avoidance groups within each block. 
 
@@ -122,14 +125,13 @@ Random assignment of the intervention is not guaranteed to balance the groups pe
 
 ![Design of the LEAP study](./images/leapBlocking.png){#fig-leap-design width=60%}
 
-*Find a biology experiment better than Kim*
 
 There are important additional features in the design of experiments present with human subjects.
 
-**Consent** Nearly all countries require that human subjects participating in a clinical trial be informed about the goals of the study, as well as its potential benefit or harm, and sign an informed consent acknowledging agreement to participate.  In the United States this requirement is monitored by 
+  - **Consent** Nearly all countries require that human subjects participating in a clinical trial be informed about the goals of the study, as well as its potential benefit or harm, and sign an informed consent acknowledging agreement to participate.  In the United States this requirement is monitored by 
 [The Food and Drug Administration](https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-50) and  [The Department of Health and Human Services](https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46).  There are rare exceptions to this requirement.
 
-**Blinding**.  Knowledge of the treatment assigned to a participant can effect the assessment of the response.  If, for instance, a participant knows they are receiving an experimental treatment for depression, they may be more likely to report the treatment is working. To prevent this, participants are usually not told their treatment assignment and the study is said to be \index{blind} **blind**.  To maintain the blind, one of the treatments might be a \index{placebo} **placebo**, an inert substance administered the same way as the experimental treatment.  In chronic diseases where it is not ethical to treat a participant in a trial, a current standard treatment is used instead of a placebo.  
+  - **Blinding**  Knowledge of the treatment assigned to a participant can effect the assessment of the response.  If, for instance, a participant knows they are receiving an experimental treatment for depression, they may be more likely to report the treatment is working. To prevent this, participants are usually not told their treatment assignment and the study is said to be \index{blind} **blind**.  To maintain the blind, one of the treatments might be a \index{placebo} **placebo**, an inert substance administered the same way as the experimental treatment.  In chronic diseases where it is not ethical to treat a participant in a trial, a current standard treatment is used instead of a placebo.  
 
 When researchers administering the treatment or assessing the response might be affected by knowing the treatment, they are also blinded to the treatment.  For instance, a psychiatrist might assess a participants depression differently if the clinician is aware the participant is being given an experimental treatment.  Studies in which both the participant and members of the research team are not told the assigned treatment are called \index{double blind} **double blind**.
 
@@ -183,11 +185,21 @@ Consent:  Each PA should be informed that they are participating in an experimen
 
 :::
 
-These principles have been used studies that have changed the practice of medicine and to shape public policy.  The Salk vaccine trials ^[@francis1955evaluation; @meier1972biggest] conducted in 1954 - 1955 established that the vaccine was effective at preventing polio based on the results of 401,974 children randomized the the vaccine versus a placebo.  More recently, a study of 42,548 participants established the efficacy of the BNT162b2 mRNA Covid-19 vaccine ^[@polack2020safety]. Small studies can be effective as well.  A 1994 study ^[@connor1994hiv] of 477 women showed  that the drug AZT was effective in reducing the rate of mother to child transmission to when HIV-infected women gave birth and changed the treatment of pregnant, HIV-positive women worldwide.
+These principles have been used studies that have changed the practice of medicine and to shape public policy.  The Salk vaccine trials [@francis1955evaluation; @meier1972biggest] conducted in 1954 - 1955 established that the vaccine was effective at preventing polio based on the results of 401,974 children randomized the the vaccine versus a placebo. The long term effect of the vaccine trials has been substantial.   @fig-polio-vaccine-owid from Our World in Data shows the decrease in the number of people paralyzed from the polio virus between 1980 and 2020 after the world wide adoption of the vaccine.
 
-Not all experiments are randomized.  In the initial stages of studying a pharmaceutical intervention in a disease, a relatively small number of participants are given the intervention to explore whether it is safe to administer.  
+```{r}
+#| label: fig-polio-vaccine-owid
+#| out-width: 96%
+#| fig-cap: |
+#| fig-asp: 1.0
+#| fig-pos: H
+knitr::include_graphics("images/Polio-cases-over-time-by-world-region.jpg")
+```
 
-**Need example of non-randomized controlled experiments**
+
+More recently, a study of 42,548 participants established the efficacy of the BNT162b2 mRNA Covid-19 vaccine [@polack2020safety]. Small studies can be effective as well.  A 1994 study [@connor1994hiv] of 477 women showed  that the drug AZT was effective in reducing the rate of mother to child transmission to when HIV-infected women gave birth and changed the treatment of pregnant, HIV-positive women worldwide.
+
+Not all controlled experiments are randomized.  In the initial stages of studying a pharmaceutical intervention in a disease, a relatively small number of participants are given the intervention to explore whether it is safe to administer.  Designs for those studies are not discussed in this text.
 
 
 <!-- outline for observational studies 
@@ -248,9 +260,373 @@ Perhaps we should focus on evaluating an observational study
 
 ## Observational studies {#sec-observational-studies}
 
-## Sampling from a population {#sec-sampling-populations}
+### Example: the precursor to LEAP
 
-## Sample Surveys {#sec-sample-surveys}
+LEAP was not conducted in a vacuum; it would not have been ethical to randomize infants prone to allergies to a diet of peanut consumption without prior data suggesting the strategy might be effective.  LEAP was preceded by several studies, including one in which investigators compared diets and the presence of peanut allergies in the United Kingdom (UK) versus Israel [@du2008early]. In its data, the study team found that 1.85\% of UK children had peanut allergies compared to 0.17\% in Israel. Yet median monthly consumption of peanut in Israeli infants aged 8 to 14 months is 7.1 g of peanut protein, and it is 0 g in the UK. There was a strong negative association between peanut consumption and the prevalence of peanut allergies.
+
+The 2008 Du Toit study was an \index{observational study} **observational study**, one in which potential explanatory variables for a response are simply recorded and not assigned using randomization or other mechanisms.  Without the benefit of randomization observational studies cannot be guaranteed to free of confounders, so causal effects cannot be claimed for observed associations. ^[Advanced courses in statistics cover methods for causal conclusions in observational data.]  Nevertheless, well-designed observational studies can be important to justify a subsequent randomized experiment, or even essential when a randomized study cannot be done, such as a study of the health effects of air pollution.
+
+Observational studies can be based on either newly collected data or existing datasets.  The 2008  study used questionnaires to collect data on diet and peanut allergies in UK and Israeli school children.  The case study in @sec-developmental-disability examining the association between expenditures and race of a consumer was an observational study using the existing California DDS data.  
+
+### Guidelines for designing observational studies {#sec-observational-studies-guidelines}
+
+As in randomized experiments, observational studies should be based on a specific question about a response and potential explanatory variables.  The important principles for the design of observational studies are similar to those for experiments, but with some important modifications.
+
+1. **Control**  Control in the design of an observational study is similar to control in an experiment.  The study data should be restricted to the population of interest.  The Du Toit study recorded peanut allergies in questionnaires given to primary and secondary school children in Jewish schools in greater London and schools in Tel Aviv, Israel.  The two populations were chosen because an assumed similar genetic makeup.  Children completing the allergy questionnaire lived in similar environments: north London in the UK and in a specific region of Tel Aviv (the Mehoz Merkaz Region).  The dietary questionnaire was administered to Israeli parents of infants age 14 - 24 months. In the UK clinical guidelines recommend the avoidance of peanut products during infancy, so no questionnaire was needed. 
+
+2. **Recording confounders**  Since randomization will not be used to balance (on average) potential confounders across levels of explanatory, it is important to consider in advance which confounders should either be measured or used in an existing dataset. The study team in UK/Israeli peanut allergy study recorded the age and sex of the participating primary school children as well as the presence of egg/milk allergies.  
+
+3. **Replication**  Larger datasets are always better than smaller ones, so observational data should contain enough measurements on the response and explanatory variables to allow sufficient analyses.
+
+4. **Stratification**  Stratifying a population into relatively homogeneous groups reduces variability and may lead to more interpretable results. The Du Toit study did not stratify during data collection but did analyze the results from primary school children separately. The apparent strong relationship between expenditures and consumer race disappeared when the consumer population was stratified by age.  The Portland tree inventory project stratified is data collection by classifying the trees as street versus park trees.  
+
+Even the best designed observational studies cannot study causal relationships since there will almost always be unmeasured confounders, but they do lead to more reliable estimates of observed associations, so the interpretation of an observational study is particularly important.  Even though the Du Toit study observed a prevalence of peanut allergies  that was more than 10-fold higher in when comparing countries with different diets (1.85% vs 0.17%) the authors of the article reporting the study noted "Our study ﬁndings raise the question of whether early introduction rather than avoidance of peanut in infancy is the better strategy for the prevention of peanut allergy".
+
+::: {.workedexample data-latex=""}
+
+Suppose a clinical team wants to study the association between a patient's primary language and their ability to adhere to a particularly complicated oral medicine.   Assume that the team has access to records from the clinic that include the primary language spoken and other demographic factors, as  well as the result of follow-up visits that assessed patients' self-reported success in taking the medicine.  Outline how the principles of observational studies be used in this setting.
+
+----------------------------
+
+The outline below is one of many ways this study could be designed. 
+
+The specific question is whether the primary language spoken by a patient is associated with  medication adherence. Since the major difference in adherence is likely to be whether English is a patient's primary language, for simplicity the explanatory variable could simply be whether or not English is a second language for the patient.  The response can be an indication in the medical record of successful adherence to a particular medication, such as an oral diabetes drug.  It obviously is not possible to randomly assign patients to a primary language, so this question cannot be studied in a randomized experiment.
+
+1.  **Control**  To limit sources of variability, participants could be drawn from a specific age range, such as patients age between 40 and 60 who  have recently moved to the United States.  The primary language spoken could be limited to the three most common languages spoken as a primary language.  English should be included as a comparison group.  The medication chosen should be one that in the clinic staff experience sometimes leads to confusion about dosing.  It would be best to choose a medication where adherence can be by a method other than self-report, such as glucose levels for an oral diabetes medication or blood pressure readings in patients taking a medication for hypertension.
+
+2.  **Recording confounders**  Confounders that might influence the association might include whether translation services were provided when the patients was prescribed the medication, whether the patient visit was in person or telehealth, if there are older children in the family in an English language school, and whether or not the patient  has a partner or spouse.
+
+3.  **Replication** The clinic should have sufficient patients in the languages and medication chosen to measure the association accurately.  More specific guidelines for the size of a study are given in later chapters.
+
+4.  **Stratification** If possible, there should be specific targets for study enrollment within each of the languages chosen and perhaps in the separate age ranges 21 - 30 and 31 - 40.
+
+Concepts from randomized experiments often have important roles in observational studies.  One the groups of patients have been identified as potential participants, individual participants might be selected randomly from within each stratum.  In this study, the participants selected must be informed about the study and its goals and actively consent to participate.
+
+:::
+
+::: {.guidedpractice data-latex=""}
+List one potentially important confounder that is not included in the design outlined above.[^collecting-data-1]
+:::
+
+[^collecting-data-1]: Patients often stop taking a medication because of side-effects, so self-report or clinical indication of side effects should be measured.
+
+The largest risks of observational studies arise when correlation is misinterpreted as causation -- nearly all statistics texts contain the important mantra "Correlation is not causation".  This misinterpretation is sometimes obvious enough that invoking it seems unnecessary, such as the claim that eating ice cream causes drowning.  Ice cream consumption and swimming both increase in warm weather, so there are more drownings when people consume more ice cream.  Other instances of incorrectly believing a correlation is a causal effect can be more subtle and require substantial studies to correct.
+
+Observational studies in the 1980s [@peto1981can; @van1995epidemiologic] led to the conjecture that beta carotene and vitamin E or vitamin A prevents lung cancer.[^collecting-data-2] Two large randomized trials in 1990's [@atbc1994alpha; @blumberg1994alpha] showed that the combination of beta carotene with vitamins likely increased the risk of lung cancer in some populations. 
+
+[^collecting-data-2]: Aware of the possible misinterpretation of correlation in the 1981 study, the editors of *Nature* added an editorial caution for readers: "Unwary readers (if such there are) should not take the accompanying article as a sign that the consumption of large quantities of carrots (or other major dietary sources of (3-carotene) is necessarily protective against cancer, and the correlation between blood retinol and cancer avoidance is, for the time being, *sub judice*.-Editor, Nature."
+
+
+## Sample surveys {#sec-sample-surveys}
+
+### Example: The Somerville Happiness Survey
+
+How does the opinion about sidewalk conditions in a city held by citizens with disabilities  differ from those without disabilities?   @fig-somerstat-2023-disability-sidewalks shows an association between disability status and attitudes about sidewalk maintenance for citizens in Somerville MA, suburb of Boston.  Citizens with a disability are more likely to feel either unsatisfied or very unsatisfied with sidewalk maintenance than those without a disability.  Somewhat surprisingly, about the same proportion of residents in either group are very satisfied with sidewalk maintenance.
+
+
+```{r}
+load("./data/somerstat_2023.Rdata")
+somerstat_sidewalks <-  somerstat_2023 |> 
+  drop_na(Sidewalks.Accessibility.Satisfaction.5pt.label) |> 
+  drop_na(Disability.YN) |> 
+  filter(Sidewalks.Accessibility.Satisfaction.5pt.label != "Not Sure") |> 
+  mutate(Sidewalks.Accessibility = fct_relevel(Sidewalks.Accessibility.Satisfaction.5pt.label,
+                                                                "Very Unsatisfied",
+                                                                "Unsatisfied",
+                                                                "Neutral",
+                                                                "Satisfied",
+                                                                "Very Satisfied"))|>
+  mutate(Sidewalks.Accessibility = factor(Sidewalks.Accessibility,
+                                         ordered = TRUE))  |> 
+  mutate(Disability = as.factor(Disability.YN)) |> 
+  mutate(Disability = fct_recode(Disability,
+                                     "No" = "0",
+                                     "Yes" = "1")
+  )
+  
+```
+
+```{r somerstat-2023-disability-sidewalks}
+#| label: fig-somerstat-2023-disability-sidewalks
+#| fig-cap: |
+#|   A mosaic plot of the association between presence of a disability and attitude toward sidewalk
+#|   maintenance  
+#| fig-alt: | 
+#|   The width of the bars reflects the relative size of the respondents with and without a disability.
+#|      There are many more respondents without than with a disability.
+#|   
+#| fig-asp: 0.4
+    
+ggplot(somerstat_sidewalks) +
+  geom_mosaic(aes(x = product(Disability), fill = Sidewalks.Accessibility)) +
+  labs(x = "Disability", y = "Sidewalk satisfaction") +
+  guides(fill = FALSE)
+
+```
+
+How the Somerville city government learn about this and other aspects of its the city's residents? [SomerStat](https://www.somervillema.gov/departments/mayors-office/somerstat) is the City of Somerville’s performance management and data analytics program.  Every two years since 2011 the program has conducted the [Somerville Happiness Survey](https://www.somervillema.gov/HappinessSurvey), asking residents about their happiness and satisfaction with City services. The survey covers a range of topics, from neighborhood street design to educational opportunities. The publicly available data from the 2023 survey were used to construct @fig-somerstat-2023-disability-sidewalks.
+
+### Sampling from a population {#sec-sampling-from-a-populaton}
+
+A \index{census} **census** collects information on every unit in a \index{population} **populatiom**.  Because the United States constitution mandates that the apportionment of representatives in Congress must be adjusted every 10 years, the US Decennial Census attempts a complete count of the population in each state.  The R package [`pdxTrees`](https://github.com/mcconvil/pdxTrees) contains data from a census of the population of all trees in Portland, Oregon when the data were last collected. 
+
+In almost all cases, it is impossible or too expensive to collect information from an entire population.  In most cases, it is unnecessary to conduct a full census to learn about a population because.
+Sampling from a population, when done correctly, provides reliable information about the characteristics of a large population. The US Centers for Disease Control (US CDC) conducts several surveys to obtain information about the US population, including the Behavior Risk Factor Surveillance System (BRFSS).\footnote{\url{https://www.cdc.gov/brfss/index.html}} The BRFSS was established in 1984 to collect data about health-related risk behaviors, and now collects data from more than 400,000 telephone interviews conducted each year. Data from a recent BRFSS survey are used later in @sec-inference-foundations. The CDC conducts similar surveys for diabetes, health care access, and immunization. Likewise, the World Health Organization (WHO) conducts the World Health Survey in partnership  with approximately 70 countries to learn about the health of adult populations and the health systems in those countries.\footnote{\url{http://www.who.int/healthinfo/survey/en/}}  
+
+The general principle of sampling is straightforward: a sample from a population is useful for learning about a population only when the sample is a \index{representative sample}{sample!representative sample} **representative sample** of the population. In other words, the characteristics of the sample should correspond (on average) to the characteristics of the population.   @sec-intro-to-data discussed analyses of a random sample of 500 trees from the Portland tree inventory.  
+
+Many important features of a population are characterized by **parameters** \index{parameters of a distribution}, such as the average amount of carbon sequestered per tree in the Portland park trees.  The mean carbon stored in the sample of 500 was a **statistic**, an estimate of the population average using the sample of 500.  The sample of 500 trees should be representative of the population because trees in the sample were selected randomly.  
+
+The since the R package [`pdxTrees`](https://github.com/mcconvil/pdxTrees) contains data on all park trees, it represents an uncommon instance when population parameters could be compared with their estimates.  
+
+Just as random treatment allocation is used to prevent bias in experiments, random sampling is used prevent bias in surveys. Four random sampling methods are discussed in this section: simple, systematic, stratified, and multistage cluster sampling.
+
+
+**Simple random sampling**
+
+Random sampling is the best way to ensure that a sample reflects a population. In a \index{simple random sample}{sample!simple random sample}, **simple random sample (SRS)** each member of a population has the same chance of being selected. One way to achieve a simple random sample of the health plan members is to randomly select a certain number of names from the complete membership roster, and contact those individuals for an interview, illustrated schematically in the upper panel of  @fig-sample-random-health-plan.  
+
+```{r srs-health-plan-schema}
+#| label: fig-sample-random-health-plan
+#| out-width: 60%
+#| fig-cap: |
+#|   Five members are randomly selected from the population to be interviewed.
+#| fig-pos: H
+knitr::include_graphics("images/sample-random-health-plan.png")
+```
+
+Despite its appeal, simple random sampling often presents practical constraints.   Random selection is made from a \index{sampling frame} **sampling frame**, a complete list of the members of a population.   In the health plan example, the list of all plan members is the sampling frame.  But the sampling frame may not be available, for instance, in a study of the health needs of people who have recently become unemployed. 
+
+**Systematic sampling**
+
+In a **systematic sample** \index{systematic sample}, a starting point is randomly chosen and then units are sampled at a regular interval.   For example, to select a systematic sample of size 20 from 100 individuals, one might randomly choose an individual between 1 through 5, then pick every 5th individual.
+
+Systematic sampling might be used to study the reasons for patient visits time at a health clinic on a particular day.  There would be no sampling frame for an SRS,  but intake staff  could interview every tenth patient arriving at the clinic.
+  
+@fig-srs-systematic-sample illustrates simple random and systematic samples of size 20 from the population (1, 2, $\dots$, 100).
+
+
+```{r srs-systematic-sample}
+#| label: fig-srs-systematic-sample
+#| out-width: 60%
+#| fig-cap: |
+#|   Random and systematic sampling for a sample of size 20 from the population (1, 2, $\dots$, 100)
+#| fig-pos: H
+set.seed(2024)
+srs_samp <- sample(1:100, size = 20, replace = FALSE)
+
+interval <- ceiling(100 / 20)
+start <- sample(1:interval, size = 1)
+sys_samp <- seq(from = start, by = interval, length.out = 20)
+
+sample <- as.data.frame(cbind(srs_samp, sys_samp))
+
+sample <- sample %>% 
+  pivot_longer(cols = c("srs_samp", "sys_samp"),
+               names_to = "method",
+               values_to = "value")
+sample %>% 
+  mutate(method = case_when(
+    method == "srs_samp" ~ "Simple Random Sampling",
+    method == "sys_samp" ~ "Systematic Sampling"
+  )) %>% 
+  ggplot(aes(x = value)) +
+  geom_dotplot(col = "cornflowerblue", binwidth = 1) +
+  ylim(-0.25, 0.25) +
+  facet_wrap(~method, ncol = 1) +
+  theme_minimal() +
+  theme(axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        strip.text.x = element_text(size = 10),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
+  labs(y = "", x = "Observation ID")
+```
+
+
+
+**Stratified sampling**
+
+In \index{stratified sampling}{sample!stratified sampling} **stratified sampling**, the population is first divided into groups called \index{strata}\index{sample!strata|textbf} **strata** before cases are selected within each stratum (typically through simple random sampling), as illustrated in the lower panel of @fig-simple-stratified. The strata are chosen such that similar cases are grouped together. Stratified sampling is especially useful when the cases in each stratum are very similar with respect to the outcome of interest, but cases between strata might be quite different. 
+
+Suppose that the health care provider has facilities in different cities. If the range of services offered differ by city, but all locations in a given city will offer similar services, it would be effective for the quality improvement team to use stratified sampling to identify participants for their study, where each city represents a stratum and plan members are randomly sampled from each city.
+
+```{r simple-stratified-schema}
+#| label: fig-simple-stratified
+#| out-width: 60%
+#| fig-cap: |
+#|   Examples of simple random and stratified sampling. In the top panel, simple random sampling is used to randomly select 18 cases (circled orange dots) out of the total population (all dots). The bottom panel illustrates stratified sampling: cases are grouped into six strata, then simple random sampling is employed within stratum.Five members are randomly selected from the population to be interviewed.
+#| fig-pos: H
+knitr::include_graphics("images/simple-stratified.png")
+```
+
+
+**Cluster and multistage sampling**
+
+In a \index{cluster sample}{sample!cluster sample} **cluster sample**, the population is first divided into many groups, called clusters. Then, a fixed number of clusters is sampled and all observations from each of those clusters are included in the sample, as in the upper panel of @fig-cluster-multistage}). A \index{multistage sample}{sample!multistage sample} **multistage sample** is similar to a cluster sample, but rather than keeping all observations in each cluster, a random sample is collected within each selected cluster, as illustrated in the lower panel of @fig-cluster-multistage. .
+
+```{r cluster-multistage-schema}
+#| label: fig-cluster-multistage
+#| out-width: 60%
+#| fig-cap: |
+#|   Examples of cluster and multistage sampling. The top panel illustrates cluster sampling: data are binned into nine clusters, three of which are sampled, and all observations within these clusters are sampled. The bottom panel illustrates multistage sampling, which differs from cluster sampling in that only a subset from each of the three selected clusters are sampled.
+#| fig-pos: H
+knitr::include_graphics("images/cluster-multistage.png")
+```
+
+The Somerville Happiness Survey used stratified-multistage sampling.  For the 2023 survey, questionnaires were mailed to 5,000 randomly selected households using a database of all residential addresses, with the request that one member of each household respond to the survey. Each household was a cluster and convenience sampling was used within the cluster.
+
+Unlike with stratified sampling, cluster and multistage sampling are most helpful when there is high case-to-case variability within a cluster, but the clusters themselves are similar to one another. For example, if neighborhoods in a city represent clusters, cluster and multistage sampling work best when the population within each neighborhood is very diverse, but neighborhoods are relatively similar.
+
+Applying stratified, cluster, or multistage sampling can often be more economical than only drawing random samples. However, analysis of data collected using such methods is more complicated than when using data from a simple random sample; this text will only discuss analysis methods for simple random samples. 
+
+**Convenience sampling**
+
+Many studies to not use random sampling.  Suppose that the quality improvement team at an integrated health care system, such as Atrius Health Care, is interested in learning about how members of the health plan perceive the quality of the services offered under the plan. A common pitfall in conducting a survey is to use a **convenience sample** \index{convenience sample}{sample!convenience sample}, in which individuals who are easily accessible are more likely to be included in the sample than other individuals. If a sample were collected by approaching plan members visiting an outpatient clinic during a particular week, the sample would fail to enroll generally healthy members who typically do not use outpatient services or schedule routine physical examinations; this method would produce an unrepresentative sample, as illustrated in @fig-sample-convenience-health-plan. 
+
+```{r sample-convenience-shema}
+#| label: fig-sample-convenience-health-plan
+#| out-width: 60%
+#| fig-cap: |
+#|   Instead of sampling from all members equally, approaching members visiting a clinic during 
+#|   a particular week disproportionately selects members who frequently use outpatient services.
+#| fig-pos: H
+knitr::include_graphics("images/sample-convenience-health-plan.png")
+```
+
+### Complex survey designs ### {#sec-complex-survey-designs}
+
+
+**NHANES** The mission of the National Health and Nutrition Examination Survey (NHANES) administered by the Centers for Disease Control and Prevention (CDC) is to "assess the health and nutritional status of adults and children in the United States."  The NHANES program began in the 1960s; since 1999, the CDC has conducted NHANES continuously.  Each year, approximately 5,000 adults and children participate in the survey.
+
+Data are collected via a complex multistage sampling design:
+
+  - Stage 1: The United States is stratified by geography and distribution of minority populations. Counties are randomly selected within each stratum.
+  
+  - Stage 2: From sampled counties, city blocks are randomly selected.
+  
+  - Stage 3: From sampled city blocks, households are randomly selected.
+  
+  - Stage 4: From sampled households, people are randomly selected. For the sampled households, a mobile health vehicle goes to the house and medical professionals take the necessary measurements.
+  
+The NHANES design also includes \index{oversampling} **oversampling**, also called **disproportionate sampling** \index{disproportionate sampling}.   With oversampling, potential participants in specified groups are selected with larger probability than other participants. Oversampling intentionally samples a higher proportion of individuals from some groups so that they make up a larger share of the survey sample than they do in the population. Oversampling increases the reliability of estimates of parameters for small groups.  NHANES oversamples from several groups, including people at or below 130% of the poverty level, certain age groups, and certain race/ethnicity groups.   Case weights based on sampling probabilities are used in analyses of the whole sample to estimate parameters in the whole population.
+
+Data and documentation from NHANES are available from [National Center for Health Statistics](https://wwwn.cdc.gov/nchs/nhanes/Default.aspx).  The R package [NHANES](https://cran.r-project.org/web/packages/NHANES/index.html) contains 76 variables on 100,000 participants from surveys conducted between 2009 and 2012 and includes both the original sampled population and the re-weighted version that reflects the US population.
+
+@fig-nhanes-ovesampling shows bar plots of the distribution of race in the sample as gathered (upper panel) and in the re-weighted sample (lower panel) in the NHANES package.
+ 
+
+```{r nhanes-over-sampling}
+#| label: fig-nhanes-oversampling
+#| out-width: 60%
+#| fig-cap: |
+#|   Distribution of NHANES participants by race in the study sample (upper panel) and after using survey weights to reflect the US population (lower panel)
+#| fig-pos: H.
+library(NHANES)
+data("NHANES")
+data("NHANESraw")
+
+library(patchwork)
+
+p1 <- NHANESraw %>% 
+  drop_na(Race3) %>% 
+  ggplot(aes(x = fct_infreq(Race3),
+         fill = Race3)) +
+  geom_bar() +
+  guides(fill = "none") +
+  labs(y = "Count", x = "Race of Respondents",
+       title = "Original NHANES Data")
+
+p2 <- NHANES %>% 
+  drop_na(Race3) %>% 
+  ggplot(aes(x = fct_infreq(Race3),
+         fill = Race3)) +
+  geom_bar() +
+  guides(fill = "none") +
+  labs(y = "Count", x = "Race of Respondents",
+       title = "NHANES Data Adjusted to Mimic SRS")
+
+p1 / p2
+```
+
+
+### Sources of bias in sample surveys ### {#sec-bias-sample-surveys}
+
+**Non-response bias** \index{non-response bias} Even when a simple random sample is taken, it is not guaranteed to be representative of the population.  The proportion of individuals who do not respond to a survey is the **non-response rate** \index{non-response rate} \index{sample!non-response}. If the non-responders are disproportionately members of a particular segment of a population, that segment will be under-represented in the survey.  In that case, the survey responses will be a **biased sample** \index{biased sample} \index{sample!biased}, a sample that does not match (on average) the characteristics of the population. Of the 5,000 randomly selected residents who received the Happiness Survey, `r nrow(somerstat_2023)` responded, a non-response rate of `r round(1 - nrow(somerstat_2023)/5000, 2)`, or `r round(1 - nrow(somerstat_2023)/5000, 2) * 100`%, or a response rate of `r 100 - round(1 - nrow(somerstat_2023)/5000, 2) * 100`%.  The response rate to the Somerville survey is characteristic of many mailed surveys.  
+
+The design of a survey usually includes strategies to reduced non-response bias. To lower the barrier of the survey language for potential respondents, in 2023 the Somerville analytics team offered paper surveys in English, Spanish, Portuguese, and Haitian Creole, with online options for Nepali, Traditional Chinese, and Simplified Chinese.  There may be other reasons for non-response, however.  For instance elderly residents with cognitive impairment may have found the survey difficult or not recognized its value. Perhaps residents with two or more low-paying jobs did not feel they had the time for the survey.
+
+@fig-sample-nonresponse-health-plan shows how non-response bias might arise in the health plan example when a survey is administered to a random sample of plan members but is available only in English.  Generalizing from an unrepresentative sample may lead to incorrect conclusions about a population. 
+
+
+```{r}
+#| label: fig-sample-nonresponse-health-plan
+#| out-width: 60%
+#| fig-cap: |
+#|   Surveys may only reach a certain group within the population, which leads to non-response bias. 
+#|   For example, a survey written in English may only result in responses from health plan 
+#|   members fluent in English.
+#| fig-pos: H
+knitr::include_graphics("images/sample-nonresponse-health-plan.png")
+```
+::: {.guidedpractice data-latex=""}
+It is increasingly common for health care facilities to follow-up a patient visit with an email providing a link to a website where patients can rate their experience.  Typically, less than 50\% of patients visit the website. If half of those who respond indicate a negative experience, do you think that this implies that at least 25\% of patient visits are unsatisfactory?[^collecting-data-3]
+:::
+
+[^collecting-data-3]: It is unlikely that the patients who respond constitute a representative sample from the larger population of patients. This is not a random sample, because individuals are selecting themselves into a group, and it is unclear that each person has an equal chance of answering the survey. If our experience is any guide, dissatisfied people are more likely to respond to these informal surveys than satisfied patients.
+
+```{r somerstat-2023-disability-sidewalks-tbl}
+load("./data/somerstat_2023.Rdata")
+somerstat_sidewalks_wna <-  somerstat_2023 |> 
+  #filter(Sidewalks.Accessibility.Satisfaction.5pt.label != "Not Sure") |> 
+  mutate(Sidewalks.Accessibility = fct_relevel(Sidewalks.Accessibility.Satisfaction.5pt.label,
+                                                                "Very Unsatisfied",
+                                                                "Unsatisfied",
+                                                                "Neutral",
+                                                                "Satisfied",
+                                                                "Very Satisfied",
+                                                                "Not Sure"))|>
+  mutate(Sidewalks.Accessibility = factor(Sidewalks.Accessibility,
+                                         ordered = TRUE))  |> 
+  mutate(Disability = as.factor(Disability.YN)) |> 
+  mutate(Disability = fct_recode(Disability,
+                                     "No" = "0",
+                                     "Yes" = "1")
+  )
+```
+
+```{r}
+#| label: tbl-somerstat-2023-disability-sidewalks
+#| tbl-cap:  "Attitudes about sidewalk maintenance by disability status"
+#| tbl-pos: H
+
+options(knitr.kable.NA = "NA")
+somerstat_sidewalks_wna |> 
+  count(Sidewalks.Accessibility, Disability) |> 
+  group_by(Disability) |> 
+  pivot_wider(names_from = Sidewalks.Accessibility, 
+              values_from = n) |> 
+  adorn_totals(where = c("row", "col"), name = "Sum") |> 
+  kbl(linesep = "",
+      booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE) |>
+  add_header_above(c(" " = 1, "Sidewalks.Accessibility" = 7, " " = 1)) |>
+  column_spec(1, width = "8em") |>
+  column_spec(2:8, width = "4em") |> 
+  column_spec(9, bold = TRUE) |> 
+  row_spec(4, bold = TRUE) 
+```
+
+**Item non-response bias** \index{item non-response-bias} Even when someone participates in a survey, they may choose not to answer certain questions. For example may sometimes be reluctant reluctant to report whether they have a disability. @tbl-somerstat-2023-disability-sidewalks shows the count data used to create @fig-somerstat-2023-disability-sidewalks, but with more detail. The first 2 rows and 5 columns of the table contain the data in the table.    The label "NA" in the table denotes a non-response to a category.  Ninety-five participants did not answer the question about a the presence of a disability; 10 did not answer the question about sidewalk maintenance, and 2 did not answer either question.  The table also adds the category "Not Sure" which was omitted from  @fig-somerstat-2023-disability-sidewalks because it did not seem  informative about opinions on sidewalk maintenance,
+
+Methods to adjust for non-response bias and item non-response are discussed in advanced texts about survey design and analysis and are beyond the scope of this  text.  It is important to be aware of these possible sources of bias when reading the results of a survey.
+
+**Sampling bias** \index{sampling bias} Sampling bias occurs when a systematic error in data collection causes an unrepresentative sample. Sampling bias leads to *unintended* disproportionate sampling.   Convenience sampling generally leads to sampling bias as illustrated in @fig-sample-convenience-health-plan. Homeless or marginally housed populations are sometimes missed in health care surveys because of the lack of accurate contact information.
+
+
 
 
 

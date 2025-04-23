@@ -1,4 +1,4 @@
-# Foundations for inference {#inference-foundations}
+# Foundations for inference {#sec-inference-foundations}
 
 ```{r}
 #| include: false
