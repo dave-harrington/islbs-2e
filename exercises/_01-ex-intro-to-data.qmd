@@ -1059,7 +1059,7 @@ tb.interruption  |>
 
 **Our World in Data**
 
-[Our World in Data](https://ourworldindata.org/) (OWD) is an open-access publication featuring research and data to make progress against large global problems. It scatterplot of proportions of male and female smokers can be found on OWD.   Visit the website (there is a useful "Browse by Topic" on the top toolbar) to find an article that interests you and write a brief paragraph (no more than 4 sentences) about an idea or visualization you found compelling.  Include a link to the article in your answer. Here are two examples: [this article](https://ourworldindata.org/how-do-researchers-estimate-the-death-toll-caused-by-each-risk-factor-whether-its-smoking-obesity-or-air-pollution) explores how researchers estimate how many deaths are caused by risk factors; [this article](https://ourworldindata.org/how-do-researchers-study-the-prevalence-of-mental-illnesses) examines how researchers collect data on mental health and discusses how reliable that data may be. 
+[Our World in Data](https://ourworldindata.org/) (OWD) is an open-access publication featuring research and data designed to highlight large global problems. The scatterplot of proportions of male and female smokers can be found on OWD.   Visit the website (there is a useful "Browse by Topic" on the top toolbar) to find an article that interests you and write a brief paragraph (no more than 4 sentences) about an idea or visualization you found compelling.  Include a link to the article in your answer. Here are two examples: [this article](https://ourworldindata.org/how-do-researchers-estimate-the-death-toll-caused-by-each-risk-factor-whether-its-smoking-obesity-or-air-pollution) explores how researchers estimate how many deaths are caused by risk factors; [this article](https://ourworldindata.org/how-do-researchers-study-the-prevalence-of-mental-illnesses) examines how researchers collect data on mental health and discusses how reliable that data may be. 
 
 
 
@@ -1468,10 +1468,21 @@ The following table shows data for the participants identified as having normal 
 
   b.  Provide two additional potential confounding variables for this situation.  Check to make sure that the variables are associated with both the explanatory variable (hospital) and the response variable (death).
 
-  c.  Why does Nightingale say that the statistics are "valueless" if given without being broken down by age, sex, and disease?  xsExplain.
+  c.  Why does Nightingale say that the statistics are "valueless" if given without being broken down by age, sex, and disease?  Explain.
 
 \vfill
 
+*This section contains open-ended discussion questions and prompts for exploring data on the web.  They are most valuable when done in groups or in smaller course section meetings.  No example answers are provided, but questions usually provide hints on how to get started.*
+
+**Data journalism**.  Data journalism frequently makes use of animation and interaction in combination with static visualizations to communicate narratives in an engaging way. Share an example of an article that uses an animated/interactive visualization and your reactions: What were your favorite aspects of the visualizations? How did the use of animation/interaction add to the impact of the story? Feel free to use one of the following links or find your own: ["Bussed out: How America moves its homeless"](https://www.theguardian.com/us-news/ng-interactive/2017/dec/20/bussed-out-america-moves-homeless-people-country-study?CMP=twt_gu), ["Where This Summer Was Relentlessly Hot"](https://www.nytimes.com/interactive/2023/10/09/world/hottest-summer-global-map.html), ["How a Vast Demographic Shift Will Reshape the World"](https://www.nytimes.com/interactive/2023/07/16/world/world-demographics.html), and ["Since When Have Trees Only Existed for Rich Americans?"](https://www.nytimes.com/interactive/2021/06/30/opinion/environmental-inequity-trees-critical-infrastructure.html)
+
+**Bad visualizations**  Share a "bad" data visualization; i.e., one that is difficult to interpret and/or seems ineffective or misleading. Explain the main issue(s) with the visualization and comment on how you might improve it. Feel free to use one of the visualizations in these links or find your own: [the "Data is Ugly" Reddit](https://www.reddit.com/r/dataisugly/), [FlowingData's collection of "Ugly Charts"](https://flowingdata.com/category/visualization/ugly-visualization/), and [a list of "27 Worst Charts of All Time" compiled by *Business Insider*](https://www.businessinsider.com/the-27-worst-charts-of-all-time-2013-6).
+  
+**Story telling** Telling stories with data often makes use of both data visualizations and data summaries. Find a data story that interests you and assess whether you think summary statistics were used effectively in the telling of that story. Also, what is something you learned from the data story? [This page](https://www.juiceanalytics.com/writing/20-best-data-storytelling-examples) and [this page](https://gijn.org/stories/editors-pick-top-10-data-journalism-projects-from-2023/) link to some examples of data storytelling, but many more are available on websites like [The Pudding](https://pudding.cool/) and [Reuters](https://www.reuters.com/graphics/).
+
+**Do no harm** The Urban Institute's *Do No Harm Guide* body of work consists of several guides that aim to encourage thoughtful approaches for collecting and communicating data. Check out either [Applying Equity Awareness in Data Visualization](https://www.urban.org/sites/default/files/publication/104296/do-no-harm-guide.pdf) or [Centering Accessibility in Data Visualization](https://www.urban.org/sites/default/files/2022-12/Do%20No%20Harm%20Guide%20Centering%20Accessibility%20in%20Data%20Visualization.pdf). Share one idea/example that resonated with you and comment on how this might influence how you approach making visualizations in contexts outside of this class (e.g., such as when working in your field of interest).
+  
+  
 
 [^_01-ex-intro-to-data-1]: The [`migraine`](http://openintrostat.github.io/openintro/reference/migraine.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
 

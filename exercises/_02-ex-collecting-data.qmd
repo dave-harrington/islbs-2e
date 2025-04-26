@@ -134,10 +134,20 @@ Participants were student volunteers at the University of Otago, New Zealand.At 
   How would you suggest revising this statement so that it can be
   supported by the study?
   
-**Moderna Covid vaccine**
+**Moderna Covid vaccine**n  nThe New England Journal of Medicine article reporting the effectiveness of [MRNA vaccine for Covid-19](https://www.nejm.org/doi/full/10.1056/nejmoa2035389) is publicly available.  Read the abstract and the methods section, then outline how the study followed the principles of experimental design.
 
-The New England Journal of Medicine article reporting the effectiveness of [MRNA vaccine for Covid-19](https://www.nejm.org/doi/full/10.1056/nejmoa2035389) is publicly available.  Read the abstract and the methods section, then outline how the study followed the principles of experimental design.
+*Observational studies*
 
+<!--  23 oi_biostat problem, odd -->
+
+
+**Alcohol consumption and STIs**  An observational study published in *The American Journal of Preventive Medicine* investigated the effects of an increased alcohol sales tax in Maryland on the rates of gonorrhea and chlamydia. After a tax increase from 6% to 9% in 2011, the statewide gonorrhea rate declined by 24%, the equivalent of 1,600 cases per year. In a statement to the *New York Times*, the lead author of the paper was quoted saying, 
+
+> Policy makers should consider raising liquor taxes if they're looking for ways to prevent sexually
+> transmitted infections. In the year and a half following the alcohol tax rise in Maryland, 
+> this prevented 2,400 cases of gonorrhea and saved half a million dollars in health care costs.
+
+Explain whether the lead author's statement is accurate. [@staras2016maryland]
 
 *Surveys*
 
@@ -216,7 +226,7 @@ He concludes that running decreases the risk of joint problems.
 
 <!-- EVEN (OI4, 1.28) -->
 
-**Reading the paper** Below are excerpts from two 
+**Reading the news** Below are excerpts from two 
 articles published in the *NY Times*:
 
   a. An article titled *Risks: Smokers Found More Prone to Dementia*
@@ -253,16 +263,43 @@ study?
 
 \vfill
 
-*Observational studies*
-
-<!--  23 oi_biostat problem, odd -->
 
 
-**Alcohol consumption and STIs**  An observational study published in *The American Journal of Preventive Medicine* investigated the effects of an increased alcohol sales tax in Maryland on the rates of gonorrhea and chlamydia. After a tax increase from 6% to 9% in 2011, the statewide gonorrhea rate declined by 24%, the equivalent of 1,600 cases per year. In a statement to the *New York Times*, the lead author of the paper was quoted saying, 
+**Time spent studying** After their first year, Harvard undergraduates are randomly assigned to residential houses.  Suppose the Dean of Undergraduate Studies wishes to estimate the average number of hours per night spent studying among the second, third and  fourth year undergraduates.
 
-> Policy makers should consider raising liquor taxes if they're looking for ways to prevent sexually
-> transmitted infections. In the year and a half following the alcohol tax rise in Maryland, 
-> this prevented 2,400 cases of gonorrhea and saved half a million dollars in health care costs.
+  a.  Should a survey be stratified or clustered by class year?  Explain your answer.
+  
+  b.  Should a survey be stratified or clustered by residential house?  Explain your answer.
+  
 
-Explain whether the lead author's statement is accurate. [@staras2016maryland]
+**Massachusetts forests** The US Forest Service maintains an inventory of the nation's forests.  As part if that mandate it collects random samples of trees from forested areas.  The upper panel in the figure below is a map of Massachusetts with its 14 counties color coded and with a grid overlay.  The lower panel is a map of forest types in the state from [a state sponsored website](https://www.mass.gov/guides/forestry-in-massachusetts).  Suppose the Forest Service decides to use county boundaries in its sampling frame.  Discuss the advantages of:
 
+   a. Clustering by county, sampling 4 counties then taking an SRS within each county.
+
+   b. Stratifying by county,  then taking an SRS within each county.
+   
+   c. Describe one possible mechanism for taking the SRS in parts a and b.
+   
+```{r}
+#| label: fig-ma-forests
+#| out-width: 60%
+#| fig-cap: |
+#| fig-asp: 1.0
+#| fig-pos: H
+knitr::include_graphics("./exercises/images/ma-counties.png")
+knitr::include_graphics("./exercises/images/ma-forests.png")
+```
+
+
+
+*This section contains open-ended discussion questions and prompts for exploring data on the web.  They are most valuable when done in groups or in smaller course section meetings.  No example answers are provided, but questions usually provide hints on how to get started.*
+
+**Sampling bias** Read an article discussing the implications of sampling bias in a particular setting and share something you learned. Some possible options are these articles discussing [crime data that shows racial bias](https://fivethirtyeight.com/features/why-statistics-dont-capture-the-full-extent-of-the-systemic-bias-in-policing/), [possible steps for making biobanks more representative](https://labblog.uofmhealth.org/industry-dx/how-bias-can-creep-into-medical-databanks-drive-precision-health-and-clinical-ai), [how voluntary recruitment leads to non-response bias in public health monitoring](https://bmcpublichealth.biomedcentral.com/articles/10.1186/s12889-017-4189-8), [the importance of diverse clinical trial participation](https://www.nejm.org/doi/full/10.1056/NEJMp2215609), and [the importance of random sampling for tracking COVID-19 infections](https://www.nature.com/articles/d41586-022-00336-8).
+
+**Data fraud** There have been many well-publicized instances of scientific misconduct, but the general public tends to be unaware of the extent of data fraud. Read about a specific case of scientific misconduct and then share something you found surprising (or any questions that came to mind). What was your reaction to the story? Some possible options are these articles discussing [allegations that Francesca Gino's research contains fraudulent data](https://www.science.org/content/article/after-honesty-researcher-s-retractions-colleagues-expand-scrutiny-her-work)\footnote{You might also find it interesting to look at the blog posts detailing evidence of fraud on \href{https://datacolada.org/109}{data colada}.}, [the Surgisphere COVID-19 scandal](https://www.science.org/content/article/whos-blame-these-three-scientists-are-heart-surgisphere-covid-19-scandal), [the prevalence of photoshopped images in scientific publications](https://www.nytimes.com/interactive/2022/10/29/opinion/science-fraud-image-manipulation-photoshop.html), [false claims made about the properties of adult stem cells](https://www.reuters.com/investigates/special-report/health-hearts-stem-cells/) and [a former social psychology professor who fabricated data at least 50 times](https://www.nytimes.com/2013/04/28/magazine/diederik-stapels-audacious-academic-fraud.html).
+
+**Nonrandom samples** Attitudes about the utility of non-random samples can vary widely. In [this article, "Inference using non-random samples? Stop right there!"](https://rss-onlinelibrary-wiley-com.ezp-prod1.hul.harvard.edu/doi/pdf/10.1111/1740-9713.01568), the authors caution against conducting inference without a random sample. In contrast, Andrew Gelman (professor of statistics and political science at Columbia) and David Rothschild (economist at Microsoft Research) [argued in favor of modern approaches to supplement traditional probability polling](https://www.washingtonpost.com/news/monkey-cage/wp/2014/08/04/modern-polling-requires-both-sampling-and-adjustment/). [This more recent article from *Trends in Ecology & Evolution*](https://www.cell.com/trends/ecology-evolution/fulltext/S0169-5347(23)00005-8) discusses how non-probability samples can be used for monitoring biodiversity and also references the Big Data Paradox. Share something you learned from reading one of these articles, particularly with reference to understanding the real-world challenges of obtaining a representative sample.
+  
+**Election polling** Election polling is a key domain in which making accurate estimates from a sample receives a lot of public attention. Pew Research Center recently released ["Key things to know about U.S. election polling in 2024"](https://www.pewresearch.org/short-reads/2024/08/28/key-things-to-know-about-us-election-polling-in-2024/) which provides some insights about polling. If you would like to dive into more technical details, check out Michael Bailey's [article for the *Harvard Data Science Review*](https://hdsr.mitpress.mit.edu/pub/ejk5yhgv/release/4) which discusses a new paradigm for conceptualizing survey error; in particular, explore the [Paradigm Lost](https://hdsr.mitpress.mit.edu/pub/ejk5yhgv#paradigm-lost) section and the helpful figures, such as [Figure 1](https://hdsr.mitpress.mit.edu/pub/ejk5yhgv#nhxnpwyoezs). Share something you learned from reading one of these articles; did anything seem particularly surprising? What do you think the public should be more aware of when it comes to interpreting the results of election polling?
+  
+**Online surveys** Online opt-in surveys have become an increasingly popular way to conduct polls. Pew Research Center [conducted a study](https://www.pewresearch.org/methods/2018/01/26/for-weighting-online-opt-in-samples-what-matters-most/) examining the effectiveness of various strategies for adjusting samples so that they more closely match the population. Pew also examined [how bogus respondents might affect poll results](https://www.pewresearch.org/methods/2020/02/18/assessing-the-risks-to-online-polls-from-bogus-respondents/). The reports are long, so feel free to focus on a particular section that interests you. Share something you learned from one of the reports. Do you now feel more or less trust in the results of online opt-in polls (and why)?
