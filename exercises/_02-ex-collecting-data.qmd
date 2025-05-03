@@ -2,7 +2,7 @@
 
 *Experiments*
 
-<!--  6 oi_biostat hummingbirds, should we use data in csv file?-->
+<!--  oi_biostat 1.6 -->
 
 **Hummingbird taste behavior** Researchers hypothesized that a particular taste receptor in hummingbirds, T1R1-T1R3, played a primary role in dictating taste behavior; specifically, in determining which compounds hummingbirds detect as sweet. In a series of field tests, hummingbirds were presented simultaneously with two filled containers, one containing test stimuli and a second containing sucrose. The test stimuli included aspartame, erythritol, water, and sucrose. Aspartame is an artificial sweetener that tastes sweet to humans, but is not detected by hummingbird T1R1-T1R3 , while erythritol is an artificial sweetener known to activate T1R1-T1R3. [@baldwin2014evolution]
 
@@ -16,7 +16,7 @@ Data were collected on how long a hummingbird drank from a particular container 
  
 \vfill
 
-<!--oi_biostat, from blue_eggs_food probably move to experiments-->
+<!--oi_biostat 1.7, from blue_eggs_food probably move to experiments-->
 
 **Egg coloration** The evolutionary significance of variation in egg coloration among birds is not fully understood. One hypothesis suggests that egg coloration may be an indication of female quality, with healthier females being capable of depositing blue-green pigment into eggshells instead of using it for themselves as an antioxidant. In a study conducted on 32 collared flycatchers, half of the females were given supplementary diets before and during egg laying. Eggs were measured for darkness of blue color using spectrophotometry; for example, the mean amount of blue-green chroma was 0.594 absorbance units. Egg mass was also recorded. [@moreno2006experimental]
 
@@ -30,6 +30,8 @@ Data were collected on how long a hummingbird drank from a particular container 
 
 \vfill
 
+<!-- oi_biostat 1.12 -->
+
 **Herbal remedies**  Echinacea has been widely used as an herbal remedy for the common cold, but previous studies evaluating its efficacy as a remedy have produced conflicting results. In a new study, researchers randomly assigned 437 volunteers to receive either a placebo or echinacea treatment before being infected with rhinovirus. Healthy young adult volunteers were recruited for the study from the University of Virginia community. [@turner2005evaluation]
 
   a. Identify the population of interest and the sample in this study.
@@ -38,15 +40,9 @@ Data were collected on how long a hummingbird drank from a particular container 
 
   c. Can the findings of the study be used to establish causal relationships? Justify your answer.
 
-<!-- 13 ODD (OI4, 1.15) -->
+<!--  OS4, 1.15, oi_biostat 1.13 -->
 
-**Buteyko method, II.** 	Exercise (ref?) introduces a study on using the Buteyko 
-	shallow breathing technique to reduce asthma symptoms and improve quality of life.
-	As part of this study 600 asthma patients aged 18-69 who relied on medication for 
-	asthma treatment were recruited and randomly assigned to two groups: one practiced 
-	the Buteyko method and the other did not. Those in the Buteyko group experienced,
-	on average, a significant reduction in asthma symptoms and an improvement in quality 
-	of life.
+**Buteyko method.** The Buteyko method is  shallow breathing technique that some believe reduces asthma symptoms and improve quality of life. As part of this study 600 asthma patients aged 18-69 who relied on medication for asthma treatment were recruited and randomly assigned to two groups: one practiced  the Buteyko method and the other did not. Those in the Buteyko group experienced 	on average, a significant reduction in asthma symptoms and an improvement in quality  of life.
 	
   a. Identify the population of interest and the sample in this study.
 
@@ -56,24 +52,42 @@ Data were collected on how long a hummingbird drank from a particular container 
 
 \vfill
 
-<!-- 14 EVEN (OI4, 1.30) edited -->
+<!-- OS4, 1.30, previous oi_biostat 1.14 but reverted to OS4 version -->
 
-**Vitamin supplements.**  In order to assess the effectiveness 
-	of taking large doses of vitamin C in reducing the duration of the common cold, 
-	researchers recruited 400 healthy volunteers from staff and students at a university. A 
-	quarter of the patients were randomly assigned a placebo, and the rest were randomly allocated between 1g Vitamin C, 3g Vitamin C, or 3g Vitamin C plus additives to be taken at onset of a cold for the following two days. All tablets had identical appearance and packaging. No significant differences were observed in any measure of cold duration or severity between the four medication groups, and the placebo group had the shortest duration of symptoms. [@Audera:2001]
-	
-  a. Was this an experiment or an observational study? Why?
-		
+<!-- revise using oi problem -->
+
+**Vitamin supplements** To assess the effectiveness of taking large doses
+of vitamin C in reducing the duration of the common cold, 
+researchers recruited 400 healthy volunteers from staff
+and students at a university. A quarter of the patients were assigned a placebo,
+and the rest were evenly divided between 1g Vitamin C,
+3g Vitamin C, or 3g Vitamin C plus additives to be
+taken at onset of a cold for the following two days.
+All tablets had identical appearance and packaging.
+The nurses who handed the prescribed pills to the
+patients knew which patient received which treatment,
+but the researchers assessing the patients when they
+were sick did not. No important differences were observed in any measure
+of cold duration or severity between the four groups,
+and the placebo group had the shortest duration of 
+symptoms.[@Audera:2001]       
+
+  a. Was this an experiment or an observational study? Why?    
+
   b. What are the explanatory and response variables in this study?
-		
-  c. Participants are ultimately able to choose whether or not to use the pills 
-		prescribed to them. We might expect that not all of them will adhere and take their 
-		pills. Does this introduce a confounding variable to the study? Explain your reasoning.
 
-<!-- oi_biostat, adapted from chicks_antioxidants -->
+  c. Were the patients blinded to their treatment?    
 
-**Chicks and antioxidants**  Environmental factors early in life can have long-lasting effects on an organism. In one study, researchers examined whether dietary supplementation with vitamins C and E influences body mass and corticosterone level in yellow-legged gull chicks. Chicks were randomly assigned to either the nonsupplemented group or the vitamin supplement experimental group. The initial study group consisted of 108 nests, with 3 eggs per nest. Chicks were assessed at age 7 days. (Adapted from @kim2013vitamins)
+  d.  Was this study double-blind?    
+    
+  e. Participants are ultimately able to choose whether or not to use the pills 
+prescribed to them. We might expect that not all of them will adhere and take their 
+pills. Does this introduce a confounding variable to the study? Explain your reasoning.
+
+
+<!-- oi_biostat 1.15, adapted from chicks_antioxidants -->
+
+**Chicks and antioxidants**  Environmental factors early in life can have long-lasting effects on an organism. In one study, researchers examined whether dietary supplementation with vitamins C and E influences body mass and corticosterone level in yellow-legged gull chicks. Chicks were randomly assigned to either the non-supplemented group or the vitamin supplement experimental group. The initial study group consisted of 108 nests, with 3 eggs per nest. Chicks were assessed at age 7 days. (Adapted from @kim2013vitamins)
 
   a. What type of study is this?
 		
@@ -81,9 +95,30 @@ Data were collected on how long a hummingbird drank from a particular container 
 	
   c. Explain why randomization is an important feature of this experiment.
 
+
+<!-- OI4, 1.14-->
+
+**Cheaters.** Researchers conducted a study to investigate 
+	relationship between honesty, age, and self-control conducted an 
+	experiment on 160 children between the ages of 5 and 15. The researchers asked 
+	each child to toss a fair coin in private and to record the outcome (white or black) 
+	on a paper sheet, and said they would only reward children who report white. 
+	Half the students were explicitly told not to cheat and the others were not given 
+	any explicit instructions. Differences were observed in the cheating rates in the
+	instruction and no instruction groups, as well as some differences across 
+	children's characteristics within each group.
+
+  a. Identify the population of interest and the sample in this study.
+
+  b. Comment on whether or not the results of the study can be generalized to the 
+		population, and if the findings of the study can be used to establish causal 
+		relationships.
+
+
+
 <!-- (OI4, 1.34) edited -->
 
-**Exercise and mental health.**  A researcher is interested in the effects of exercise on mental health and they propose the following study: Use stratified random sampling to recruit 18-30, 31-40 and 41-55 year olds from the population. Next, randomly assign half the subjects from each age group to exercise twice a week, and instruct the rest not to exercise. Conduct a mental health exam at the beginning and at the end of the study, and compare the results.
+**Exercise and mental health.**  A researcher is interested in the effects of exercise on mental health and they propose the following study: Use stratified random sampling to recruit 18-30, 31-40 and 41-55 year members of the population. Next, randomly assign half the subjects from each age group to exercise twice a week, and instruct the rest not to exercise. Conduct a mental health exam at the beginning and at the end of the study, and compare the results.
 
   a. What type of study is this? 
 		
@@ -110,36 +145,30 @@ increased stress and muscle cramps?
   c. State possible lurking variables that might explain the observed 
 relationship between increased stress and muscle cramps. 
 
-<!-- 25 ODD (OI4, 1.41) -->
+<!-- OI4, 1.41 -->
 
 **Eat better, feel better**  In a public health study on the effects of consumption of fruits and vegetables on psychological well-being in young adults, participants were randomly assigned to three 
 groups: (1) diet-as-usual, (2) an ecological momentary intervention involving text message reminders to increase their fruits and vegetable consumption plus a voucher to purchase them, or (3) a fruit and vegetable intervention in which participants were given two additional daily servings of fresh fruits and vegetables to consume on top of their normal diet. Participants were asked to take a nightly survey on their smartphones. 
 
-Participants were student volunteers at the University of Otago, New Zealand.At the end of the 14-day study, only participants in the third group showed improvements to their psychological well-being across the 14-days relative to the other groups.[@conner2017let]
+Participants were student volunteers at the University of Otago, New Zealand. At the end of the 14-day study, only participants in the third group showed improvements to their psychological well-being across the 14-days relative to the other groups.[@conner2017let]
 
 
   a. What type of study is this?
 	
   b. Identify the explanatory and response variables.
 
-  c. Comment on whether the results of the study can be generalized to the population.
+  c. Comment on whether the results of the study can be generalized to the population of New Zealand.
 
   d. Comment on whether the results of the study can be used to establish causal relationships.
 
-  e. A newspaper article reporting on the study states:
-> The results of this study provide proof that giving young adults
-> fresh fruits and vegetables to eat can have psychological benefits,
-> even over a brief period of time.
-
-  How would you suggest revising this statement so that it can be
-  supported by the study?
+  e. A newspaper article reporting on the study states:  "The results of this study provide proof that giving young adults fresh fruits and vegetables to eat can have psychological benefits, even over a brief period of time."
+How would you suggest revising this statement so that it can be  supported by the study?
   
-**Moderna Covid vaccine**n  nThe New England Journal of Medicine article reporting the effectiveness of [MRNA vaccine for Covid-19](https://www.nejm.org/doi/full/10.1056/nejmoa2035389) is publicly available.  Read the abstract and the methods section, then outline how the study followed the principles of experimental design.
+**Moderna Covid vaccine**  The New England Journal of Medicine article reporting the effectiveness of [MRNA vaccine for Covid-19](https://www.nejm.org/doi/full/10.1056/nejmoa2035389) is publicly available.  Read the abstract and the methods section, then outline how the study followed the principles of experimental design.
 
 *Observational studies*
 
-<!--  23 oi_biostat problem, odd -->
-
+<!--  1.23 oi_biostat -->
 
 **Alcohol consumption and STIs**  An observational study published in *The American Journal of Preventive Medicine* investigated the effects of an increased alcohol sales tax in Maryland on the rates of gonorrhea and chlamydia. After a tax increase from 6% to 9% in 2011, the statewide gonorrhea rate declined by 24%, the equivalent of 1,600 cases per year. In a statement to the *New York Times*, the lead author of the paper was quoted saying, 
 
@@ -149,30 +178,10 @@ Participants were student volunteers at the University of Otago, New Zealand.At 
 
 Explain whether the lead author's statement is accurate. [@staras2016maryland]
 
-*Surveys*
 
-<!-- OI4, 1.14-->
-
-**Cheaters, II.**
-	Exercise ref? introduces a study where researchers 
-	studying the relationship between honesty, age, and self-control conducted an 
-	experiment on 160 children between the ages of 5 and 15. The researchers asked 
-	each child to toss a fair coin in private and to record the outcome (white or black) 
-	on a paper sheet, and said they would only reward children who report white. 
-	Half the students were explicitly told not to cheat and the others were not given 
-	any explicit instructions. Differences were observed in the cheating rates in the
-	instruction and no instruction groups, as well as some differences across 
-	children's characteristics within each group.
-
-  a. Identify the population of interest and the sample in this study.
-
-  b. Comment on whether or not the results of the study can be generalized to the 
-		population, and if the findings of the study can be used to establish causal 
-		relationships.
-		
 \vfill
 
-<!-- ODD (OI4, 1.23) context edited -->
+<!-- oi_biostat 1.19, modified from OI4, 1.23 context edited -->
 
 **Evaluate sampling methods** A university wants to assess how many hours of sleep students are getting per night. For each proposed method below, discuss whether the method is reasonable or not.
 
@@ -182,7 +191,7 @@ Explain whether the lead author's statement is accurate. [@staras2016maryland]
 
   c. Cluster students by their class year (e.g. freshmen in one cluster, sophomores in one cluster, etc.), then randomly sample three clusters and survey all students in those clusters.
 
-<!-- EVEN (OI4, 1.38) -->
+<!-- (OI4, 1.38) -->
 
 **City council survey** A city council has requested a household survey be conducted in a suburban area of their city. The area is broken into many distinct and unique neighborhoods, some including large homes, some with only apartments, and others a diverse mixture of housing structures. Identify the  methods described below, and comment on whether or not you think they  be effective in this setting.
 
@@ -263,7 +272,7 @@ study?
 
 \vfill
 
-
+<!-- new problem -->
 
 **Time spent studying** After their first year, Harvard undergraduates are randomly assigned to residential houses.  Suppose the Dean of Undergraduate Studies wishes to estimate the average number of hours per night spent studying among the second, third and  fourth year undergraduates.
 
@@ -271,6 +280,7 @@ study?
   
   b.  Should a survey be stratified or clustered by residential house?  Explain your answer.
   
+<!-- new problem -->
 
 **Massachusetts forests** The US Forest Service maintains an inventory of the nation's forests.  As part if that mandate it collects random samples of trees from forested areas.  The upper panel in the figure below is a map of Massachusetts with its 14 counties color coded and with a grid overlay.  The lower panel is a map of forest types in the state from [a state sponsored website](https://www.mass.gov/guides/forestry-in-massachusetts).  Suppose the Forest Service decides to use county boundaries in its sampling frame.  Discuss the advantages of:
 
@@ -290,7 +300,23 @@ knitr::include_graphics("./exercises/images/ma-counties.png")
 knitr::include_graphics("./exercises/images/ma-forests.png")
 ```
 
+**Quality control in patient billing**  The management of a large  clinic wishes to design a system for checking the accuracy of its patient billing procedures.  The accounting staff processes about 200 patient bills each day.  The management team would like to check 50 randomly selected bills each week. 
 
+    a. Propose a sampling strategy for choosing the 50 bills.
+    
+    b. Suppose for billing purposes, the patient population of the clinic consists of two groups, one with employer provided health insurance, and one with governnment provided  health insurance (medicare or medicaid).  How should the sampling scheme in part a be modified to reflect this?
+    
+**Assessing sexual misconduct in higher education**  The 2024 Higher Education Sexual Misconduct and Awareness (HESMA) survey assessed the prevalence of types of sexual misconduct at 10 participating colleges and universities.  The full report is publicly available at [this website](https://www.westat.com/wp-content/uploads/2024/10/HESMA_FinalAggregateReport_10_21_24.pdf).  The sampling methodology for the report is described in the methodology section listed in the table of contents.  Based on that section answer the following questions:
+ 
+    a. What was the population of interest for the survey?
+    
+    b. What was the sampling frame?
+    
+    c. What type of sampling did the study use?
+    
+    d.  What was the response rate?
+    
+    e.  Describe how both non-response bias and item non-response bias might influence the results of the survey.
 
 *This section contains open-ended discussion questions and prompts for exploring data on the web.  They are most valuable when done in groups or in smaller course section meetings.  No example answers are provided, but questions usually provide hints on how to get started.*
 

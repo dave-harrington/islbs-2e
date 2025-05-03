@@ -140,14 +140,14 @@ terms_chp_2 <- c("clinical trial",
 
 Two key goals of any study based on data are eliminating bias and minimizing uncertainty. \index{bias} **Bias** in a is a systematic error that causes observed results to deviate from the true phenomenon being studied, and \index{uncertainty} is the natural by product of chance variation.   One major role of statistics in medical research is exploring the effectiveness of interventions. In statistical terms, this means estimating without bias a causal association between an intervention and a response with sufficient precision to make the observed association useful. [^Numerical measures of uncertainty are discussed in @sec-inference-foundations] Randomized experiments are the most reliable way to meet these goals.
 
-LEAP, a designed experiment, evaluated the effectiveness of peanut consumption in reducing the likelihood of a child developing a peanut allergy. It was based on a specific research question: does peanut consumption reduce the likelihood of a peanut allergy compared to peanut avoidance? The study also specified the response variable: the outcome to an oral food challenge at age 5. Moreover, LEAP adhered to four main principles of experimental design: control, randomization, replication, and blocking. 
+LEAP, a designed experiment, evaluated the effectiveness of peanut consumption in reducing the likelihood of a child developing a peanut allergy. It was based on a specific research question: does peanut consumption reduce the likelihood of a peanut allergy compared to peanut avoidance? The study specified a response variable, the outcome to an oral food challenge at age 5, and an explanatory variable, a treatment with the two level peanut consumption and avoidance.  LEAP also adhered to four main principles of experimental design: control, randomization, replication, and blocking. 
 
 
 1. **Control**  When selecting participants for a study, researchers \index{control} **control** for extraneous variables by enrolling a sample of participants representative of the population of interest.  For instance, the LEAP study restricted infants to those with severe eczema and/or allergies to eggs, between 4 and 11 months old, and fed them at least 6g of peanut protein per week. 
 
 2. **Randomization** Randomizing patients to treatment groups ensures that potential confounders are distributed similarly in the groups. This balance allows the treatment as the only systematic difference between the groups, and differences in outcome can be attributed to the treatment. Randomization minimizes confounding and prevents biased conclusions about causality. In the LEAP study, infants were randomly assigned to one of two treatment groups, and randomization is also used when comparing more than two interventions.
 
-Random assignment may not perfectly balance groups. Chance variation can sometimes produce large differences in a confounder's distribution between intervention groups. Note potential confounders measured. If a potential confounder isn't measured and balance isn't evident, researchers generally trust the randomization.
+    Random assignment may not perfectly balance groups. Chance variation can sometimes produce large differences in a confounder's distribution between intervention groups. Note potential confounders measured. If a potential confounder isn't measured and balance isn't evident, researchers generally trust the randomization.
 
 3. **Replication** The results of a study conducted on a larger number of cases are more reliable than in smaller studies.  In a single study, \index{replication} **replication** is accomplished by collecting a sufficiently large sample, and reduces uncertainty in the conclusions. The LEAP study randomized a total of 640 infants.
 
@@ -649,6 +649,8 @@ somerstat_sidewalks_wna |>
 ```
 
 Methods to adjust for non-response bias and item non-response are discussed in advanced texts about survey design and analysis and are beyond the scope of this  text.  It is important, however, to be aware of these possible sources of bias when reading the results of a survey.
+
+**Response bias** \index{response bias}  Add explanation
 
 **Sampling bias** \index{sampling bias} Sampling bias occurs when a systematic error in data collection causes an unrepresentative sample. Sampling bias leads to *unintended* disproportionate sampling.   Convenience sampling generally leads to sampling bias as illustrated in @fig-sample-convenience-health-plan. Homeless or marginally housed populations are sometimes missed in health care surveys because of the lack of accurate contact information.
 
