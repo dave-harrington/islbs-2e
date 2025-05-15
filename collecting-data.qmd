@@ -33,20 +33,18 @@ Incomplete draft, additions and proofing to come
 
 
 ::: {.chapterintro data-latex=""}
-Much of the important work in using data to study issues in public health and medicine happens before data collection and involves answers to the following questions:
+The important work in conducting studies in public health and medicine begins by answering the following questions:
 
-* What question does the study team hope to answer?  The question should be as specific as possible.  Rather than the important but vague "What is the quality of post-natal care in rural Maine?", a better question is "In the five counties in Maine with the lowest population density, what proportion of infants die in the first year of life?".
+* What question does the study intend to answer?  The question should be as specific as possible.  Rather than the important but vague "What is the quality of post-natal care in rural Maine?", a better question might be "How does the rate of infant deaths in the five counties in Maine with the lowest population density compare to the rate in urban centers?"  
 
-* What is the best way to collect data to answer that question?  In statistical terms, how should the study be designed?
+* What are the response and explanatory variables used to answer the question?
 
-* What are the sources of error in data collection that should be controlled, at least as much as possible?
+* What potential sources of error and variability in data can be controlled in data collection, at least as much as possible?
 
 * Are there important questions the study will not be able to answer?  If so, perhaps the design should be reconsidered.
 
-This chapter discusses three main types of studies:  randomized experiments, observational studies, and sampling from a population.  Each has important advantages and constraints, but done well, studies of each type lead to progress in treating disease or in understanding the health of a population.
+This chapter discusses three study designs:  randomized experiments, observational studies, and sampling from a population.  Each has important advantages and constraints, but done well, studies of each type can lead to progress in treating disease or in understanding the health of a population.
 :::
-
-
 
 
 ## Randomized experiments {#sec-randomized-experiments}
@@ -55,17 +53,15 @@ This chapter discusses three main types of studies:  randomized experiments, obs
 
 \index{data!LEAP|(}
 
-Is there an effective way to prevent peanut allergies in young children?
+Should peanut allergies in children be prevented by avoiding peanut products in the diet of infants who have egg or other food allergies, or by introducing a steady diet of peanut products?
 
 The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years. Some studies have suggested that exposing infants to peanut-based foods, rather than excluding those foods from their diets, may help prevent peanut allergies (see @du2008early). The "Learning Early about Peanut Allergy" (LEAP) ^[@du2015randomized] study was conducted in a controlled setting to investigate whether early exposure to peanut products reduces the likelihood of developing a peanut allergy.
 
-The study team enrolled children in the United Kingdom between 2006 and 2009, selecting  640 infants between  4  and  11  months old who had eczema, an egg allergy, or both. Each child was randomly assigned to one of two groups: the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams (g) of peanut protein daily until 5 years of age, while children in the control group avoided peanut protein during the same period.  Each child was administered a skin test for a peanut allergy at the time of random assignment.  The outcome of the test was recorded, but children with either outcome (positive or negative) were enrolled.
+The study team enrolled children in the United Kingdom between 2006 and 2009, selecting  640 infants between  4  and  11  months old who had eczema, an egg allergy, or both. Each child was randomly assigned to one of two groups: the peanut consumption (the treatment group)  or  peanut avoidance (the control group). Children in the treatment group were fed at least 6 grams (g) of peanut protein daily until 5 years of age, while children in the control group avoided peanut protein during the same period.   To detect a peanut allergy at age five, each child underwent an oral food challenge (OFC) --  consuming 5g of peanut protein. In the data collection, "PASS" was used to indicate no allergic reaction, while a "FAIL" indicated an allergic reaction.
 
-At age five, each child underwent an oral food challenge (OFC) test to assess peanut allergy. The test involved consuming 5g of peanut protein. A PASS indicated no allergic reaction, while a FAIL indicated an allergic reaction.
+The response and explanatory variables were the OFC outcome and peanut content of the child's diet.
 
-The primary analysis used data from 530 children with a negative skin test at the study's start. However, data were unavailable for 12 children.
-
-The LEAP [data](http://openintrostat.github.io/openintro/reference/LEAP.html) data are available in the [**openintro**](http://openintrostat.github.io/openintro) R package. Individual-level data from the study are shown in @tbl-leap-study-results-df, which includes 6 children with a negative skin prick test at randomization. Each row represents a participant, showing their `participant.ID`, `treatment.group`, and `overall.V60.outcome` (OFC result at 60 months). 
+The LEAP [data](http://openintrostat.github.io/openintro/reference/LEAP.html) data are available in the [**openintro**](http://openintrostat.github.io/openintro) R package. Individual-level data from are shown in @tbl-leap-study-results-df. Each row represents a participant, showing their `participant.ID`, `treatment.group`, and `overall.V60.outcome` (OFC result at 60 months). 
 
 
 ```{r leap-trimmed}
@@ -88,7 +84,8 @@ LEAP_trimmed  |>
     full_width = FALSE)
 ```
 
-The data can be organized in a two-way contingency table; @tbl-leap-study-results shows the results grouped by treatment group and OFC outcome.
+The primary analysis in the published study was based on data from 530 of the 542 children with a negative skin test at the study's start; data on the OFC were not available for 12 children.
+@tbl-leap-study-results shows the results grouped by treatment group and OFC outcome.
 
 ```{r leap-study-results}
 #| label:  tbl-leap-study-results
@@ -114,44 +111,44 @@ LEAP_analyzed |>
  )
 ```
 
-The table shows patterns in the data. The intervention failed to prevent an allergy in 15.6% of children, but the proportions differ: 13.7% in the avoidance group and 1.9% in the consumption group.
+The table shows clear patterns in the data. The intervention failed to prevent an allergy in 15.6% of children overall, but the proportions in the treatment and control groups differ: in the avoidance group 13.7% of the children showed a peanut allergy at the OFC, while only and 1.9% showed an allergy in the consumption group.
 
-The difference in OFC failure proportions is 11.8%, or nearly 12% more in the avoidance group. The ratio of the two proportions is 0.137/0.019 = 7.31, indicating the avoidance group has a 7 times higher risk of a subsequent peanut allergy.
+The difference in OFC failure proportions is 11.8%; the proportion of OFC failures is approximately 12% higher in the avoidance group. The ratio of the two proportions is 0.137/0.019 = 7.31, indicating the avoidance group has a 7 times higher risk of a subsequent peanut allergy.
 
 Even without advanced methods, the LEAP study results are striking. Early peanut product exposure seems effective in reducing the likelihood of later peanut allergies. Is it reasonable to assume peanut product consumption caused this reduction? 
 
-In the language of medical research, LEAP was a \index{clinical trial} **clinical trial** -- a study done to improve the understanding of an intervention in a clinical setting. In statistical terms, LEAP was an \index{experiment} **experiment** involving human subjects, also called participants, -- a study done in a controlled setting to estimate the difference in outcome between two interventions. 
+In the language of medical research, LEAP was a \index{clinical trial} **clinical trial** -- a study done to test the value of an intervention in a clinical setting. In statistical terms, LEAP was an \index{experiment} **experiment** involving \index{human subjects} **human subjects**, also called \index{participants} **participants** -- a study done in a controlled setting to estimate the difference in outcome between two interventions. 
 
-This study illustrates important issues in \index{evidence-based medicine} **evidence-based medicine**. At the time, avoiding peanut products was the prevailing approach to preventing peanut allergies in at-risk children. LEAP  challenged this belief, providing evidence that avoidance was not the most effective strategy. In 2017 the National Institute of Allergy and Infectious Diseases issued [new guidelines](https://www.niaid.nih.gov/sites/default/files/addendum-peanut-allergy-prevention-guidelines.pdf) for the management of children susceptible to peanut allergies based largely on the LEAP findings.
+This study illustrates important issues in \index{evidence-based medicine} **evidence-based medicine**. At the time the study was conducted, avoiding peanut products was the prevailing approach to preventing peanut allergies in at-risk children. LEAP  challenged this belief, providing evidence that avoidance was not the most effective strategy. In 2017 the National Institute of Allergy and Infectious Diseases issued [new guidelines](https://www.niaid.nih.gov/sites/default/files/addendum-peanut-allergy-prevention-guidelines.pdf) for the management of children susceptible to peanut allergies based largely on the LEAP findings.
 
-Importantly, the study required informed consent from parents to randomly assign their children to be randomly assigned to one of two interventions with uncertain outcomes. In return investigators ensured that the study was justified by preliminary data, had a sound design, and protected the well-being of the participants. ^[The 2024 update to the World Medical Association Ethical Principles for Medical Research Involving Human Participants (also known as the Declaration of Helsinki) can be found in 
-@wma2024jama]
+Importantly, the study required informed consent from parents to randomly assign their children to be randomly assigned to one of two interventions with uncertain outcomes. In return investigators ensured that the study was justified by preliminary data, had a sound design, and protected the well-being of the participants. ^[The 2024 update to the World Medical Association Ethical Principles for Medical Research Involving Human Participants (also known as the Declaration of Helsinki) can be found in @wma2024jama.
 
 
 ```{r }
 #| include: false
 terms_chp_2 <- c("clinical trial",
                  "experiment",
-                 "evidence-based medicine")
+                 "evidence-based medicine",
+                 "human subjects",
+                 "participants")
 ```
 \index{data!LEAP|)}
 
 ### Principles of experimental design {#sec-priniciples-of-experimental-design}
 
-Two key goals of any study based on data are eliminating bias and minimizing uncertainty. \index{bias} **Bias** in a is a systematic error that causes observed results to deviate from the true phenomenon being studied, and \index{uncertainty} is the natural by product of chance variation.   One major role of statistics in medical research is exploring the effectiveness of interventions. In statistical terms, this means estimating without bias a causal association between an intervention and a response with sufficient precision to make the observed association useful. [^Numerical measures of uncertainty are discussed in @sec-inference-foundations] Randomized experiments are the most reliable way to meet these goals.
+Statistics is often used in medical research to explore the effectiveness of interventions, where eliminating bias and minimizing uncertainty are particularly important. \index{bias} **Bias** is a systematic error that causes observed results to deviate from the true phenomenon being studied, and \index{uncertainty} **uncertainty** is the natural by product of chance variation.  In statistical terms, experiments should estimate a causal association between an intervention and a response without bias and with sufficient precision to make the observed association useful. [^Numerical measures of uncertainty are discussed in @sec-inference-foundations] Randomized experiments are the most reliable way to meet these goals.
 
 LEAP, a designed experiment, evaluated the effectiveness of peanut consumption in reducing the likelihood of a child developing a peanut allergy. It was based on a specific research question: does peanut consumption reduce the likelihood of a peanut allergy compared to peanut avoidance? The study specified a response variable, the outcome to an oral food challenge at age 5, and an explanatory variable, a treatment with the two level peanut consumption and avoidance.  LEAP also adhered to four main principles of experimental design: control, randomization, replication, and blocking. 
 
+1. **Control.**  When selecting participants for a study, researchers \index{control} **control** for extraneous variables by enrolling a sample of participants representative of the population of interest.  For instance, the LEAP study restricted infants to those with severe eczema and/or allergies to eggs, between 4 and 11 months old, and fed them at least 6g of peanut protein per week. Control reduces uncertainty by minimizing variability.
 
-1. **Control**  When selecting participants for a study, researchers \index{control} **control** for extraneous variables by enrolling a sample of participants representative of the population of interest.  For instance, the LEAP study restricted infants to those with severe eczema and/or allergies to eggs, between 4 and 11 months old, and fed them at least 6g of peanut protein per week. 
+2. **Randomization.** Randomizing patients to treatment groups ensures that potential confounders are distributed similarly in the groups. This balance implies that the treatment is the only systematic difference between the groups, and differences in outcome can be attributed to the treatment. Randomization minimizes confounding and prevents biased conclusions about causality. In the LEAP study, infants were randomly assigned to one of two treatment groups; randomization is also used when comparing more than two interventions.
 
-2. **Randomization** Randomizing patients to treatment groups ensures that potential confounders are distributed similarly in the groups. This balance allows the treatment as the only systematic difference between the groups, and differences in outcome can be attributed to the treatment. Randomization minimizes confounding and prevents biased conclusions about causality. In the LEAP study, infants were randomly assigned to one of two treatment groups, and randomization is also used when comparing more than two interventions.
+    Random assignment may not perfectly balance groups. Chance variation can sometimes produce large differences in a confounder's distribution between intervention groups. If a potential confounder has not been measured, researchers generally trust the randomization.
 
-    Random assignment may not perfectly balance groups. Chance variation can sometimes produce large differences in a confounder's distribution between intervention groups. Note potential confounders measured. If a potential confounder isn't measured and balance isn't evident, researchers generally trust the randomization.
+3. **Replication.** The results of a study conducted on a larger number of cases are more reliable than in smaller studies.  In a single study, \index{replication} **replication** is accomplished by collecting a sufficiently large sample, and reduces uncertainty in the conclusions. The LEAP study randomized a total of 640 infants.
 
-3. **Replication** The results of a study conducted on a larger number of cases are more reliable than in smaller studies.  In a single study, \index{replication} **replication** is accomplished by collecting a sufficiently large sample, and reduces uncertainty in the conclusions. The LEAP study randomized a total of 640 infants.
-
-4. **Blocking** Experiments use \index{blocking} **blocking** when a few variables may significantly influence the response. Participants are grouped into blocks based on attributes and randomized to treatment within each block. This is also called \index{stratifying} **stratifying**. The LEAP study team stratified infants into two cohorts based on the skin test outcome: red, swollen mark (wheal). Infants were randomized between peanut consumption and avoidance groups within each block. 
+4. **Blocking.** Experiments use \index{blocking} **blocking** when a few variables may significantly influence the response. Participants are grouped into blocks based on attributes and randomized to treatment versus control within each block. This is also called \index{stratifying} **stratifying**. The LEAP study team stratified infants into two cohorts based on the skin test outcome: red, swollen mark (wheal). Infants were randomized between peanut consumption and avoidance groups within each block. 
 
 
 @fig-leap-design illustrates the design of LEAP. 
@@ -164,11 +161,11 @@ There are important additional features in the design of experiments present wit
   - **Informed Consent** Nearly all countries require that participants in a clinical trial be informed about the goals of the study, as well as its potential benefit or harm, and sign an informed consent acknowledging agreement to participate.  In the United States this requirement is monitored by 
 [The Food and Drug Administration](https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-50) and  [The Department of Health and Human Services](https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46).  There are rare exceptions to this requirement.
 
-  - **Blinding**  The knowledge of a participant's treatment assignment can influence their assessment of its effectiveness. For instance, participants may be more likely to report an experimental treatment for depression as effective if they know they are receiving it. To avoid bias, participants are usually not informed of their treatment assignment, making the study a \index{blind study} **blind study**. In some cases, a \index{placebo} **placebo**, an inert substance administered similarly to the experimental treatment, may be used. However, in chronic diseases where it's unethical to treat participants in trials, a current standard treatment is used instead of a placebo.  
+  - **Blinding**  The knowledge of a participant's treatment assignment can influence their assessment of its effectiveness. For instance, participants may be more likely to report an experimental treatment for depression as effective if they know they are receiving it. To avoid bias, participants are usually not informed of their treatment assignment, making the study a \index{blind study} **blind study**. In some cases, a \index{placebo} **placebo**, an inert substance administered similarly to the experimental treatment, may be used. However, in chronic diseases where it's unethical to treat participants in trials, a current standard intervention is used instead of a placebo.    
   
-When members of the research team might be influenced by knowing the assigned treatment, they are also blinded to the treatment.  For instance, a psychiatrist might assess a participants depression differently if the clinician is aware the participant is being given an experimental treatment.  Studies in which both the participant and members of the research team are not told the assigned treatment are called \index{double blind} **double blind**.
+    When members of the research team might be influenced by knowing the assigned treatment, they are also blinded to the treatment.  For instance, a psychiatrist might assess a participants depression differently if the clinician is aware the participant is being given an experimental treatment.  Studies in which both the participant and members of the research team are not told the assigned treatment are called \index{double blind} **double blind**.  
 
-Blinding is not always possible.  The parents of the infants participating in LEAP knew whether or not the child was consuming peanut based material.  Because the response to the experiment was measured by the outcome to an oral food challenge, blinding was not necessary.
+    Blinding is not always possible.  The parents of the infants participating in LEAP knew whether or not the child was consuming peanut based material.  Because the response to the experiment was measured by the outcome to an oral food challenge, blinding was not necessary.
 
 ```{r }
 #| include: false
@@ -188,60 +185,59 @@ terms_chp_2 <- c("blinding",
 
 ::: {.workedexample data-latex=""}
 
-A gardener wants to test two fertilizers for rose bushes on her 12 $\times$ 12 meter plot. She plans to organize the garden in a checkerboard pattern of 16 3 $\times$ 3 meter squares, with two square plots with and without bushes in each row.
+A gardener wants to test two fertilizers for rose bushes on her 12 $\times$ 12 meter plot. She plans to organize the garden in a checkerboard pattern of 16 3 $\times$ 3 meter squares, with two square plots with and without bushes in each row.   She has noted in the past that some of the rows get less sun because of a nearby shade tree
 
-Design an experiment to evaluate the fertilizers. Specify a question to investigate and a response variable.
+Design an experiment to evaluate the fertilizers. Specify a specific question to investigate and potential response and explanatory variables.
 
 ----------------------------
 
-There are many possible answers.  The specific research question would be which fertilizer produces the healthier rose bushes, assessed with the response variable the number of blossoms on a each bush.
+There are many possible answers.  The specific research question would be which fertilizer produces the healthier rose bushes.  The response variable and explanatory variables are the number of blossoms on a each bush and the fertilizer used in each square.
 
-**Control**: Apart from the fertilizer he wishes to test, all the bushes should cared for the same way.  The control treatment (no fertilizer) should be clearly specified. All the bushes should be of the same variety and each square plot should contain the same number of bushes.  They should be watered on the frequency at the same time of day.  
+**Control**. Apart from the fertilizer he wishes to test, all the bushes should cared for the same way.  The control treatment (no fertilizer) should be clearly specified. All the bushes should be of the same variety and each square plot should contain the same number of bushes.  They should be watered on the frequency at the same time of day.  
 
-**Randomization**:  Each square plot should be randomly assigned to fertilizer versus control.
+**Randomization**.  Each square plot should be randomly assigned to fertilizer versus control.
 
-**Replication**: It seems reasonable to plant 3 bushes in each plot with plants, leading to 24 total plants.
+**Replication**. It seems reasonable to plant 3 bushes in each plot with plants, leading to 24 total plants.
 
-**Blocking**: Within each row, the gardener should randomly assign 2 plots to fertilizer and 2 to control.
+**Blocking**. Within each row, the gardener should randomly assign 2 plots to fertilizer and 2 to control.
 
-**Blinding**:   The gardener cannot be blinded to the treatment, unless she can find an inert substance (a placebo!) that looks identical to the fertilizer.  She can be blinded to the evaluation, however, by asking someone who was not aware  of the treatment to count the blossoms on each bush.
+**Blinding**.   The gardener cannot be blinded to the treatment, unless she can find an inert substance (a placebo!) that looks identical to the fertilizer.  She can be blinded to the evaluation, however, by asking someone who was not aware  of the treatment to count the blossoms on each bush.
 
 :::
 
 
 ::: {.workedexample data-latex=""}
 
-A large hospital plans to test a new method of insuring its physician assistants (PAs) accurately complete vital signs and symptom measurements at its outpatient clinic. Currently, PAs attend a training session for one of four specialties, see patients after passing an exam, and use a specialized checklist. The hospital considers eliminating the training session and equipping PAs with a standardized electronic checklist on tablets.
+An outpatient clinic plans to test a new method of insuring its physician assistants (PAs) accurately complete vital signs and symptom measurements. Currently, PAs attend a training session for one of four specialties, see patients after passing an exam, and use a specialized checklist. The hospital considers eliminating the training session and equipping PAs with a standardized electronic checklist on tablets that can use software to check errors.
 
+Each June, the organization hires 80 new PAs and assigns to their program of choice.  Typically at least 16 elect each of the specialties.
 
-Each June, the organization hires 80 new PAs assigned to their program of choice.  Typically at least 16 elect each of the practices.
-
-Describe how the principles experimental design might be used in an experiment to evaluate the new checklist. Specify a response variable and how it will be measured.
+Describe how the principles experimental design might be used to evaluate the new checklist. Specify a question of interest and the response and explanatory variables.
 
 ------------------------------------------
 
-The simplest response variable would be whether or not the PA conducted a complete exam, as evaluated by the supervising clinician.
+The question of interest might be how do the error rates assessing signs and symptoms compare for PAs who underwent training versus those using the checklist. The response and explanatory variables might be whether or not a PA conducted a complete, accurate assessment of signs and symptoms and the use of the checklist.
 
-Control:  The study should be limited to the 80 new PAs hired each June, since their level of knowledge should be about the same.  The signs and symptoms should be assessed in a private exam room so that PAs in the same practice are not aware of what  method their colleagues are using.
+**Control.**  The study should be limited to the 80 new PAs hired each June, since their level of knowledge should be about the same.  The signs and symptoms should be assessed in a private exam room so that PAs in the same practice are not aware of what  method their colleagues are using.
 
-Randomization:  At the time of hiring, each PA should be randomized to use the checklist or attend a training session.
+**Randomization.**  At the time of hiring, each PA should be randomized to use the checklist or attend a training session.
 
-Replication:  The hospital should enroll as many of the new PAs as possible in the program.
+**Replication.**  The hospital should enroll as many of the new PAs as possible in the program.
 
-Blocking: Since PAs may differ according to their preferred setting (pediatrics versus dermatology, for instance), the randomization should blocked (stratified) by specialty.
+**Blocking.** Since PAs may differ according to their preferred setting (pediatrics versus dermatology, for instance), the randomization should blocked (stratified) by specialty.
 
-Blinding: It will not be possible to blind the PAs to their intervention, but the clinician evaluating the PA exams should be blinded.
+**Blinding.** It will not be possible to blind the PAs to their intervention, but the clinician evaluating the PA exams should be blinded.
 
-Consent:  Each PA should be informed that they are participating in an experiment and given the opportunity to decline participation.
+**Consent.**  Each PA should be informed that they are participating in an experiment and given the opportunity to decline participation.
 
 :::
 
-These principles have revolutionized the practice medicine and shaped public policy. The Salk vaccine trials (1954-1955) demonstrated effectiveness in preventing polio, based on results from 401,974 randomized children. The long-term impact has been significant. Our World in Data's @fig-polio-vaccine-owid shows the substantial decrease in polio-related paralysis between 1980 and 2020 after global vaccine adoption.
+These principles have revolutionized the practice medicine and shaped public policy. The Salk vaccine trials (1954-1955) demonstrated effectiveness in preventing polio, based on results from 401,974 randomized children. The long-term impact has been significant.  @fig-polio-vaccine-owid from Our World in Data shows the decrease in polio-related paralysis between 1980 and 2020 after global vaccine adoption.
 
 
 ```{r}
 #| label: fig-polio-vaccine-owid
-#| out-width: 96%
+#| out-width: 60%
 #| fig-cap: |
 #| fig-asp: 1.0
 #| fig-pos: H
@@ -249,7 +245,7 @@ knitr::include_graphics("images/Polio-cases-over-time-by-world-region.jpg")
 ```
 
 
-More recently, a study of 42,548 participants established the efficacy of the BNT162b2 mRNA Covid-19 vaccine [@polack2020safety]. Small studies can be effective as well. A study of 42,548 participants [@polack2020safety] established the efficacy of the BNT162b2 mRNA Covid-19 vaccine. Small studies can be effective too. A 1994 study [@connor1994hiv] of 477 women showed that AZT reduced the rate of mother-to-child transmission when HIV-infected women gave birth.
+More recently, a study of 42,548 participants established the efficacy of the BNT162b2 mRNA Covid-19 vaccine [@polack2020safety].   Small studies can be effective as well. A 1994 study [@connor1994hiv] of 477 women showed that the anti-retroviral therapy azidothymidine (AZT) reduced the rate of mother-to-child transmission when HIV-infected women gave birth.
 
 Not all controlled experiments are randomized. In the initial stages of studying a pharmaceutical intervention, a small number of participants are given it to explore safety. Designs for these studies are not discussed here.
  
@@ -258,29 +254,47 @@ Not all controlled experiments are randomized. In the initial stages of studying
 
 ### Example: the precursor to LEAP
 
-LEAP was not conducted in a vacuum; it wouldn't have been ethical to randomize infants prone to allergies to a diet of peanut consumption without prior data suggesting the strategy might be effective.  LEAP was preceded by several studies, including one in which investigators compared diets and the presence of peanut allergies in the United Kingdom (UK) and Israel [@du2008early]. The study  found that 1.85% of UK children had peanut allergies compared to 0.17% in Israel. However, Israeli infants consumed 7.1 g of peanut protein per month, compared to 0 g in the UK. A strong negative association between peanut consumption and peanut allergies was observed.
+LEAP was not conducted in a vacuum; it would not have been ethical to randomize infants susceptible to peanut allergies to a diet of peanut consumption without prior data suggesting the strategy might be effective.  LEAP was preceded by several studies, including one in which investigators compared diets and the presence of peanut allergies among children in the United Kingdom (UK) and Israel [@du2008early]. The study found that 1.85% of UK children had peanut allergies compared to 0.17% in Israel. However, Israeli infants consumed 7.1g of peanut protein per month, compared to 0g in the UK. The study showed a strong negative association between peanut consumption and the presence of a peanut allergy.
 
-The 2008 Du Toit study was an \index{observational study} **observational study**, one in which potential explanatory variables for a response are simply recorded and not assigned using randomization or other mechanisms.  Without the benefit of randomization observational studies cannot be guaranteed to free of confounders, so causal effects cannot be claimed for observed associations. ^[Advanced courses in statistics cover methods for causal conclusions in observational data.]  Nevertheless, well-designed observational studies can be important to justify a subsequent randomized experiment, or even essential when a randomized study cannot be done, such as a study of the health effects of air pollution.
+The 2008 Du Toit study was an \index{observational study} **observational study**, a study in which potential explanatory and a response variables are simply recorded and not assigned using randomization or other mechanisms.  Without the benefit of randomization observational studies are not guaranteed to free of confounders, so causal effects cannot be claimed for observed associations. ^[Advanced courses in statistics cover methods for making causal conclusions in observational data.]  Nevertheless, well-designed observational studies can be important to justify a subsequent randomized experiment, as in LEAP.  In settings where a randomized study cannot be done, an observational study may be the only option. The Harvard Six Cities Study [@dockery1993pope] collected data on 8,011 adults in six communities between 1975 and 1991 and found that long term exposure to fine particulate matter in the air was associated with an increased risk of death from cardiopulmonary causes.  The study influenced the 1990 amendments to the US Clean Air Act.
 
-Observational studies can be based on either newly collected or existing data.  The 2008  study used questionnaires to collect data on diet and peanut allergies in UK and Israeli school children.  The case study in @sec-developmental-disability examining the association between expenditures and race of a consumer was an observational study using  existing California DDS data.  
+The Six Cities Study was a **prospective observational study**, \index{prospective observational study} since it collected information as it unfolded in a population of interest. **Retrospective observational studies** collect data after events have taken place.  Studies that use medical records to examine health outcomes are examples of retrospective studies.  **Cross sectional studies** \index{cross sectional studies} collect data on response and explanatory variables at a single point in time. The 2008 Du Toit study was cross sectional, since it used questionnaires to collect data on diet and peanut allergies in UK and Israeli school children.   
+
+In observational studies in public health, the response variable is often called an **outcome variable** \index{outcome variable} and explanatory variables are called **exposure variables** \index{exposure variables}.
+
+### Common pitfalls in observational studies {#sec-observational-studies-pitfalls}
+
+An observational study can be a complex enterprise and several potential weaknesses can threaten its value.  The most common are:
+
+    - **Confounding.** As discussed earlier, the lack of a randomized assignment to levels of an explanatory variable makes confounding likely. In the 2008 Du Toit study, exposure to a peanut consumption diet was determined by geography -- whether a child lived in the UK versus Israel.   Possible confounders could include other dietary differences that might, for instance, cause  increases in peanut allergies in the UK or different environmental exposures.  Since the possibility of confounding cannot be eliminated by randomization, well-done observational studies collect as much data on confounders as is feasible to allow for statistical adjustment.
+
+    - **Selection bias.**
+
+    - **Measurement bias.**
+
+    - **Missing data.**
+    
+    - **Misinterpretation.**
+
+
 
 ### Guidelines for designing observational studies {#sec-observational-studies-guidelines}
 
-As in randomized experiments, observational studies should be based on a specific question about a response and potential explanatory variables.  Guidelines for the design of observational studies are similar to the priniciples of experimental design, but with some important modifications.
+Observational studies should be based on a specific question about the relationship between a response and explanatory variables and use designs that minimize bias and reduce uncertainty. Guidelines for the design of observational studies are similar to the principles of experimental design, but with some important modifications.
 
-1. **Control**  Control in the design of an observational study is similar to control in an experiment.  The study data should be restricted to the population of interest.  The Du Toit study recorded peanut allergies in questionnaires given to primary and secondary school children in Jewish schools in greater London and schools in Tel Aviv, Israel.  The two populations were chosen because an assumed similar genetic makeup.  Children completing the allergy questionnaire lived in similar environments: north London in the UK and in a specific region of Tel Aviv (the Mehoz Merkaz Region).  The dietary questionnaire was administered to Israeli parents of infants age 14 - 24 months. In the UK clinical guidelines recommend the avoidance of peanut products during infancy, so no questionnaire was needed. 
+1. **Control.**  Control in the design of an observational study is similar to control in an experiment.  The study data should be restricted to the population of interest.  The Du Toit study recorded peanut allergies in questionnaires given to primary and secondary school children in Jewish schools in greater London and schools in Tel Aviv, Israel.  The two populations were chosen because of an assumed similar genetic makeup.  Children completing the allergy questionnaire lived in similar environments: North London and the Mehoz Merkaz Region of Tel Aviv.  The dietary questionnaire was administered to Israeli parents of infants age 14 - 24 months. In the UK clinical guidelines recommended the avoidance of peanut products for all infants, so no questionnaire was needed. 
 
-2. **Recording confounders**  Since randomization will not be used to balance (on average) potential confounders across levels of explanatory, it is important to consider in advance which confounders should either be measured or used in an existing dataset. The study team in UK/Israeli peanut allergy study recorded the age and sex of the participating primary school children as well as the presence of egg/milk allergies.  
+2. **Recording confounders.**  Since randomization will not be used to balance (on average) potential confounders across levels of explanatory, it is important to consider in advance which confounders should either be measured or used in an existing dataset. The study team in UK/Israeli peanut allergy study recorded the age and sex of the participating primary school children as well as the presence of egg/milk allergies. Statistical models discussed in later chapters provide methods for estimating relationships in observational studies in the presence of confounders.
 
-3. **Replication**  Larger datasets are always better than smaller ones, so observational data should contain enough measurements on the response and explanatory variables to allow sufficient analyses.
+3. **Replication.**  Larger datasets are  better than smaller ones, so observational data should contain enough measurements on the response and explanatory variables to reduce uncertainty in the results of analyses.  There is an important caveat about study size in observational studies. If confounding is causing bias in an observed relationship, more data collected with the same design will not fix the problem; it will simply make a wrong answer appear more certain.  (NEED AN EXAMPLE OF THIS BEFORE WE GET TO SURVEYS, WHERE THE POINT CAN BE MADE WITH AXIOS VERSUS FACEBOOK.)
 
-4. **Stratification**  Stratifying a population into relatively homogeneous groups reduces variability and may lead to more interpretable results. The Du Toit study did not stratify during data collection but did analyze the results from primary school children separately. The apparent strong relationship between expenditures and consumer race disappeared when the consumer population was stratified by age.  The Portland tree inventory project stratified is data collection by classifying the trees as street versus park trees.  
+4. **Stratification.**  Stratifying a population into relatively homogeneous groups reduces variability and may lead to more interpretable results. The Du Toit study did not stratify during data collection but did analyze the results from primary school children separately. In the DDS data, the apparent strong relationship between expenditures and consumer race disappeared when the consumer population was stratified by age.  The Portland tree inventory project stratified its data collection by classifying the trees as street versus park trees.  
 
 Even the best designed observational studies cannot study causal relationships since there will almost always be unmeasured confounders, but they do lead to more reliable estimates of observed associations, so the interpretation of an observational study is particularly important.  Even though the Du Toit study observed a prevalence of peanut allergies  that was more than 10-fold higher in when comparing countries with different diets (1.85% vs 0.17%) the authors of the article reporting the study noted "Our study ﬁndings raise the question of whether early introduction rather than avoidance of peanut in infancy is the better strategy for the prevention of peanut allergy".
 
 ::: {.workedexample data-latex=""}
 
-Suppose a clinical team wants to study the association between a patient's primary language and their ability to adhere to a particularly complicated oral medicine.   Assume that the team has access to records from the clinic that include the primary language spoken and other demographic factors, as  well as the result of follow-up visits that assessed patients' self-reported success in taking the medicine.  Outline how the principles of observational studies be used in this setting.
+Adherence to a medication consists of following the prescribed dose and schedule.  Suppose a clinical team wants to study the association between a patient's primary language and their ability to adhere to a oral medicine.   Assume that the team has access to records from the clinic that include the primary language spoken and other demographic factors, as  well as the result of follow-up visits that assessed patients' success in taking the medicine as prescribed.  Outline how the guidelines for observational studies might be used in this setting.
 
 ----------------------------
 
@@ -288,13 +302,13 @@ The outline below is one of many ways this study could be designed.
 
 The specific question is whether the primary language spoken by a patient is associated with  medication adherence. Since the major difference in adherence is likely to be whether English is a patient's primary language, for simplicity the explanatory variable could simply be whether or not English is a second language for the patient.  The response can be an indication in the medical record of successful adherence to a particular medication, such as an oral diabetes drug.  It obviously is not possible to randomly assign patients to a primary language, so this question cannot be studied in a randomized experiment.
 
-1.  **Control**  To limit sources of variability, participants could be drawn from a specific age range, such as patients age between 40 and 60 who  have recently moved to the United States.  The primary language spoken could be limited to the three most common languages spoken as a primary language.  English should be included as a comparison group.  The medication chosen should be one that in the clinic staff experience sometimes leads to confusion about dosing.  It would be best to choose a medication where adherence can be by a method other than self-report, such as glucose levels for an oral diabetes medication or blood pressure readings in patients taking a medication for hypertension.
+1.  **Control.**  To limit sources of variability, participants could be drawn from a specific age range, such as patients age between 40 and 60 who  have recently moved to the United States.  The primary language spoken could be limited to the three most common languages spoken as a primary language.  English should be included as a comparison group.  The medication chosen should be one that in the clinic staff experience sometimes leads to confusion about dosing.  It would be best to choose a medication where adherence can be by a method other than self-report, such as glucose levels for an oral diabetes medication or blood pressure readings in patients taking a medication for hypertension.
 
-2.  **Recording confounders**  Confounders that might influence the association might include whether translation services were provided when the patients was prescribed the medication, whether the patient visit was in person or telehealth, if there are older children in the family in an English language school, and whether or not the patient  has a partner or spouse.
+2.  **Recording confounders.**  Confounders that might influence the association might include whether translation services were provided when the patients was prescribed the medication, whether the patient visit was in person or telehealth, if there are older children in the family in an English language school, and whether or not the patient  has a partner or spouse.
 
-3.  **Replication** The clinic should have sufficient patients in the languages and medication chosen to measure the association accurately.  More specific guidelines for the size of a study are given in later chapters.
+3.  **Replication.** The clinic should have sufficient patients in the languages and medication chosen to measure the association accurately.  More specific guidelines for the size of a study are given in later chapters.
 
-4.  **Stratification** If possible, there should be specific targets for study enrollment within each of the languages chosen and perhaps in the separate age ranges 21 - 30 and 31 - 40.
+4.  **Stratification.** If possible, there should be specific targets for study enrollment within each of the languages chosen and perhaps in the separate age ranges 21 - 30 and 31 - 40.
 
 Concepts from randomized experiments often have important roles in observational studies.  One the groups of patients have been identified as potential participants, individual participants might be selected randomly from within each stratum.  In this study, the participants selected must be informed about the study and its goals and actively consent to participate.
 
@@ -314,7 +328,12 @@ Observational studies in the 1980s [@peto1981can; @van1995epidemiologic] led to 
 
 ```{r }
 #| include: false
-terms_chp_2 <- c(terms_chp_2, c("observational study")
+terms_chp_2 <- c(terms_chp_2, c("observational study",
+                                "prospective observational study",
+                                "retrospective observational study",
+                                "cross sectional study",
+                                "outcome variable",
+                                "exposure variable")
                  )
 ```
 ## Sample surveys {#sec-sample-surveys}
