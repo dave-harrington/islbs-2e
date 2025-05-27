@@ -1330,7 +1330,7 @@ mort_ed_owd <- read.csv("https://ourworldindata.org/grapher/correlation-between-
 
 countries <- mort_ed_owd |> 
   filter(Year == 2020) |> 
-  rename(c_mortality= obs_value__indicator_under_five_mortality_rate__sex_total__wealth_quintile_total__unit_of_measure_deaths_per_100_live_births) |> 
+  rename(c_mortality= observation_value__indicator_child_mortality_rate__sex_total__wealth_quintile_total__unit_of_measure_deaths_per_100_live_births) |> 
   rename(f_education = f_youth_and_adults__15_64_years__average_years_of_education) |> 
   dplyr::filter(Code != "" ) |> 
   dplyr::filter(Entity != "World") 
