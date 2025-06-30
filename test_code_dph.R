@@ -119,18 +119,38 @@ dds_reformat |>
                geom = "linerange", color = "black", linewidth = 1.2) +
   stat_summary(fun = median, geom = "point", color = "red", size = 3) 
   
-  
-  
+
+# gss data tables 
+# 
+# remotes::install_github("kjhealy/gssrdoc")
+# remotes::install_github("kjhealy/gssr")
+
+library(gssr)
+library(gssrdoc)
+
+data(gss_all)
+
+devtools::install_github("yanlinlin82/ggvenn")
+
+A <- gss_recode$year == 2021
+C <- gss_recode$year >= 2021
+B <- gss_recode$health_status == "good"
+d <- data_frame(A, B, C)
+
+x <- list(A, B)
+
+library(ggvenn)
+ggvenn(d, fill_color = c("red", "green", "blue"),set_name_size = 5)
+
+devtools::install_github("gaospecial/ggVennDiagram")
+library("ggVennDiagram")
+help("ggVennDiagram")
+
+y <- list(A, B)
+ggVennDiagram(y)
 
 
-
-
-
-
-
-
-
-
-
-
-
+x = list(A=1:5,B=2:7,C=3:6,D=4:9)
+ggVennDiagram(x)  # 4d venn
+ggVennDiagram(x[1:3])  # 3d venn
+ggVennDiagram(x[1:2])  # 2d venn
