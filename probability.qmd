@@ -7,76 +7,20 @@ source("_common.R")
 ```
 
 ::: {.chapterintro data-latex=""}
-Probability is used to quantify uncertainty about events or outcomes.  What is the chance that when two dice are rolled the sum of the faces is 12?  When a rapid antigen self-test for COVID-19 shows a positive outcome, how likely is it that the person using the test has the infection?  Suppose a healthy couple deciding whether to conceive a child learns from genetic testing that they both carry the gene for cystic fibrosis but are unaffected by the disease.  What is the likelihood that their child will have the disease?
+Suppose a healthy couple deciding whether to conceive a child learns from genetic testing that they both carry the gene for cystic fibrosis but are unaffected by the disease.  What is the likelihood that their child will have the disease?   When a rapid antigen self-test for COVID-19 shows a positive outcome, how likely is it that the person using the test has the infection?  
 
-The rules of probability can be used to answer each of these question.  This chapter explores those rules using two types of examples. One set of examples uses settings familiar to most people -- rolling dice or picking cards from a deck. The other set draws from medicine, biology, and public health, reflecting the contexts and language specific to those fields. The approaches to solving these two types of problems are surprisingly similar, and in both cases, seemingly difficult problems can be solved in a series of reliable steps.
+Probability is used to quantify uncertainty, and the rules of probability can be used to answer both questions.  In some cases, probabilities can be calculated directly without formulas, while in others the rules and formulas for probability provide tools fo approaching complex problems with a series of smaller steps.
 :::
 
 
-## Example: rapid antigen testing for COVID-19
+## Two examples: genetic screening before conception and rapid antigen testing for COVID-19 {#sec-two-examples}
 
-```{r}
-# ppv for covid RAT
-# 
-# 
+**Screening for cystic fibrosis** Cystic fibrosis (CF) is a life-threatening genetic disorder caused by mutations in the *CFTR* gene located on chromosome 7. Defective copies of *CFTR* can result in a reduced quantity and function of the CFTR protein, leading to the buildup of thick mucus in the lungs and pancreas.^[The CFTR protein is responsible for transporting sodium and chloride ions across cell membranes.] CF is an autosomal recessive disorder; an individual only develops CF if they have inherited two affected copies of *CFTR*. Individuals with one normal (wild-type) copy and one defective (mutated) copy are known as carriers; they do not develop CF, but may pass the disease-causing mutation onto their offspring.
 
-sens_rat <- 0.80
-spec_rat <- 0.98
-prev_covid <- 0.01
-
-ppv_rat <- round((sens_rat * prev_covid)/(sens_rat * prev_covid + (1 - spec_rat) * (1 - prev_covid)), 2)
-
-
-npv_rat <- round(spec_rat * (1 - prev_covid) /(spec_rat * 1 - prev_covid + (1 - sens_rat) * prev_covid), 2)
-
-
-
-```
-
-During and after the COVID-19 pandemic, rapid antigen tests (RAT) were widely used for self-tests for the virus, tests that individuals could self-administer.   The tests are still available at pharmacies, neighborhood health centers, libraries and other convenient distribution sites.  The tests are convenient and are either affordable or freely available.  How reliable are the RATs? More specifically, what is the probability that a positive result correctly predicts presence of the infection or that a negative results correctly predicts absence?
-
-Studies have shown that when 100 people with the infection are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is 0.80 when the virus is present,  while the chance of a negative test in the absence of the virus is 0.98.  But an individual who has just tested wants to know different probabilities:  the chance they have COVID when the test is positive or the chance do not when the test is negative.  The tools in @sec-conditional-probability will show (perhaps surprisingly) that even though the rapid self-tests are correct more than 80% of the time when the virus is present, the chance that the virus is present in someone who has tested positive can be as low as `r ppv_rat * 100`%.  A negative test is more informative; the chance that the virus is absent in someone who has tested negative is nearly 100%. 
-
-
-## The rules of probability {#sec-probability-rules}
-
-
-The rules of probability can easily be motivated with classic scenarios, such as flipping coins or rolling dice. When a coin is flipped, there are only two possible outcomes, heads or tails. With a fair coin, the two outcomes are equally likely; thus, the chance of flipping heads is 1/2, and likewise for tails. The following examples deal with rolling a die or multiple dice; a die is a cube with six faces numbered 1, 2, 3, 4, 5, and 6. 
-
-::: {.workedexample data-latex="" #example-prob0f1} 
-What is the chance of getting **1** when rolling a die? 
-
-------------------------------------------------------------------------
-
-If the die is fair, then there must be an same chance of rolling a **1** as any other possible number. Since there are six outcomes, the chance must be 1-in-6 or, equivalently, 1/6.
-:::
-
-::: {.workedexample data-latex=""}
-What is the chance of not rolling a **2**?
-
-------------------------------------------------------------------------
-
-Not rolling a **2** is the same as getting a **1**, **3**, **4**, **5**, or **6**, which are five of the six equally likely outcomes, and has a probability of 5/6.
-:::
-
-::: {.workedexample data-latex=""}
-What is the chance of getting two **1**s when rolling two fair dice?
-
-------------------------------------------------------------------------
-
-If 1/6^th^ of the time the first die is a 1 and 1/6^th^ of *those* times the second die is also a 1, then the chance that both dice are 1 is (1/6)(1/6) = 1/36.
-:::
-
-Probability can also be used in health-related contexts.  Cystic fibrosis (CF) is a life-threatening genetic disorder caused by mutations in the *CFTR* gene located on chromosome 7. Defective copies of *CFTR* can result in the reduced quantity and function of the CFTR protein, which leads to the buildup of thick mucus in the lungs and pancreas.^[The CFTR protein is responsible for transporting sodium and chloride ions across cell membranes.] CF is an autosomal recessive disorder; an individual only develops CF if they have inherited two affected copies of *CFTR*. Individuals with one normal (wild-type) copy and one defective (mutated) copy are known as carriers; they do not develop CF, but may pass the disease-causing mutation onto their offspring.
-
-::: {.workedexample data-latex="}
 Suppose that both members of a couple are CF carriers. What is the probability that a child of this couple will be affected by CF? Assume that a parent has an equal chance of passing either gene copy (i.e., allele) to a child.
 
-------------------------------------------------------------------------
+The upper left of @fig-cfInheritance shows mutated (with a red bar) and wild-type (with no red bar) maternal and paternal alleles on chromosome 7.  The four possible genotypes for a child  are shown in the lower right. Chromosomes with the wild-type and mutated versions of *CFTR* are marked with $+$ and $-$, respectively. The child is affected only if they have two mutated copies of *CFTR*, that is have genotype ($-$/$-$) in the lower right corner. Each of the four outcomes occurs with equal likelihood, so the child will be affected with probability 1-in-4, or 1/4.  
 
-*Solution 1: Enumerate all of the possible outcomes and exploit the fact that the outcomes are equally likely, as in the first example.*  The upper left of @fig-cfInheritance shows the 4 parental configurations of chromosome 7.  The paternal chromosomes are in blue; the maternal chromosomes are green.  The chromosomes with the CF mutation are marked with red band.  The four possible genotypes for a child of these parents are shown in the lower left. Chromosomes with the wild-type and mutated versions of *CFTR* are marked with $+$ and $-$, respectively. The child is only affected if they have two mutated copies of *CFTR*, that is have genotype ($-$/$-$). Each of the four outcomes occurs with equal likelihood, so the child will be affected with probability 1-in-4, or 1/4.  It is important to recognize that the child being an unaffected carrier ($+$/$-$) consists of two distinct outcomes, not one.  The three outcomes for the child of no affected gene, only one affected gene, a two affected genes are not equally likely.
-
-*Solution 2:  Calculate the proportion of outcomes that produce an affected child, as in the third example.*  During reproduction, one parent will pass along an affected copy half of the time.  When the child receives an affected allele from one parent, half of the those times, they will also receive an affected allele from the other parent. Thus, the proportion of times the child will have two affected copies is (1/2)(1/2) = 1/4.
 
 ```{r cf-inheritance}
 #| label: fig-cfInheritance
@@ -90,442 +34,107 @@ Suppose that both members of a couple are CF carriers. What is the probability t
 #| fig-pos: H
 knitr::include_graphics("images/cfInheritance.png")
 ```
-:::
 
-:::{.guidedpractice data-latex=""}
-Suppose the father has CF and the mother is an unaffected carrier. What is the probability that their child will be affected by the disease?[^probability-1]
-:::
-[^probability-1]:  Since the father has CF, he must have two affected copies; he will always pass along a defective copy of the gene.  Since the mother will pass along a defective copy half of the time, the child will be affected half of the time, or with probability (1)(1/2) = 1/2.
 
-Probability is used to assign a measure of uncertainty to the outcomes of phenomena that either happen randomly (e.g. rolling dice, inheriting of disease alleles), or appear random because of a lack of understanding about exactly how the phenomenon occurs (e.g. the diagnosis of a disease).  In either case, modeling these outcomes as the result of a random process is a useful framing. 
+```{r ppv-covid-rat}
+# ppv for covid RAT
+# 
+# 
 
-In the dice and CF examples, probabilities can be calculated by enumerating all possible outcomes and assigning probabilities to those outcomes.  The chance that a member of a population will be selected for a survey with a complex design cannot be solved by enumeration, however, and needs a more general definition of probability.  This text uses the more useful definition of probability as a long run relative frequency.
+sens_rat <- 0.80
+spec_rat <- 0.98
+prev_covid <- 0.01
 
-::: {.important data-latex=""}
-**Probability.**
-
-The \index{probability} probability of an outcome is the proportion of times the outcome would occur if the random phenomenon could be observed an infinite number of times.
-
-:::
-
-The definition of probability can be illustrated by simulation. Suppose a die is rolled many times. Let $\hat{p}_n$ be the proportion of outcomes that are 1 after the first $n$ rolls. As the number of rolls increases, $\hat{p}_n$ will converge to the probability of rolling a **1**, $p = 1/6$. @fig-die-prop shows this convergence for 100,000 die rolls. The tendency of $\hat{p}_n$ to stabilize around $p$ is described by the \index{Law of Large Numbers} **Law of Large Numbers**. The behavior shown in @fig-die-prop} matches most people's intuition about probability, but proving mathematically that the behavior is always true is surprisingly difficult and beyond the level of this text.
-
-```{r}
-#| label: fig-die-prop
-#| fig-cap: |
-#|  The fraction of die rolls that turn up **1** at each stage in a simulation. The proportion tends to get closer to the probability 1/6 $\approx$ 0.167$ as the number of rolls increases.
-#| fig-alt: |
-#|   The fraction of die rolls that turn up **1** at each stage in a simulation. The proportion tends to get closer to the probability 1/6 $\approx$ 0.167$ as the number of rolls increases.
-#|   
-#| fig-asp: 0.4
-library(openintro)
-data(COL)
-
-# _____ Simulate _____ #
-set.seed(51)
-n <- 10^5
-x <- sample(0:1, n, TRUE, p = c(5 / 6, 1 / 6))
-y <- cumsum(x) / 1:n
-X <- c(1:100, seq(102, 500, 2),
-	seq(510, 1500, 10), seq(1550, 10000, 50),
-	seq(10100, 25000, 100), seq(25250, 100000, 250))
-Y <- y[X]
-
-plot(X, Y,
-     log = 'x',
-     type = 'l',
-     xlab = '',
-     ylab = '',
-     axes = FALSE,
-     col = COL[1],
-     lwd = 2)
-mtext('n (number of rolls)', side = 1, line = 2.5)
-abline(h = 1 / 6, lty = 2)
-at <- 10^(0:5)
-labels <- c('1', '10', '100', '1,000', '10,000', '100,000')
-axis(1, at, labels)
-axis(2, at = seq(0, 0.3, 0.1))
-axis(2, at = seq(0.05, 0.3, 0.1), labels = rep(NA, 3), tcl = -0.15)
-at <- 1 / 6
-labels <- expression(paste(hat(p)[n]))
-axis(2, at, labels,
-     line = 2.3,
-     tick = FALSE,
-     cex.axis = 1.1)
+ppv_rat <- round((sens_rat * prev_covid)/(sens_rat * prev_covid + (1 - spec_rat) * (1 - prev_covid)), 2)
+npv_rat <- round(spec_rat * (1 - prev_covid) /(spec_rat * 1 - prev_covid + (1 - sens_rat) * prev_covid), 2)
 
 ```
 
-Occasionally the proportion veers off from the probability and appear to defy the Law of Large Numbers, as $\hat{p}_n$ does many times in @fig-die-prop. However, the likelihood of these large deviations becomes smaller as the number of rolls increases.
+**Rapid self-tests for COVID-19** Since the COVID-19 pandemic, rapid antigen tests (RAT) have been used for self-tests for the virus, i.e., tests that individuals could self-administer.   The tests continue to be available at pharmacies, neighborhood health centers, libraries and other distribution sites.  The tests are convenient and are either affordable or freely available.  But how reliable are the RATs? More specifically, what is the chance that a positive result correctly predicts presence of the infection or that a negative result correctly predicts its absence?
+
+Studies have shown that when 100 people with the infection are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is 0.80 when the virus is present,  while the chance of a negative test in the absence of the virus is 0.98.  But an individual who has just tested wants to know the reverse probabilities:  the chance they have COVID-19 when the test is positive or the chance do not when the test is negative.  The tools in  Sections [-@sec-conditional-probability] and [-@sec-bayes-rule] will show (perhaps surprisingly) that even though the rapid self-tests are correct more than 80% of the time when the virus is present, the chance that the virus is present in someone who has tested positive can be as low as `r ppv_rat * 100`%. A positive test might be wrong nearly 70% of the time. A negative test is more informative; the chance that the virus is absent in someone who has tested negative is nearly 100%. 
+
+
+## The rules of probability {#sec-probability-rules}
+
+In both examples in @sec-two-examples, probability is used to quantify uncertainty about the outcome of a random phenomenon. These two examples differ in important ways, however.  In the first the set $S$ of all outcomes, called the **sample space**, \index{sample space} is a simple collection of 4 equally likely outcomes. Probabilities can be calculated by  counting the number of outcomes one is interested in, and dividing by the total number outcomes in the sample space. The second is more complex — it poses questions about a probability of an outcome under the condition that it has been preceded by another event — the likelihood of infection when a self-test is known to be positive - and cannot easily be solved by the direct methods of the first example.  More difficult problems need a  general definition of probability and a set of rules to guide calculations.
 
 ::: {.important data-latex=""}
-**The Law of Large Numbers.**
+**Randomness and probability.**
 
-As more observations are collected, the proportion $\hat{p}_n$ of occurrences with a particular outcome converges to the probability $p$ of that outcome.
+A phenomenon is called random if individual outcomes are uncertain but show a pattern when the phenomenon is repeated a large number of times.
+
+The probability $p$ of an outcome in a random phenomenon is the proportion of times it would occur in a large number of replications of the phenomenon. ^[Another definition of probability is based on the subjective belief that an event will happen, that that approach is not covered in this text.]
 
 :::
 
-Since a probability $p$ is a proportion,  it satisfies $ 0 \leq p \leq 1$.  It may also be expressed as a percentage between 0% and 100%. A probability $p = 0$ when an outcome never happens, and $p = 1$ when it always happens.
+This definition relies on a result from probability theory called the \index{Law of Large Numbers} **Law of Large Numbers**, which states that when a random phenomenon is repeated may times the proportion $\hat{p}_n$ of occurrences of a particular outcome converges to the probability $p$ of that outcome.  In simple settings like rolling a six-sided die, where probabilities are calculated by enumerating a sample space, the probability of an outcome such as rolling a 1 will match the proportion that a 1 is observed after many rolls.  
 
-The Law of Large Numbers ensures that the relative frequency definition matches the simple calculations when all outcomes are easily enumerated.  If a die is rolled many times, the relative frequency of observing a 1 (for instance) will be approximately 1/6.  In this setting, the random process is "rolling a die" and the probability of the outcome $A$ of rolling a 1 can be written as $A$ = {rolling die turns up 1} with associated probability $P(A)$.
-This notation is usually abbreviated further. For instance, if it is clear that the process is ``rolling a die'', $P(\text{rolling a 1})$  can be written as $P(\textbf{1})$.  Outcomes can be expressed as events: the event $A$ of rolling a 1 can be written as $A$ = {rolling a 1}, with associated probability $P(A)$.
-
-Events  $A$ and $B$ are **disjoint events**  \index{disjoint events} or (equivalently)  \index{mutually exclusive events} **mutually exclusive events** if they cannot happen at the same time. When rolling a die once, the outcomes 1 and 2 are disjoint since they cannot both occur.  However, the outcomes **1** and ``rolling an odd number'' are not disjoint since both occur if the outcome of the roll is a **1**.
-
-What is the probability of rolling a **1** or a **2**? When rolling a die, the outcomes **1** and **2** are disjoint. The probability that one of these outcomes will occur is computed by adding their separate probabilities:
-
-\begin{align*}
-P(\textbf{1} \text{ or } \textbf{2}) = P(\textbf{1}) +P(\textbf{2}) = 1/6 + 1/6 = 1/3.
-\end{align*}
-
-What about  the probability of rolling a **2**, **4** or **6**? Here again, all of the outcomes are disjoint, so add the individual probabilities:
-\begin{align*}
-P&(\textbf{2} \text{ or } \textbf{4} \text{ or } \textbf{6}) \\
-	&= P(\textbf{2})+P(\textbf{4})+P(\textbf{6}) \\
-	&=  1/6 + 1/6 + 1/6 \\
-	& = 1/2.
-\end{align*}
 
 ::: {.important data-latex=""}
-**Addition Rule for Disjoint Outcomes**
+**Sample spaces and events.**
 
-If $A_1$ and $A_2$ are two disjoint outcomes, then the probability that either one or both of them occurs is given by
-$$
-P(A_1\text{ or } A_2) = P(A_1) + P(A_2).
-$$
-If there are $k$ disjoint outcomes $A_1$, ..., $A_k$, then the probability that at least one of these outcomes will occur is
-$$
-P(A_1) + P(A_2) + \cdots + P(A_k).
-$$ {#eq-addition-rule}
+The **sample space** $S$ of a random phenomenon is the set of all possible outcomes.  An **event** \index{event} $A$ is an outcome or a collection of outcomes in a random phenomenon.  It is a subset of the sample space, $S$.
+
 :::
 
+The  notation of set theory is used to describe events.  The complement $A^c$ of an event $A$ consists of all the outcomes in $S$ not in $A$.  Two events $A$ and $B$ are **disjoint** \index{disjoint events} or **mutually exclusive** \index{mutually exclusive}  if they have no outcomes in common.  The event $(A \text{ and } B)$ consists of the outcomes in $S$ that are members of both $A$ and $B$, sometimes denoted as members that satisfy both $A$ and $B$.  The event $(A \text{ or } B)$ consists of the outcomes that are either in $A$ or $B$ or possibly both.  In other texts, the event $(A \text{ and } B)$ is sometimes written with the set theory notation for intersection, $A \cap B$, or simply as $A,B$, and the event $A \text{ or } B$ uses the notation for union, $A \cup B$.  For conciseness, sentences such as "$B$ is the event that a child has CF" are written as $B$ = {child has CF}. 
 
-::: {.guidedpractice data-latex="}
+::: {.workedexample data-latex=""} 
 
-Consider the CF example. Is the event that two carriers of CF have a child that is also a carrier represented by mutually exclusive outcomes? Calculate the probability of this event. [^probability-2]
+Suppose $A$ = {a child of two adults who carry the CF gene is an unaffected carrier}.  Which members of the sample space belong to $A$?
+
+------------------------------------------------------------------------
+
+The event $A$ consists of the outcomes in the upper right and lower left of the boxes in @fig-cfInheritance showing the possible genotypes of a child.
 :::
 
-[^probability-2]: Yes, there are two mutually exclusive outcomes for which a child of two carriers can also be a carrier - a child can either receive an affected copy of $CFTR$ from the mother and a normal copy from the father, or vice versa (since each parent can only contribute one allele). Thus, the probability that a child will be a carrier is 1/4 + 1/4 = 1/2.
-
-
-Probability problems often involve sets or collections of outcomes.  Let $A$ represent the event in which a die roll results in **1** or **2** and $B$ the event that the roll is **4** or **6**. The event $A$ is the set of outcomes {**1**, **2**} and $B$ is the set {**4**, **6**}. These sets are commonly called events. Because $A$ and $B$ have no elements in common, they are disjoint events. $A$ and $B$ are represented in @fig-disjointEvents.
-
-```{r disjoint-events}
-#| label: fig-disjointEvents
-#| out-width: 70%
-#| fig-cap: |
-#|   Three events, $A$, $B$, and $D$, consist of outcomes from rolling a die. $A$ and $B$ are disjoint since they have no outcomes in common.
-#| fig-alt: |
-#|    Three events, $A$, $B$, and $D$, consist of outcomes from rolling a die. The events $A$ and $B$ are disjoint since they have no outcomes in common.
-#| fig-pos: H
-knitr::include_graphics("images/disjointEvents.png")
-```
-
-The Addition Rule applies to both disjoint outcomes and disjoint events. The probability that one of the disjoint events $A$ or $B$ occurs is the sum of the separate probabilities:
-\begin{align*}
-P(A\text{ or }B) = P(A) + P(B) = 1/3 + 1/3 = 2/3.
-\end{align*}
 
 ::: {.guidedpractice data-latex=""}
 
-(a) Verify the probability $P(A)$ of the event $A$ is $1/3$ using the Addition Rule. (b) Do the same for $B$.    [^probability-3]
+Suppose the random phenomenon consists of rolling a single six-sided die.  Describe the sample space $S$, the event $A$ = {the outcome of the roll is an even number} and its complement $A^c$.
+[^probability-1]
 :::
 
-[^probability-3]: (a) $P(A)$ = $P$(**1** or **2**) = $P$(**1**) + $P$(**2**) = $\frac{1}{6} + \frac{1}{6} = \frac{2}{6} = \frac{1}{3}$. (b) Similarly, $P(B) = 1/3$.
-
-**Probabilities when events are not disjoint**
-
-**Venn diagrams** are useful when events have outcomes in common, and so are not disjoint.  @fig-playing-cards shows the cards in a deck of 52 playing cards, where each card is uniquely distinguished  according to its suit (hearts, diamonds, clubs or spades) and its label 1, 2, $\ldots$, 10, Jack, Queen, King and A, for Ace.  The cards labels Jack, Queen, King and Ace are called face cards.
-
-```{r card-deck}
-#| label: fig-playing-cards
-#| out-width: 75%
-#| fig-cap: |
-#|     A regular deck of 52 cards is split into 4 suits: 
-#|     Hearts, Diamonds, Clubs, and Spades.
-#|     Each suit has 13 labeled cards:  1, 2, $\dots$ 10, J (jack), Q (queen), K (king) and
-#|     A (ace).  Each card is a unique combination of a suit and a label.
-suit_symbols <- c(Hearts = "\u2665", Diamonds = "\u2666", Clubs = "\u2663", Spades = "\u2660")
-ranks <- c("A", "2", "3", "4", "5", "6", "7", 
-           "8", "9", "10", "J", "Q", "K")
-suits <- c("Hearts", "Diamonds", "Clubs", "Spades")
-
-# Unicode symbols and colors for suits
-suit_symbols <- c(Hearts = "\u2665", Diamonds = "\u2666", Clubs = "\u2663", Spades = "\u2660")
-suit_colors  <- c(Hearts = "red", Diamonds = "red", Clubs = "black", Spades = "black")
-
-# Create the deck
-deck <- expand_grid(Rank = ranks, Suit = suits) %>%
-  mutate(
-    SuitSymbol = suit_symbols[Suit],
-    Label = paste0(Rank, SuitSymbol),
-    RankNum = match(Rank, ranks),
-    SuitFactor = fct_rev(factor(Suit)),  # use factor for tighter spacing
-    Color = suit_colors[Suit]
-  )
-
-ggplot(deck, aes(x = RankNum, y = SuitFactor, label = Label, color = Suit)) +
-  geom_text(size = 5) +
-  scale_x_continuous(
-    breaks = 1:13,
-    labels = ranks,
-    expand = expansion(mult = c(0.02, 0.02))  # adds slight space on left/right
-  ) +
-  scale_color_manual(values = suit_colors) +
-  labs(title = "") +
-  coord_cartesian(clip = "off") +  # ensures labels are not cut off
-  theme_minimal(base_size = 14) +
-  theme(
-    panel.grid = element_blank(),
-    axis.text.x = element_blank(),
-    axis.text.y = element_text(),
-    axis.ticks = element_blank(),
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    plot.margin = margin(10, 20, 10, 20),  # top, right, bottom, left
-    legend.position = "none"
-  )
-
-```
-The Venn diagram in @fig-cards-diamond-face-venn uses one oval to represent diamonds and another to represent face cards (the cards labeled jacks, queens, and kings); if a card is both a diamond and a face card, it is contained in the intersection of the ovals.
-
-```{r disjoint-events}
-#| label: fig-cards-diamond-face-venn
-#| out-width: 70%
-#| fig-cap: |
-#|   A Venn diagram for diamonds and face cards
-#| fig-alt: |
-#|    The figure shows a Venn diagram for the intersection between the events suits = diamonds and label = face card.
-#| fig-pos: H
-knitr::include_graphics("images/cardsDiamondFaceVenn.png")
-```
-::: {.guidedpractice}
-
-(a) What is the probability that a randomly selected card is a diamond? (b) What is the probability that a randomly selected card is a face card? 
-[^probability-4]
-:::
-
-[^probability-4]: (a) There are 52 cards and 13 diamonds. If the cards are thoroughly shuffled, each card has an equal chance of being drawn, so the probability that a randomly selected card is a diamond is $P({\color{redcards}\diamondsuit}) = \frac{13}{52} = 0.250$. (b) Likewise, there are 12 face cards, so $P(\text{face card}) = \frac{12}{52} = \frac{3}{13} = 0.231$.
-
-Let $A$ be the event that a randomly selected card is a diamond and $B$ the event that it is a face card. Events $A$ and $B$ are not disjoint -- the cards **J**$\color{red}\diamondsuit$, **Q**$\color{red}\diamondsuit$, and **Q**$\color{red}\diamondsuit$ fall into both categories. 
-
-As a result, adding the probabilities of the two events together is not correct when calculating $P(A \ \text{or} \ B)$:
-$$
-	P(A) + P(B) = P({\color{red}\diamondsuit}) + P(\text{face card}) = 12/52 + 13/52.
-	\label{over-count-face-diamond}
-$$ {#eq-over-count-face-diamond}
-
-Instead, a small modification is necessary. The three cards that are in both events were counted twice. To correct the double counting, subtract the probability that both events occur:
-
-$$
-\begin{align}
-P(A\text{ or } B) &= P(\text{face card or }{\color{red}\diamondsuit})  \\
- &= P(\text{face card}) + P({\color{red}\diamondsuit}) - P(\text{face card and }{\color{red}\diamondsuit}) \\
- &= 13/52 + 12/52 - 3/52  \\
- &= 22/52 \\
- &= 11/26. 
-\end{align}
-$$ {#eq-diamond-face}
-The calculation in @eq-diamond-face is an example of the \index{General Addition Rule} **General Addition Rule**. 
-
-
-::: {.important data-latex=""}
-**General addition rule for probabilities.**
-
-If $A$ and $B$ are any two events, disjoint or not, then the probability that at least one of them will occur is
-$$
-P(A\text{ or }B) = P(A) + P(B) - P(A\text{ and }B),
-\label{generalAdditionRule}
-$$ {#eq-general-addition-rule}
-where $P(A$ and $B)$ is the probability that both events occur.
-
-:::
-
-Note that in the language of statistics, "or" is inclusive such that $A$ or $B$ occurs means $A$ occurs, $B$ occurs, or both $A$ and $B$ occur.
+[^probability-1]: $S$ = {1, 2, 3, 4, 5, 6}, $A$ = {2, 4, 6} and $A^c$ = {1, 3, 5}.  $A^c$ is the event of rolling an odd number.
 
 ::: {.guidedpractice}
-
-(a) If $A$ and $B$ are disjoint, describe why this implies $P(A \text{ and } B) = 0$. (b) Using part (a), verify that the General Addition Rule simplifies to the Addition Rule for disjoint events if $A$ and $B$ are disjoint.
-[^probability-5]
+(a) When rolling a six-sided die, are the events $A$ = {the outcome is an even number} and $B$ = {the outcome is smaller than 4} disjoint?  (b) What is the event ($A \text{ and } B$)?  (c) What is the event $(A \text{ or } B$)?
+[^probability-2]
 :::
 
-[^probability-5]: a) If $A$ and $B$ are disjoint, $A$ and $B$ can never occur simultaneously. (b) If $A$ and $B$ are disjoint, then the last term of @eq-general-addition-rule is 0 (see part (a)) and we are left with the Addition Rule for disjoint events.
+[^probability-2]: (a). No.  The two events have the outcome 2 in common. $(A \text{ and } B)$ = {2}.  (b) $(A \text{ or } B)$ = {1, 2, 3, 4, 6}.
 
-::: {.guidedpractice}
+::: {.workedexample data-latex=""}
 
-Human immunodeficiency virus (HIV) and tuberculosis (TB) affect substantial proportions of the population in certain areas of the developing world. Individuals sometimes are co-infected (i.e., have both diseases). Children of HIV-infected mothers may have HIV and TB can spread from one family member to another.  In a mother-child pair, let $A$ =  {the mother has HIV},  $B$ = {the mother has TB}, $C$ = {the child has HIV},  $D$ = {the child has TB}.  Write out the definitions of the events $A \text{ or } B$, $A \text{ and } B$, $A \text{ and } C$, $A \text{ or } D$. [^probability-6]
+What is the sample space corresponding to the random process of rolling two six-sided dice and recording the value of the faces showing?
+
+------------------------------------------------------------------------
+
+There are 6 possible outcomes for the first die, and for each of those outcomes there are 6 possible outcomes for the second die, so the sample space consists of the 36 ordered pairs $(j,k)$, where $j$ and $k$ each can be any of the integers between 1 and 6.
 :::
 
-[^probability-6]: Events $A$ or $B$: the mother has HIV, the mother has TB, or the mother has both HIV and TB. Events $A$ and $B$: the mother has both HIV and TB. Events $A$ and $C$: The mother has HIV and the child has HIV. $A$ or $D$: The mother has HIV, the child has TB, or the mother has HIV and the child has TB.
+::: {.guidedpractice data-latex=""}
 
-<!-- skipping probability distributions for now -->
-
-**The complement of an event**
-
-Rolling a die produces a value in the set {**1**, **2**, **3**, **4**, **5**, **6**}. This set of all possible outcomes is called the \index{sample space} **sample space** and is usually labeled $S$.
-
-
-Let $D$ = {**2**, **3**} be the event that the outcome of a die roll is **2** or **3**.  The \index{complement event} **complement event** of $D$ consists of all outcomes in the sample space that are not in $D$ and is denoted by $D^c$ = {**1**, **4**, **5**, **6**}.  @fig-complement-of-D shows the relationship between $D$, $D^c$, and the sample space $S$. 
-
-```{r complement-of-D}
-#| label: fig-complement-of-D
-#| out-width: 70%
-#| fig-cap: |
-#|   Event $D$ ={**2**, **3**} and its complement, 
-#|   $D^c$ = {**1**, **4**, **5**, **6**}. $S$ represents the sample space, 
-#|   which is the set of all possible events.
-#| fig-alt: | 
-#|   A figure showing an event $D$ ={**2**, **3**} and its complement, 
-#|   $D^c$ = {**1**, **4**, **5**, **6**}. $S$ represents the sample space, 
-#|   which is the set of all possible events.
-#| fig-pos: H
-knitr::include_graphics("images/complementOfD.png")
-```
-
-::: {.guidedpractice}
-(a) Compute $P(D^c) = P$({rolling a **1**, **4**, **5** or **6**}). (b) What is $P(D) + P(D^c)$?
-[^probability-7]
+Describe the event $A$ = {the sum of dice is 4} when rolling two dice.[^probability-101]
 :::
 
-[^probability-7]: (a) The outcomes are disjoint and each has probability $1/6$, so the total probability is 4/6=2/3.  (b)  $P(D)=\frac{1}{6} + \frac{1}{6} = 1/3$. Since $D$ and $D^c$ are disjoint, $P(D) + P(D^c) = 1$.
+[^probability-101]: $A$ = {$(1,3), (2,2), (3,1)$}.
 
-::: {.guidedpractice}
 
-Events $A$ ={**1**, **2**} and $B$ = {**4**, **6**} are shown in @fig-disjointEvents. (a) Write out what $A^c$ and $B^c$ represent. (b) Compute $P(A^c)$ and $P(B^c)$. (c) Compute $P(A)+P(A^c)$ and $P(B)+P(B^c)$.
-[^probability-8]
-:::
-
-[^probability-8]: Brief solutions: (a) $A^c$ = {**3**, **4**, **5**, **6**} and $B^c$ = {**1**, **2**, **3**, **5**}. (b) Noting that each outcome is disjoint, add the individual outcome probabilities to get $P(A^c)=2/3$ and $P(B^c)=2/3$. (c) $A$ and $A^c$ are disjoint, and the same is true of $B$ and $B^c$. Therefore, $P(A) + P(A^c) = 1$ and $P(B) + P(B^c) = 1$.
-
-The complement of an event $A$ has two important properties: every possible outcome not in $A$ is in $A^c$, and $A$ and $A^c$ are disjoint. If every possible outcome not in $A$ is in $A^c$, this implies that
-$$
-P(A\text{ or }A^c) = 1.
-$$ {#eq-complement-sum-to-1}
-
-By the Addition Rule for disjoint events,
-$$
-P(A\text{ or }A^c) = P(A) + P(A^c).
-$$ {#eq-complement-disjoint-equation}
-
-Combining @eq-complement-sum-to-1  and  @eq-complement-disjoint-equation  yields a useful relationship between the probability of an event and its complement.
-
-::: {.important data-latex=""}
-**Complement of an event.**
-
-The complement of event $A$ is denoted $A^c$; $A^c$ represents all outcomes not in $A$. $A$ and $A^c$ are mathematically related: 
-$$
-P(A) + P(A^c) = 1, \quad\text{i.e.}\quad P(A) = 1-P(A^c).
-$$ {#eq-complement}
-
-:::
-
-Using the relationship between an event and its complement can be a useful strategy in solving some problems.
-
-::: {.guidedpractice}
-Let $A$ represent the event in which two dice are rolled and their total is less than 12. (a) What does the event $A^c$ represent? (b) Calculate $P(A^c)$.  (c) Calculate $P(A)$.
-[^probability-9]
-:::
-
-[^probability-9]: (a) Since the sum of the two dice is at most 12, $A^c$ represents the event that the sum is 12. (b) $P(A^c) = 1/36$ since of the 36 possible outcomes for the roll of two dice, only one (6 both dice) has sum 12. (c) $P(A) = 1 - P(A^c) = 1 - 1/36 = 35/36$.
-
-*insert guided practice problems using tables of counts, begin collecting examples.  Also, insert some examples from survey designs*
-
-```{r fetch-gss-data}
-
-# remotes::install_github("kjhealy/gssrdoc")
-# remotes::install_github("kjhealy/gssr")
-
-library(gssr)
-library(gssrdoc)
-
-data(gss_all)
-
-gss_df <- gss_all |> 
-  select(year,
-         age,
-         sex,
-         degree,
-         wrkstat,
-         health) |> 
-  filter(year >= 2016) |> 
-  drop_na()
-
-```
-
-```{r recode-gss}
-gss_recode <- gss_df |> 
-  mutate(health_status = factor(health,
-         levels = c(1, 2, 3, 4),
-         labels = c("excellent",
-                    "good",
-                    "fair",
-                    "poor"),
-         ordered = TRUE)) |> 
-  mutate(work_status = factor(wrkstat,
-                              levels = c(1, 2, 3, 4, 5, 6, 7, 8),
-                              labels = c("full time",
-                                         "part time",
-                                         "temporarily not working",
-                                         "unemployed",
-                                         "retired",
-                                         "in school",
-                                         "keeping house",
-                                         "other"),
-                              ordered = TRUE)) |> 
-  mutate(sex = case_when(
-    sex == 1 ~ "male",
-    sex == 2 ~ "female"),
-    sex = factor(sex)) |> 
-  mutate(age_group = cut(
-    age,
-    breaks = c(0, 25, 45, 65, Inf),       # cut points
-    labels = c("18–25", "26–45", "46–65", "66+"),
-    right = FALSE))  |> 
-  mutate(degree_status = factor(degree,
-                         levels = c(0, 1, 2, 3, 4),
-                         labels = c("less than high school",
-                                    "high school",
-                                    "assoc/ju-co",
-                                    "bachelor's",
-                                    "graduate"),
-                         ordered = TRUE)) 
-                                   
+```{r load-gss}
+load("./data/gss_df.Rdata")
+load("./data/gen_ss.Rdata")
 ```
 
 
+The General Social Survey is conducted by the National Opinion Research Center (NORC) at the University of Chicago.  The survey collects data on American society by asking respondents demographic, behavioral, and attitudinal questions along with some topics of special interest. It has been conducted approximately every two years since 1972. @tbl-gss-age-health shows  `r nrow(gen_ss)` total responses to two selected variables from respondents participating in surveys conducted between 2018 and 2024, classified according the age of the respondent and their perception of general health.^[The data in this and similar tables later in the text do not include missing values from non-response since methods for adjusting for missing values are beyond the scope of this text. Accordingly, the data in table is not used to estimate population parameters.]  
 
-
-    
-    
-
-```{r gss-year-health}
-#| label: tbl-gss-year-health
-#| tbl-cap:  "Health rating by year of survey"
+```{r tbl-gss-age-health}
+#| label: tbl-gss-age-health
+#| tbl-cap:  "Counts of health rating and age group"
 #| tbl-pos: H
-
-gss_recode |> 
-  select(year, 
-         health_status) |> 
-  count(year, health_status) |> 
-  group_by(year) |> 
-  pivot_wider(names_from = health_status, 
-              values_from = n) |> 
-  adorn_totals(where = c("row", "col"), name = "Sum") |> 
-  kbl(linesep = "",
-      booktabs = TRUE) |> 
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE) |>
-  add_header_above(c("Year " = 1, "Health rating" = 5)) |>
-  column_spec(1, width = "4em") |>
-  column_spec(2:6, width = "4em") |> 
-  column_spec(6, bold = TRUE) |> 
-  row_spec(6, bold = TRUE) 
-
-```
-```{r}
-
-gss_recode |> 
+gen_ss |> 
   select(age_group, 
          health_status) |> 
   count(age_group, health_status) |> 
@@ -543,52 +152,333 @@ gss_recode |>
   column_spec(1, width = "4em") |>
   column_spec(2:6, width = "4em") |> 
   column_spec(6, bold = TRUE) |> 
-  row_spec(5, bold = TRUE) |> 
-  row_spec(2, monospace = TRUE) |> 
-  column_spec(4, monospace = TRUE) 
+  row_spec(5, bold = TRUE) 
+  
+```
+
+
+```{r gss-age-health-elements, echo = FALSE}
+df <- gen_ss
+
+t <- table(df$age_group, df$health_status)
+tbl_age_health <-  addmargins(t)
+tbl_age_health_prop <- round(addmargins(prop.table(t)),3)
+
 
 ```
 
 
-```{r gss-wrkstat-health}
-#| label: tbl-gss-wrkstat-health
-#| tbl-cap:  "Health rating by work status"
-#| tbl-pos: H
 
-gss_recode |> 
+::: {.workedexample data-latex=""}
+
+Suppose that a researcher plans to sample a case randomly from the `r nrow(gen_ss)` in this dataset to conduct an additional interview using contact information in a confidential file.  (a) What is the sample space for this process?  (b) Which outcomes belong the event $A$ = {a respondent said they were older than 25}?  How many responses satisfy $A$? (c) Let $B$ = {health rating good}.  What is $B^c$? How many respondents satisfy $B^c$? (d) How many respondents satisfy the event $(A \text{ and } B)$? 
+
+------------------------------------------------------------------------
+
+(a)  The sample space consists of the `r nrow(gen_ss)`  cases in the dataset.
+
+(b) The event $A$ consists of a response in one of the 3 older age groups, 26 to 45, 46 to 65, and 65+.  The total number of outcomes is the sum of the number of respondents listed in the **Sum** column for the  3 corresponding rows, or `r tbl_age_health[2,5] + tbl_age_health[3, 5] + tbl_age_health[4, 5]`.
+
+(c) The event $B^c$ corresponds to all the outcomes in which respondents rated their health other than good, that is, the sum of the elements in the row labeled **Sum** excluding the second column.  Alternatively, it can be calculated as the total number of respondents minus the number of respondents who rated their health as good, or `r tbl_age_health[5, 5] - tbl_age_health[5, 2]`.
+
+(d) The number of outcomes satisfying $(A \text{ and } B)$ is the sum of the counts in rows 2, 3 and 4 of column 2, or `r tbl_age_health[2,2] + tbl_age_health[3, 2] + tbl_age_health[4, 2]`.  
+:::
+
+::: {.guidedpractice data-latex=""}
+
+For the events $A$ and $B$ defined above, describe the events $(A^c)$, $(A \text{ or } A^c)$ and $(A^c \text{ and } B)$.  How many outcomes are in each. [^probability-3]
+:::
+
+[^probability-3]: The event $(A^c)$ consists of all the respondents in the age group 18 to 25; there are `r tbl_age_health[1,5]` outcomes in this event.  The event $(A \text{ or } A^c)$ consists of all  consists of all `r nrow(gen_ss)` cases in the dataset. $(A^c \text{ and } B)$ consists if the `r  tbl_age_health[1,2]` respondents who are age 18 - 25 and rated their health as good.  
+
+
+
+@tbl-gss-age-health-prop displays the data from @tbl-gss-age-health but with proportions replacing counts; the proportions in each cell give the fraction of the observations in the cell when the counts have been divided by the size of the dataset, `r nrow(gen_ss)`, and can be used to calculate probabilities.  For instance, the value 0.019 in the upper left cell is the proportion of individuals age 18 to 25 and reporting excellent health, or `r tbl_age_health[1,1]` / `r tbl_age_health[5,5]`. 
+
+```{r tbl-gss-age-health-prop}
+#| tbl-cap:  "Heath rating and age group, with counts replaced by proportions"
+#| tbl-pos: H
+#| label: tbl-gss-age-health-prop
+gen_ss |> 
+  select(age_group, 
+         health_status) |> 
+  count(age_group, health_status) |> 
+  mutate(prop = n /sum(n)) |> 
+  select(-n) |> 
+  pivot_wider(names_from = health_status, 
+              values_from = prop,
+              values_fill = 0) |> 
+  adorn_totals(where = c("row", "col"), name = "Sum") |> 
+  kbl(linesep = "",
+      booktabs = TRUE) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE) |>
+  add_header_above(c("Age " = 1, "Health rating" = 5)) |>
+  column_spec(1, width = "4em") |>
+  column_spec(2:5, width = "4em") |> 
+  column_spec(6, bold = TRUE) |> 
+  row_spec(5, bold = TRUE) 
+  
+```
+
+**Venn diagrams** \index{Venn diagrams} are often used to show visually the relationship between events in a sample space. The Venn diagram in @fig-gss-older-health-venn shows the relationship between the events $A$ and $B$ in the above example. It has less information than the full table, but provides a visual display of the overlap between $A$ and $B$.  The total possible outcomes belonging to $A$ is the sum of the 5071 members of $A$ outside $B$ and the 5844 in the intersection of the two events.  The total members of $B$ is calculated similarly.  The 417 outcomes outside the two circles represents the members of the sample space not in either event.  The percentages shown in the figure can be used to converted to proportions to calculate the probabilities of regions in the figure, so the probability of $A$ is 0.432 + 0.498 = 0.930. 
+
+
+```{r older-health-venn}
+#| label: fig-gss-older-health-venn
+#| out-width: 70%
+#| fig-cap: | 
+#|     Venn diagram showing the overlap between the events {older than age 25} and {health rating good}.  
+`Older than 25 (A)` <- (gen_ss$age_group != "18 to 25") 
+`Health rating good (B)` <- (gen_ss$health_status == "good")
+d <- data_frame(`Older than 25 (A)`, `Health rating good (B)`)
+
+library(ggvenn)
+p <- ggvenn(d, 
+            fill_color = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]),
+            set_name_size = 4,
+            auto_scale = FALSE)
+p 
+```
+
+::: {.workedexample data-latex=""}
+
+Describe in words the 417 outcomes represented by the white space outside the circles in @fig-gss-older-health-venn.
+
+------------------------------------------------------------------------
+
+The cases represented by the white space in the figure are those who are both 25 or younger and rated their health as other than good.
+
+:::
+
+Probabilities calculated from tables and Venn diagrams such have the following properties:
+
+
+::: {.important data-latex=""}
+**The properties of probability.**
+
+**Probability of the sample space S:** If $S$ is the sample space of a random phenomenon, $P(S) = 1.$
+
+**Boundedness:** The probability $P(A)$ of any event satisfies $0 \leq P(A) \leq 1.$
+
+**Addition rule for disjoint events:**  If $A$ and $B$ are disjoint events,
+$$
+P(A \text{ or } B) = P(A) + P(B).
+$$
+If $A_1, A_2, \ldots A_k$ are a collection of $k$ disjoint events,
+$$
+P(A_1 \text { or } A_2 \ldots \text{ or } A_k) = P(A_1) + P(A_2) + \dots + P(A_k).
+$$
+**Complement rule:**  For any event $A$
+$$
+P(A^c) = 1 - P(A).
+$$
+:::
+
+Since $P(S)$ = 1, $P(S^c)$ = 0, so any event which does not include any outcomes has probability 0.  As a consequence, if $A$ and $B$ are disjoint events, $P{A \text{ and } B}$ = 0.
+
+@tbl-gss-age-health-prop illustrates the first two rules of probability: the sum of all the probabilities is 1, and the values are between 0 and 1.  
+
+
+::: {.workedexample data-latex=""}
+
+Using the probabilities in @tbl-gss-age-health and the rules of probability, find (a) the probability that someone chosen from this cohort rated their health as good, and (b) the probability that they rated their health as other than good.
+
+------------------------------------------------------------------------
+
+(a) Intuitively, it is clear that the probability of being in good health is the sum of the probabilities in the second column, or 0.532 as shown in the last row.  
+
+    More formally, summing the column is an application of the addition rule for disjoint events.  Let $D_1$ = {health rated good and age between 18 and 25}, $D_2$ = {health rated good and age between 26 and 45},  $D_3$ = {health rated good and age 56 tp 65} and $D_4$ = {health rated good and age 66+}. Then the event $B$ = {health rated good} is a combination of disjoint events:
+$$
+B = (D_1 \text{ or } D_2 \text{ or } D_3 \text{ or } D_4),
+$$
+and 
+$$
+P(B) = P(D_1) + P(D_2) + P(D_3) + P(D_4). 
+$${#eq-prob-good-health}
+
+    When probabilities are calculated by summing rows or columns in a table, it is generally not necessary to write out the algebra in @eq-prob-good-health since the application of the addition rule is clear.
+
+(b) If $H$ = {other than good health}, then $H = B^c$, so 
+$$
+P(H) = 1 - P(B) = 1 - 0.532 =0.477.
+$$
+A little less than 50% of this cohort rated their health as other than good.
+
+    As always, it pays to be careful with the language used in a problem statement.  The phrase **other than good**  makes it clear that it includes excellent health; the phrase **not good** (for instance) might be interpreted as any outcome worse than good.
+
+:::
+
+The solution to (a) used implicitly another probability rule, the rule of total probability, by breaking the event $B$ into disjoint chunks.  Here is a formal statement of the rule:
+
+::: {.important data-latex=""}
+
+**The rule of total probability.**
+
+Suppose $A$ and $B$ are events in a sample space.  Then
+$$ 
+P(B) = P(B \text{ and } A) + P(B \text{ and } A^c).
+$${#eq-total-probability}
+More generally, let $E_1, E_2, \ldots, E_k$ be $k$ disjoint events that cover the sample space, so $(E_1 \text{ or } E_2 \cdots \text{ or } E_k) = S$. Then 
+$$
+P(B) = P(B \text{ and } E_1) + P(B \text{ and } E_2) + \cdots  + P(B \text{ and } E_k).
+$${#eq-general-total-probability}
+
+:::
+
+::: {.workedexample data-latex=""}
+
+Suppose that approximately 7/100 adults in the US have diabetes without cardiovascular disease, while 5/100 adults have both diabetes and some form of cardiovasuclar disease.  What fraction of US adults have diabetes?
+
+------------------------------------------------------
+
+Let $B$ = {an individual has diabetes} and $A$ = {an individual has cardiovascular disease}. Then $P(B \text{ and } A^c) = 0.07$ while $P(B \text{ and } A) = 0.05.$  Using the rule of total probability,
+$$
+P(B) =  P(B \text{ and } A) + P(B \text{ and } A^c) = 0.12.
+$$
+These data suggest that about 12% of adult Americans have diabetes.
+:::
+
+```{r ex-deg_wrk_status}
+t = addmargins(prop.table(table(gen_ss$degree_status, gen_ss$work_status)))
+
+```
+
+::: {.guidedpractice data-latex=""}
+
+The prevalence of a disease is the probability that a member of a population has the disease.  Parkinson's disease (PD) is a neurodegenerative disorder with a prevalence that varies with age.  Studies have shown that in low- to upper-middle-income countries the age-related prevalence of PD is estimated to be 7 per 100,000 for individuals age 40-49, 158 per 100,000  in age 50 - 59, 603 per 100,000 in age 60 - 79, 1251 in age 70-79 and 2181 per 100,000 in age over 80. [@pereira2024systematic]  Assuming that the disease is so rare in age less than 40 that the prevalence in that age group is 0, what is the overall prevalence of PD?
+[^probability-4]
+:::
+
+[^probability-4]: Using the general form of the law of total probability, the prevalence of PD is 
+$$
+7/100,000 + 158/100,00 + 603/100,000 + 1251/100,000 + 2181/100,000 = `r 7 + 158 + 603 + 1251 + 2181`/100,000. 
+$$
+
+::: {.guidedpractice data-latex=""}
+
+@tbl-gss-deg-work-prop from the General Social Survey shows the probabilities of work status and highest degree attained in school. What is the probability that (a) a respondent is working full or part time; (b) a respondent has a bachelor's or graduate degree; (c) has a bachelor's degree or higher and is unemployed or retired?
+[^probability-5]
+:::
+
+[^probability-5]: (a) The probability is the sum of the elements in the first two columns, `r t[6,1] + t[6,2]`; (b) the sum of the last two rows, `r t[3,9] + t[4,9]`; (c) the sum of the values in the intersection of the last two rows and the third and fourth columns,  `r t[3,3] + t[3,4] + t[4,3] + t[4,4]`.
+
+
+```{r tbl-gss-deg-work-prop}
+#| label: tbl-gss-deg-work-prop
+#| tbl-cap:  "Work status and highest degree earned"
+#| tbl-pos: H
+gen_ss |> 
   select(work_status, 
-         health_status) |> 
-  drop_na() |> 
-  count(work_status, health_status) |> 
-  group_by(work_status) |> 
-  pivot_wider(names_from = health_status, 
-              values_from = n) |> 
-  adorn_totals(where = c("row", "col"), name = "Sum") |> 
+         degree_status) |> 
+  count(work_status, degree_status) |> 
+  mutate(prop = n /sum(n)) |> 
+  select(-n) |> 
+  pivot_wider(names_from = work_status, 
+              values_from = prop,
+              values_fill = 0) |> 
   kbl(linesep = "",
       booktabs = TRUE) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
     latex_options = c("striped"),
     full_width = FALSE) |>
-  add_header_above(c("Work status " = 1, "Health rating" = 5)) |>
-  column_spec(1, width = "15em") |>
-  column_spec(2:6, width = "4em") |> 
-  column_spec(6, bold = TRUE) |> 
-  row_spec(9, bold = TRUE) 
-
+  add_header_above(c("Highest degree " = 1, "Work status" = 8)) |>
+  column_spec(1, width = "5em") |>
+  column_spec(2:8, width = "4em") 
+  
+  
 ```
-```{r gss-sex-health}
-#| label: tbl-gss-sex-health
-#| tbl-cap:  "Health rating by sex"
+
+
+::: {.important data-latex=""}
+**Probability distributions.**
+
+A  **probability distribution** \index{probability distribution} consists of all disjoint outcomes and their associated probabilities that satisfies the three rules:
+
+* The outcomes listed must be disjoint.
+
+* Each probability must be between 0 and 1.
+
+* The probabilities must total to 1. 
+
+:::
+
+::: {.workedexample data-latex=""}
+
+Suppose a random process consists of rolling  two six-sided dice.  (a) Create a table showing the possible outcomes of the roll and the probability distribution of the sum of the faces. (b) Show the distribution in a bar graph.
+
+---------------------------------------------
+
+(a) The first column of @tbl-sum-two-dice shows all 36 possible values of the roll of two dice, the sum for each value, and the associated probability of the value of the sum under the assumption that all 36 outcomes of the roll are equally  likely.
+
+| Possible values of the two dice        | Sum | Probability |
+|:--------------------------------------|:-----|:-------------|
+| (1,1)                                |  2  | 1/36 = 0.029 |
+| (1,2), (2,1)                         |  3  | 2/36 = 0.056 |
+| (1,3), (2,2), (3,1)                  |  4  | 3/36 = 0.083 |
+| (1,4), (2,3), (3,2), (4,1)           |  5  | 4/36 = 0.111 |
+| (1,5), (2,4), (3,3), (4,2), (5,1)    |  6  | 5/36 = 0.139 |
+| (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) | 7 | 6/36 = 0.167 |
+| (2,6), (3,5), (4,4), (5,3), (6,2)    |  8  | 5/36 = 0.139 |
+| (3,6), (4,5), (5,4), (6,3)           |  9  | 4/36 = 0.111 |
+| (4,6), (5,5), (6,4)                  | 10  | 3/36 = 0.083 |
+| (5,6), (6,5)                         | 11  | 2/36 = 0.056 |
+| (6,6)                                | 12  | 1/36 = 0.029 |
+
+: Probability distribution for the sum of two dice {#tbl-sum-two-dice} 
+
+  It is important to note that the 11  outcomes for the sum of the two dice are not equally likely.  
+
+(b) @fig-sum-two-dice is a bar graph in which the height of each bar is the probability of the corresponding value of the sum.  The graph has the same appearance as a bar graph showing the relative frequency of a variable, such as the carapace colors in @fig-crabs-counts-proportions, but there is an important distinction between the twp graphs. @fig-crabs-counts-proportions shows the distribution of data collected as part of a completed study; @fig-sum-two-dice shows a theoretical probability distribution for the sum of two dice before any data has been collected. 
+
+```{r sum-two-dice}
+#| label: fig-sum-two-dice
+#| out-width: 70%
+#| fig-cap: | 
+#|     Bar graph showing the probability distribution for the sum of two dice.
+
+# Create data frame for the distribution
+dice_data <- data.frame(
+  Sum = 2:12,
+  Probability = c(1,2,3,4,5,6,5,4,3,2,1) / 36
+)
+
+# Create bar plot
+ggplot(dice_data, aes(x = factor(Sum), y = Probability)) +
+  geom_bar(stat = "identity", 
+           fill = IMSCOL["blue", "full"]) +
+  labs(x = "Sum of the two dice",
+       y = "Probability") 
+```
+
+:::
+
+The proportions in @tbl-gss-deg-work-prop also comprise a probability distribution, but one that cannot easily be put into a bar chart.
+
+Suppose now as in the example with age and health status, $B$ = {health rating good} and $E$ = {respondent is age 26 - 45}.  The probability $P(B \text{ and } E)$ is the value in @tbl-gss-age-health-prop in the intersection of the shaded second row, and second column shown in @tbl-gss-age-health-prop-shaded, or `r tbl_age_health_prop[2,2]`.  What about $P(B \text{ or }E)$? The events $B$ and $E$ are not disjoint so the addition rule for disjoint events does not apply.  Adding together the sum of second row and second column (`r  tbl_age_health_prop[2,5] + tbl_age_health_prop[5,2]`) includes the proportion for {age 26-45 and health rating good} twice, so it must be subtracted once:
+\begin{align*}
+P(B \text{ or } E) &= P(B) + P(E) - P(B \text{ and } E) \\
+    &= `r tbl_age_health_prop[2,5]` + `r tbl_age_health_prop[5,2]` - `r tbl_age_health_prop[2,2]` \\
+    &= `r tbl_age_health_prop[2,5] + tbl_age_health_prop[5,2] - tbl_age_health_prop[2,2]`.
+\end{align*}
+
+
+```{r tbl-gss-age-health-prop-shaded}
+#| label: tbl-gss-age-health-prop-shaded
+#| tbl-cap:  "Heath rating and age group, with counts replaced by proportions"
 #| tbl-pos: H
-
-gss_recode |> 
-  select(sex, 
+gen_ss |> 
+  select(age_group, 
          health_status) |> 
-  count(sex, health_status) |> 
-  group_by(sex) |> 
+  count(age_group, health_status) |> 
+  mutate(prop = n /sum(n)) |> 
+  select(-n) |> 
   pivot_wider(names_from = health_status, 
-              values_from = n) |> 
+              values_from = prop,
+              values_fill = 0) |> 
   adorn_totals(where = c("row", "col"), name = "Sum") |> 
   kbl(linesep = "",
       booktabs = TRUE) |> 
@@ -596,228 +486,503 @@ gss_recode |>
     bootstrap_options = c("striped", "condensed"),
     latex_options = c("striped"),
     full_width = FALSE) |>
-  add_header_above(c("Sex " = 1, "Health rating" = 5)) |>
+  add_header_above(c("Age " = 1, "Health rating" = 5)) |>
   column_spec(1, width = "4em") |>
-  column_spec(2:6, width = "4em") |> 
+  column_spec(2:5, width = "4em") |> 
   column_spec(6, bold = TRUE) |> 
-  row_spec(3, bold = TRUE) 
+  row_spec(5, bold = TRUE) |> 
+  row_spec(2, background = "gray") |> 
+  column_spec(3, background = "gray")
+  
+```
+
+The calculation of $P(B \text{ or } E)$ illustrates to the General Addition Rule for Probabilities:
+
+::: {.important data-latex=""}
+**General addition rule for probabilities.**
+
+If $A$ and $B$ are any two events, disjoint or not, then the probability that at least one of them will occur is
+$$
+P(A\text{ or }B) = P(A) + P(B) - P(A\text{ and } B),
+$$ {#eq-general-addition-rule}
+where $P(A \text{ and } B)$ is the probability that both events occur.
+
+:::
+
+The idea behind the general addition rule can be visualized in the Venn diagram in  @fig-gss-age-health-venn showing the relationship between the events {age 26 to 45} and {health rating good}.  The figure shows that there are 1896 + 2180 = 4076 outcomes in the event {age 26 to 45} and 4066 + 2180 = 6246  in the event {health rating good}.  Adding the two total outcomes 4076 + 6246 = 10322 double counts the 2180 in the overlap, so the number of outcomes in ({age 26 to 45} or {health rating good}) is 4076 + 6246 - 2180 = 8146.
+
+
+```{r fig-gss-age-health-venn}
+#| label: fig-gss-age-health-venn
+#| out-width: 80%
+#| fig-cap: | 
+#|     Venn diagram showing the overlap between the events {age 26 to 45} and {health rating good}.  
+#|     The two events are not disjoint.  
+`Age 26 to 45` <- (gen_ss$age_group == "26 to 45") 
+`Health rating good` <- (gen_ss$health_status == "good")
+d <- data_frame(`Age 26 to 45`, `Health rating good`)
+
+library(ggvenn)
+p <- ggvenn(d, 
+            fill_color = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]),
+            set_name_size = 4,
+            auto_scale = FALSE)
+p 
 
 ```
 
-```{r gss-sex-age}
-#| label: tbl-gss-sex-health
-#| tbl-cap:  "Age by by sex"
-#| tbl-pos: H
 
-gss_recode |> 
-  select(sex, 
-         age_group) |> 
-  count(sex, age_group) |> 
-  group_by(sex) |> 
-  pivot_wider(names_from = age_group, 
-              values_from = n) |> 
-  adorn_totals(where = c("row", "col"), name = "Sum") |> 
-  kbl(linesep = "",
-      booktabs = TRUE) |> 
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    latex_options = c("striped"),
-    full_width = FALSE) |>
-  add_header_above(c("Sex " = 1, "Age" = 5)) |>
-  column_spec(1, width = "4em") |>
-  column_spec(2:6, width = "4em") |> 
-  column_spec(6, bold = TRUE) |> 
-  row_spec(3, bold = TRUE) 
 
-```
+
+
+::: {.guidedpractice data-latex=""}
+
+(a) Use @fig-gss-age-health-venn to calculate $P${age 26 to 45} and $P${health rating good}. (b) Confirm that the Venn diagram does indeed include all outcomes in the sample space  [^probability-6]
+:::
+
+[^probability-6]: (a) $P(\text{age 26 to 45}) = 0.162 + 0.186 = `r 0.162 + 0.186`$. $P(\text{health rating good}) = `r 0.186 + 0.347`$.
+(b) The total outcomes shown in the figure is 1896 + 2180 + 4066 + 3592 = `r 1896 + 2180 + 4066 + 3592`, which is the size of the dataset.
+
+
+
+::: {.workedexample data-latex=""}
+
+Use the general addition rule and @tbl-gss-age-health-prop to calculate that someone is either 66 years or older or has rated their health as poor.  
+
+-----------------------------------------
+Let $A$ = {age 66+} and $F$ = {health rating poor}. Using @eq-general-addition-rule,
+
+\begin{align*}
+ P(A \text{ or } F) &= P(A) + P(F) - P(A \text{ and } F) \\
+                    &= `r tbl_age_health_prop[4,5]` + `r tbl_age_health_prop[5,4]` - `r tbl_age_health_prop[4,4]` \\ 
+                    &= `r tbl_age_health_prop[4,5] + tbl_age_health_prop[5,4] - tbl_age_health_prop[4,4]`.
+\end{align*}
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+What is the probability that (a) someone is older than age 46 and rates their health as poor and (b) they are either older than 46 or have rated their health as poor.  [^probability-8]
+
+:::
+
+[^probability-8]: Let $H$ = {age older than 46} and $F$ defined as above. (a) $P(H \text{ and } F)$ = `r tbl_age_health_prop[3,4]` + `r tbl_age_health_prop[4,4]` = 
+`r tbl_age_health_prop[3,5] +  tbl_age_health_prop[4,4]`. (b) $P(H \text{ or } F) = P(H) + P(F) - P(H \text{ and } F)$ = `r tbl_age_health_prop[3,5]` + `r tbl_age_health_prop[4,5]` - `r (tbl_age_health_prop[3,5] +  tbl_age_health_prop[4,4])` = `r tbl_age_health_prop[3,5] +  tbl_age_health_prop[4,5] -  (tbl_age_health_prop[3,5] +  tbl_age_health_prop[4,4])`.
 
 
 ## Conditional probability {#sec-conditional-probability}
 
-The US CDC estimated  in 2024 that 11.3%  of the US adult population had been diagnosed with type 2 diabetes and another 4.5% were living with undiagnosed diabetes^[Defined as the survey respondent reporting never having received a diabetes diagnosis from a healthcare provider but experiencing 8- to 24-hour fasting plasma glucose greater than or equal to 126 mg/dL or hemoglobin A1c greater than or equal to 6.5% from tests done with the respondent].[@gwira2024diabetes]  Epidemiologists label these proportions the \index{prevalence} **prevalence** of diabetes.  If the patients seen at a clinic are representative of the US population (a very strong assumption!) then the chance is about 5% that a health care provider will detect diabetes in an adult patient without a prior diagnosis.  However, this is only the case if nothing is known about the patient. The prevalence of type 2 diabetes varies with age, for instance.
 
-@tbl-age-diabetes-prevalence shows the distribution of diabetes status for the three age groups in the first column, and is based on data from the [US CDC November 2024 Data Brief](https://www.cdc.gov/nchs/products/databriefs/db516.htm). For instance, among members of the US population age 20 - 39, the fractions of members with diagnosed, undiagnosed  or no diabetes are 0.022, 0.013 and 0.964, respectively.  The data are based on the 2021 - 2023 NHANES survey which was large enough that these estimated proportions can be treated here as population probabilities.
+In 2024, The US CDC estimated that 11.3% of the US adult population had been diagnosed with type 2 diabetes and another 4.5% were living with undiagnosed diabetes^[Defined as the survey respondent reporting never having received a diabetes diagnosis from a healthcare provider but experiencing 8 to 24 hour fasting plasma glucose greater than or equal to 126 mg/dL or hemoglobin A1c greater than or equal to 6.5% from tests done with the respondent] [@gwira2024diabetes].  Epidemiologists label these proportions the \index{prevalence} **prevalence** of diabetes.  If the patients seen at a clinic are representative of the US population (a very strong assumption, indeed!) then the chance is between 4 and 5% that a health care provider will detect diabetes in an adult patient without a prior diagnosis. But this probability only applies if nothing else is known about the patient. The prevalence of type 2 diabetes varies with age, for instance.  If the provider knows the patient is between 20 and 39 years old,  how should they revise that chance of undiagnosed diabetes?
+
+@tbl-age-diabetes-prevalence shows the distribution of diabetes status for the three age groups in the first column, and is based on data from the [US CDC November 2024 Data Brief](https://www.cdc.gov/nchs/products/databriefs/db516.htm). For instance, among members of the US population age 20 - 39, the proportions of members with diagnosed, undiagnosed  or no diabetes are 0.022, 0.013 and 0.964, respectively.  The chance that a patient between 20 and 39 has undiagnosed diabetes (0.013) is less than 1/3 that of randomly selected adult (0.045).  
 
 | Age Group | Diagnosed | Undiagnosed | No Diabetes |
 |-----------|----------:|------------:|------------:|
 | 20–39     |     0.022 |       0.013 |       0.964 |
 | 40–59     |     0.121 |       0.056 |       0.823 |
-| $≥$ 60      |     0.205 |       0.068 |       0.727 |
+| $≥$ 60    |     0.205 |       0.068 |       0.727 |
 
 : Type 2 diabetes status by age {#tbl-age-diabetes-prevalence} {tbl-colwidths="[25,25,25,25]"}
 
-Suppose $A$ is the event that a randomly selected member of the US adult population has been diagnosed with type 2 diabetes.  According to the CDC data, $P(A) =  0.113$. @tbl-age-diabetes-prevalence shows that if one adds the information that the adult is 60 years of age or older, that probability increases to 0.205.  In the language of probability, 0.205 is the \index{conditional probability} **conditional probability** that an individual has been diagnosed with diabetes, given that (or conditioning on) the person is age 60 or older.   
 
-Suppose $B$ is the event that a randomly selected individual is 60 or older.  In the notation of conditional probability
-$$
- P(A | B) = 0.205.
-$$ {#eq-cond-prob-diabetes-60}
+
+Suppose  $B$ is the event that a randomly selected member of the US adult population has been diagnosed with type 2 diabetes.  According to the CDC data, $P(B)$ =  0.113, or 11.3%. @tbl-age-diabetes-prevalence shows that if one adds the information that the adult is between 20 and 39, that probability decreases to 0.022. The probability  has changed because, instead of sampling from the sample space of the entire adult population, the random selection is from a reduced sample space, adults between 20 and 39 years old. In the language of probability, 0.022 is the \index{conditional probability} **conditional probability** that an individual has been diagnosed with diabetes, given that (or conditioning on) the person between 20 and 39 years old.   
+
+
+
+Suppose $A$ is the event that a randomly selected individual between 20 and 39 years old.  In the notation of conditional probability $P(B | A)$ = 0.022.
+
 
 ::: {.important data-latex=""}
 **Conditional probability.**
 
-Let $A$ and $B$ be two events.  The conditional probability of $A$ given $B$, written $P(A | B)$, is the probability that $A$ will occur if it is known that $B$ has occurred.
+Let $A$ and $B$ be two events.  The conditional probability of $B$ given $A$, written $P(B | A)$, is the probability of $B$ occurring if it is known that $A$ has occurred.  
 
 :::
 
 
-Since conditional probabilities a simply probabilities calculated within a subset of the population, they have the same properties as general probabilities and behave the same rules. 
 
-* For two events $A$ and $B$, $0 \leq P(A|B) \leq 1$.      
+The next example uses @tbl-age-diabetes-prevalence.
 
-* If $S$ is the sample space of all outcomes, $P(S|B) = 1$.
+::: {.guidedpractice data-latex=""}
 
-* If $A$ and $C$ are disjoint events, $P(A \text{ or} C|B) = P(A | B) + P(C |B)$. (The addition rule for disjoint events.)
+Suppose that an individual is age 40 - 59. What is the conditional probability they have been diagnosed diabetes?  What is the probability of undiagnosed diabetes?  [^probability-9]
 
-* If $A$ and $C$ are not disjoint $P(A \text{ or } C|B) = P(A | B) + P(C |B) - P(A \text{ and } C|B).$ (The general addition rule)
-
-
-::: {.guidedpractice}
-
-What is the conditional probability that an individual has diabetes (either diagnosed or undiagnosed) given that they are age 40 - 59? [^probability-10]
 :::
 
-[^probability-10]:  Let $A$ = {an individual has diagnosed diabetes}, $C$ = {an individual has undiagnosed diabetes} and $B$ = {an individual is age 40 - 59}.  Since $A$ and $C$ are disjoint
-$$
-P(A \text{ or } C |B) = P(A|B) + P(C|B) = 0.121 + 0.056 = 0.177.
-$$
-So 17.7% of adults age 40 - 59 are living with diabetes.
+[^probability-9]:  Let $A$ = {an individual is age 40 to 59}, $B$ = {an individual has diagnosed diabetes}, $C$ = {an individual has undiagnosed diabetes}. The $P(B|A) = 0.212$ and $P(C|A) = 0.056$  
 
-::: {.guidedpractice}
 
-Should each of the rows sum to 1?  Why?  Do they?
-[^probability-11]
+::: {.workedexample data-latex=""} 
+In the example of rolling two dice in @sec-probability-rules, let $A$ ={the sum of the dice is 4} and $B$ = {the outcome of the roll was (2, 2)}.  What are (a) 
+$P(B | A)$ and $P(A | B)$?
+
+------------------------------------------------------------------------
+
+(a) @tbl-sum-two-dice shows that if the sum is 4, the outcome of the roll must have been (1, 3), (2, 2), or (3, 1). In this reduced sample space of 3 possible outcomes, each of the three are equally likely so each of will have occurred occurred with probability 1/3, so $P(B|A) = 1/3$. 
+
+(b) If it is known that the roll yielded (2, 2), then the sum must be 4, so $P(A|B) = 1$  This is not a particularly practical example but it emphasizes that  $P(B|A)$ and $P(A|B)$ can be very different.
 :::
 
-[^probability-11]: The rows should sum to 1 since, given any age group, the three outcomes are disjoint and consist of all possible diabetes related conditions.  The second and third row sum to 1, but the first does not.  As noted in the CDC report, rounding can cause sums to differ slightly from 1.
+Conditional probabilities can be calculated from tables such as @tbl-gss-age-health.  Let $A$ = {age 26 to 45}.  Conditioning on the event $A$ = {age 26 to 45} means calculating probabilities for reported health among the `r tbl_age_health[2,5]` respondents satisfying in that age group.  Conditional probabilities for a reported health rating will be the proportion of the observed outcomes among the number of respondents between 26 and 46. Conditioning on any other age group involves calculating proportions for outcomes in that age group.  These conditional probabilities  will be the row proportions in a table like @tbl-gss-age-health, but with counts replaced by row proportions.  The  modified table is shown in @tbl-gss-age-health-row-prop.
 
 
 
+```{r tbl-gss-age-health-row-prop}
+#| label: tbl-gss-age-health-row-prop
+#| tbl-cap:  "Row proportions for heath rating by age group"
+#| tbl-pos: H
+gen_ss |> 
+  select(age_group, 
+         health_status) |> 
+  count(age_group, health_status) |> 
+  group_by(age_group) |> 
+  mutate(proportion = n / sum(n)) |>
+  dplyr::select(-n)  |> 
+  pivot_wider(names_from = health_status, 
+              values_from = proportion) |> 
+  adorn_totals(where = c("col"), name = "Sum") |> 
+  kbl(linesep = "",
+      booktabs = TRUE,
+      digits = 3) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    latex_options = c("striped"),
+    full_width = FALSE) |>
+  add_header_above(c("Age " = 1, "Health rating" = 5)) |>
+  column_spec(1, width = "4em") |>
+  column_spec(2:6, width = "4em") 
+```
 
-<!-- potential tables
+Since conditional probabilities are simply probabilities recalculated in a reduced sample space, they satisfy the 4 properties of probability in @sec-probability-rules. 
 
+Tables such as @tbl-gss-age-health-row-prop provide convenient summaries of conditional probabilities that depend on categorical variables.  The conditional probability for any reported health rating, given a respondent is age 66+ (for instance), can be read from the last row of the table, and the comparing the rows of the table shows how the conditional probabilities of health rating vary with age.
 
-| Age Group | P(Age ∧ Diagnosed) | P(Age ∧ Undiagnosed) | P(Age ∧ Any Diabetes) | P(Age ∧ No Diabetes) |
-|-----------|--------------------|----------------------|------------------------|-----------------------|
-| 18–44     | 1.59%              | 1.01%                | 2.60%                 | 50.50%               |
-| 45–64     | 4.33%              | 1.35%                | 5.68%                 | 24.22%               |
-| 65+       | 4.15%              | 0.80%                | 4.95%                 | 12.05%               |
-| **Total** | **10.07%**         | **3.17%**            | **13.25%**            | **86.75%**           |
+@tbl-gss-age-health-prop and @tbl-gss-age-health-row-prop appear similar, but the values in the two tables correspond to different types of probabilities.  In @tbl-gss-age-health-prop the value in the second row, second column (`r tbl_age_health_prop[2,2]`) is $P$({age 26 to 45} and {health rating good}).  It is the proportion of respondents who fell simultaneously into that age and health status among all `r tbl_age_health[5,5]` respondents and is called a \index{joint probability} **joint probability** for the two outcomes. In @tbl-gss-age-health-row-prop the value in the second row, second column  is a **conditional probability**, the proportion of respondents rating their health good when restricted to (conditioned on) those in age group 26 to 45.  In @tbl-gss-age-health-prop the row sums in the last column show the probability of an age group among the respondents, regardless of health status; the column sums in the last row show the probabilities of health rating, regardless of age.  These probabilities are called **marginal probabilities** \index{marginal probability} for health rating and age.
 
+This terminology is summarized in the following box:
 
-| Age Group | P(Age ∧ Diagnosed) | P(Age ∧ Undiagnosed) | P(Age ∧ Any Diabetes) | P(Age ∧ No Diabetes) |
-|-----------|--------------------|----------------------|------------------------|-----------------------|
-| 18–44     | 1.59%              | 1.01%                | 2.60%                 | 50.50%               |
-| 45–64     | 4.34%              | 1.35%                | 5.69%                 | 24.21%               |
-| 65+       | 4.15%              | 0.80%                | 4.95%                 | 12.05%               |
-| **Total** | **10.08%**         | **3.16%**            | **13.24%**            | **86.76%**           |
+::: {.important data-latex=""}
+**Joint, conditional and marginal probabilities.**
 
+Let $A$ and $B$ be two events in a sample space.  The joint probability of $A$ and $B$, $P(A \text{ and } B)$ is the probability that both will occur simultaneously. The conditional probability $P(B \mid A)$ is the probability of $B$ under the condition that $A$ is known to have occurred.  The marginal probability $P(B)$ is the probability that $B$ will occur without regard to whether $A$ has occurred, and similarly for $P(A)$.
 
-| Age Group | P(Age ∧ Diagnosed) | P(Age ∧ Undiagnosed) | P(Age ∧ Any Diabetes) | P(Age ∧ No Diabetes) |
-|-----------|--------------------|----------------------|------------------------|-----------------------|
-| 18–44     | 0.0159             | 0.0101               | 0.0260                | 0.5050               |
-| 45–64     | 0.0434             | 0.0135               | 0.0569                | 0.2421               |
-| 65+       | 0.0415             | 0.0080               | 0.0495                | 0.1205               |
-| **Total** | **0.1008**         | **0.0316**           | **0.1324**            | **0.8676**           |
+:::
 
-| Age Group | P(Age ∧ Diagnosed) | P(Age ∧ Undiagnosed) | P(Age ∧ No Diabetes) |
-|-----------|--------------------|----------------------|-----------------------|
-| 18–44     | 0.0159             | 0.0101               | 0.5050               |
-| 45–64     | 0.0434             | 0.0135               | 0.2421               |
-| 65+       | 0.0415             | 0.0080               | 0.1205               |
-| **Total** | **0.1008**         | **0.0316**           | **0.8676**           |
+::: {.workedexample data-latex=""}
 
-Certainly! Here’s the joint distribution table with row totals added (summing diagnosed, undiagnosed, and no diabetes for each age group). All values are in proportions:
+@sec-two-examples discussed the characteristics of rapid antigen self-tests for COVID-19.  Write the information provided using probability notation and identify which types of probabilities are and are not specified.  
 
-⸻
+------------------------------------------------------------------------
 
-✅ Joint Distribution of Age and Diabetes Status with Row Totals
+Let $A$ = {an individual has COVID-19} and $B$ = {the individual tests positive for the infection.}  The statement that of 100 individuals with the infection 80 will test positive is the conditional probability $P(B | A)$ = 0.80. The statement that when 100 people without the disease are tested, 98 will test negative is the conditional probability  $P(B^c | A^c)$ = 0.98.  The relevant conditional probabilities for an individual who has just tested are instead $P(A | B)$ and $P(A^c | B^c)$.  The introduction claims that under some assumptions, $P(A | B)$ = 0.20, while $P(A^c | B^c) \approx $ 1.0, so $P(A | B)$ is very different from $P(B | A)$.   
 
-| Age Group | P(Age ∧ Diagnosed) | P(Age ∧ Undiagnosed) | P(Age ∧ No Diabetes) | Row Total |
-|-----------|--------------------|----------------------|-----------------------|-----------|
-| 18–44     | 0.0159             | 0.0101               | 0.5050               | 0.5310    |
-| 45–64     | 0.0434             | 0.0135               | 0.2421               | 0.2990    |
-| 65+       | 0.0415             | 0.0080               | 0.1205               | 0.1700    |
-| **Total** | **0.1008**         | **0.0316**           | **0.8676**           | **1.0000**|
+There are no marginal or joint probabilities: $P(A)$, the prevalence of COVID-19, $P(B)$, the prevalence of positive tests, and the joint probabilities $P(A \text{ and } B)$ or $P(A^c \text{ and } B^c) someone has the disease and tests positive or has the disease and tests negative.
 
+:::
 
-⸻
-
-Each row now correctly sums to the age group’s total share of the U.S. adult population:
-	•	18–44 = 53.1%
-	•	45–64 = 29.9%
-	•	65+ = 17.0%
-	•	Grand total = 100%
-
-Let me know if you’d like column totals by diabetes status across age groups too (e.g., marginal probabilities for diabetes categories).
-
-
-library(tibble)
-library(kableExtra)
-
-# Create the data frame
-conditional_table <- tribble(
-  ~"Age Group", ~"P(Diagnosed | Age)", ~"P(Undiagnosed | Age)", ~"P(No Diabetes | Age)",
-  "18–44",       0.030,                 0.019,                   0.952,
-  "45–64",       0.145,                 0.045,                   0.811,
-  "65+",         0.244,                 0.047,                   0.708
-)
-
-# Display the table using kableExtra
-conditional_table %>%
-  kbl(
-    caption = "Conditional Distribution of Diabetes Status Given Age Group",
-    digits = 3,
-    align = "c"
-  ) %>%
-  kable_styling(full_width = FALSE, position = "center")
- 
- library(tibble)
-library(kableExtra)
-
-# Create the data frame
-joint_table <- tribble(
-  ~"Age Group", ~"P(Age ∧ Diagnosed)", ~"P(Age ∧ Undiagnosed)", ~"P(Age ∧ No Diabetes)", ~"Row Total",
-  "18–44",      0.0159,                0.0101,                   0.5050,                   0.5310,
-  "45–64",      0.0434,                0.0135,                   0.2421,                   0.2990,
-  "65+",        0.0415,                0.0080,                   0.1205,                   0.1700,
-  "Total",      0.1008,                0.0316,                   0.8676,                   1.0000
-)
-
-# Display table using kableExtra
-joint_table %>%
-  kbl(
-    caption = "Joint Distribution of Age Group and Diabetes Status (Proportions)",
-    digits = 4,
-    align = "c"
-  ) %>%
-  kable_styling(full_width = FALSE, position = "center") 
-  
 ```{r}
-library(tibble)
-library(kableExtra)
-
-# Create the data frame
-joint_table <- tribble(
-  ~"Age Group", ~"P(Age and Diagnosed)", ~"P(Age and Undiagnosed)", ~"P(Age and No Diabetes)", ~"Row Total",
-  "18–44",      0.0159,                0.0101,                   0.5050,                   0.5310,
-  "45–64",      0.0434,                0.0135,                   0.2421,                   0.2990,
-  "65+",        0.0415,                0.0080,                   0.1205,                   0.1700,
-  "Total",      0.1008,                0.0316,                   0.8676,                   1.0000
-)
-
-# Display table using kableExtra
-joint_table %>%
-  kbl(
-    caption = "ProbabilityS Distribution of Age Group and Diabetes Status (Proportions)",
-    digits = 4,
-    align = "c"
-  ) %>%
-  kable_styling(full_width = FALSE, position = "center") 
-  
-
-
+t_joint_sex_wrk <-  round(prop.table(table(gen_ss$sex, gen_ss$work_status)), 3)
+t_marg_sex_wrk <- addmargins(t_joint_sex_wrk)
+t_cond_sex_wrk = round(prop.table(table(gen_ss$sex, gen_ss$work_status), 1), 3)
 ```
 
 
--->
+::: {.guidedpractice data-latex=""}
+
+Do the following statements give information about joint, conditional or marginal probabilities? (a) In the General Social Survey   `r t_cond_sex_wrk[1,7] *100`% of females stated that their primary occupation was keeping house.  The corresponding figure for males was `r t_cond_sex_wrk[2,7] * 100`%.  (b) `r t_joint_sex_wrk[2,7] * 100`% of the respondents were males whose occupation was keeping house.  (c) `r t_marg_sex_wrk[3,7] * 100`% of the respondents reported that keeping house was their primary occupation.
+[^probability-11]
+:::
+
+[^probability-11]: (a) Conditional probabilities, since these are the probabilities of keeping house given sex = female or sex = male. (b) A joint probability of being male and keeping house. (c) A marginal probability of keeping house.
+
+
+The calculations of a row proportion suggests a formula for calculating conditional probabilities.  Suppose, for example, $A$ = {age 26 to 45} and  $B$ = {Health rating good}. The element in @tbl-gss-age-health-row-prop corresponding the $P(B \mid A)$ is  
+
+\begin{aligned}
+P(B \mid A) 
+  &= \frac{\text{number of outcomes in } (B \text{ and } A)}{\text{number of outcomes in } A} \\
+  &= \frac{\text{number of outcomes in } (B \text{ and } A) /{\text{total outcomes}}}
+          {\text{number of outcomes in } A / {\text{total outcomes}}} \\
+  &= \frac{P(B \text{ and } A)}{P(A)}.
+\end{aligned}
+
+::: {.important data-latex=""}
+**Formula for conditional probability.**
+
+Suppose $A$ and $B$ are events in a sample space.  Then as long as $P(A) > 0$
+$$
+  P(B \mid A) = \frac{P(B \text{ and } A)}{P(A)}.
+$$ {#eq-conditional-probability}
+
+:::
+
+In many texts @eq-conditional-probability serves as the definition of conditional probability.  In this text, @eq-conditional-probability is viewed as a way to calculate the conceptual definition given earlier.
+
+::: {.workedexample data-latex=""}
+
+In the United States, women live longer than men.   Approximately 7.4%  of the population are females age 80 or older (80+), while only 4.4% are males 80+ . Suppose that 50.5% of the US population are females. (a) Draw a Venn diagram showing the relationship between the events {selecting a female} and {selecting someone 80+ years old}, showing the sizes of the non-overlapping regions. Use the information in the Venn diagram to compute (b) the probability that a randomly sampled female is age 80+ and (c) the probability that a randomly sampled person age 80+ is a female. (d)  Explain these two conditional probabilities in terms that someone without a background in statistics would understand.
+
+------------------------------------------------------------------------
+
+The first step is write what is known and what is asked in probability notation.  Let $A$ = {randomly selected person is alive at age 80 or older}, and $F$ = {randomly selected person is a females}.  In the problem statement $P(F \text{ and } A)$ = 0.074, $P(F^c \text{ and } A)$ = 0.044, and $P(F)$ = 0.505. Part (a) asks for the Venn diagram showing the relationship between $A$ and $W$. Parts (b) and (c) ask for $P(A \mid F)$ and $P(F \mid A)$, respectively, while (d) asks for an explanation of the conditional probabilities that does not use the jargon of probability.
+
+(a) It is best to begin by sketching the main features of a Venn diagram before calculating the probabilities of events. The  @fig-female-80plus-venn-blank shows an initial Venn diagram, emphasizing the relationship between the events but without the probabilities.  Since $P(F \text{ and } A) > 0$, there will be an overlap between the events, as shown in the diagram.  The white space surrounding the diagram represents individuals who are neither females or in the 80+ group (males who are less than 80 years old.)
+
+```{r fig-female-80plus-venn-blank}
+#| label: fig-female-80plus-venn-blank
+#| out-width: 80%
+#| fig-cap: | 
+#|     Venn diagram showing the relationship between A and W, without probabilities
+library(VennDiagram)
+# Draw Venn diagram with specified areas
+age_venn <-  draw.pairwise.venn(
+  area1 = 0.505,     # set A
+  area2 = 0.118,      # set B
+  cross.area = 0.074, # overlap
+  category = c("Female", "80+"),
+  fill = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]),
+  lty = "blank",
+  #cex = 1.5,
+  cat.cex = 1.5,
+  ext.text = TRUE,
+  scaled = FALSE,
+  cex = 0
+)
+grid.draw(age_venn)
+```
+
+@fig-female-80plus-venn adds the probabilities to the diagram.  The probability of selecting a woman is known, so $P(F)=$ 0.505, as is the size of the intersection, $P(F \text{ and } A)$ = 0.074. Since the Venn diagram shows areas that do not include overlap, the probability shown in left side of the blue oval is 0.505 - 0.074 = 0.431.  The size of the oval on the right that does not include the overlap, $P(F^c \text{ and } A )$, is the probability that someone is male and 80+, given as 0.044.   
+
+
+```{r fig-female-80plus-venn}
+#| label: fig-female-80plus-venn
+#| out-width: 80%
+#| fig-cap: | 
+#|     Venn diagram showing the relationship between A and W, with probabilities
+library(VennDiagram)
+# Draw Venn diagram with specified areas
+age_venn <-  draw.pairwise.venn(
+  area1 = 0.505,     # set A
+  area2 = 0.118,      # set B
+  cross.area = 0.074, # overlap
+  category = c("Female", "80+"),
+  fill = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]),
+  lty = "blank",
+  #cex = 1.5,
+  cat.cex = 1.5,
+  ext.text = TRUE,
+  scaled = FALSE,
+  cex = 1.5
+)
+grid.draw(age_venn)
+```
+
+(b) The conditional probability that a randomly sampled female is 80+ is the conditional probability of being in that age group, given that the sampled person is female, $P(A \mid F)$.  
+\begin{align*}
+P(A \mid F) &= \frac{P(F \text{ and } A)}{P(F)} \\
+            &= \frac{0.074}{0.505} \\
+            &= 0.147.
+\end{align*}
+
+
+(c) The conditional probability $P(F \mid A)$ is 
+\begin{align*}
+P(F \mid A) &= \frac{P(F \text{ and } A)}{P(A)} \\
+            &= \frac{0.074}{0.074 + 0.044} \\
+            &= 0.627.
+\end{align*}
+
+
+(d)  Part (b): Approximately 15% of the females in the US are at least 80 years old.  Part (c): Among the elders in the US who are at least 80 years old, approximately 63% are female.  So a majority of people in the US at least 80 years old are female.  Women do live longer than men.
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+In the above example what population is represented by the white space outside the ovals in @fig-female-80plus-venn?  What is the probability if selecting someone 
+from that population?[^probability-330]
+
+:::
+
+[^probability-330]: The population represented by the white space are neither female nor age 80+.  They are the males  less than 80 years old.  The probability in that region is 1 minus the total area in the ovals, 1 - (0.431 + 0.074 + 0.044) = 0.451.  Approximately 45% of the US population are males less than 80 years old.
+
+
+
+A simple rearrangement of the the formula for conditional probability yields the multiplication rule for probabilities.
+
+::: {.important data-latex=""}
+**Multiplication rule for probabilities.**
+
+If $A$ and $B$ be two events in a sample space, then
+$$
+P(B\text{ and } A) = P(B | A)P(A).
+$${#eq-mult-rule-two-probs}
+::: 
+ 
+::: {.workedexample data-latex=""}
+
+Suppose that among male adults between 25 and 40 years of age, hypertension occurs about 18% of the time. For simplicity assume that the population is 50% male, 50% female. What is the probability of randomly selecting a male with hypertension from the population of individuals 25-40 years of age?
+
+------------------------------------------------------------------------
+
+Let $A$ be the event that a person has hypertension, and $B$ the event that they are a male adult between 25 and 40 years of age. $P(A|B)$, the probability of hypertension given male sex, is 0.18. Thus, $P(A \text{ and } B) = (0.18)(0.50) = 0.09$.
+:::
+
+The conditional probability $P(B \mid A)$ quantifies how knowing that $A$ has occurred changes the chance of $B$ happening.  When $P(B)$ and $P(B \mid A)$ are the same, knowing that $A$ has occurred provides no information about the chance of $B$.  In that case, $A$ and $B$ are called **statistically independent** \index{independent}.
+
+
+::: {.important data-latex=""}
+**Independent events.**
+
+Two events $A$ and $B$ in a  sample space are independent when 
+$$
+  P(B \mid A) = P(B).
+$${#eq-independence-definition}
+::: 
+
+Applying the multiplication rule to two independent events $A$ and $B$ yields an alternative definition for independent events:
+$$
+ P(B\text{ and } A) = P(B \mid A)P(A) = P(B)P(A).
+$${#eq-two-independent-events}
+
+Similarly, if there are $k$ events $A_1$, ..., $A_k$ from $k$ independent processes, then the probability they all occur is
+$$
+P(A_1) P(A_2) \cdots P(A_k).
+$${#eq-k-independent-events}
+
+Independence for two events can be checked using either  @eq-independence-definition or @eq-two-independent-events. 
+
+::: {.workedexample}
+
+In the US population, 45% of the of people are blood group O. Suppose that 40% of Asian people living in the US are blood group O, and that the Asian population in the United States is approximately 4%. Do these data suggest that blood group is independent of ethnicity?
+
+---------------------------------------
+
+Let $B$ represent blood group O, and $A$ represent Asian ethnicity. Since $P(B|A) = 0.40$ does not equal $P(B) = 0.45$, the two events are not independent.   Alternatively, 
+\begin{align*}
+P(A \text{ and } B) &= P(B |A)P(A) \\
+    &= (0.40)(0.04) \\
+    &\neq (0.45)(0.04) \\
+    &= P(B)P(A).
+\end{align*}
+Blood group is not independent of ethnicity.
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+**Independent versus disjoint events.**  Suppose you pick a day at random from the annual calendar of 365 days, and let $A$ = {the day chosen is in October} and $B$ = {the day chosen is in summer}.  Are $A$ and $B$ independent?  Are they disjoint? 
+[^probability-301]
+
+:::
+
+[^probability-301]: $A$ and $B$ are not independent since $P(B)$ = 1/12 (approximately) but $P(B|A) = 0,$ since a day in October cannot be a day in summer.  The two events are disjoint, however, since both $A$ and $B$ cannot happen simultaneously.
+
+::: {.guidedpractice data-latex=""}
+
+Is the event of drawing a heart from a deck of cards independent of drawing an ace? [^probability-302]
+
+:::
+
+[^probability-302]:The probability the card is a heart is 13/52 = 1/4  and the probability that it is an ace is 4/52=1/13. The probability that the card is the ace of hearts $\text{A}{\heartsuit}$) is 1/52. Check whether @eq-two-independent-events is satisfied: $$P({\heartsuit}) P(\text{A}) = \left(\frac{1}{4} \right) \left( \frac{1}{13} \right) = \frac{1}{52} 
+= P({\color{redcards}\heartsuit}\text{A}).$$  Since the equation holds, the event that the card is a heart and the event that the card is an ace are independent events.
+
+
+
+::: {.workedexample data-latex=""}
+
+Mandatory drug testing in the workplace is common practice for certain professions, such as air traffic controllers and transportation workers.  A false positive in a drug screening test occurs when the test incorrectly indicates that a screened person is an illegal drug user. Suppose a mandatory drug test has a false positive rate of 1.2% (i.e., has probability  0.012 of indicating that an employee is using illegal drugs when that is not the case).  Given 150 employees who are in reality drug free, what is the probability that at least one will falsely test positive? Assume that the outcome of one drug test has no effect on the others.
+
+------------------------------------------------------------------------
+
+First, note that the complement of at least 1 person testing positive is that no one tests positive (i.e., all employees test negative). The multiplication rule can then be used to calculate the \begin{align*}
+P(\text{At least 1 } \texttt{+}) 
+  &= P(\text{1 or 2 or 3 } \cdots \text{ or 150 are } \texttt{+}) \\
+  &= 1 - P(\text{None are } \texttt{+}) \\
+  &= 1 - P(\text{150 are } \texttt{-}) \\
+  &= 1 - P(\texttt{-})^{150} \\
+  &= 1 - (0.988)^{150} \\
+  &= 1 - 0.16 \\
+  &= 0.84.
+\end{align*}
+ Even when using a test with a small probability of a false positive, the company is more than 80\% likely to incorrectly claim at least one employee is an illegal drug user!
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+Because of the high likelihood of at least one false positive in company wide drug screening programs, an individual with a positive test is always re-tested with a different screening test: one that is more expensive than the first, but has a lower false positive probability. Suppose the second test has a false positive rate of 0.8%.  What is the probability that an employee who is not using illegal drugs will test positive on both tests? [^probability-303]
+:::
+
+[^probability-303]: The outcomes of the two tests are independent of one another; $P (A\text{ and } B) = P(A) P(B)$, where events $A$ and $B$ are the results of the two tests. The probability of a false positive with the first test is 0.012 and 0.008 with the second. Thus, the probability of an employee who is not using illegal drugs testing positive on both tests is $(0.012) (0.008) = (9.6) 10^{-5}.$
+
+::: {.workedexample data-latex=""}
+
+
+**ABO blood groups** There are four different common blood types (A, B, AB, and O) that are are determined by the presence of certain antigens located on cell surfaces. Antigens are substances used by the immune system to recognize self versus non-self; if the immune system encounters antigens not normally found on the body's own cells, it will attack the foreign cells. When patients receive blood transfusions, it is critical that the antigens of transfused cells match those of the patient's, or else an immune system response will be triggered.
+
+The ABO blood group system consists of four different blood groups, which describe whether an individual's red blood cells carry the A antigen, B antigen, both, or neither. The ABO gene has three alleles: ${I}^{A}$, ${I}^{B}$, and *i*. The *i* allele is recessive to both ${I}^{A}$ and ${I}^{B}$, and does not produce antigens; thus, an individual with genotype ${I}^{A}i$ is blood group A and an individual with genotype ${I}^{B}i$ is blood group B. The ${I}^{A}$ and ${I}^{B}$ alleles are codominant, such that individuals of ${I}^{A}$${I}^{B}$ genotype are AB. Individuals who inherit two copies of the \textit{i} allele are known as blood group O, with neither A nor B antigens. @fig-abo-inheritance shows graphically how inheritance determines blood group.
+
+```{r abo-inheritance}
+#| label: fig-abo-inheritance
+#| out-width: 70%
+#| fig-cap: |
+#|   Pattern of inheritance of the genes that determine one of the four different common blood types (A, B, AB, and O)
+#| fig-alt: |
+#|   
+#| fig-pos: H
+knitr::include_graphics("images/abo-inheritance.png")
+```
+
+Suppose that both members of a couple have Group AB blood.	(a) What is the probability that a child of this couple will have Group A blood? (b) What is the probability that they have two children with Group A blood?
+
+
+------------------------------------------------------------------------
+
+(a) An individual with Group AB blood is genotype ${I}^{A}$${I}^{B}$. Two ${I}^{A}$${I}^{B}$ parents can produce children with genotypes ${I}^{A}$${I}^{B}$, ${I}^{A}$${I}^{A}$, or ${I}^{B}$${I}^{B}$. Of these possibilities, only children with genotype ${I}^{A}$${I}^{A}$ have Group A blood. Each parent has 0.5 probability of passing down their ${I}^{A}$ allele. Thus, the probability that a child of this couple will have Group A blood is P(parent 1 passes down ${I}^{A}$ allele) $\times$ P(parent 2 passes down ${I}^{A}$ allele) = $(0.5)(0.5) = 0.25$.
+
+  (b) Inheritance of alleles is independent between children. Thus, the probability of two children having Group A blood equals P(child 1 has Group A blood) $\times$ P(child 2 has group A blood). The probability of a child of this couple having Group A blood was previously calculated as 0.25, so the answer is $(0.25)(0.25) = 0.0625$.
+	
+:::
+
+
+## Bayes' Rule {#sec-bayes-rule}
+
+
+In the US population, the proportions of females and males are, respectively, 50.5% and 49.5%.  Approximately 1.8% of the population is age 85 or older; in the population of those 85 or older,  36.4% are male.  Among the males in the population, what proportion are 85 or older? The question seems simple to pose, but it is easy to get tripped up by the language.  What is given, what is being asked?
+
+Recasting this question in the language of probability clarifies the question and leads to a direct solution. Let $A$ = {a randomly sampled person is 85 or older}, and $B$ = {a randomly sampled person is male}.  The proportion 1.8% is a statement about the marginal probability of $A$, $P(A) = 0.018$, and the 36.4% is equivalent to $P(B \mid A) = 0.364$. The problem also specifies that $P(B) = 0.495$ while $P(B^c) = 0.505$ How can this information be used to calculate the conditional probability $P(A \mid B)$, the likelihood that among males, what proportion are older than 85?
+
+Since 
+$$
+P(A \mid B) = \frac{P(A \text{ and } B)}{P(B)},
+$$
+
+the solution requires the calculation of the joint probability $P(A \text{ and } B)$ that a randomly selected individual is both male and 85 or older, and dividing it by the marginal probability $P(B) = 0.495$  of selecting a male.  Using the multiplication rule @eq-mult-rule-two-probs,
+$$
+P(A \text{ and } B) = P(B \mid A) P(A) = (0.364)(0.018) = 0.0066.
+$$
+The chance that someone is male and  85 or older is 0.0066, or about 0.66%.  The conditional probability that a male is age 85  or older is 0.0066/0.495 =0.013.  About 1.3% of the male population is age 85 or older.
+
+```{r}
+#| label: fig-test-tree
+#| out-width: 80%
+#| fig-cap: | 
+#|     Tree diagram for mammogram
+
+treeDiag(c('Cancer Status', 'Mammogram'),
+         c(0.0035, 0.9965),
+         list(c(0.89, 0.11),
+              c(0.07, 0.93)),
+         textwd = 0.2,
+         solwd = 0.35,
+         cex.main = 1.4,
+         c('cancer', 'no cancer'),
+         c('positive','negative'),
+         digits = 5,
+         col.main = "#555555",
+         showWork = TRUE)
+
+```

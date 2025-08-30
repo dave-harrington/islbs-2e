@@ -57,25 +57,6 @@ p5
 
 
 
-# frogs
-# This dataset is not used, but some code kept for examples
-df <- frog
-library(beeswarm)
-# alternative beeswarm, base R
-
-beeswarm(df$clutch.volume,
-         horizontal = TRUE,
-         col = "blue",
-         method = "compactswarm",
-         cex = 0.7,
-         axes = FALSE,
-        # axis(side = 1),
-         xlab = "Clutch volume")
-axis(1, seq(0,2800, 500))
-
-#  portland trees
-
-
 # Danish ED
 
 # useful example for relationships
@@ -104,7 +85,7 @@ plot_data <- mort_ed_owd |>
   dplyr::filter(Code != "" ) |> 
   dplyr::filter(Entity != "World")
 
-#violin plots in dds
+# violin plots in dds
 #
 
 dds_reformat |> 
@@ -128,29 +109,164 @@ dds_reformat |>
 library(gssr)
 library(gssrdoc)
 
-data(gss_all)
+install.packages("eulerr")
+library(eulerr)
 
-devtools::install_github("yanlinlin82/ggvenn")
+venn_model <- euler(c(
+  A = 0.7,
+  B = 0.6,
+  "A&B" = 0.3
+))
 
-A <- gss_recode$year == 2021
-C <- gss_recode$year >= 2021
-B <- gss_recode$health_status == "good"
-d <- data_frame(A, B, C)
-
-x <- list(A, B)
-
-library(ggvenn)
-ggvenn(d, fill_color = c("red", "green", "blue"),set_name_size = 5)
-
-devtools::install_github("gaospecial/ggVennDiagram")
-library("ggVennDiagram")
-help("ggVennDiagram")
-
-y <- list(A, B)
-ggVennDiagram(y)
+# covid 19 RAT example
+# 
 
 
-x = list(A=1:5,B=2:7,C=3:6,D=4:9)
-ggVennDiagram(x)  # 4d venn
-ggVennDiagram(x[1:3])  # 3d venn
-ggVennDiagram(x[1:2])  # 2d venn
+plot(venn_model,
+     fills = c("cornflowerblue", "lightpink"), 
+     quantities = list(type = percent),
+     labels = TRUE)
+
+sens_rat <- 0.80
+spec_rat <- 0.98
+prev_covid <- 0.01
+
+venn_model <- euler(c(
+covid19 = 0.01, # prev
+positive_test = sens_rat * prev_covid + (1 - spec_rat) * (1 - prev_covid),
+"covid19&positive_test" = sens_rat * prev_covid
+))
+
+plot(venn_model, fills = c("cornflowerblue", "lightpink"), labels = TRUE)
+
+# tree diagrams from openintro function
+# 
+treeDiag(
+  c("Flight on time?", "Luggage on time?"),
+  c(0.8, 0.2), list(c(0.97, 0.03), c(0.15, 0.85))
+)
+treeDiag(c("Breakfast?", "Go to class"), c(.4, .6),
+         list(c(0.4, 0.36, 0.34), c(0.6, 0.3, 0.1)), c("Yes", "No"),
+         c("Statistics", "English", "Sociology"),
+         showWork = TRUE
+)
+treeDiag(
+  c("Breakfast?", "Go to class"), c(0.4, 0.11, 0.49),
+  list(c(0.4, 0.36, 0.24), c(0.6, 0.3, 0.1), c(0.1, 0.4, 0.5)),
+  c("one", "two", "three"), c("Statistics", "English", "Sociology")
+)
+treeDiag(c("Dow Jones rise?", "NASDAQ rise?"),
+         c(0.53, 0.47), list(c(0.75, 0.25), c(0.72, 0.28)),
+         solSub = list(c("(a)", "(b)"), c("(c)", "(d)")), solwd = 0.08
+)
+
+library(eulerr)
+
+# this is the most promising
+
+# Raw counts
+raw_counts <- c("Female" = 50,          # 100 total in A minus 6 in overlap
+                "85+" = 50,          #  total in B minus 30 in overlap
+                "Female & 85+" = 10)        # intersection
+
+# Convert to proportions
+total <- sum(raw_counts)          # Total unique individuals: 110
+proportions <- raw_counts / total
+
+# Create Euler diagram from proportions
+fit_prop <- euler(proportions)
+
+# Plot with proportions shown as percentages
+plot(fit_prop,
+     fills = c("skyblue", "salmon"),
+     quantities = list(type = "percent", digits = 1),
+     labels = TRUE,
+     main = "Venn Diagram with Proportions")
+
+
+
+# example: A = 60, B = 50, overlap = 20
+plot_venn2(60, 50, 20)
+
+# Install if needed
+install.packages("VennDiagram")
+
+# Load package
+library(VennDiagram)
+
+# Draw Venn diagram with specified areas
+draw.pairwise.venn(
+  area1 = 100,     # set A
+  area2 = 80,      # set B
+  cross.area = 30, # overlap
+  #  category = c("A", "B"),
+  fill = c("skyblue", "orange"),
+  lty = "blank",
+  cex = 1.5,
+  cat.cex = 1.5
+)
+
+
+
+n <- 1000000
+
+library(eulerr)
+
+plot(euler(c(A = n * 0.26, B = n * 0.113, "A&B" = n* 0.062 * 0.113)))
+
+n <- 1000000
+# Convert to proportions
+raw <- c(A = n * 0.26, n * 0.112, "A&B" = n * 0.62 * 0.113)
+total <- sum(
+  raw["A"], raw["B"], -raw["A&B"]  # avoid double-counting the intersection
+)
+
+proportions <- raw / total
+
+# Fit Euler diagram with proportions
+fit_prop <- euler(proportions)
+
+
+
+
+library(eulerr)
+
+age
+
+# Raw counts
+raw_counts <- c("A" = 70,          # 100 total in A minus 30 in overlap
+                "B" = 50,          # 80 total in B minus 30 in overlap
+                "A&B" = 30)        # intersection
+
+# Convert to proportions
+total <- sum(raw_counts)          # Total unique individuals: 70 + 50 + 30 = 150
+proportions <- raw_counts / total
+
+# Create Euler diagram from proportions
+fit_prop <- euler(proportions)
+
+# Plot with proportions shown as percentages
+plot(fit_prop,
+     fills = c("skyblue", "salmon"),
+     quantities = list(type = "percent", digits = 1),
+     labels = TRUE,
+     main = "Venn Diagram with Proportions")
+
+
+# Load package
+library(VennDiagram)
+
+# Draw Venn diagram with specified areas
+test.venn.plot <- draw.pairwise.venn(
+  area1 = 0.505,     # set A
+  area2 = 0.18,      # set B
+  cross.area = 0.072, # overlap
+  category = c("Female", "Age 80+"),
+  fill = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]),
+  lty = "blank",
+  cex = 1.5,
+  cat.cex = 1.5,
+  ext.text = FALSE
+)
+age-venn-plot
+
