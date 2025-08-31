@@ -9,13 +9,13 @@ source("_common.R")
 ::: {.chapterintro data-latex=""}
 Suppose a healthy couple deciding whether to conceive a child learns from genetic testing that they both carry the gene for cystic fibrosis but are unaffected by the disease.  What is the likelihood that their child will have the disease?   When a rapid antigen self-test for COVID-19 shows a positive outcome, how likely is it that the person using the test has the infection?  
 
-Probability is used to quantify uncertainty, and the rules of probability can be used to answer both questions.  In some cases, probabilities can be calculated directly without formulas, while in others the rules and formulas for probability provide tools fo approaching complex problems with a series of smaller steps.
+Probability is used to quantify uncertainty, and the rules of probability can be used to answer both questions.  In some cases, probabilities can be calculated directly without formulas, while in others the rules and formulas for probability provide tools for breaking down complex problems into a series of simpler steps.
 :::
 
 
 ## Two examples: genetic screening before conception and rapid antigen testing for COVID-19 {#sec-two-examples}
 
-**Screening for cystic fibrosis** Cystic fibrosis (CF) is a life-threatening genetic disorder caused by mutations in the *CFTR* gene located on chromosome 7. Defective copies of *CFTR* can result in a reduced quantity and function of the CFTR protein, leading to the buildup of thick mucus in the lungs and pancreas.^[The CFTR protein is responsible for transporting sodium and chloride ions across cell membranes.] CF is an autosomal recessive disorder; an individual only develops CF if they have inherited two affected copies of *CFTR*. Individuals with one normal (wild-type) copy and one defective (mutated) copy are known as carriers; they do not develop CF, but may pass the disease-causing mutation onto their offspring.
+**Screening for cystic fibrosis** Cystic fibrosis (CF) is a life-threatening genetic disorder caused by mutations in the *CFTR* gene located on chromosome 7. Defective copies of *CFTR* can result in a reduced quantity and function of the CFTR protein, leading to the buildup of thick mucus in the lungs and pancreas.^[The CFTR protein is responsible for transporting sodium and chloride ions across cell membranes.] CF is an autosomal recessive disorder; an individual only develops CF if they have inherited two affected copies of *CFTR*. Individuals with one normal (wild-type) copy and one defective (mutated) copy are known as *carriers*; they do not develop CF, but may pass the disease-causing mutation onto their offspring.
 
 Suppose that both members of a couple are CF carriers. What is the probability that a child of this couple will be affected by CF? Assume that a parent has an equal chance of passing either gene copy (i.e., allele) to a child.
 
@@ -26,7 +26,7 @@ The upper left of @fig-cfInheritance shows mutated (with a red bar) and wild-typ
 #| label: fig-cfInheritance
 #| out-width: 80%
 #| fig-cap: |
-#|   Pattern of CF inheritance for a child of two unaffected carriers.  Paternal chromosomes are depicted in green, maternal in blue, and the affected genes are denoted with a red horizonatal band.
+#|   Pattern of CF inheritance for a child of two unaffected carriers.  Paternal chromosomes are depicted in green, maternal in blue, and the affected genes are denoted with a red horizontal band.
 #| fig-alt: |
 #|   The pattern of inheritance for the cystic fibrosis gene for a child of two unaffected carriers. 
 #|   Paternal chromosomes are depicted in green, maternal in blue, and the affected genes are denoted 
@@ -52,7 +52,7 @@ npv_rat <- round(spec_rat * (1 - prev_covid) /(spec_rat * 1 - prev_covid + (1 - 
 
 **Rapid self-tests for COVID-19** Since the COVID-19 pandemic, rapid antigen tests (RAT) have been used for self-tests for the virus, i.e., tests that individuals could self-administer.   The tests continue to be available at pharmacies, neighborhood health centers, libraries and other distribution sites.  The tests are convenient and are either affordable or freely available.  But how reliable are the RATs? More specifically, what is the chance that a positive result correctly predicts presence of the infection or that a negative result correctly predicts its absence?
 
-Studies have shown that when 100 people with the infection are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is 0.80 when the virus is present,  while the chance of a negative test in the absence of the virus is 0.98.  But an individual who has just tested wants to know the reverse probabilities:  the chance they have COVID-19 when the test is positive or the chance do not when the test is negative.  The tools in  Sections [-@sec-conditional-probability] and [-@sec-bayes-rule] will show (perhaps surprisingly) that even though the rapid self-tests are correct more than 80% of the time when the virus is present, the chance that the virus is present in someone who has tested positive can be as low as `r ppv_rat * 100`%. A positive test might be wrong nearly 70% of the time. A negative test is more informative; the chance that the virus is absent in someone who has tested negative is nearly 100%. 
+Studies have shown that when 100 people with the infection are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is 0.80 when the virus is present,  while the chance of a negative test in the absence of the virus is 0.98.  But an individual who has just tested wants to know the reverse probabilities:  the chance they have COVID-19 when the test is positive or the chance do not have the infectionn when the test is negative.  The tools in  Sections [-@sec-conditional-probability] and [-@sec-bayes-rule] will show (perhaps surprisingly) that even though the rapid self-tests are correct more than 80% of the time when the virus is present, the chance that the virus is present in someone who has tested positive can under some assumptions be as low as `r ppv_rat * 100`%. A positive test might be wrong nearly 70% of the time. A negative test is more informative; the chance that the virus is absent in someone who has tested negative is nearly 100%. 
 
 
 ## The rules of probability {#sec-probability-rules}
@@ -68,8 +68,7 @@ The probability $p$ of an outcome in a random phenomenon is the proportion of ti
 
 :::
 
-This definition relies on a result from probability theory called the \index{Law of Large Numbers} **Law of Large Numbers**, which states that when a random phenomenon is repeated may times the proportion $\hat{p}_n$ of occurrences of a particular outcome converges to the probability $p$ of that outcome.  In simple settings like rolling a six-sided die, where probabilities are calculated by enumerating a sample space, the probability of an outcome such as rolling a 1 will match the proportion that a 1 is observed after many rolls.  
-
+This is formalized in the Law of Large Numbers: when a random experiment is repeated many times, the observed proportion of an outcome converges to its true probability. For example, the probability of rolling a 1 on a fair six-sided die is 1/6. After many rolls, the proportion of observed 1’s will approach this value.
 
 ::: {.important data-latex=""}
 **Sample spaces and events.**
@@ -78,7 +77,17 @@ The **sample space** $S$ of a random phenomenon is the set of all possible outco
 
 :::
 
-The  notation of set theory is used to describe events.  The complement $A^c$ of an event $A$ consists of all the outcomes in $S$ not in $A$.  Two events $A$ and $B$ are **disjoint** \index{disjoint events} or **mutually exclusive** \index{mutually exclusive}  if they have no outcomes in common.  The event $(A \text{ and } B)$ consists of the outcomes in $S$ that are members of both $A$ and $B$, sometimes denoted as members that satisfy both $A$ and $B$.  The event $(A \text{ or } B)$ consists of the outcomes that are either in $A$ or $B$ or possibly both.  In other texts, the event $(A \text{ and } B)$ is sometimes written with the set theory notation for intersection, $A \cap B$, or simply as $A,B$, and the event $A \text{ or } B$ uses the notation for union, $A \cup B$.  For conciseness, sentences such as "$B$ is the event that a child has CF" are written as $B$ = {child has CF}. 
+The  notation of set theory is used to describe events.  
+
+* The complement $A^c$ of an event $A$ consists of all the outcomes in $S$ not in $A$.  
+
+* Two events $A$ and $B$ are **disjoint** \index{disjoint events} or **mutually exclusive** \index{mutually exclusive}  if they have no outcomes in common.  
+
+* The event $(A \text{ and } B)$ consists of the outcomes in $S$ that are members of both $A$ and $B$, sometimes denoted as members that satisfy both $A$ and $B$.  In some texts this is written $A \cap B$.
+
+* The event $(A \text{ or } B)$ consists of the outcomes that are either in $A$ or $B$ or possibly both. This is sometimes written $A \cup B$.    
+
+* For conciseness, sentences such as "$B$ is the event that a child has CF" are written as $B$ = {child has CF}. 
 
 ::: {.workedexample data-latex=""} 
 
@@ -111,7 +120,7 @@ What is the sample space corresponding to the random process of rolling two six-
 
 ------------------------------------------------------------------------
 
-There are 6 possible outcomes for the first die, and for each of those outcomes there are 6 possible outcomes for the second die, so the sample space consists of the 36 ordered pairs $(j,k)$, where $j$ and $k$ each can be any of the integers between 1 and 6.
+There are 6 possible outcomes for the first die, and for each of those outcomes there are 6 possible outcomes for the second die, so the sample space consists of the 36 ordered pairs $(j,k)$, where $j$ and $k$ can be any of the integers between 1 and 6.
 :::
 
 ::: {.guidedpractice data-latex=""}
@@ -277,7 +286,9 @@ P(A^c) = 1 - P(A).
 $$
 :::
 
-Since $P(S)$ = 1, $P(S^c)$ = 0, so any event which does not include any outcomes has probability 0.  As a consequence, if $A$ and $B$ are disjoint events, $P{A \text{ and } B}$ = 0.
+If no outcomes satisfy an event $A$, it cannot occur and $P(A)$ = 0. As a consequence, if $A$ and $B$ are disjoint events, $P(A \text{ and } B)$ = 0.
+
+
 
 @tbl-gss-age-health-prop illustrates the first two rules of probability: the sum of all the probabilities is 1, and the values are between 0 and 1.  
 
@@ -307,7 +318,7 @@ P(H) = 1 - P(B) = 1 - 0.532 =0.477.
 $$
 A little less than 50% of this cohort rated their health as other than good.
 
-    As always, it pays to be careful with the language used in a problem statement.  The phrase **other than good**  makes it clear that it includes excellent health; the phrase **not good** (for instance) might be interpreted as any outcome worse than good.
+    As always, it pays to be careful with the language used in a problem statement.  The phrase **other than good**  includes both excellen clear that it includes excellent and all ratings worse than good; the phrase **not good** (for instance) might be interpreted as only fair or poor.
 
 :::
 
@@ -468,7 +479,7 @@ P(B \text{ or } E) &= P(B) + P(E) - P(B \text{ and } E) \\
 
 ```{r tbl-gss-age-health-prop-shaded}
 #| label: tbl-gss-age-health-prop-shaded
-#| tbl-cap:  "Heath rating and age group, with counts replaced by proportions"
+#| tbl-cap:  "Health rating and age group, with counts replaced by proportions"
 #| tbl-pos: H
 gen_ss |> 
   select(age_group, 
@@ -575,7 +586,7 @@ What is the probability that (a) someone is older than age 46 and rates their he
 
 In 2024, The US CDC estimated that 11.3% of the US adult population had been diagnosed with type 2 diabetes and another 4.5% were living with undiagnosed diabetes^[Defined as the survey respondent reporting never having received a diabetes diagnosis from a healthcare provider but experiencing 8 to 24 hour fasting plasma glucose greater than or equal to 126 mg/dL or hemoglobin A1c greater than or equal to 6.5% from tests done with the respondent] [@gwira2024diabetes].  Epidemiologists label these proportions the \index{prevalence} **prevalence** of diabetes.  If the patients seen at a clinic are representative of the US population (a very strong assumption, indeed!) then the chance is between 4 and 5% that a health care provider will detect diabetes in an adult patient without a prior diagnosis. But this probability only applies if nothing else is known about the patient. The prevalence of type 2 diabetes varies with age, for instance.  If the provider knows the patient is between 20 and 39 years old,  how should they revise that chance of undiagnosed diabetes?
 
-@tbl-age-diabetes-prevalence shows the distribution of diabetes status for the three age groups in the first column, and is based on data from the [US CDC November 2024 Data Brief](https://www.cdc.gov/nchs/products/databriefs/db516.htm). For instance, among members of the US population age 20 - 39, the proportions of members with diagnosed, undiagnosed  or no diabetes are 0.022, 0.013 and 0.964, respectively.  The chance that a patient between 20 and 39 has undiagnosed diabetes (0.013) is less than 1/3 that of randomly selected adult (0.045).  
+@tbl-age-diabetes-prevalence shows the prevalence of diabetes status for the three age groups 20 - 39, 40 - 59 and age 60 or older, and is based on data from the [US CDC November 2024 Data Brief](https://www.cdc.gov/nchs/products/databriefs/db516.htm). For instance, among members of the US population age 20 - 39, the proportions of members with diagnosed, undiagnosed  or no diabetes are 0.022, 0.013 and 0.964, respectively.  The chance that a patient between 20 and 39 has undiagnosed diabetes (0.013) is less than 1/3 that of randomly selected adult (0.045).  
 
 | Age Group | Diagnosed | Undiagnosed | No Diabetes |
 |-----------|----------:|------------:|------------:|
@@ -587,9 +598,7 @@ In 2024, The US CDC estimated that 11.3% of the US adult population had been dia
 
 
 
-Suppose  $B$ is the event that a randomly selected member of the US adult population has been diagnosed with type 2 diabetes.  According to the CDC data, $P(B)$ =  0.113, or 11.3%. @tbl-age-diabetes-prevalence shows that if one adds the information that the adult is between 20 and 39, that probability decreases to 0.022. The probability  has changed because, instead of sampling from the sample space of the entire adult population, the random selection is from a reduced sample space, adults between 20 and 39 years old. In the language of probability, 0.022 is the \index{conditional probability} **conditional probability** that an individual has been diagnosed with diabetes, given that (or conditioning on) the person between 20 and 39 years old.   
-
-
+Suppose  $B$ is the event that a randomly selected member of the US adult population has been diagnosed with type 2 diabetes.  According to the CDC data, $P(B)$ =  0.113, or 11.3%. @tbl-age-diabetes-prevalence shows that if one adds the condition that the adult is between 20 and 39, that probability decreases to 0.022. The probability  has changed because, instead of sampling from the entire adult population, the random selection is from a reduced sample space, adults between 20 and 39 years old. In the language of probability, 0.022 is the \index{conditional probability} **conditional probability** that an individual has been diagnosed with diabetes, given that (or conditioning on) the person between 20 and 39 years old.   
 
 Suppose $A$ is the event that a randomly selected individual between 20 and 39 years old.  In the notation of conditional probability $P(B | A)$ = 0.022.
 
@@ -600,8 +609,6 @@ Suppose $A$ is the event that a randomly selected individual between 20 and 39 y
 Let $A$ and $B$ be two events.  The conditional probability of $B$ given $A$, written $P(B | A)$, is the probability of $B$ occurring if it is known that $A$ has occurred.  
 
 :::
-
-
 
 The next example uses @tbl-age-diabetes-prevalence.
 
@@ -620,13 +627,14 @@ $P(B | A)$ and $P(A | B)$?
 
 ------------------------------------------------------------------------
 
-(a) @tbl-sum-two-dice shows that if the sum is 4, the outcome of the roll must have been (1, 3), (2, 2), or (3, 1). In this reduced sample space of 3 possible outcomes, each of the three are equally likely so each of will have occurred occurred with probability 1/3, so $P(B|A) = 1/3$. 
+(a) @tbl-sum-two-dice shows that if the sum is 4, the outcome of the roll must have been one of the ordered pairs (1, 3), (2, 2), or (3, 1). In this reduced sample space of 3 outcomes, they are equally likely so each of will have occurred occurred with probability 1/3 and $P(B|A) = 1/3$. 
 
-(b) If it is known that the roll yielded (2, 2), then the sum must be 4, so $P(A|B) = 1$  This is not a particularly practical example but it emphasizes that  $P(B|A)$ and $P(A|B)$ can be very different.
+(b) If it is known that the roll yielded (2, 2), then the sum must be 4, so $P(A|B) = 1.$  This is not a particularly practical example but it emphasizes that  $P(B|A)$ and $P(A|B)$ can be very different.
 :::
 
-Conditional probabilities can be calculated from tables such as @tbl-gss-age-health.  Let $A$ = {age 26 to 45}.  Conditioning on the event $A$ = {age 26 to 45} means calculating probabilities for reported health among the `r tbl_age_health[2,5]` respondents satisfying in that age group.  Conditional probabilities for a reported health rating will be the proportion of the observed outcomes among the number of respondents between 26 and 46. Conditioning on any other age group involves calculating proportions for outcomes in that age group.  These conditional probabilities  will be the row proportions in a table like @tbl-gss-age-health, but with counts replaced by row proportions.  The  modified table is shown in @tbl-gss-age-health-row-prop.
+Conditional probabilities can be calculated from tables such as @tbl-gss-age-health.  Suppose $A$ = {age 26 to 45}.  Conditioning on the event $A$ = {age 26 to 45} means calculating probabilities for reported health among the `r tbl_age_health[2,5]` respondents in that age group.  Conditional probabilities for a reported health rating will be the proportion of the observed outcomes among the number of respondents between 26 and 46. 
 
+Conditioning on any other age group involves calculating proportions for outcomes in that age group.  These conditional probabilities will be the row proportions in a table based @tbl-gss-age-health, but with counts replaced by row proportions.  The  modified table is shown in @tbl-gss-age-health-row-prop.
 
 
 ```{r tbl-gss-age-health-row-prop}
@@ -655,9 +663,9 @@ gen_ss |>
   column_spec(2:6, width = "4em") 
 ```
 
-Since conditional probabilities are simply probabilities recalculated in a reduced sample space, they satisfy the 4 properties of probability in @sec-probability-rules. 
 
-Tables such as @tbl-gss-age-health-row-prop provide convenient summaries of conditional probabilities that depend on categorical variables.  The conditional probability for any reported health rating, given a respondent is age 66+ (for instance), can be read from the last row of the table, and the comparing the rows of the table shows how the conditional probabilities of health rating vary with age.
+
+Since conditional probabilities are simply probabilities recalculated in a reduced sample space, they satisfy the 4 properties of probability in @sec-probability-rules. 
 
 @tbl-gss-age-health-prop and @tbl-gss-age-health-row-prop appear similar, but the values in the two tables correspond to different types of probabilities.  In @tbl-gss-age-health-prop the value in the second row, second column (`r tbl_age_health_prop[2,2]`) is $P$({age 26 to 45} and {health rating good}).  It is the proportion of respondents who fell simultaneously into that age and health status among all `r tbl_age_health[5,5]` respondents and is called a \index{joint probability} **joint probability** for the two outcomes. In @tbl-gss-age-health-row-prop the value in the second row, second column  is a **conditional probability**, the proportion of respondents rating their health good when restricted to (conditioned on) those in age group 26 to 45.  In @tbl-gss-age-health-prop the row sums in the last column show the probability of an age group among the respondents, regardless of health status; the column sums in the last row show the probabilities of health rating, regardless of age.  These probabilities are called **marginal probabilities** \index{marginal probability} for health rating and age.
 
@@ -676,9 +684,9 @@ Let $A$ and $B$ be two events in a sample space.  The joint probability of $A$ a
 
 ------------------------------------------------------------------------
 
-Let $A$ = {an individual has COVID-19} and $B$ = {the individual tests positive for the infection.}  The statement that of 100 individuals with the infection 80 will test positive is the conditional probability $P(B | A)$ = 0.80. The statement that when 100 people without the disease are tested, 98 will test negative is the conditional probability  $P(B^c | A^c)$ = 0.98.  The relevant conditional probabilities for an individual who has just tested are instead $P(A | B)$ and $P(A^c | B^c)$.  The introduction claims that under some assumptions, $P(A | B)$ = 0.20, while $P(A^c | B^c) \approx $ 1.0, so $P(A | B)$ is very different from $P(B | A)$.   
+Let $A$ = {an individual has COVID-19} and $B$ = {the individual tests positive for the infection.}  The statement that of 100 individuals with the infection 80 will test positive is the conditional probability $P(B | A)$ = 0.80. The statement that when 100 people without the disease are tested, 98 will test negative is the conditional probability  $P(B^c | A^c)$ = 0.98.  The relevant conditional probabilities for an individual who has just tested are instead $P(A | B)$ and $P(A^c | B^c)$.  The introduction claims that under some assumptions, $P(A | B)$ = 0.20, while $P(A^c | B^c) \approx$ 1.0, so $P(A | B)$ is very different from $P(B | A)$.   
 
-There are no marginal or joint probabilities: $P(A)$, the prevalence of COVID-19, $P(B)$, the prevalence of positive tests, and the joint probabilities $P(A \text{ and } B)$ or $P(A^c \text{ and } B^c) someone has the disease and tests positive or has the disease and tests negative.
+There are no marginal or joint probabilities: $P(A)$, the prevalence of COVID-19, $P(B)$, the prevalence of positive tests, and the joint probabilities $P(A \text{ and } B)$ or $P(A^c \text{ and } B^c)$ someone has the disease and tests positive or has the disease and tests negative.
 
 :::
 
@@ -696,6 +704,8 @@ Do the following statements give information about joint, conditional or margina
 :::
 
 [^probability-11]: (a) Conditional probabilities, since these are the probabilities of keeping house given sex = female or sex = male. (b) A joint probability of being male and keeping house. (c) A marginal probability of keeping house.
+
+Tables such as @tbl-gss-age-health-row-prop provide convenient summaries of conditional probabilities that depend on categorical variables.  The conditional probability for any reported health rating, given a respondent is age 66+ (for instance), can be read from the last row of the table, and the comparing the rows of the table shows how the conditional probabilities of health rating vary with age. In @sec-relationships-two-categorical tables with row proportions were used to explore the relationship between two categorical variables in the World Values Survey (e.g., @tbl-wvs-edu-health-row-prop).   Instead of showing a relationship in collected data, however, @tbl-gss-age-health-row-prop shows how probabilities vary across levels of a categorical variable.
 
 
 The calculations of a row proportion suggests a formula for calculating conditional probabilities.  Suppose, for example, $A$ = {age 26 to 45} and  $B$ = {Health rating good}. The element in @tbl-gss-age-health-row-prop corresponding the $P(B \mid A)$ is  
@@ -726,15 +736,15 @@ In the United States, women live longer than men.   Approximately 7.4%  of the p
 
 ------------------------------------------------------------------------
 
-The first step is write what is known and what is asked in probability notation.  Let $A$ = {randomly selected person is alive at age 80 or older}, and $F$ = {randomly selected person is a females}.  In the problem statement $P(F \text{ and } A)$ = 0.074, $P(F^c \text{ and } A)$ = 0.044, and $P(F)$ = 0.505. Part (a) asks for the Venn diagram showing the relationship between $A$ and $W$. Parts (b) and (c) ask for $P(A \mid F)$ and $P(F \mid A)$, respectively, while (d) asks for an explanation of the conditional probabilities that does not use the jargon of probability.
+It is best to begin by writing in probability notation what is known and what is being asked.  Let $A$ = {randomly selected person is alive at age 80 or older}, and $F$ = {randomly selected person is female}.  In the problem statement $P(F \text{ and } A)$ = 0.074, $P(F^c \text{ and } A)$ = 0.044, and $P(F)$ = 0.505. Part (a) asks for the Venn diagram showing the relationship between $A$ and $F$. Parts (b) and (c) ask for $P(A \mid F)$ and $P(F \mid A)$, respectively, while (d) asks for an explanation of the conditional probabilities that does not use the jargon of probability.
 
 (a) It is best to begin by sketching the main features of a Venn diagram before calculating the probabilities of events. The  @fig-female-80plus-venn-blank shows an initial Venn diagram, emphasizing the relationship between the events but without the probabilities.  Since $P(F \text{ and } A) > 0$, there will be an overlap between the events, as shown in the diagram.  The white space surrounding the diagram represents individuals who are neither females or in the 80+ group (males who are less than 80 years old.)
 
 ```{r fig-female-80plus-venn-blank}
 #| label: fig-female-80plus-venn-blank
-#| out-width: 80%
+#| out-width: 70%
 #| fig-cap: | 
-#|     Venn diagram showing the relationship between A and W, without probabilities
+#|     Venn diagram showing the relationship between A = {age 80+} and F = {female}, without probabilities.
 library(VennDiagram)
 # Draw Venn diagram with specified areas
 age_venn <-  draw.pairwise.venn(
@@ -753,14 +763,23 @@ age_venn <-  draw.pairwise.venn(
 grid.draw(age_venn)
 ```
 
-@fig-female-80plus-venn adds the probabilities to the diagram.  The probability of selecting a woman is known, so $P(F)=$ 0.505, as is the size of the intersection, $P(F \text{ and } A)$ = 0.074. Since the Venn diagram shows areas that do not include overlap, the probability shown in left side of the blue oval is 0.505 - 0.074 = 0.431.  The size of the oval on the right that does not include the overlap, $P(F^c \text{ and } A )$, is the probability that someone is male and 80+, given as 0.044.   
+@fig-female-80plus-venn adds the probabilities to the diagram.  The slice in the middle is $P(F \text{ and } A)$ and is given as 0.074. The size of the blue area is $P(F \text{ and } A^c).$  By the rule of total probability (@eqn-total-probability)
+$$
+  P(F) = P(F \text{ and } A) + P(F \text{ and } A^c),
+$$
+so 
+$$
+P(F \text{ and } A^c) = P(F) - P(F \text{ and } A) = 0.505 - 0.074 = 0.431.
+$$
+
+The red section on the right has size $P(F^c \text{ and } A)$, the probability that someone is 80+ and male, and is given as 0.44.
 
 
 ```{r fig-female-80plus-venn}
 #| label: fig-female-80plus-venn
-#| out-width: 80%
+#| out-width: 70%
 #| fig-cap: | 
-#|     Venn diagram showing the relationship between A and W, with probabilities
+#|     Venn diagram showing the relationship between A = {age 80+} and F = {female}, with probabilities.
 library(VennDiagram)
 # Draw Venn diagram with specified areas
 age_venn <-  draw.pairwise.venn(
@@ -795,7 +814,7 @@ P(F \mid A) &= \frac{P(F \text{ and } A)}{P(A)} \\
 \end{align*}
 
 
-(d)  Part (b): Approximately 15% of the females in the US are at least 80 years old.  Part (c): Among the elders in the US who are at least 80 years old, approximately 63% are female.  So a majority of people in the US at least 80 years old are female.  Women do live longer than men.
+(d)  Part (b): Approximately 15% of the females in the US are at least 80 years old.  Part (c): Among the elders in the US who are at least 80 years old, approximately 63% are female.  So a majority of people in the US at least 80 years old are female.  Women do indeed live longer than men.
 
 :::
 
@@ -807,7 +826,6 @@ from that population?[^probability-330]
 :::
 
 [^probability-330]: The population represented by the white space are neither female nor age 80+.  They are the males  less than 80 years old.  The probability in that region is 1 minus the total area in the ovals, 1 - (0.431 + 0.074 + 0.044) = 0.451.  Approximately 45% of the US population are males less than 80 years old.
-
 
 
 A simple rearrangement of the the formula for conditional probability yields the multiplication rule for probabilities.
