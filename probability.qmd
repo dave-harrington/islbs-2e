@@ -36,23 +36,23 @@ knitr::include_graphics("images/cfInheritance.png")
 ```
 
 
-```{r ppv-covid-rat}
+```{r}
 # ppv for covid RAT
-# 
+# also used and repeated later
 # 
 
 sens_rat <- 0.80
 spec_rat <- 0.98
-prev_covid <- 0.01
+prev_covid_05 <- 0.05
 
-ppv_rat <- round((sens_rat * prev_covid)/(sens_rat * prev_covid + (1 - spec_rat) * (1 - prev_covid)), 2)
-npv_rat <- round(spec_rat * (1 - prev_covid) /(spec_rat * 1 - prev_covid + (1 - sens_rat) * prev_covid), 2)
+ppv_rat_05 <- round((sens_rat * prev_covid_05)/(sens_rat * prev_covid_05 + (1 - spec_rat) * (1 - prev_covid_05)), 2)
+npv_rat_05 <- round(spec_rat * (1 - prev_covid_05) /(spec_rat * 1 - prev_covid_05 + (1 - sens_rat) * prev_covid_05), 2)
 
 ```
 
 **Rapid self-tests for COVID-19** Since the COVID-19 pandemic, rapid antigen tests (RAT) have been used for self-tests for the virus, i.e., tests that individuals could self-administer.   The tests continue to be available at pharmacies, neighborhood health centers, libraries and other distribution sites.  The tests are convenient and are either affordable or freely available.  But how reliable are the RATs? More specifically, what is the chance that a positive result correctly predicts presence of the infection or that a negative result correctly predicts its absence?
 
-Studies have shown that when 100 people with the infection are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is 0.80 when the virus is present,  while the chance of a negative test in the absence of the virus is 0.98.  But an individual who has just tested wants to know the reverse probabilities:  the chance they have COVID-19 when the test is positive or the chance do not have the infectionn when the test is negative.  The tools in  Sections [-@sec-conditional-probability] and [-@sec-bayes-rule] will show (perhaps surprisingly) that even though the rapid self-tests are correct more than 80% of the time when the virus is present, the chance that the virus is present in someone who has tested positive can under some assumptions be as low as `r ppv_rat * 100`%. A positive test might be wrong nearly 70% of the time. A negative test is more informative; the chance that the virus is absent in someone who has tested negative is nearly 100%. 
+Studies have shown that when 100 people with the infection are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is `r sens_rat` when the virus is present,  while the chance of a negative test in the absence of the virus is `r spec_rat`.  But an individual who has just tested wants to know the reverse probabilities:  the chance they have COVID-19 when the test is positive or the chance do not have the infection when the test is negative.  The tools in  Sections [-@sec-conditional-probability] and [-@sec-bayes-rule] will show  that even though the rapid self-tests are correct 80% of the time when the virus is present, under some assumptions the chance that the virus is present in someone who has tested positive can be as low as `r ppv_rat_05 * 100`%. A positive test might be wrong nearly `r (1 - ppv_rat_05) * 100`% of the time. A negative test is more informative; the chance that the virus is absent in someone who has tested negative is 99%. 
 
 
 ## The rules of probability {#sec-probability-rules}
@@ -345,7 +345,7 @@ Suppose that approximately 7/100 adults in the US have diabetes without cardiova
 
 ------------------------------------------------------
 
-Let $B$ = {an individual has diabetes} and $A$ = {an individual has cardiovascular disease}. Then $P(B \text{ and } A^c) = 0.07$ while $P(B \text{ and } A) = 0.05.$  Using the rule of total probability,
+Let $B$ = {an individual has diabetes} and $A$ = {an individual has cardiovascular disease}. Then $P(B \text{ and } A^c) = 0.07$ while $P(B \text{ and } A) = 0.05.$  Using the rule of total probability in @eq-total-probability,
 $$
 P(B) =  P(B \text{ and } A) + P(B \text{ and } A^c) = 0.12.
 $$
@@ -763,7 +763,7 @@ age_venn <-  draw.pairwise.venn(
 grid.draw(age_venn)
 ```
 
-@fig-female-80plus-venn adds the probabilities to the diagram.  The slice in the middle is $P(F \text{ and } A)$ and is given as 0.074. The size of the blue area is $P(F \text{ and } A^c).$  By the rule of total probability (@eqn-total-probability)
+@fig-female-80plus-venn adds the probabilities to the diagram.  The slice in the middle is $P(F \text{ and } A)$ and is given as 0.074. The size of the blue area is $P(F \text{ and } A^c).$  By the rule of total probability (@eq-total-probability)
 $$
   P(F) = P(F \text{ and } A) + P(F \text{ and } A^c),
 $$
@@ -965,42 +965,680 @@ Suppose that both members of a couple have Group AB blood.	(a) What is the proba
 	
 :::
 
-
 ## Bayes' Rule {#sec-bayes-rule}
 
-
-In the US population, the proportions of females and males are, respectively, 50.5% and 49.5%.  Approximately 1.8% of the population is age 85 or older; in the population of those 85 or older,  36.4% are male.  Among the males in the population, what proportion are 85 or older? The question seems simple to pose, but it is easy to get tripped up by the language.  What is given, what is being asked?
-
-Recasting this question in the language of probability clarifies the question and leads to a direct solution. Let $A$ = {a randomly sampled person is 85 or older}, and $B$ = {a randomly sampled person is male}.  The proportion 1.8% is a statement about the marginal probability of $A$, $P(A) = 0.018$, and the 36.4% is equivalent to $P(B \mid A) = 0.364$. The problem also specifies that $P(B) = 0.495$ while $P(B^c) = 0.505$ How can this information be used to calculate the conditional probability $P(A \mid B)$, the likelihood that among males, what proportion are older than 85?
-
-Since 
+@sec-two-examples opened this chapter with a question about the likelihood of a COVID-19 Rapid Antigen Test (RAT) correctly predicting the presence of the virus.  Let {COVID-19} denote the event that someone has the virus and {RAT^+^} denote a positive self-test. Suppose, as in @sec-two-examples, the probability of a positive test in a person with the virus is 0.80 (80%). In the language of conditional probability, 
 $$
-P(A \mid B) = \frac{P(A \text{ and } B)}{P(B)},
-$$
+P(\text{RAT}^+ \mid \text{COVID-19}) = 0.80.
+$${#eq-rat-sensitivity}
 
-the solution requires the calculation of the joint probability $P(A \text{ and } B)$ that a randomly selected individual is both male and 85 or older, and dividing it by the marginal probability $P(B) = 0.495$  of selecting a male.  Using the multiplication rule @eq-mult-rule-two-probs,
+The likelihood of a positive test correctly predicting the presence of the virus is the reverse conditional probability:
 $$
-P(A \text{ and } B) = P(B \mid A) P(A) = (0.364)(0.018) = 0.0066.
-$$
-The chance that someone is male and  85 or older is 0.0066, or about 0.66%.  The conditional probability that a male is age 85  or older is 0.0066/0.495 =0.013.  About 1.3% of the male population is age 85 or older.
+P(\text{COVID-19} \mid \text{RAT}^+).
+$${#eq-rat-ppv}
+
+From earlier examples, it is clear that it would be wrong to assume these two conditional probabilities are equal.
+
+The solution to this problem is an important application of probability to diagnostic medicine.  In clinical care settings, diagnostic tests that return positive or negative values (disease present or absent) are frequently used to screen for  underlying conditions. ^[@Mukherjee2025EarlyDetection provides an interesting and readable account of current issues in screening for cancer.]
+
+Specific terminology is used to describe behavior of diagnostic tests.  Suppose $D$ denotes the presence of a disease and $D^C$ its absence.  Let $T^+$ and $T^-$ denote the events of a positive and negative diagnostic test, respectively.
+
+* The **prevalence** of a disease $D$ is the proportion of individuals in a population with the disease.  It is the probability that a randomly chosen member of a population has the disease and is denoted by $P(D)$.
+
+* The **sensitivity** \index{sensitivity} of $T$ is the conditional probability $P(T^+ \mid D)$.  If someone has the disease, how often is the test positive?  Sensitivity is also called the probability of a true positive for the test.
+
+* The **specificity** \index{specificity} of $T$ is the conditional probability $P(T-\mid D^C)$. If someone does not have the disease,  how often is the test negative?  Specificity is the probability of a true negative.
+
+* The the **positive predictive value (PPV)** \index{positive predictive value} of the test $T$ is the conditional probability $P(D \mid T^+)$.  If a test is positive, how often is the disease present?
+
+* The **negative predictive value (NPV)** \index{negative predictive value} of $T$ is the conditional probability $P(D^C \mid T^-)$.  If $T$ is negative, how often is the disease truly absent?
+
+@eq-rat-sensitivity posits a sensitivity for a RAT, while @eq-rat-ppv is its positive predictive value.   How does the PPV of a test depend on its sensitivity?  This section discusses three approaches to calculating the PPV of a test: the use of tree diagrams, an application of Bayes's Rule,  and the construction of a hypothetical population where a 2$\times$2 table can be used to calculate conditional probabilities from counts, as in @sec-conditional-probability.  
+
+In addition to the sensitivity of a diagnostic test, all three methods depend on the specificity of the test (the probability of a true negative) and the prevalence of the disease. For the COVID-19 example,  calculations assume $P(\text{RAT}^- \mid \text{COVID-19}^C)$ = 0.98, the probability of a true negative cited in @sec-two-examples. The prevalence of COVID-19 changes seasonally and among regions.  Initially the solution provided here assumes the infection is present in 5% of a population, so $P(D)$ = 0.05.  But it is important to examine how the PPV changes with prevalence, and that is explored later. 
+
+**Tree diagrams**
+
+A **tree diagram** \index{tree diagram} is especially useful when two or more processes occur in a sequence, with the conditional probability of each outcome depending the preceding outcomes.  The tree provides a scheme for computing joint probabilities.
 
 ```{r}
-#| label: fig-test-tree
+# ppv for covid RAT
+# also used and repeated later
+# 
+
+sens_rat <- 0.80
+spec_rat <- 0.98
+prev_covid <- 0.05
+```
+
+In @fig-rat-tree, the primary branches of the tree split the population by COVID-19 status, and show the marginal probabilities 0.05 and 0.95 of having or not having the infection. The secondary branches show conditional probabilities determined by the primary branches; for example, the top branch is the conditional probability of a positive RAT given that an individual has the infection. The secondary branch below it shows the conditional probability of a negative test, given the disease is present.  A negative test when the disease is present is the complement of a positive test and has probability 1 - 0.20 = 0.80.  The values along the other branches are calculated similarly.
+
+```{r rat-tree}
+#| label: fig-rat-tree
 #| out-width: 80%
 #| fig-cap: | 
-#|     Tree diagram for mammogram
-
-treeDiag(c('Cancer Status', 'Mammogram'),
-         c(0.0035, 0.9965),
-         list(c(0.89, 0.11),
-              c(0.07, 0.93)),
+#|     Tree diagram for the behavior of COVID-19 self-tests (RATs)
+treeDiag(c('COVID-19', 'RAT Self test'),
+         c(0.05, 0.95),
+         list(c(0.80, 0.20),
+              c(0.02, 0.98)),
          textwd = 0.2,
          solwd = 0.35,
          cex.main = 1.4,
-         c('cancer', 'no cancer'),
+         c('present', 'absent'),
          c('positive','negative'),
          digits = 5,
-         col.main = "#555555",
+         col.main = COL[1],
          showWork = TRUE)
+```
+
+
+Joint probabilities are calculated at the end of each branch by multiplying the numbers from right to left, using the Multiplication Rule for Probabilities, @eq-mult-rule-two-probs. For instance, the probability of having the infection and testing positive is the conditional probability of testing positive given COVID-19 is present times the probability COVID-19 is present:
+
+\begin{align*}
+P(\text{COVID-19 and RAT$^+$}) &= P(\text{RAT$^+$ } |\ \text{COVID-19}) \times  P(\text{COVID-19}) \\
+	&= (0.80) (0.05) \\ 
+	&= 0.04.
+\end{align*}
+
+The rest of the joint probabilities are calculated the same way.
+
+The tree diagram can be used to calculate the PPV of a RAT, 
+$$
+P(\text{COVID-19} \mid \text{RAT}^+) = \frac{P(\text{COVID-19 and RAT}^+)}
+{P(\text{RAT}^+)}. 
+$$
+
+The numerator is the probability of the top branch, 0.04.  The denominator is the sum of the probabilities along the two branches that lead to a positive RAT: either a true positive when having COVID-19, 0.04, or a false positive in the absence of the infection, 0.019.  So $P(\text{RAT}+)$ = 0.059. The PPV is the ratio 0.04/0.059 = 0.678.  With a positive self-test, the chance of COVID-19 is 68% under the assumption that the prevalence of the infection is 5%.
+
+
+```{r}
+# ppv for covid RAT
+# also used and repeated later
+# 
+
+sens_rat <- 0.80
+spec_rat <- 0.98
+prev_covid_03 <- 0.03
+
+
+ppv_rat_03 <- round((sens_rat * prev_covid_03)/(sens_rat * prev_covid_03 + (1 - spec_rat) * (1 - prev_covid_03)), 2)
+npv_rat_03 <- round(spec_rat * (1 - prev_covid_03) /(spec_rat * 1 - prev_covid_03 + (1 - sens_rat) * prev_covid_03), 2)
+
+prev_covid_08 <- 0.08
+ppv_rat_08 <- round((sens_rat * prev_covid_08)/(sens_rat * prev_covid_08 + (1 - spec_rat) * (1 - prev_covid_08)), 2)
+npv_rat_08 <- round(spec_rat * (1 - prev_covid_08) /(spec_rat * 1 - prev_covid_08 + (1 - sens_rat) * prev_covid_08), 2)
+```
+
+
+::: {.workedexample data-latex=""}
+
+Under the assumptions above, use the tree diagram to calculate the negative predictive value (NPV) of a COVID-19 self-test.
+
+------------------------------------------------------------------------
+
+The NPV is 
+$$
+P(\text{COVID-19}^C) \mid \text{RAT}^-) = \frac{P(\text{COVID-19}^C \text{ and RAT}^-)}
+{P(\text{RAT}^-)}.
+$$  
+The numerator is the value at the end of the bottom branch, 0.931.  The denominator is sum of the values on the two branches that lead to a negative test, 0.01 + 0.931 = 0.941.  The PPV is 0.931/0.941 = 0.989.  Under the assumptions used here, the chance that the infection is absent when a test is negative is 99%. 
+:::
+
+The PPV and NPV for COVID-19 self-tests calculated here match those claimed in @sec-two-examples but depend on the assumptions made about the test and the setting in which it is administered.  The sensitivity and specificity are characteristics about the test itself and do not change unless the technology of the test changes.  But the prevalence depends on the population using the test and may change with time or location.
+
+::: {.workedexample data-latex=""}
+
+(a)  What is the PPV of RAT if all of the characteristics of the test remain the same but the prevalence of COVID-19 is 0.03 instead of 0.05? 
+(b)  What is the PPV if the prevalence is 0.08 instead of 0.05?
+
+------------------------------------------------------------------------
+
+a. If the prevalence decreases from 0.05 to 0.03, the probability of the top branch will be (0.03)(0.80) = 0.24. The probability of a positive RAT will be (0.03)(0.80) + (0.97)(0.98) = 0.975.  The PPV will be 0.24/0.975 = 0.246.  The chance of COVID-19 is only 25% when a self-test is positive but the prevalence of the infection is 3%.
+
+b. When the prevalence is 0.08 (8%), the 
+\begin{align*} 
+\text{PPV}  &= \frac{(0.08)(0.80)} {(0.08)(0.80) + (0.92)(0.02)} \\
+&= 0.777
+\end{align*}
+The chance of COVID-19 after a positive test increases to 78% when the prevalence of the infection is 8% instead of 5%.
+
+The chance you have COVID-19 after a positive test depends on how many people around you are infected as well as the quality of the test.  The reasons for this will be explored later.
+:::
+
+
+**Bayes' Rule**
+
+Bayes' Rule provides a formula for calculating conditional probabilities when the the event of interest and conditioning event are reversed, as in sensitivity and PPV. 
+
+::: {.important data-latex=""}
+**Bayes' Rule, short version**[^probability-341]
+
+[^probability-341]: @eq-bayes-rule is a direct application of the definition of conditional probability and the multiplication rule.
+$$
+ P(B \mid A) = \frac{P(B \text{ and } A)}{P(A)} = \frac{P(A \mid B)P(B)}{P(A)}.
+$$
+
+
+Suppose $A$ and $B$ are two events in a sample space.  Then
+
+$$
+P(B \mid A) = \frac{P(A \mid B) P(B)}{P(A)}. 
+$${#eq-bayes-rule}
+
+
+::::
+
+Bayes' Rule applied to a diagnostic test shows how PPV depends on the characteristics of a test and the prevalence of the disease.
+If $A = T^+$ and $B = D$ in the setting of diagnostic tests, @eq-bayes-rule becomes 
+$$
+P(D \mid T^+) = \frac{P(T^+ \mid D) P(D)}{P(T^+)}. 
+$${#eq-bayes-testing}
+
+@eq-bayes-testing shows that the PPV of $T$ depends on its sensitivity $P(T^+ \mid D)$, the prevalence $P(D)$ of $D$, and the likelihood of a positive test in the population.  Then chance of a positive test is rarely specified in advance, but can be calculated using the characteristics of the test and the prevalence of $D$:
+\begin{align*}
+P(T^+) &= P(T^+ \text{ and } D) + P(T^+ \text{ and } D^C) \\
+       &= P(T^+ \mid D)P(D) + P(T^+ \mid D^C)P(D^C) \\
+\end{align*}
+The first line uses the Rule of Total Probability (@eq-total-probability) and the second the Multiplication Rule (@eq-mult-rule-two-probs).
+
+Using this expression for the denominator in @eq-bayes-testing,  
+$$
+\text{PPV} = \frac{P(T^+ \mid D) P(D)}{P(T^+ \mid D)P(D) + P(T^+ \mid D^C)P(D^C)}.
+$${#eq-bayes-testing-expanded}
+
+@eq-bayes-testing-expanded leads to a useful mnemonic often used in medicine and public health for the PPV of diagnostic test:
+
+$$
+\text{PPV} = \frac{\text{sensitivity } \times \text{ prevalence}}{[\text{sensitivity } \times \text{ prevalence}] + [\text{(1 - specificity) } \times \text{ (1 - prevalence)}]}.
+$${#eq-bayes-ppv-mnemonic}
+
+The negative predictive value (NPV) of a diagnostic test is the conditional probability $P(D^C \mid T^-)$.  Bayes' Rule can be used to show
+$$
+\text{NPV} = \frac{\text{specificity } \times (\text{1 - prevalence})}{[(\text{1 - sensitivity}) \times \text{ prevalence}] + [\text{specificity } \times \text{ (1 - prevalence)}]}.
+$${#eq-bayes-npv-mnemonic}
+
+These are not formulas to memorize -- it would be too easy to get them confused.  But they are useful they have been recorded.
+
+::: {.guidedpractice data-latex=""}
+
+Some congenital disorders are caused by errors that occur during cell division, resulting in the presence of additional chromosome copies. Trisomy 21 (Down syndrome) occurs in approximately 1 out of 800 births. Cell-free fetal DNA (cfDNA) testing is one commonly used way to screen fetuses for trisomy 21. The test sensitivity is 0.98 and the specificity is 0.995. Calculate the PPV and NPV of the test. [^probability-440]
+:::
+
+[^probability-440]:
+\begin{align*}
+\text{PPV} &= \frac{\text{sensitivity } \times \text{ prevalence}}{[\text{sensitivity } \times \text{prevalence}] + [\text{(1 - specificity) } \times \text{ (1 - prevalence)}]} \\
+&= \frac{(0.98)(1/800)}{(0.98)(1/800) + (1 - 0.995)(799/800)} \\
+&= 0.197
+\end{align*}
+\begin{align*}
+\text{NPV} &= \frac{\text{specificity } \times (\text{1 - prevalence})}{[\text{(1 - sensitivity)} \times \text{prevalence}] + [\text{specificity} \times \text{(1 - prevalence})]} \\
+&= \frac{(0.995)(799/800)}{(1-0.98)(1/800) + (0.995)(799/800)} \\
+&= 0.999975
+\end{align*}
+The test has low positive predictive value but high negative predictive value.
+
+::: {.guidedpractice data-latex=""}
+
+If your were counseling parents whose fetus was being tested for Trisomy 21 using cfDNA, what would you tell them in advance about interpreting the outcome of the test, without using any of the jargon from probability?
+[^probability-441]
+:::
+
+[^probability-441]: Since you have no special risk factors for Down syndrome in an infant,  your overall chance of having an affected infant is about 1/800, approximately one tenth of 1%. The test we use to screen for the congenital mutation syndrome is the best we have, but it is not perfect. If the test is negative (indicates the mutation is not present) there is a 99.5% chance that your infant will not be affected.  If it is positive then there is about a 20% chance the mutation is present.  So a negative test would be very good news; a positive test will suggest that the chance is about 1 in 5 that your infant will be affected. 
+
+@eq-bayes-testing-expanded is a specific example of more general versions of Bayes' rule:
+
+::: {.important data-latex=""}
+**Bayes' rule, full version.**
+
+Suppose $A$ and $B$ are events in a sample space.  Then
+$$
+  P(B \mid A) = \frac{P(A \mid B) P(B)}{P(A \mid B) P(B) + P(A \mid B^C) P(B^C)}.
+$${#eq-bayes-trad}
+More generally suppose that $B = (B_1 \text{ and } B_2  \cdots \text{ and } B_k)$, where the events $B_1, B_2, \cdots, B_k$ are disjoint.  Then 
+
+$$
+P(B \mid A) = \frac{P(A | B_1) P(B_1)}
+	{P(A | B_1) P(B_1) + P(A | B_2) P(B_2) + \cdots + P(A | B_k) P(B_k)}.
+$$ {#eq-bayes-trad-gen}
+
+:::
+
+The most general form of Bayes' rule will be used in the next section, and extended example of using conditional probability in a genetics problem.
+
+**Contingency tables**
+
+```{r}
+# code for contingency tables
+
+prev_ct_05 <- 0.05
+sens_ct <- 0.80
+spec_ct <- 0.98
+N_ct <- 100000
+
+covid_cases_05 <- prev_ct_05 * N_ct 
+covid_absent_05 <- N_ct - covid_cases_05
+t_pos_05 <- covid_cases_05 * sens_ct
+f_neg_05 <- covid_cases_05 * (1 - sens_ct)
+t_neg_05 <- covid_absent_05 * spec_ct
+f_pos_05 <- covid_absent_05 * (1 - spec_ct)
+tot_pos_05 <-  t_pos_05 + f_pos_05
+tot_neg_05 <- t_neg_05 + f_neg_05
+
+ppv_05 <- round(t_pos_05 / tot_pos_05, 3)
+
 
 ```
+
+The positive predictive value (PPV) of a diagnostic test can be calculated by constructing a two-way contingency table for a large, hypothetical population and calculating conditional probabilities by conditioning on rows or columns. Using a large enough hypothetical population results in an empirical estimate of PPV that is very close to the exact value obtained via using the previously discussed approaches.
+
+The method begins by constructing an empty $2 \times 2$ table, with the possible outcomes of the diagnostic test as the rows, and the possible disease statuses as the columns as in @tbl-rat-setup. The table should include cells for the row and column sums.
+
+
+|               | COVID-19 Present | COVID-19 Absent  | Sum     |
+|---------------|------------------|------------------|---------|
+| RAT Positive | --                | --               | --      |
+| RAT Negative | --                | --               | --      |
+| Sum          | --                | --               | 100,000 |
+
+: A 2 \times 2 table for the COVID RAT test example with a hypothetical population size $N$ of 100,000 {#tbl-rat-setup} 
+
+Continue populating the table with the following steps, using the information in @fig-rat-tree:
+
+* An assumed prevalence of 5%
+
+* An 80% chance of a true positive and 20% of a false negative
+
+* A 98% chance of a true negative and 2% of a false positive
+
+1.  Calculate the two column totals (the number of individuals with and without COVID-19) from $P(\text{COVID-19})$, the infection prevalence:
+	$$N \times P(\text{COVID-19}) = 100,000 \times .05 = 5,000 \text{ individuals with COVID-19}.$$
+	$$N \times [1 - P(\text{COVID-19})] = 100,000 \times [1 - 0.05] = 95,000 \text{ individuals without COVID-19}.$$
+	
+	Alternatively, the number of individuals without COVID-19 can be calculated by subtracting the number with COVID-19 from $N$.
+	
+2. Calculate the two numbers in the first column: the number of individuals with COVID-19 testing either positive (true positive) or negative (false negative).
+	$$\text{COVID-19 infected} \times P(\text{true positive}) = 5,000 \times 0.80 = 4,000 \text{ true positives}$$
+	$$\text{COVID-19 infected} \times P(\text{false negative}) = 5,000 \times 0.20 = 1,000 \text{ false negatives}$$
+	
+3. Calculate the two numbers in the second column: the number of individuals without the infection  and tested either positive (false positive) or negative (true negative). 
+	$$\text{COVID-19 uninfected} \times P(\text{false positive}) = 95,000 \times 0.02 = 1,900 \text{ false positives}$$
+	$$\text{COVID-19 uninfected} \times P(\text{true negative})] = 95,000 \times 0.98 = 93,100 \text{ true negatives}$$
+	
+4.  Complete the table by calculating the two row totals: the number of positive and negative mammograms out of 100,000.
+	$$(\text{true positives}) + (\text{ false positives}) = 4,000 + 1,900 = 5,900 \text{ positives}$$
+	$$(\text{true negatives}) + (\text{false negatives}) = 93,100 + 1,000 = 94,100 \text{ negatives}$$
+	
+5.  Finally, calculate the PPV of the RAT test using the ratio of the number of true positives to the total number of positive tests. This estimate is more than accurate enough, with the calculated value differing only in the third decimal place from the exact calculation, 
+	
+	$$\frac{\text{ true positive tests}}{\text{ positive tests}} = \frac{`r t_pos_05`}{`r tot_pos_05`} = `r ppv_05`. $$
+
+
+|             | COVID-19 Present | COVID-19 Absent | Sum     |
+|-------------|------------------:|---------------:|---------:|
+| RAT Positive | `r t_pos_05`     | `r f_pos_05`         | `r tot_pos_05`  |
+| RAT Negative | `r f_neg_05`     | `r t_neg_05`          | `r tot_neg_05`  |
+| Sum          | `r covid_cases_05` | `r covid_absent_05` | `r N_ct` |
+
+: A 2 \times 2 table for the COVID RAT test example with a hypothetical population size $N$ of 100,000 and prevalence 5%, with numbers added {#tbl-rat-complete} 
+
+@tbl-rat-complete and the calculations to fill in the cells provide a more concrete interpretation of PPV.  The positive predictive value of a diagnostic test is the fraction of the number of instances of a true positive test out of all tests that would be positive, including the false positive outcomes.  This interpretation can be used to explore the effect prevalence on PPV.
+
+```{r}
+# code for contingency tables
+
+prev_ct_01 <- 0.01
+sens_ct <- 0.80
+spec_ct <- 0.98
+N_ct <- 100000
+
+covid_cases_01 <- prev_ct_01 * N_ct 
+covid_absent_01 <- N_ct - covid_cases_01
+t_pos_01 <- covid_cases_01 * sens_ct
+f_neg_01 <- covid_cases_01 * (1 - sens_ct)
+t_neg_01 <- covid_absent_01 * spec_ct
+f_pos_01 <- covid_absent_01 * (1 - spec_ct)
+tot_pos_01 <-  t_pos_01 + f_pos_01
+tot_neg_01 <- t_neg_01 + f_neg_01
+
+ppv_01 <- round(t_pos_01 / tot_pos_01, 3)
+
+
+```
+
+@tbl-rat-complete-01 shows the behavior of a RAT if the COVID-19 prevalence is 0.01 instead of 0.05.  The values in the cells are calculated using the earlier formulas.
+
+
+
+|             | COVID-19 Present | COVID-19 Absent | Sum     |
+|-------------|------------------:|---------------:|---------:|
+| RAT Positive | `r t_pos_01`     | `r f_pos_01`         | `r tot_pos_01`  |
+| RAT Negative | `r f_neg_01`     | `r t_neg_01`          | `r tot_neg_01`  |
+| Sum          | `r covid_cases_01` | `r covid_absent_01` | `r N_ct` |
+
+: A 2 \times 2 table for the COVID RAT test example with a hypothetical population size $N$ of 100,000 and COVID-19 prevalence 1% {#tbl-rat-complete-01} 
+
+The PPV is now `r ppv_01`.  The reduced prevalence causes fewer true positive results, `r t_pos_01` versus `r t_pos_05`, and because of the larger number of individuals without the infection, an increased number of false positives `r f_pos_01` versus `r f_pos_05`.  The ratio of true positives to total positives decreases.
+
+The dependence of PPV on prevalence is the reasons for  one of the difficulties in screening populations for a rare disease -- there will be a large proportion of false positives.  That is especially important when a positive diagnostic test might be followed by a more invasive procedure.
+
+## Extended example: cat genetics {#sec-cat-genetics}
+
+So far, the principles of probability have only been illustrated with short examples. In a more complex setting, it can be surprisingly difficult to translate a problem scenario into the language of probability. This section demonstrates how the rules of probability can be applied to work through a relatively sophisticated conditioning problem.
+
+**Problem statement**
+
+The gene that controls white coat color in cats, $KIT$, is responsible for multiple phenotypes such as deafness and blue eye color. A dominant allele $W$ at one location in the gene has complete penetrance for white coat color; all cats with the $W$ allele have white coats. There is incomplete penetrance for blue eyes and deafness; not all white cats will have blue eyes and not all white cats will be deaf. However, deafness and blue eye color are strongly linked, such that white cats with blue eyes are much more likely to be deaf. The variation in penetrance for eye color and deafness may be due to other genes as well as environmental factors.
+
+Suppose that 30% of white cats have one blue eye, while 10% of white cats have two blue eyes. About 73% of white cats with two blue eyes are deaf and 40% of white cats with one blue eye are deaf. Only 19% of white cats with other eye colors are deaf.
+
+a. Calculate the prevalence of deafness among white cats.
+	
+b. Given that a white cat is deaf, what is the probability that it has two blue eyes?
+	
+c.  Suppose that deaf, white cats have an increased chance of being blind, but that the prevalence of blindness differs according to eye color. While deaf, white cats with two blue eyes or two non-blue eyes have probability 0.20 of developing blindness, deaf and white cats with one blue eye have probability 0.40 of developing blindness. White cats that are not deaf have probability 0.10 of developing blindness, regardless of their eye color.
+	
+    i. What is the prevalence of blindness among deaf, white cats?
+		
+    ii. What is the prevalence of blindness among white cats?
+		
+    iii. Given that a cat is white and blind, what is the probability that it has two blue eyes?
+	
+**Establishing notation**
+
+Before beginning any calculations, it is essential to clearly define any notation that will be used. For this problem, there are several events of interest: deafness, number of blue eyes (either 0, 1, or 2), and blindness. 
+
+* Let $D$ represent the event that a white cat is deaf.
+
+* Let $B_0$ = {zero blue eyes}, $B_1$ = {one blue eye}, and $B_2$ = {two blue eyes}.
+
+* Let $L$ represent the event that a white cat is blind.
+
+
+Since all cats mentioned in the problem are white, it is not necessary to define whiteness as an event; white cats represent the sample space.
+
+**Part a, deafness**
+
+The prevalence of deafness among white cats is the proportion of white cats that are deaf; i.e., the probability of deafness among white cats. This is the value of $P(D)$.
+
+::: {.workedexample data-latex=""}
+
+Using the notation above, rewrite the following information from the problem statement:
+
+> Suppose that 30% of white cats have one blue eye, while 10% of white cats have two blue eyes. About 73% of white cats with two blue eyes are deaf and 40\% of white cats with one blue eye are deaf. Only 19% of white cats with other eye colors are deaf.
+
+
+------------------------------------------------------------------------
+
+The first sentence provides information about the prevalence of white cats with one blue eye and white cats with two blue eyes: $P(B_1) = 0.30$ and $P(B_2) = 0.10$. The only other possible eye color combination is zero blue eyes (i.e., two non-blue eyes); i.e., since $P(B_0) + P(B_1) + P(B_2) = 1$, $P(B_0) = 1  - P(B_1) - P(B_2) = 0.60$. Sixty percent of white cats have two non-blue eyes.
+
+While it is not difficult to recognize that the second and third sentences provide information about deafness in relation to eye color, it can be easy to miss that these probabilities are conditional probabilities. A close reading should focus on the language: "About 73% *of* white cats with two blue eyes are deaf...": i.e., out of the white cats that have two blue eyes, 73% are deaf. Thus, these are probabilities of deafness conditioned on eye color. From these sentences, $P(D|B_2) = 0.73$, $P(D|B_1) = 0.40$, and $P(D|B_0) = 0.19$. 
+
+:::
+
+There are three possible ways to partition the event $D$ that a white cat is deaf: a cat could be deaf and have two blue eyes, be deaf and have one blue eye (and one non-blue eye), or be deaf and have two non-blue eyes. Thus, by the Addition Rule of Disjoint Events: 
+$$
+P(D) = P(D \text{ and } B_2 ) + P(D \text{ and } B_1 ) + P(D \text{ and } B_0 ).
+$$
+
+Although the joint probabilities of being deaf and having particular eye colors are not given in the problem, these can be calculated using the Multiplication Rule, @@eq-mult-rule-two-probs:
+
+\begin{align*}
+P(D) =& P(D \text{ and } B_2 ) + P(D \text{ and } B_1 ) + P(D \text{ and } B_0 ) \\
+=& P(D|B_2)P(B_2) + P(D|B_1)P(B_1) + P(D|B_0)P(B_0) \\
+=& (0.73)(0.10) + (0.40)(0.30) + (0.19)(0.60) \\
+=& 0.307.
+\end{align*}
+
+The prevalence of deafness among white cats is 0.307.
+
+**Part b, deafness and eye color**
+
+The probability that a white cat has two blue eyes, given that it is deaf, is $P(B_2|D)$: 
+
+::: {.workedexample data-latex=""}
+
+Using the definition of conditional probability, solve for $P(B_2|D)$. 
+
+------------------------------------------------------------------------
+
+$$
+P(B_2|D) = \frac{P(D \text{ and } B_2)}{P(D)} = \frac{P(D|B_2)P(B_2)}{P(D)} = \dfrac{(0.73)(0.10)}{0.307} = 0.238. 
+$$
+
+The probability that a white cat has two blue eyes, given that it is deaf, is 0.238.
+
+:::
+
+The conditional probability $P(B_2 \mid D)$ using the general version of  Bayes' Rule. 
+where there are three possible partitions of the event of deafness, $D$. In this problem, it is possible to directly solve from the definition of conditional probability since $P(D)$  was solved for in part a); note that the expanded denominator below matches the earlier work to calculate $P(D)$.
+$$
+P(B_2|D) = \dfrac{P(D \text{ and } B_2)}{P(D)} = \dfrac{P(D|B_2)P(B_2)}{P(D|B_2)P(B_2) + P(D|B_1)P(B_1) + P(D|B_0)P(B_0)}. 
+$$
+
+**Part c, blindness, deafness and eye color**
+
+::: {.workedexample data-latex=""}
+
+Reformulate the following from the problem statement into probability notation:
+
+>Suppose that deaf, white cats have an increased chance of being blind, but that the prevalence of blindness differs according to eye color. While deaf, white cats with two blue eyes or two non-blue eyes have probability 0.20 of developing blindness, deaf and white cats with one blue eye have probability 0.40 of developing blindness. White cats that are not deaf have probability 0.10 of developing blindness, regardless of their eye color.
+
+------------------------------------------------------------------------
+
+The second sentence gives probabilities of blindness, conditional on eye color and being deaf: $P(L|B_2, D) = P(L|B_0, D) = 0.20$, and $P(L|B_1, D) = 0.40$. The third sentence gives the probability that a white cat is blind, given that it is not deaf: $P(L|D^C) = 0.10$.  
+
+:::
+
+Part i. asks for the prevalence of blindness among deaf, white cats: $P(L|D)$. As in part a, the event of blindness given deafness can be partitioned by eye color:
+
+$$
+P(L|D) = P(L \text{ and } B_0|D) + P(L \text{ and } B_1 | D) + P(L \text{ and } B_2|D).
+$${#eq-l-given-d}
+
+::: {.workedexample data-latex=""}
+
+Expand the @eq-l-given-d using the Multiplication Rule, @eq-mult-rule-two-probs.
+
+------------------------------------------------------------------------
+
+The general multiplication rule may seem difficult to apply when conditioning is present, but the principle remains the same. Think of the conditioning as a way to restrict the sample space; in this context, conditioning on deafness implies that for this part of the problem, all the cats being considered are deaf (and white). 
+	
+For instance, consider the first term, $P(L \text{ and } B_0|D)$, the probability of being blind and having two non-blue eyes, given deafness. How could this be rewritten if the probability were simply $P(L \text{ and } B_0)$? 
+$$
+P(L \text{ and } B_0) = P(L|B_0)P(B_0).
+$$
+Now, recall that for this part of the problem, the sample space is restricted to deaf (and white) cats. Thus, all of the terms in the expansion should include conditioning on deafness:
+$$
+P(L \text{ and } B_0|\textcolor{red}{D}) = P(L|\textcolor{red}{D}, B_0)P(B_0|\textcolor{red}{D}). 
+$$
+Thus, 
+$$
+P(L|D) = P(L|D, B_0)P(B_0|D) + P(L|D, B_1)P(B_1|D) + P(L|D, B_2)P(B_2|D).
+$$
+
+:::
+
+Although $P(L|D, B_0)$, $P(L|D, B_1)$, and $P(L|D, B_2)$ are given in the problem statement, $P(B_0|D$, $P(B_1|D)$, and $P(B_2|D)$ are not. However, note that the probability that a white cat has two blue eyes given that it is deaf, $P(B_2|D)$, was calculated in part b. 
+
+::: {.guidedpractice data-latex=""}
+
+Calculate $P(B_0|D)$ and $P(B_1|D)$. [^probability-445]
+:::
+
+[^probability-445]: 
+$$
+P(B_0|D) = \frac{P(D \text{ and } B_0)}{P(D)} = \frac{P(D|B_0)P(B_0)}{P(D)} = \frac{(0.19)(0.60)}{0.307} = 0.371.
+$$
+$$
+P(B_1|D) = \frac{P(D \text{ and } B_1)}{P(D)} = \frac{P(D|B_1)P(B_1)}{P(D)} = \frac{(0.40)(0.30)}{0.307} = 0.391.
+$$
+
+There is now enough information to calculate $P(L|D)$: 
+
+\begin{align*}
+P(L|D) =& P(L \text{ and } B_0|D) + P(L \text{ and } B_1 | D) + P(L \text{ and } B_2 |D) \\
+=& P(L|D, B_0)P(B_0|D) + P(L|D, B_1)P(B_1|D) + P(L|D, B_2)P(B_2|D) \\
+=& (0.20)(0.371) + (0.40)(0.391) + (0.20)(0.238) \\
+=& 0.278.
+\end{align*}
+
+The prevalence of blindness among deaf, white cats is 0.278.
+
+Part ii. asks for the prevalence of blindness among white cats, $P(L)$. Again, partitioning is an effective strategy. Instead of partitioning by eye color, however, partition by deafness.
+
+::: {.workedexample data-latex=""}
+
+Calculate the prevalence of blindness among white cats, $P(L)$.
+
+------------------------------------------------------------------------
+
+\begin{align*}
+P(L) =& P(L \text{ and } D) + P(L \text{ and } D^C) \\
+=& P(L|D)P(D) + P(L|D^C)P(D^C) \\
+=& (0.278)(0.307) + (0.10)(1 - 0.307) \\
+=& 0.155.
+\end{align*}	
+
+$P(D)$ was calculated in part a), while $P(L|D)$ was calculated in part c, i. The conditional probability of blindness given a white cat is not deaf is 0.10, as given in the question statement. By the definition of the complement, $P(D^C) = 1 - P(D)$. 
+
+The prevalence of blindness among white cats is 0.155.
+
+:::
+
+Part iii. asks for the probability that a cat has two blue eyes, given that it is white and blind. This probability can be expressed as $P(B_2|L)$. Recall that since all cats being discussed in the problem are white, it is not necessary to condition on coat color.
+
+Start out with the definition of conditional probability:
+$$
+P(B_2|L) = \dfrac{P(B_2 \text{ and } L)}{P(L)}. 
+$$
+
+The key to calculating $P(B_2|L)$ relies on recognizing that the event a cat is blind and has two blue eyes can be partitioned by whether or not the cat is also deaf:
+$$
+P(B_2|L) = \frac{P(B_2 \text{ and } L \text{ and } D) + P(B_2 \text{ and } L \text{ and } D^C)}{P(L)}.
+$${#eq-pB2GivenL}
+
+::: {.workedexample data-latex=""}
+
+Draw a tree diagram to organize the events involved in this problem. Identify the branches that represent the possible paths for a white cat to both have two blue eyes and be blind. 
+
+------------------------------------------------------------------------
+
+When drawing a tree diagram, remember that each branch is conditioned on the previous branches. While there are various possible trees, the goal is to construct a tree for which as many of the branches as possible have known probabilities. 
+
+The tree for this problem will have three branch points, corresponding to either deafness, blindness, or eye color. The first set of branches contain unconditional probabilities, the second set contains conditional probabilities given one event, and the third set contains conditional probabilities given two events.
+
+Recall that the probabilities $P(L|D, B_0)$, $P(L|D, B_1)$, and $P(L|D, B_2)$ were provided in the problem statement. These are the only probabilities conditioned on two events that have previously appeared in the problem, so blindness is the most convenient choice of third branch point. 
+
+It is not obvious whether it will be more efficient to start with deafness or eye color, since unconditional and conditional probabilities related to both have appeared in the problem. @fig-cat-genetics-trees shows two trees, figure (a) starting with deafness and (b) starting with eye color. The two possible paths for a white cat to both have two blue eyes and be blind are shown in green.
+
+```{r}
+#| label: fig-cat-genetics-trees
+#| out-width: 80%
+#| fig-cap: |
+#|   Two tree diagrams for the cat genetics problem
+#| fig-subcap: 
+#|    - Tree beginning with first branch deafness
+#|    - Tree beginning with first branch eye color
+#| fig-alt: |
+#|   draft alt caption here
+#| fig-pos: H
+#| layout-ncol: 2
+knitr::include_graphics("images/catGeneticsTreesA.png")
+knitr::include_graphics("images/catGeneticsTreesB.png")
+```
+
+:::
+
+<!--- subfigure refs possible using markdown syntax for including figures -->
+
+::: {.workedexample data-latex=""}
+
+Expand @eq-pB2GivenL according to the tree shown in @fig-cat-genetics-trees(a), and solve for $P(B_2|L)$.
+
+------------------------------------------------------------------------
+
+Two of the probabilities have not been calculated previously: $P(B_2|D^C)$ and $P(D^C)$. From the definition of the complement, $P(D^C) = 1 - P(D) = 0.693$; $P(D)$ was calculated in part a. To calculate $P(B_2|D^C)$, apply the definition of conditional probability as in part b, where $P(B_2|D)$ was calculated:
+$$
+P(B_2|D^C) = \dfrac{P(D^C \text{ and } B_2)}{P(D^C)} = \dfrac{P(D^C|B_2)(P(B_2)}{P(D^C)} = \dfrac{(1-0.73)(0.10)}{0.693} = 0.0390.
+$$
+
+\begin{align*}
+P(B_2|L) &= \dfrac{(0.20)(0.238)(0.307) + (0.10)(0.0390)(0.693)}{0.155} \\
+&= 0.112
+\end{align*}
+	
+The probability that a white cat has two blue eyes, given that it is blind, is 0.112.
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+Expand @eq-pB2GivenL} according to the tree shown in @fig-cat-genetics-trees(b), and solve for $P(B_2|L)$.  [^probability-446]
+:::
+
+[^probability-446]: 
+\begin{align*}
+P(B_2|L) &= \frac{P(L|B_2, D)P(D|B_2)P(B_2) + P(L|B_2, D^C)P(D^C|B_2)P(B_2)}{P(L)} \\             &=\frac{(0.20)(0.73)(0.10) + (0.10)(1-0.73)(0.10)}{0.155} \\
+         &= 0.112.
+\end{align*}
+
+A tree diagram is useful for visualizing the different possible ways that a certain set of outcomes can occur. Although conditional probabilities can certainly be calculated without the help of tree diagrams, it is often easy to make errors with a strictly algebraic approach. Once a tree is constructed, it can be used to solve for several probabilities of interest. The following example shows how one of the previous trees can be applied to answer a different question than the one posed in part c, iii.
+
+::: {.workedexample data-latex=""}
+
+What is the probability that a white cat has one blue eye and one non-blue eye, given that it is not blind?
+
+------------------------------------------------------------------------
+
+Calculate $P(B_1|L^C)$. Start with the definition of conditional probability, then expand.
+
+\begin{align*}
+    P(B_1|L^C) &= \frac{P(B_1 \text{ and } L^C)}{P(L^C)} \\
+    &= \frac{P(B_1 \text{ and } L^C \text{ and } D) + P(B_1 \text{ and } L^C \text{ and } D^C)}{P(L^C)}.
+\end{align*}
+
+
+@fig-cat-genetics-trees-c is a reproduction of the earlier @fig-cat-genetics-trees(b), with yellow arrows showing the two paths of interest.
+
+As before, expand the numerator and fill in the known values.
+	
+\begin{align*}
+	P(B_1|L^C) =& \frac{P(B_1 \text{ and } L^C \text{ and } D) + P(B_1 \text{ and } L^C \text{ and } D^C)}{P(L^C)}\\
+	=& \frac{P(L^C|D, B_1)P(D|B_1)P(B_1) + P(L^C|D^C, B_1)P(D^C|B_1)P(B_1)}{P(L^C)} \\
+	=& \frac{\textcolor{red}{\mathbf{P(L^C|D, B_1)}}(0.40)(0.30) + \textcolor{red}{\mathbf{P(L^C|D^C, B_1)P(D^C|B_1)}}(0.30)}{\textcolor{red}{\mathbf{P(L^C)}}}.
+	\end{align*} 
+	
+The probabilities in [**red**]{style="color:red"} are not known. Apply the definition of the complement; recall that the rule for complements holds when an event and its complement are conditioned on the same information: $P(A|B) = 1 - P(A^C|B)$.
+	
+* $P(L^C) = 1 - P(L) = 1 - 0.155 = 0.845$
+* $P(D^C|B_1) = 1 - P(D|B_1) = 1 - 0.40 = 0.60$
+* $P(L^C|D, B_1) = 1 - P(L|D, B_1) = 1 - 0.40 = 0.60$
+
+	
+	The definition of the complement can also be applied to calculate $P(L^C|D^C, B_1)$. The problem statement originally specified that white cats that are not deaf have probability 0.10 of developing blindness regardless of eye color: $P(L|D^C) = 0.10$. Thus, $P(L^C|D^C, B_1) = P(L^C|D^C)$. By the definition of the complement, $P(L^C|D^C) = 1 - P(L|D^C) = 1 - 0.10 = 0.90$.
+	
+\begin{align*}
+	P(B_1|L^C) =& \frac{P(B_1 \text{ and } L^C \text{ and } D) + P(B_1 \text{ and } L^C \text{ and } D^C)}{P(L^C)}\\
+	=& \frac{P(L^C|D, B_1)P(D|B_1)P(B_1) + P(L^C|D^C, B_1)P(D^C|B_1)P(B_1)}{P(L^C)} \\
+	=& \frac{(0.60)(0.40)(0.30) + (0.90)(0.60)(0.30)}{0.845} \\
+	=& 0.277.
+\end{align*} 
+	
+The probability that a white cat has one blue eye and one non-blue eye, given that it is not blind, is 0.277.
+
+```{r fig-cat-genetics-c}
+#| label: fig-cat-genetics-trees-c
+#| out-width: 80%
+#| fig-cap: |
+#|   The two possible paths for a white cat to both have one blue eye (and one non-blue eye) and to not be blind are shown in yellow.
+#| fig-alt: |
+#|   draft alt caption here
+#| fig-pos: H
+#| layout-ncol: 1
+knitr::include_graphics("images/catGeneticsTreesC.png")
+
+```
+
+
+:::
