@@ -6,6 +6,13 @@
 source("_common.R")
 ```
 
+```{r start-collecting-terms}
+#| include: false
+terms_chp_3 <- c("probability")
+
+```
+
+
 ::: {.chapterintro data-latex=""}
 Suppose a healthy couple deciding whether to conceive a child learns from genetic testing that they both carry the gene for cystic fibrosis but are unaffected by the disease.  What is the likelihood that their child will have the disease?   When a rapid antigen self-test for COVID-19 shows a positive outcome, how likely is it that the person using the test has the infection?  
 
@@ -57,7 +64,7 @@ Studies have shown that when 100 people with the infection are tested using a na
 
 ## The rules of probability {#sec-probability-rules}
 
-In both examples in @sec-two-examples, probability is used to quantify uncertainty about the outcome of a random phenomenon. These two examples differ in important ways, however.  In the first the set $S$ of all outcomes, called the **sample space**, \index{sample space} is a simple collection of 4 equally likely outcomes. Probabilities can be calculated by  counting the number of outcomes one is interested in, and dividing by the total number outcomes in the sample space. The second is more complex — it poses questions about a probability of an outcome under the condition that it has been preceded by another event — the likelihood of infection when a self-test is known to be positive - and cannot easily be solved by the direct methods of the first example.  More difficult problems need a  general definition of probability and a set of rules to guide calculations.
+In both examples in @sec-two-examples, probability is used to quantify uncertainty about the **outcome** of a random phenomenon. These two examples differ in important ways, however.  In the first the set $S$ of all outcomes, called the **sample space**, \index{sample space} is a simple collection of 4 equally likely outcomes. Probabilities can be calculated by  counting the number of outcomes one is interested in, and dividing by the total number outcomes in the sample space. The second is more complex — it poses questions about a probability of an outcome under the condition that it has been preceded by another event — the likelihood of infection when a self-test is known to be positive - and cannot easily be solved by the direct methods of the first example.  More difficult problems need a  general definition of probability and a set of rules to guide calculations.
 
 ::: {.important data-latex=""}
 **Randomness and probability.**
@@ -88,6 +95,16 @@ The  notation of set theory is used to describe events.
 * The event $(A \text{ or } B)$ consists of the outcomes that are either in $A$ or $B$ or possibly both. This is sometimes written $A \cup B$.    
 
 * For conciseness, sentences such as "$B$ is the event that a child has CF" are written as $B$ = {child has CF}. 
+
+```{r}
+terms_chp_3 <- c(terms_chp_3, c("sample space",
+                                "outcome",
+                                "event",
+                                "disjoint events",
+                                "mutually exclusive events")
+)
+```
+
 
 ::: {.workedexample data-latex=""} 
 
@@ -288,6 +305,13 @@ $$
 
 If no outcomes satisfy an event $A$, it cannot occur and $P(A)$ = 0. As a consequence, if $A$ and $B$ are disjoint events, $P(A \text{ and } B)$ = 0.
 
+```{r}
+terms_chp_3 <- c(terms_chp_3, c("Venn diagram",
+                                "properties of probability",
+                                "addition rule for disjoint events",
+                                "complement rule")
+)               
+```
 
 
 @tbl-gss-age-health-prop illustrates the first two rules of probability: the sum of all the probabilities is 1, and the values are between 0 and 1.  
@@ -338,6 +362,7 @@ P(B) = P(B \text{ and } E_1) + P(B \text{ and } E_2) + \cdots  + P(B \text{ and 
 $${#eq-general-total-probability}
 
 :::
+
 
 ::: {.workedexample data-latex=""}
 
@@ -416,6 +441,12 @@ A  **probability distribution** \index{probability distribution} consists of all
 * The probabilities must total to 1. 
 
 :::
+
+```{r}
+terms_chp_3 <- c(terms_chp_3, c("rule of total probability",
+                                "probability distributions")
+)               
+```
 
 ::: {.workedexample data-latex=""}
 
@@ -519,6 +550,12 @@ $$ {#eq-general-addition-rule}
 where $P(A \text{ and } B)$ is the probability that both events occur.
 
 :::
+
+```{r}
+terms_chp_3 <- c(terms_chp_3, c("general addition rule of probability")
+)               
+```
+
 
 The idea behind the general addition rule can be visualized in the Venn diagram in  @fig-gss-age-health-venn showing the relationship between the events {age 26 to 45} and {health rating good}.  The figure shows that there are 1896 + 2180 = 4076 outcomes in the event {age 26 to 45} and 4066 + 2180 = 6246  in the event {health rating good}.  Adding the two total outcomes 4076 + 6246 = 10322 double counts the 2180 in the overlap, so the number of outcomes in ({age 26 to 45} or {health rating good}) is 4076 + 6246 - 2180 = 8146.
 
@@ -727,6 +764,15 @@ $$
 $$ {#eq-conditional-probability}
 
 :::
+
+```{r}
+terms_chp_3 <- c(terms_chp_3, c("conditional probability",
+                                "prevalence",
+                                "joint probability",
+                                "marginal probability")
+)               
+```
+
 
 In many texts @eq-conditional-probability serves as the definition of conditional probability.  In this text, @eq-conditional-probability is viewed as a way to calculate the conceptual definition given earlier.
 
@@ -965,6 +1011,14 @@ Suppose that both members of a couple have Group AB blood.	(a) What is the proba
 	
 :::
 
+```{r}
+terms_chp_3 <- c(terms_chp_3, c("multiplication rule",
+                                "independent events")
+)
+```
+
+
+
 ## Bayes' Rule {#sec-bayes-rule}
 
 @sec-two-examples opened this chapter with a question about the likelihood of a COVID-19 Rapid Antigen Test (RAT) correctly predicting the presence of the virus.  Let {COVID-19} denote the event that someone has the virus and {RAT^+^} denote a positive self-test. Suppose, as in @sec-two-examples, the probability of a positive test in a person with the virus is 0.80 (80%). In the language of conditional probability, 
@@ -993,9 +1047,9 @@ Specific terminology is used to describe behavior of diagnostic tests.  Suppose 
 
 * The **negative predictive value (NPV)** \index{negative predictive value} of $T$ is the conditional probability $P(D^C \mid T^-)$.  If $T$ is negative, how often is the disease truly absent?
 
-@eq-rat-sensitivity posits a sensitivity for a RAT, while @eq-rat-ppv is its positive predictive value.   How does the PPV of a test depend on its sensitivity?  This section discusses three approaches to calculating the PPV of a test: the use of tree diagrams, an application of Bayes's Rule,  and the construction of a hypothetical population where a 2$\times$2 table can be used to calculate conditional probabilities from counts, as in @sec-conditional-probability.  
+@eq-rat-sensitivity posits a sensitivity for a RAT, while @eq-rat-ppv is its positive predictive value.   How does the PPV of a test depend on its sensitivity?  This section discusses three approaches to calculating the PPV of a test: the use of tree diagrams, an application of Bayes' Rule,  and the construction of a hypothetical population where a 2$\times$2 table can be used to calculate conditional probabilities from counts, as in @sec-conditional-probability.  
 
-In addition to the sensitivity of a diagnostic test, all three methods depend on the specificity of the test (the probability of a true negative) and the prevalence of the disease. For the COVID-19 example,  calculations assume $P(\text{RAT}^- \mid \text{COVID-19}^C)$ = 0.98, the probability of a true negative cited in @sec-two-examples. The prevalence of COVID-19 changes seasonally and among regions.  Initially the solution provided here assumes the infection is present in 5% of a population, so $P(D)$ = 0.05.  But it is important to examine how the PPV changes with prevalence, and that is explored later. 
+In addition to the sensitivity of a diagnostic test, all three methods depend on the specificity of the test (the probability of a true negative) and the prevalence of the disease. For the COVID-19 example,  the calculations assume $P(\text{RAT}^- \mid \text{COVID-19}^C)$ = 0.98, the probability of a true negative cited in @sec-two-examples. The prevalence of COVID-19 changes seasonally and among regions.  Initially the solution provided here assumes the infection is present in 5% of a population, so $P(D)$ = 0.05.  But it is important to examine how the PPV changes with prevalence, and that is explored later. 
 
 **Tree diagrams**
 
@@ -1011,7 +1065,7 @@ spec_rat <- 0.98
 prev_covid <- 0.05
 ```
 
-In @fig-rat-tree, the primary branches of the tree split the population by COVID-19 status, and show the marginal probabilities 0.05 and 0.95 of having or not having the infection. The secondary branches show conditional probabilities determined by the primary branches; for example, the top branch is the conditional probability of a positive RAT given that an individual has the infection. The secondary branch below it shows the conditional probability of a negative test, given the disease is present.  A negative test when the disease is present is the complement of a positive test and has probability 1 - 0.20 = 0.80.  The values along the other branches are calculated similarly.
+In @fig-rat-tree, the first branches (called the primary branches) of the tree split the population by COVID-19 status, and show the marginal probabilities 0.05 and 0.95 of having or not having the infection. The secondary branches show conditional probabilities determined by the primary branches; for example, the top branch is the conditional probability of a positive RAT given that an individual has the infection. The secondary branch below it shows the conditional probability of a negative test, given the disease is present.  A negative test when the disease is present is the complement of a positive test and has probability 1 - 0.20 = 0.80.  The values along the other branches are calculated similarly.
 
 ```{r rat-tree}
 #| label: fig-rat-tree
@@ -1082,10 +1136,10 @@ $$
 P(\text{COVID-19}^C) \mid \text{RAT}^-) = \frac{P(\text{COVID-19}^C \text{ and RAT}^-)}
 {P(\text{RAT}^-)}.
 $$  
-The numerator is the value at the end of the bottom branch, 0.931.  The denominator is sum of the values on the two branches that lead to a negative test, 0.01 + 0.931 = 0.941.  The PPV is 0.931/0.941 = 0.989.  Under the assumptions used here, the chance that the infection is absent when a test is negative is 99%. 
+The numerator is the value at the end of the lowest branch, 0.931.  The denominator is sum of the values on the two branches that lead to a negative test, 0.01 + 0.931 = 0.941.  The PPV is 0.931/0.941 = 0.989.  Under the assumptions used here, the chance that the infection is absent when a test is negative is 99%. 
 :::
 
-The PPV and NPV for COVID-19 self-tests calculated here match those claimed in @sec-two-examples but depend on the assumptions made about the test and the setting in which it is administered.  The sensitivity and specificity are characteristics about the test itself and do not change unless the technology of the test changes.  But the prevalence depends on the population using the test and may change with time or location.
+The PPV and NPV for COVID-19 self-tests calculated here match those claimed in @sec-two-examples but depend on the assumptions made about the test and the setting in which it is administered.  The sensitivity and specificity are characteristics of the test itself and do not change unless the technology of the test changes.  But the prevalence depends on the population using the test and may change with time or location.
 
 ::: {.workedexample data-latex=""}
 
@@ -1130,7 +1184,7 @@ $${#eq-bayes-rule}
 ::::
 
 Bayes' Rule applied to a diagnostic test shows how PPV depends on the characteristics of a test and the prevalence of the disease.
-If $A = T^+$ and $B = D$ in the setting of diagnostic tests, @eq-bayes-rule becomes 
+If $A = T^+$ and $B = D$, @eq-bayes-rule becomes 
 $$
 P(D \mid T^+) = \frac{P(T^+ \mid D) P(D)}{P(T^+)}. 
 $${#eq-bayes-testing}
@@ -1180,11 +1234,11 @@ The test has low positive predictive value but high negative predictive value.
 
 ::: {.guidedpractice data-latex=""}
 
-If your were counseling parents whose fetus was being tested for Trisomy 21 using cfDNA, what would you tell them in advance about interpreting the outcome of the test, without using any of the jargon from probability?
+If your were counseling parents whose fetus will be tested for Trisomy 21 using cfDNA, what would you tell them in advance about interpreting the outcome of the test, without using any of the jargon from probability?
 [^probability-441]
 :::
 
-[^probability-441]: Since you have no special risk factors for Down syndrome in an infant,  your overall chance of having an affected infant is about 1/800, approximately one tenth of 1%. The test we use to screen for the congenital mutation syndrome is the best we have, but it is not perfect. If the test is negative (indicates the mutation is not present) there is a 99.5% chance that your infant will not be affected.  If it is positive then there is about a 20% chance the mutation is present.  So a negative test would be very good news; a positive test will suggest that the chance is about 1 in 5 that your infant will be affected. 
+[^probability-441]: Here is one possible script: Since you have no special risk factors for Down syndrome in an infant,  your overall chance of having an affected infant is about 1/800, approximately one tenth of 1%. The test we use to screen for the congenital mutation is the best we have, but it is not perfect. If the test is negative (sugggesting the mutation is not present) there is a 99.5% chance that your infant will not be affected.  If it is positive, then there is about a 20% chance the mutation is present.  So a negative test would be very good news.  A positive test is not necessarily bad news: it will suggest that the chance is about 1 in 5 that your infant will be affected.  Do you have any questions?
 
 @eq-bayes-testing-expanded is a specific example of more general versions of Bayes' rule:
 
@@ -1204,7 +1258,7 @@ $$ {#eq-bayes-trad-gen}
 
 :::
 
-The most general form of Bayes' rule will be used in the next section, and extended example of using conditional probability in a genetics problem.
+The most general form of Bayes' rule will be used in @sec-cat-genetics, an extended example of using conditional probability in a genetics problem.
 
 **Contingency tables**
 
@@ -1230,7 +1284,7 @@ ppv_05 <- round(t_pos_05 / tot_pos_05, 3)
 
 ```
 
-The positive predictive value (PPV) of a diagnostic test can be calculated by constructing a two-way contingency table for a large, hypothetical population and calculating conditional probabilities by conditioning on rows or columns. Using a large enough hypothetical population results in an empirical estimate of PPV that is very close to the exact value obtained via using the previously discussed approaches.
+The positive predictive value (PPV) of a diagnostic test can be calculated by constructing a 2 $\times$ 2contingency table for a large, hypothetical population and calculating conditional probabilities by conditioning on rows or columns. Using a large enough hypothetical population results in an empirical estimate of PPV that is very close to the exact value obtained via using the previously discussed approaches.
 
 The method begins by constructing an empty $2 \times 2$ table, with the possible outcomes of the diagnostic test as the rows, and the possible disease statuses as the columns as in @tbl-rat-setup. The table should include cells for the row and column sums.
 
@@ -1261,7 +1315,7 @@ Continue populating the table with the following steps, using the information in
 	$$\text{COVID-19 infected} \times P(\text{true positive}) = 5,000 \times 0.80 = 4,000 \text{ true positives}$$
 	$$\text{COVID-19 infected} \times P(\text{false negative}) = 5,000 \times 0.20 = 1,000 \text{ false negatives}$$
 	
-3. Calculate the two numbers in the second column: the number of individuals without the infection  and tested either positive (false positive) or negative (true negative). 
+3. Calculate the two numbers in the second column: the number of individuals without the infection testing either positive (false positive) or negative (true negative). 
 	$$\text{COVID-19 uninfected} \times P(\text{false positive}) = 95,000 \times 0.02 = 1,900 \text{ false positives}$$
 	$$\text{COVID-19 uninfected} \times P(\text{true negative})] = 95,000 \times 0.98 = 93,100 \text{ true negatives}$$
 	
@@ -1269,7 +1323,7 @@ Continue populating the table with the following steps, using the information in
 	$$(\text{true positives}) + (\text{ false positives}) = 4,000 + 1,900 = 5,900 \text{ positives}$$
 	$$(\text{true negatives}) + (\text{false negatives}) = 93,100 + 1,000 = 94,100 \text{ negatives}$$
 	
-5.  Finally, calculate the PPV of the RAT test using the ratio of the number of true positives to the total number of positive tests. This estimate is more than accurate enough, with the calculated value differing only in the third decimal place from the exact calculation, 
+5.  Finally, calculate the PPV of the RAT test using the ratio of the number of true positives to the total number of positive tests. This estimate is more than accurate enough, with the estimated value matching the exact calculation up to the third decimal place. 
 	
 	$$\frac{\text{ true positive tests}}{\text{ positive tests}} = \frac{`r t_pos_05`}{`r tot_pos_05`} = `r ppv_05`. $$
 
@@ -1282,7 +1336,7 @@ Continue populating the table with the following steps, using the information in
 
 : A 2 \times 2 table for the COVID RAT test example with a hypothetical population size $N$ of 100,000 and prevalence 5%, with numbers added {#tbl-rat-complete} 
 
-@tbl-rat-complete and the calculations to fill in the cells provide a more concrete interpretation of PPV.  The positive predictive value of a diagnostic test is the fraction of the number of instances of a true positive test out of all tests that would be positive, including the false positive outcomes.  This interpretation can be used to explore the effect prevalence on PPV.
+@tbl-rat-complete and the calculations to fill in the cells provide a more concrete interpretation of PPV.  The positive predictive value of a diagnostic test is the fraction of the number of instances of a true positive test out of all tests that would be positive, including the false positive outcomes.  If you are a member of the subset of the population testing positive, how likely is it that you have a true positive?  This interpretation can be used to explore the effect prevalence on PPV.
 
 ```{r}
 # code for contingency tables
@@ -1316,19 +1370,31 @@ ppv_01 <- round(t_pos_01 / tot_pos_01, 3)
 | RAT Negative | `r f_neg_01`     | `r t_neg_01`          | `r tot_neg_01`  |
 | Sum          | `r covid_cases_01` | `r covid_absent_01` | `r N_ct` |
 
-: A 2 \times 2 table for the COVID RAT test example with a hypothetical population size $N$ of 100,000 and COVID-19 prevalence 1% {#tbl-rat-complete-01} 
+: A 2 $\times$ 2 table for the COVID RAT test example with a hypothetical population size $N$ of 100,000 and COVID-19 prevalence 1% {#tbl-rat-complete-01} 
 
-The PPV is now `r ppv_01`.  The reduced prevalence causes fewer true positive results, `r t_pos_01` versus `r t_pos_05`, and because of the larger number of individuals without the infection, an increased number of false positives `r f_pos_01` versus `r f_pos_05`.  The ratio of true positives to total positives decreases.
+The PPV is now `r ppv_01`.  The reduced prevalence causes fewer true positive results, `r t_pos_01` versus `r t_pos_05`, and because of the larger number of individuals without the infection, an increased number of false positives, `r f_pos_01` versus `r f_pos_05`.  The ratio of true positives to total positives decreases.
 
-The dependence of PPV on prevalence is the reasons for  one of the difficulties in screening populations for a rare disease -- there will be a large proportion of false positives.  That is especially important when a positive diagnostic test might be followed by a more invasive procedure.
+The dependence of PPV on prevalence causes a conundrum in for screening populations for a rare disease -- there will be a large proportion of false positives.  That is especially important when a positive diagnostic test might be followed by a more invasive procedure.
+
+```{r}
+terms_chp_3 <- c(terms_chp_3, c("Bayes' rule",
+                                "sensitivity",
+                                "specificity",
+                                "positive predictive value",
+                                "PPV",
+                                "negative predictive value",
+                                "NPV",
+                                "tree diagram")
+                )
+```
 
 ## Extended example: cat genetics {#sec-cat-genetics}
 
-So far, the principles of probability have only been illustrated with short examples. In a more complex setting, it can be surprisingly difficult to translate a problem scenario into the language of probability. This section demonstrates how the rules of probability can be applied to work through a relatively sophisticated conditioning problem.
+So far, the principles of probability have been illustrated with relatively short examples. In a more complex setting, it can be surprisingly difficult to translate a problem scenario into the language of probability. This section demonstrates how the rules of probability can be applied to work through a relatively sophisticated conditioning problem.
 
 **Problem statement**
 
-The gene that controls white coat color in cats, $KIT$, is responsible for multiple phenotypes such as deafness and blue eye color. A dominant allele $W$ at one location in the gene has complete penetrance for white coat color; all cats with the $W$ allele have white coats. There is incomplete penetrance for blue eyes and deafness; not all white cats will have blue eyes and not all white cats will be deaf. However, deafness and blue eye color are strongly linked, such that white cats with blue eyes are much more likely to be deaf. The variation in penetrance for eye color and deafness may be due to other genes as well as environmental factors.
+The gene that controls white coat color in cats, $KIT$, is responsible for multiple phenotypes such as deafness and blue eye color. A dominant allele $W$ at one location in the gene has complete **penetrance** \index{penetrance} for white coat color; all cats with the $W$ allele have white coats. There is incomplete penetrance for blue eyes and deafness; not all white cats will have blue eyes and not all white cats will be deaf. However, deafness and blue eye color are strongly linked, such that white cats with blue eyes are much more likely to be deaf. The variation in penetrance for eye color and deafness may be due to other genes as well as environmental factors.
 
 Suppose that 30% of white cats have one blue eye, while 10% of white cats have two blue eyes. About 73% of white cats with two blue eyes are deaf and 40% of white cats with one blue eye are deaf. Only 19% of white cats with other eye colors are deaf.
 
@@ -1343,6 +1409,12 @@ c.  Suppose that deaf, white cats have an increased chance of being blind, but t
     ii. What is the prevalence of blindness among white cats?
 		
     iii. Given that a cat is white and blind, what is the probability that it has two blue eyes?
+    
+```{r}
+terms_chp_3 <- c(terms_chp_3, c("penetrance")
+                )
+```
+
 	
 **Establishing notation**
 
@@ -1381,7 +1453,7 @@ $$
 P(D) = P(D \text{ and } B_2 ) + P(D \text{ and } B_1 ) + P(D \text{ and } B_0 ).
 $$
 
-Although the joint probabilities of being deaf and having particular eye colors are not given in the problem, these can be calculated using the Multiplication Rule, @@eq-mult-rule-two-probs:
+Although the joint probabilities of being deaf and having particular eye colors are not given in the problem, these can be calculated using the Multiplication Rule, @eq-mult-rule-two-probs:
 
 \begin{align*}
 P(D) =& P(D \text{ and } B_2 ) + P(D \text{ and } B_1 ) + P(D \text{ and } B_0 ) \\
@@ -1410,8 +1482,8 @@ The probability that a white cat has two blue eyes, given that it is deaf, is 0.
 
 :::
 
-The conditional probability $P(B_2 \mid D)$ using the general version of  Bayes' Rule. 
-where there are three possible partitions of the event of deafness, $D$. In this problem, it is possible to directly solve from the definition of conditional probability since $P(D)$  was solved for in part a); note that the expanded denominator below matches the earlier work to calculate $P(D)$.
+The conditional probability $P(B_2 \mid D)$ uses the general version of  Bayes' Rule @eq-bayes-trad-gen,
+using the three possible partitions of the event of deafness, $D$. In this problem, it is possible to directly substitute the value $P(D)$  calculated in part a. The expanded denominator in the expression below matches the earlier calculation of $P(D)$.
 $$
 P(B_2|D) = \dfrac{P(D \text{ and } B_2)}{P(D)} = \dfrac{P(D|B_2)P(B_2)}{P(D|B_2)P(B_2) + P(D|B_1)P(B_1) + P(D|B_0)P(B_0)}. 
 $$
@@ -1430,7 +1502,7 @@ The second sentence gives probabilities of blindness, conditional on eye color a
 
 :::
 
-Part i. asks for the prevalence of blindness among deaf, white cats: $P(L|D)$. As in part a, the event of blindness given deafness can be partitioned by eye color:
+Part i asks for the prevalence of blindness among deaf, white cats: $P(L|D)$. As in part a, the event of blindness given deafness can be partitioned by eye color:
 
 $$
 P(L|D) = P(L \text{ and } B_0|D) + P(L \text{ and } B_1 | D) + P(L \text{ and } B_2|D).
@@ -1485,7 +1557,7 @@ P(L|D) =& P(L \text{ and } B_0|D) + P(L \text{ and } B_1 | D) + P(L \text{ and }
 
 The prevalence of blindness among deaf, white cats is 0.278.
 
-Part ii. asks for the prevalence of blindness among white cats, $P(L)$. Again, partitioning is an effective strategy. Instead of partitioning by eye color, however, partition by deafness.
+Part ii asks for the prevalence of blindness among white cats, $P(L)$. Again, partitioning is an effective strategy. Instead of partitioning by eye color, however, partition by deafness.
 
 ::: {.workedexample data-latex=""}
 
@@ -1506,7 +1578,7 @@ The prevalence of blindness among white cats is 0.155.
 
 :::
 
-Part iii. asks for the probability that a cat has two blue eyes, given that it is white and blind. This probability can be expressed as $P(B_2|L)$. Recall that since all cats being discussed in the problem are white, it is not necessary to condition on coat color.
+Part iii asks for the probability that a cat has two blue eyes, given that it is white and blind, $P(B_2|L)$. Since all cats being discussed in the problem are white, it is not necessary to condition on coat color.
 
 Start out with the definition of conditional probability:
 $$
@@ -1550,7 +1622,18 @@ knitr::include_graphics("images/catGeneticsTreesB.png")
 
 :::
 
-<!--- subfigure refs possible using markdown syntax for including figures -->
+<!--- subfigure refs possible using markdown syntax for including figures.  Position of alt-text?
+
+::: {#fig-example layout-ncol=2}
+
+![Subfigure A caption.](fig-a.png){#fig-example-a}
+
+![Subfigure B caption.](fig-b.png){#fig-example-b}
+
+Main caption for the full figure.
+:::
+
+-->
 
 ::: {.workedexample data-latex=""}
 
@@ -1642,3 +1725,22 @@ knitr::include_graphics("images/catGeneticsTreesC.png")
 
 
 :::
+
+## Chapter review {#sec-chp3-review}
+
+### Summary
+
+Chapter summary here
+
+
+```{r}
+#| label: tbl-terms-chp-3
+#| tbl-cap: Terms introduced in this chapter.
+#| tbl-pos: H
+make_terms_table(terms_chp_3)
+```
+
+\clearpage
+
+## Exercises {#sec-chp1-exercises}
+
