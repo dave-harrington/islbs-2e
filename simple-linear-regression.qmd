@@ -24,7 +24,7 @@ terms_chp_1 <- c("data")
 
 
 
-```{r}
+```{r, eval = F}
 #| label: fig-trees-height-carbon-scatter
 #| fig-cap: |
 #|   A scatterplot showing the relationship between tree height and amount of
