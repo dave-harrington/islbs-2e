@@ -7,14 +7,563 @@ source("_common.R")
 ```
 
 ::: {.chapterintro data-latex=""}
-When planning clinical research studies, investigators try to anticipate the results they might see under certain hypotheses. The treatments for some forms of cancer, such as advanced lung cancer, are only effective in a small percentage of patients: typically 20\% or less. Suppose that a study testing a new treatment will be conducted on 20 participants, where the working assumption is that 20\% of the patients will respond to the treatment. How might the possible outcomes of the study be represented, along with their probabilities? It is possible to express various outcomes using the probability notation in the previous chapter, e.g. if *A* were the event that one patient responds to treatment, but this would quickly become unwieldy. 
+When planning clinical research studies, investigators try to anticipate the results they might see under certain hypotheses. The treatments for some forms of cancer, such as advanced lung cancer, are only effective in a small percentage of patients: typically 20% or less. Suppose that a study testing a new treatment will be conducted on 20 participants, where the working assumption is that 20% of the patients will respond to the treatment. How might the possible outcomes of the study and their probabilities be modeled? 
+
+The anticipated outcome in the study can be represented as a **random variable** \index{random variable}, which numerically summarizes the possible outcomes of a random experiment. For example, let $X$ represent the number of patients out of 20 who respond to treatment in a study; a numerical value $x$ can be assigned to each possible outcome, and the probabilities of $0, 1, 2, \dots, 20$ patients having a good response can be expressed as $P(X = 0), P(X = 1), P(X = 2), \dots , P(X = 20)$. The distribution of a random variable specifies the probability of each possible outcome associated with the random variable. 
+
+This chapter begins by outlining general properties of random variables and their distributions. The rest of the chapter discusses specific distributions that are commonly used throughout probability and statistics.
+
+
 :::
 
 
 
-<!--
+
 ```{r}
 #| include: false
-terms_chp_1 <- c("data")
+terms_chp_4 <- c("distributions",
+                 "random variable")
 ```
--->
+
+## Random variables {#sec-random-variables}
+
+### Distributions of random variables {#sec-distributions-rv}
+
+A random variable assigns numerical values to the outcome of a random phenomenon, and is usually written with a capital letter such as $X$, $Y$, or $Z$. 
+
+If a coin is tossed three times, the outcome is the sequence of observed heads and tails. One such outcome might be TTH: tails on the first two tosses, heads on the third. If the random variable $X$ is the number of heads for the three tosses, $X=1$; if $Y$ is the number of tails, then $Y=2$. For the sequence THT, only the order has changed, but the values of $X$ and $Y$ remain the same. For the sequence HHH, however, $X=3$ and $Y=0$. Even in this simple setting, is possible to define other random variables; for example, if $Z$ is the toss when the first H is observed, then $Z=3$ for the first set of tosses (TTH) and 1 for the third set (HHH).  
+
+```{r}
+#| label: fig-coin-toss
+#| out-width: 80%
+#| fig-cap: 	Possible outcomes for number of heads in three tosses of a coin.
+#| fig-alt:   draft alt caption here
+#| fig-pos: H
+knitr::include_graphics("images/coin-toss.png")
+
+```
+
+If probabilities can be assigned to the outcomes in a random phenomenon or study, then they can be used to assign probabilities to values of a random variable.  Using independence, $P(\text{HHH}) = (1/2)^3 = 1/8$.  Since $X$ in the above example can only be three if the three tosses are all heads, $P(X=3) = 1/8$.  The distribution of a random variable is the collection of probabilities for all of the variable's unique values. @fig-coin-toss shows the eight possible outcomes when a coin is tossed three times: TTT, HTT, THT, TTH, HHT, HTH, THH, HHH. For the first set of tosses, $X = 0$; for the next three, $X=1$, then $X=2$ for the following three tosses and $X=3$ for the last set (HHH).  
+
+Using independence again, each of the 8 outcomes have probability 1/8, so $P(X = 0) = P(X = 3) = 1/8$ and $P(X = 1) = P(X = 2) = 3/8$. @tbl-dist-coin-tossing shows the probability distribution for $X$.  Probability distributions for random variables follow the rules for probability; for instance, the sum of the probabilities must be 1.00.  The possible outcomes of $X$ are labeled with a corresponding lower case letter $x$ and subscripts.  The values of X are $x_1=0$, $x_2=1$,  $x_3 = 2$, and $x_4 = 3$; these occur with probabilities $1/8$, $3/8$, $3/8$ and $1/8$.
+
+
+|    $i$          | 1    | 2    | 3    | 4    |  Total       |
+|:-------------:|:----:|:----:|:----:|:-----:|-------------:|
+| $x_i$         | 0    | 1    | 2    | 3    | --          |
+| $P(X = x_i)$  | 1/8  | 3/8  | 3/8  | 1/8  | 8/8 = 1.00  |
+
+: Tabular form for the distribution of the number of heads in three coin tosses. {#tbl-dist-coin-tossing}
+
+Bar plots can be used to show the distribution of a random variable.  @fig-bar-plot-coin-tossing is a bar plot of the distribution of $X$ in the coin tossing example. When bar plots are used to show the distribution of a dataset, the heights of the bars show either the frequency or relative frequency of each observation of the variable in the dataset. In contrast, bar heights for a probability distribution show the probabilities of possible values of a random variable before any observations have been made.
+
+```{r bar-plot-coin-tossing}
+#| label: fig-bar-plot-coin-tossing
+#| fig-cap: Bar plot of the distribution of the number of heads in three coin tosses.
+#| fig-alt: |
+#|   coming 
+#| fig-width: 4
+
+# Create the data frame
+x.df <- data.frame(
+  x.values = c(0, 1, 2, 3),
+  x.probs = c(1/8, 3/8, 3/8, 1/8)
+)
+
+ggplot(x.df, aes(x = factor(x.values), y = x.probs)) +
+  geom_col(fill = IMSCOL["blue", "full"]) +
+  scale_y_continuous(limits = c(0, 0.4), expand = c(0, 0)) +
+  labs(
+    x = "Values of X",
+    y = "Probabilities"
+  ) 
+```
+
+
+$X$ is an example of a **discrete random variable** \index{discrete random variable} -- a variable taking on a finite number of values.^[Some discrete random variables have an infinite number of possible values, such as all the non-negative integers.] -- and its distribution. A **continuous random variable** \index{continuous random variable} can take on any real value in an interval and are discussed later.
+
+::: {.important data-latex=""}
+**Distribution of a discrete random variable.**
+
+The distribution of a discrete random variable $X$ is the set of its possible values $x_1, x_2, \dots, x_k$ and the associated probabilities $P(x_1), P(x_2), \ldots , P(x_k)$.  It must satisfy the following conditions:
+
+* $0 \leq P(x_i) \leq 1.$
+
+* $P(x_1) + P(x_2) + \dots + P(x_k) = \sum_{i=1}^{k} P(X=x_i) = 1$
+
+Distributions of discrete random variables are usually specified in tables, such as @tbl-dist-coin-tossing or bar plots such as @fig-bar-plot-coin-tossing.
+
+:::
+
+In the hypothetical clinical study described at the beginning of this section, how unlikely would it be for 12 or more patients to respond to the treatment, given that only 20% of patients are expected to respond? Suppose $X$ is a random variable that will denote the possible number of responding patients, out of a total of 20. $X$ will have the same probability distribution as the number of heads in a 20 tosses of a weighted coin, where the probability of landing heads is 0.20. The graph of the probability distribution for $X$ in @fig-rep-dist-clin-study  can be used to approximate this probability. The event of 12 or more consists of nine values (12, 13, $\ldots$, 20); the graph shows that the probabilities for each value is extremely small, so the chance of 12 or more responses must be less than 0.01.^[Formulas in @sec-binomial-model can be used to show that the exact probability is slightly larger than 0.0001.]
+
+```{r}
+#| label: fig-rep-dist-clin-study
+#| fig-cap: Bar plot of the distribution of the number of responses in a study with 20 participants and response probability 0.20
+#| fig-alt: |
+#|   coming 
+#| fig-width: 4
+
+# Parameters
+n <- 20
+p <- 0.2
+
+# Create the data
+df <- data.frame(
+  x = 0:n,
+  prob = dbinom(0:n, size = n, prob = p)
+)
+
+# Bump up very small values for X > 10
+df$prob_visible <- ifelse(df$x > 10 & df$prob < 1e-3, 0.002, df$prob)
+
+# Plot
+ggplot(df, aes(x = x, y = prob_visible)) +
+  geom_col(width = 0.8, fill = IMSCOL["blue", "full"]) +
+  labs(x = "X", y = "Probability") +
+  scale_x_continuous(limits = c(-1, n + 1), breaks = seq(0, n, by = 2)) +
+  annotate("text", x = 15, y = 0.005, label = "Tails scaled for visibility", size = 3)
+
+```
+
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4, 
+               c("discrete random variable",
+                 "continuous random variable")
+                 )
+```
+
+
+
+### Expectation of a random variable {#sec-expectation-rv}
+
+Just like distributions of data, distributions of random variables have means, variances, standard deviations, medians, etc.; these characteristics are computed a bit differently for random variables. The mean of a random variable is called its **expected value** \index{expected value} and written $E(X)$. To calculate the mean of a random variable, multiply each possible value by its corresponding probability and add these products.
+
+::: {.important data-latex=""}
+**Expected value of a discrete random variable.**
+
+If $X$ takes on the $k$ values $x_1$, ..., $x_k$ with probabilities $P(X=x_1)$, ..., $P(X=x_k)$, the expected value of $X$ is the sum of each value multiplied by its corresponding probability:
+
+$$
+\begin{aligned}
+E(X)  &= x_1 P(X=x_1) + \cdots + x_k P(X=x_k) \\
+      &= \sum_{i=1}^{k} x_i P(X=x_i).
+\end{aligned}
+$${#eq-expectation-discrete-rv}
+
+The Greek letter $\mu$\index{Greek!mu ($\mu$)} may be used in place of the notation $E(X)$.  The expected value of $X$ us sometimes written $\mu_X$ to eliminate ambiguity.
+
+:::
+
+::: {.workedexample data-latex=""}
+
+Calculate the expected value of $X$, where $X$ represents the number of heads in three tosses of a fair coin.
+
+------------------------------------------------------------------------
+
+$X$ can take on the four values 0, 1, 2, and 3. The probability of each value $x_k$ is given in @tbl-dist-coin-tossing.
+
+\begin{align*}
+E(X) &= x_1 P(X = x_1) + \dots + x_k P(X = x_k)\\
+&= (0)(P(X=0)) + (1)(P(X=1)) + (2)(P(X=2)) + (3)(P(X = 3)) \\
+&= (0)(1/8) + (1)(3/8) + (2)(3/8) + (3)(1/8) = 12/8 \\
+&= 1.5.
+\end{align*}
+
+The expected value of $X$ is 1.5.
+
+:::
+
+The expected value for a random variable represents the average outcome. For example, $E(X)=1.5$ represents the average number of heads in three tosses of a coin, if the three tosses were repeated many times. With discrete random variables  the expected value need not be one of the possible outcomes of the variable, as in this example.
+
+::: {.guidedpractice data-latex=""}
+
+Calculate the expected value of $Y$, where $Y$ represents the number of heads in three tosses of an unfair coin, where the probability of heads is 0.70.  [^distributions-401]
+:::
+
+[^distributions-401]: First, calculate the probability distribution. $P(Y=0) = (1 - 0.70)^3 = 0.027$ and $P(Y=3) = (0.70)^3 = 0.343.$ Note that there are three ways to obtain 1 head (HTT, THT, TTH), thus, $P(Y=1) = (3)(0.70)(1 - 0.70)^2 = 0.189$. By the same logic, $P(Y = 2) = (3)(0.70)^2( 1- 0.70) = 0.441$. Thus, $E(Y) = (0)(0.027) + (1)(0.189) + (2)(0.441) + (3)(0.343) = 2.1$. The expected value of $Y$ is 2.1.
+
+
+
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4, 
+               c("expected value")
+)
+```
+
+### Variance of a random variable {#sec-variability-rv}
+
+The variability of a random variable can be described by its \index{variance} **variance** and \index{standard deviation} **standard deviation**. For a dataset with $n$ observations, the variance is computed by squaring deviations from the mean of the data, $(x_i - \bar{x})^2,$  then computing the average those deviations using a denominator of $n - 1$. (See @sec-summarizing-numerical-data.) 
+In the case of a random variable, the squared deviations from the mean $\mu$ of the variable are used instead of from the sample mean $\bar{x}$, and the average is a weighted average using the corresponding probabilities. This weighted sum of squared deviations is the variance of the random variable; the standard deviation is the square root of the variance.
+
+::: {.important data-latex=""}
+
+**Variance of a discrete random variable.**
+
+If $X$ takes on the $k$ outcomes $x_1$, ..., $x_k$ with probabilities $P(X=x_1)$, \dots, $P(X=x_k)$ and has expected value $\mu=E(X)$, then the variance of $X$, denoted by $\text{Var}(X)$ or $\sigma^2$, is
+$$
+\begin{aligned}
+\text{Var}(X) &= (x_1-\mu)^2 P(X=x_1) + \cdots \notag + (x_k-\mu)^2 P(X=x_k) \notag \\
+&= \sum_{i=1}^{k} (x_i - \mu)^2 P(X=x_i).
+\end{aligned}
+$${#eq-variance-discrete-rv}
+
+The standard deviation of $X$, labeled $\text{SD}(X)$ or $\sigma$ \index{Greek!sigma ($\sigma$)}, is the square root of the variance. The standard deviation is sometimes written as $\sigma_X$ to eliminate ambiguity.  The standard deviation has the same units of measurements as the original observations.
+
+:::
+ 
+The variance of a random variable can be interpreted as the expectation of the terms $(x_i - \mu)^2$; i.e., $\sigma^2 = E(X - \mu)^2$. While this compact form is not useful for direct computation, it can be helpful for understanding the concept of variability of a random variable; variance is simply the average of the squared deviations from the mean.
+
+::: {.workedexample data-latex=""}
+
+Compute the variance and standard deviation of $X$, the number of heads in three tosses of a fair coin.
+
+------------------------------------------------------------------------
+
+In the formula for the variance, $k = 4$ and $\mu_X = E(X) = 1.5$. 
+\begin{align*}
+	\sigma_X^2 &= (x_1-\mu_X)^2P(X=x_1) + \cdots + (x_4-\mu)^2 P(X=x_4)  \\
+	&= (0- 1.5)^2(1/8) + (1 - 1.5)^2 (3/8) + 
+	(2 -1.5)^2 (3/8) + (3-1.5)^2 (1/8) \\
+	&= 3/4.
+\end{align*}
+The variance is $3/4 = 0.75$ and the standard deviation is $\sigma = \sqrt{3/4} = 0.866$. 
+:::
+
+The coin tossing scenario provides a simple illustration of the mean and variance of a random variable. For the rest of this section, a more realistic example will be discussed -  calculating expected health care costs.
+
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4, 
+               c("variance",
+                 "standard deviation")
+)
+```
+
+
+
+
+## Linear combinations of random variables {#sec-linear-combinations}
+
+**replace this**
+
+Sums of random variables arise naturally in many problems. In the health insurance example, the amount spent by the employee during her next five years of employment can be represented as $X_1 + X_2 + X_3 + X_4 + X_5$, where $X_1$ is the cost of the first year, $X_2$ the second year, etc. If the employee's domestic partner has health insurance with another employer, the total annual cost to the couple would be the sum of the costs for the employee ($X$) and for her partner ($Y$), or $X + Y$. In~each of these examples, it is intuitively clear that the average cost would be the sum of the average of each~term.
+
+Sums of random variables represent a special case of linear combinations of variables.  
+
+::: {.important data-latex=""}
+**Linear combinations of random variables and their expected values.**
+
+If $X$ and $Y$ are random variables, then a linear combination of $X$ and $Y$ is given by
+$$
+aX + bY,
+$$ {#eq-linear-combination-rv} 
+where $a$ and $b$ are constants.  The mean of a linear combination of random variables is 
+$$
+E(aX + bY) = aE(X) + bE(Y) = a\mu_X + b\mu_Y.
+$$ {#eq-mean-linear-combination-rv}
+
+:::
+
+
+The formula easily generalizes to a sum of any number of random variables.
+
+The formula implies that for a random variable $Z$, $E(a + Z) = a + E(Z)$.  
+
+A similar formula applies to the variance of a linear combination of random variables, but with an important additional condition, independence.  Independence of random variables is formally defined in @sec-distributions-pairs-rv.  Informally two random variables are independent if the outcome of one is not associated with outcomes of the other.
+
+::: {.important data-latex=""}
+**The variance of linear combinations of random variables.**
+
+$$
+\text{Var}(aX + bY) = a^2 \text{Var}(X) + b^2\text{Var}(Y).
+$$ {#eq-variance-linear-combination-ind-rv}
+This equation is valid only if the random variables are independent of each other. 
+
+:::
+
+For the transformation $a + bZ$, the variance is $b^{2} \text{Var}(Z)$, since a constant $a$ has variance 0. When $b = 1$, variance of $a + Z$ is $\text{Var}(Z)$ - adding a constant to a random variable has no effect on the variability of the random variable.
+
+Equations [-@eq-mean-linear-combination-rv] and [-@eq-variance-linear-combination-ind-rv] are used in the next section.
+
+### Example: the cost of health insurance {#sec-cost-of-hmo-ins}
+
+```{r hmo-visits-costs}
+
+v_values <- c(0, 1, 2, 3, 4)
+v_probs <- c(0.44, 0.19, 0.06, 0.06, 0.25)
+s <- sum(v_probs)
+v_mean <- sum(v_values * v_probs)
+v_var <- sum((v_values - v_mean)^2 * v_probs)
+v_sd <- sqrt(v_var)
+c_values <- c(1200, 1220, 1240, 1260, 1280)
+c_probs <- v_probs
+c_mean <- 1200 + 20 * v_mean
+c_var <- 3 * (20)^2 * v_var
+c_sd <- sqrt(c_var)
+```
+
+
+In most  health insurance plans in the United States, members of the plan pay annually in three categories: a monthly premium, a deductible amount that members pay each year before the insurance covers prescription drugs or hospitalization, and the ``out-of-pocket'' co-payments for each outpatient visit.   This example illustrates a hypothetical setting in which a Health Maintenance Organization uses its records to communicate the expected cost of the premium and outpatient visits to potential plan members who generally need only routine care.   It does not consider the cost of prescription drugs, specialized diagnostic tests or major events like hospitalization, and so does not include the deductible.
+
+Since health care visits and expenses increase with age, the HMO decides to calculate this average among members age 25 - 40 who have not been diagnosed with a serious chronic disease, like diabetes or chronic heart disease.  After reviewing its records for the last several years, the HMO found that the majority of plan members in this segment had either no or one visit in an year, and none had more than 4 visits.  The plan analytics department used the data to create a probability distribution for annual visits of members in this population.
+
+Suppose $V$ denotes the number of annual visits for a randomly chosen member of the plan age 25 - 40 with no serious chronic diseases.  @tbl-hmo-visit-dist shows the distribution of the number of annual visits, with $v_i$ representing the values of the random variable $V$.  
+
+| $i$                     |   1    |    2    |    3    |    4    |   5    |
+|:-----------------------:|:------:|:-------:|:-------:|:-------:|:------:|
+| Number of visits, $v_i$ |   0    |    1   |    2    |    3    |   4     |
+| $P(V = v_i)$            |`r v_probs[1]`|`r v_probs[2]`|`r v_probs[3]`|`r v_probs[4]`|`r v_probs[5]`|
+
+: Distribution of HMO office visits. {#tbl-hmo-visit-dist}
+
+
+::: {.guidedpractice data-latex=""}
+
+Show that @tbl-hmo-visit-dist satisfies the conditions for a  probability distribution and describe the distribution in words to someone who has not studied probability. 
+[^distributions-601]
+:::
+
+[^distributions-601]:@tbl-hmo-visit-dist satisfies the conditions of a discrete probability distribution: all probabilities are between 0 and 1, and the values sum to 1. `r v_probs[1] *100`% of this population never have a visit for outpatient care, while `r (v_probs[1] + v_probs[2]) * 100`% have 1 or fewer visits.  The least likely number of visits are 3 or 4 per year (`r v_probs[3]*100`% in each category), while a somewhat surprising number (`r v_probs[5]*100`% of members) have 4 visits per year. In this population plan members are either very healthy and never have an outpatient visit, or have a minor condition, such as allergy shots or physical therapy that causes them to book outpatient visits once a quarter. 
+
+::: {.workedexample data-latex=""}
+
+Construct a bar plot of the distribution of annual visits.  Describe the shape of the distribution using the terminology in @sec-intro-to-data used to describe distributions of data.
+
+------------------------------------------------------------------------
+
+@fig-bar-plot-hmo-visit-dist is a bar plot of this distribution.  The distribution is skewed right and has two prominent peaks at $V = 0$ and $V=4$, so is bimodal.  
+
+```{r bar-plot-hmo-visit-dist}
+#| label: fig-bar-plot-hmo-visit-dist
+#| fig-cap: Bar plot of the distribution of the number of visits per year in a hypothetical HMO among healthy adults age 25 - 40.
+#| fig-alt: |
+#|   coming 
+#| fig-width: 4
+
+# Create the data frame
+v_df <- data_frame(v_values, v_probs)
+ggplot(v_df, aes(x = factor(v_values), y = v_probs)) +
+  geom_col(fill = IMSCOL["blue", "full"]) +
+  scale_y_continuous(limits = c(0, 0.5), expand = c(0, 0)) +
+  labs(
+    x = "Annual visits",
+    y = "Probabilities"
+  ) 
+```
+
+:::
+
+::: {.workedexample data-latex=""}
+
+Calculate the mean and standard deviation for the number of visits.  Provide an interpretation of the mean. Is it a good summary measure for potential plan members?
+
+------------------------------------------------------------------------
+
+Using @eq-expectation-discrete-rv, the expected value of the annual number of visits is 
+\begin{align*}
+ E(V) &= (0)(0.44) + (1)(0.19) + \cdots + (4)(0.20)   \\
+  &= `r round(v_mean,2)` \text{ visits per year}.
+\end{align*}
+Using @eq-variance-discrete-rv, the variance of $V$ is 
+\begin{align*}
+ \text{var}(V) &= (0 - `r v_mean`)^2 (0.44) + (1 - `r v_mean`)^2(0.19) + \cdots + (4 - `r v_mean`)^2 (0.25) \\
+ &= `r round(v_var, 2)`.
+\end{align*}
+The standard deviation is $\sigma = \sqrt{\text{Var}(V)} = `r round(v_sd,2)`$ visits per year.
+
+Since $E(V) = 1.49$, this population of plan members has (on average) approximately 1.5 outpatient visits per year.  From the shape of the distribution the mean is not a good summary measure for the distribution. More than half of the members (`r v_probs[1] + v_probs[2] * 100`%) have either 0 or 4 visits, and 1.5 is close to one of the least likely number of visits.
+:::
+
+::: {.workedexample data-latex=""}
+
+Suppose now the the monthly premium for the plan is \$100 and the co-payment for each office visit and standard services like physical therapy is \$20. (a) What can a new plan member who matches the characteristic of this population expect to pay in the coming year? (b) If the annual premium and co-payment do not change for the next 3 years, what would be their expected their costs during that period?
+
+------------------------------------------------------------------------
+
+a. The total annual cost is a function of the annual premium and the co-payment for visits.  If $C$ denotes annual outpatient costs,
+$$
+ C = (12)(100) + (20)(V).
+$$
+$C$ is a linear function of the random variable $V$.
+Using @eq-linear-combination-rv
+\begin{align*}
+ E(C) &= E(1200 + (20)(V)) \\
+      &= 1200 + (20)(E(V)) \\
+      &= 1200 + (20)(`r v_mean`) \\
+      &= `r round(1200 + 20 * v_mean, 2)` \text{ dollars }
+\end{align*}
+It would be statistically correct for the HMO to to advertise  that  a plan member in this population can expect to pay approximately \$`r round(1200 + 20 * v_mean, 0)` annually for outpatient visits, but would be misleading because of the shape of the distribution.  Forty-four percent of patients pay only the premium (1200\$), while another 25% pay the cost of the premium + 4 visits (\$1280).
+
+b. If $C_1, C_2$ and $C_3$ represent the cost of care for each of the three years,
+\begin{align*}
+E(C_1 + C_2 + C_3) &= E(C_1) + E(C_2) + E(C_3) \\
+      &= (3)(E(C)) \\
+      &= (3)(`r round(1200 + 20 * v_mean, 2)`) \\
+      &= `r round(3 * (1200 + 20 * v_mean),2)` \text{ dollars}
+\end{align*}
+
+:::
+
+
+::: {.workedexample data-latex=""}
+
+Using the same assumptions of the above example, calculate the standard deviation of 3 years of costs for outpatient visits.  Does it seem as though the standard deviation a reasonable measure of spread for this distribution?
+
+------------------------------------------------------------------------
+
+For a single year, the variance for a single year of costs is $\text{Var}(C)$.  Using @eq-variance-discrete-rv,
+\begin{align*}
+  \text{Var}(C) &= \text{Var}(1200 + (20)(V)) \\
+                &= (20^2) \text{Var}(V) \\
+                &= (400)(`r round(v_var, 2)`) \\
+                &= `r round(c_var, 2)` \text{ dollars}^2.
+  \end{align*}
+
+Under the assumption that costs each year are independent of costs in previous years (a very strong assumption!), the variance for three years will be 
+
+\begin{align*}
+\text{Var}(C_1 + C_2 + C_3) &= \text{Var}(C_1) + \text{Var}(C_2) +\text{Var}(C_3) \\
+                            &= (3)\text{Var(C)} \\
+                            &= (3)(`r round(c_var,2)`) \\
+                            &= `r 3 * round(c_var,2)` \text{ dollars }^2.
+\end{align*}
+The standard deviation is $\sqrt{`r 3* round(c_var,2)`} = \$`r round(sqrt(3* c_var), 2)`$.  It is not a good measure of spread, however, because of the bimodal nature of the distribution.
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+Why is the assumption that the variances for the three years can be added such a strong (and perhaps untenable) assumption?
+[^distributions-602]
+:::
+
+[^distributions-602]: The health characteristics of members of this population may not change from year to year, but they are unlikely to be independent: someone who has not visited the HMO for an outpatient visit is more likely not to visit in the next year, for instance, so the conditional probability of no visits in a coming year given that there were none in the previous year may be  different (and probably larger) than the unconditional probability of no visits.
+
+The calculations for the mean and standard deviation of the annual cost of care did not use directly the distribution for annual cost, but instead used formulas from linear combinations of variables.  The probability distribution for the annual cost of the premium plus co-pay for outpatient visits can be derived using the distribution of number of annual visits.  The expense to the plan member will be the \$1200 premium with probability 0.40 (the probability of no outpatient visits) when there are no visits, \$1220 with probability 0.10 when there is one visit, etc.  @fig-bar-plot-hmo-cost-dist is a bar plot for the distribution.
+
+```{r bar-plot-hmo-cost-dist}
+#| label: fig-bar-plot-hmo-cost-dist
+#| fig-cap: Bar plot of the distribution of the annual costs per year in a hypothetical HMO among healthy adults age 25 - 40..
+#| fig-alt: |
+#|   coming 
+#| fig-width: 4
+
+# Create the data frame
+v.df <- data.frame(
+  v.values = c(1200, 1220, 1240, 1260, 1280),
+  v.probs = c(0.40, 0.10, 0.05, 0.05, 0.40)
+)
+
+ggplot(v.df, aes(x = factor(v.values), y = v.probs)) +
+  geom_col(fill = IMSCOL["blue", "full"]) +
+  scale_y_continuous(limits = c(0, 0.5), expand = c(0, 0)) +
+  labs(
+    x = "Annual cost",
+    y = "Probabilities"
+  ) 
+```
+
+
+Because of the relationship between cost and the number of visits, Figures  [-@fig-bar-plot-hmo-visit-dist] and [-@fig-bar-plot-hmo-visit-dist] are similar: the bar heights showing probabilities are identical, and the number of visits have been replaced by the cost associated with each number of visits.  The distribution has the same right-skewed,  bimodal shape in both cases.
+
+::: {.workedexample data-latex=""}
+
+The median $m$ of a discrete random variable $X$ is the value that satisfies 
+$$
+P(X \leq m) \;\geq\; 0.5
+\quad \text{and} \quad
+P(X \geq m) \;\geq\; 0.5.
+$$
+Find the median annual cost for the premium and outpatient visits.  How does it compare to the expected cost?  
+
+------------------------------------------------------------------------
+
+The median is computed by finding the smallest value $m$ such that $P(X \leq m) \;\geq\; 0.5$.  For the random variable $C$ representing annual cost, that value is \$1220 since 
+$$
+P(C \leq 1200) = 0.40 < 0.50$$
+while 
+$$P(C \leq 1220) = 0.40 + 0.10 = 0.50 \geq 0.50
+$$.
+
+From the earlier example, the mean cost is $E(C)=$ \$1239.  Just as with distributions of data, the mean is larger than the median in this right-skewed distribution.  
+
+:::
+
+
+
+## The Bernoulli and binomial distributions {#sec-bernoulli-bin-dist}
+
+### The Bernoulli distribution {#sec-bernoulli-dist}
+
+Psychologist Stanley Milgram\index{Milgram, Stanley} began a series of experiments in 1963 to study the effect of authority on obedience. In a typical experiment, a participant would be ordered by an authority figure to give a series of increasingly severe shocks to a stranger. Milgram found that only about 35% of people would resist the authority and stop giving shocks before the maximum voltage was reached. Over the years, additional research suggested this number is approximately consistent across communities and time.^[Find further information on Milgram's experiment at \par \ \ \hspace{0.2mm}\ \oiRedirect{textbook-milgram}{www.cnr.berkeley.edu/ucce50/ag-labor/7article/article35.htm}.]
+
+Each person in Milgram's experiment can be thought of as a **trial** \index{trial}. Suppose that a trial is labeled a \index{success} **success** if the person refuses to administer the worst shock. If the person does administer the worst shock, the trial is a \index{failure} **failure**. The \index{probability of a success} **probability of a success** can be written as $p=0.35$. The probability of a failure is sometimes denoted with $q=1-p$.
+
+When an individual trial only has two possible outcomes, it is called a \index{Bernoulli random variable} **Bernoulli random variable**. Either outcome can be labeled success, and successes are usually denoted as 1 and failures with a 0. 
+
+Bernoulli random variables arise in many settings.  Suppose an individual joins the hypothetical HMO described in @sec-cost-of-hmo-ins and their demographic characteristics match the population used to construct the probability distribution of number of visits in a year.  If $X$ is the variable that takes on the value 1 if the new member has one or more outpatient visits and 0 if no visits, then $X$ will be a Bernoulli variable with probability of success $p$ = 1 - `r v_probs[1]` = `r 1 - v_probs[1]`.  Suppose 10 new members from this demographic joined the plan during the last year,and whether they had 1 or more outpatient visits was recorded in the sequence of ones and zeros: {0, 1, 1, 1, 1, 0, 1, 1, 0, 0}. The observation on each new member can be regarded as a Bernoulli trial, and the observed sequence as 6 successes and 4 failures. 
+
+
+The \index{sample proportion} **sample proportion**, $\hat{p}$, is the sample mean of these observations:
+$$
+	\hat{p} = \frac{\text{number of successes}}{\text{number of trials}} = \frac{0+1+1+1+1+0+1+1+0+0}{10} = 0.6.
+$$
+
+One would expect the sample proportion $\hat{p}$ to be close to the probability $p$ of a success and that is generally the case.  But because of variability in a sequence of trials $\hat{p}$ and $p$ will almost always be different.  With a Bernoulli variable, it is possible to calculate the theoretical mean and standard deviation from its distribution.  If ${p}$ is the true probability of a success, then the mean of a Bernoulli random variable $X$ is
+\begin{align*}
+\mu = E[X] &= P(X=0)\times0 + P(X=1)\times1 \\
+&= (1-p)\times0 + p\times 1 = 0+p = p.
+\end{align*}
+The variance of $X$ is:
+\begin{align*}
+\sigma^2 &= {P(X=0)(0-p)^2 + P(X=1)(1-p)^2} \\
+&= {(1-p)p^2 + p(1-p)^2} = {p(1-p).}
+\end{align*}
+The standard deviation is $\sigma=\sqrt{p(1-p)}$.
+
+The distinction between $\hat{p}$ and $p$ is important: $\hat{p}$ is a sample mean computed from $n$ observations on a Bernoulli variable; $p$ is the expected value of the Bernoulli before any observations are available.
+
+
+::: {.important data-latex=""}
+**Bernoulli random variable.**
+
+If $X$ is a random variable that takes value 1 with probability of success $p$ and 0 with probability $1-p$, then $X$ is a Bernoulli random variable with mean $p$ and standard deviation $\sqrt{p(1-p)}$.
+
+:::
+
+In the HMO example, $X$ is a Bernoulli variable with success probability $p$ = 0.56.  In the short hand notation of statistics,  $X \sim \textrm{Bern}(0.56)$. The short hand for a general Bernoulli with success probability $p$ is $X \sim \textrm{Bern}(p)$.  
+
+### The binomial distribution {#sec-binomial-dist}
+
+
+
+## The normal distribution {#sec-normal-dist}
+
+## The Poisson distribution {#sec-poisson-dist}
+
+## Distributions related  to  Bernoulli trials {#sec-dist-related-to-bernoulli}
+
+## Distributions for pairs of random variables {#sec-distributions-pairs-rv}
+
+
+## Chapter review {#sec-chp4-review}
+
+### Summary
+
+Chapter summary here
+
+
+```{r}
+#| label: tbl-terms-chp-4
+#| tbl-cap: Terms introduced in this chapter.
+#| tbl-pos: H
+make_terms_table(terms_chp_4)
+```
+
+\clearpage
+
+## Exercises {#sec-chp4-exercises}
+
