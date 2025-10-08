@@ -536,8 +536,150 @@ If $X$ is a random variable that takes value 1 with probability of success $p$ a
 
 In the HMO example, $X$ is a Bernoulli variable with success probability $p$ = 0.56.  In the short hand notation of statistics,  $X \sim \textrm{Bern}(0.56)$. The short hand for a general Bernoulli with success probability $p$ is $X \sim \textrm{Bern}(p)$.  
 
+The success probability $p$ is the \index{parameter} **parameter** of the distribution, and identifies a specific Bernoulli distribution from the family of Bernoulli distributions where $p$ can be any value between 0 and 1 (inclusive). Parameters will play an important role in other distributions discussed in this chapter.
+
+::: {.workedexample data-latex=""}
+
+Suppose that four individuals are randomly selected to participate in Milgram's experiment. What is the chance that there will be exactly one successful trial, assuming independence between trials? Suppose that the probability of success remains 0.35.
+	 
+
+------------------------------------------------------------------------
+
+This is  a scenario in which there is one success (i.e., one person refuses to give the strongest shock). Label the individuals as $A$, $B$, $C$, and $D$:
+	
+\begin{align*}
+	&P(A=\text{refuse},\text{ }B=\text{shock},\text{ }C=\text{shock},\text{ }D=\text{shock}) \\
+	&\quad =  P(A=\text{refuse})\ P(B=\text{shock})\ P(C=\text{shock})\ P(D=\text{shock}) \\
+	&\quad =  (0.35)  (0.65)  (0.65)  (0.65) = (0.35)^1 (0.65)^3 = 0.096.
+	\end{align*}
+	
+However, there are three other possible scenarios: either $B$, $C$, or $D$ could have been the one to refuse. In each of these cases, the probability is also $(0.35)^1(0.65)^3$. These four scenarios exhaust all the ways that exactly one of these four people could refuse to administer the most severe shock, so the total probability of one success is $(4)(0.35)^1(0.65)^3 = 0.38$.
+
+:::
+
 ### The binomial distribution {#sec-binomial-dist}
 
+The Bernoulli distribution is unrealistic in all but the simplest of settings. However, it is a useful building block for other distributions. The \index{binomial distribution} **binomial distribution** is a  model for finding the probability of having exactly $k$ successes in $n$ independent Bernoulli trials, each with probability of success $p$. In the Milgram example as the end of the last section, the goal was to calculate the probability of 1 success out of 4 trials, with probability of success 0.35 ($n=4$, $k=1$, $p=0.35$). 
+
+Like the Bernoulli distribution, the binomial is a discrete distribution, and can take on only a finite number of values. A binomial variable has values 0, 1, 2, \dots, $n$.
+
+::: {.important data-latex=""}
+**The binomial distribution.**
+
+A random variable $X$ has a binomial distribution if its value is the number of successes in $n$ Bernoulli trials meeting the following  conditions:
+
+1. The trials are independent.
+2. The number of trials is fixed and known in advance.
+3. Each trial outcome can be classified as a *success* or *failure*.
+4. The probability of a success, $p$, is the same for each trial.
+
+The statistical short hand for denoting a binomial variable is  $X \sim \text{Bin}(n, p)$.
+
+:::
+
+The mean and standard deviation of a binomial variable can be calculated by using the Bernoulli building blocks.  Suppose $X \sim \text{Bin}(n, p)$ -- the total number of successes in $n$ trials with success probability $p$ .  If the random variables $X_1, X_2, \ldots, X_n$ are independent Bernoulli variables with common success probability $p$, recording 1 for a success and 0 for a failure for each of the $n$ trials, then 
+$$
+  X = X_1 + X_2 + \cdots + X_n.
+$$
+The expected value of $X$ is
+\begin{align*}
+ E(X) &= E(X_1) + E(X_2) + \cdots + E(X_n) \\
+      &= p + p + \cdots + p \\
+      &= np.
+\end{align*}
+The first equality follows from @eq-mean-linear-combination-rv and the second from the formula for the mean of a Bernoulli variable.
+
+The variance of $X$ is
+\begin{align*}
+  \text{Var}(X) &= \text{Var}(X_1) + \text{Var}(X_2) + \cdots + \text{Var}(X_n) \\
+                &= p(1 - p) + p(1 - p) + \cdots + p(1 - p) \\
+                &= np(1 - p).
+\end{align*}
+The first equality follows from @eq-variance-linear-combination-ind-rv and the second from the variance of a Bernoulli variable.  The standard deviation is $\sqrt{\text{Var}(X)} = \sqrt{np(1 - p)}$.
+
+It is possible to derive a formula for the probability distribution of a binomial variable generalizing the argument used in the Milgram example in @sec-bernoulli-dist; the details are outlined in the exercises.  The formula along with the mean and standard deviation are summarized here for convenience:
+
+::: {.important data-latex=""}
+**Formulas for a Binomial random variable.**
+
+Suppose $X \sim \text{Bin}(n, p)$.  Then
+
+* $$
+  P(X = k) = \frac{n!}{k!(n-k)!}p^k(1-p)^{n-k}
+  $$ {#eq-binomial-prob-formula}
+  for any integer $k$ between 0 and $n$.
+
+* The mean, variance and standard deviation of $X$ are given by
+$$
+\mu = E(X) = np,
+$${#eq-binomial-mean}
+$$
+\sigma^2 = \text{Var}(X) = n p (1 - p),
+$${#eq-binomial-variance}
+and
+$$
+\sigma =  \text{standard deviation} (X) = \sqrt{n p (1 - p)}.
+$${#eq-binomial-stdev}
+
+:::
+
+The expression $\frac{n!}{k!(n-k)!}$ arises in many settings in probability and statistics and has its own special notation:
+
+$$
+\frac{n!}{k!(n-k)!} = {n \choose k}.
+$$.
+
+::: {.workedexample data-latex=""}
+
+What is the probability that 3 of 8 randomly selected participants will refuse to administer the worst shock?
+
+
+------------------------------------------------------------------------
+Before using a binomial model, first check that it applies here. The number of trials is fixed ($n=8$) and each trial outcome can be classified as either success or failure. The sample is random, so the trials are independent, and the probability of success is the same for each trial. 
+
+For the outcome of interest, $k=3$ successes occur in $n=8$ trials, and the probability of a success is $p=0.35$. Thus, the probability that 3 of 8 will refuse is given by
+\begin{align*}
+		P(X =3) &= { 8 \choose 3}(0.35)^3(1-0.35)^{8-3} \\
+            &= \frac{8!}{3!(8-3)!}(0.35)^3(1-0.35)^{8-3} \\
+		        &= (56)(0.35)^3(0.65)^5 \\
+            &= 0.28.
+\end{align*}
+
+:::
+
+::: {.workedexample data-latex=""}
+
+What is the probability that at most 3 of 8 randomly selected participants will refuse to administer the worst shock?
+
+------------------------------------------------------------------------
+The event of at most 3 out of 8 successes is  probability of 0, 1, 2, or 3 successes. Thus, the probability that at most 3 of 8 will refuse is given by:
+\begin{align*}
+	P(X \leq 3) &= P(X = 0) + P(X = 1) + P(X = 2) + P(X = 3) \\
+	&= { 8 \choose 0}(0.35)^0(1-0.35)^{8-0} + { 8 \choose 1}(0.35)^1(1-0.35)^{8-1} \\
+	& \qquad + { 8 \choose 2}(0.35)^2(1-0.35)^{8-2} + { 8 \choose 3}(0.35)^3(1-0.35)^{8-3} \\
+	&= (1)(0.35)^0(1-0.35)^{8} + (8)(0.35)^1(1-0.35)^{7} \\
+	& \qquad + (28)(0.35)^2(1-0.35)^{6} + (56)(0.35)^3(1-0.35)^{5}\\
+	&= 0.706.
+\end{align*}
+
+:::
+
+::: {.workedexample data-latex=""}
+
+If 40 individuals were randomly selected to participate in the experiment, how many individuals would be expected to refuse to administer the worst shock? What is the standard deviation of the number of people expected to refuse?
+
+------------------------------------------------------------------------
+
+Using Equations [-@eq-binomial-mean] and [-@eq-binomial-stdev], the expected value (mean) is $\mu=np = 40\times 0.35 = 14$, and the standard deviation is $\sigma = \sqrt{np(1-p)} = \sqrt{40\times 0.35\times 0.65} = 3.02$.
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+The probability that a smoker will develop a severe lung condition in their lifetime is about 0.30. Suppose that 5 smokers are randomly selected from the population. What is the probability that (a) one will develop a severe lung condition? (b) that no more than one will develop a severe lung condition? (c) that at least one will develop a severe lung condition? [^distributions-410]
+:::
+
+[^distributions-410]: Let $p = 0.30$; $X \sim \textrm{Bin}(5, 0.30)$. (a) $P(X=1) = {5 \choose 1}(0.30)^1(1-0.30)^{5-1} = 0.36$ (b) $P(X \leq 1) = P(X=0) + P(X=1) = {5 \choose 0}(0.30)^0(1-0.30)^{5-0} + 0.36 = 0.53$ (c) $P(X \geq 1) = 1 - P(X=0) = 1 - 0.36 = 0.83$.
 
 
 ## The normal distribution {#sec-normal-dist}
