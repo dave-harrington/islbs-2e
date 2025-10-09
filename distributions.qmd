@@ -95,7 +95,7 @@ Distributions of discrete random variables are usually specified in tables, such
 
 :::
 
-In the hypothetical clinical study described at the beginning of this section, how unlikely would it be for 12 or more patients to respond to the treatment, given that only 20% of patients are expected to respond? Suppose $X$ is a random variable that will denote the possible number of responding patients, out of a total of 20. $X$ will have the same probability distribution as the number of heads in a 20 tosses of a weighted coin, where the probability of landing heads is 0.20. The graph of the probability distribution for $X$ in @fig-rep-dist-clin-study  can be used to approximate this probability. The event of 12 or more consists of nine values (12, 13, $\ldots$, 20); the graph shows that the probabilities for each value is extremely small, so the chance of 12 or more responses must be less than 0.01.^[Formulas in @sec-binomial-model can be used to show that the exact probability is slightly larger than 0.0001.]
+In the hypothetical clinical study described at the beginning of this section, how unlikely would it be for 12 or more patients to respond to the treatment, given that only 20% of patients are expected to respond? Suppose $X$ is a random variable that will denote the possible number of responding patients, out of a total of 20. $X$ will have the same probability distribution as the number of heads in a 20 tosses of a weighted coin, where the probability of landing heads is 0.20. The graph of the probability distribution for $X$ in @fig-rep-dist-clin-study  can be used to approximate this probability. The event of 12 or more consists of nine values (12, 13, $\ldots$, 20); the graph shows that the probabilities for each value is extremely small, so the chance of 12 or more responses must be less than 0.01.^[Formulas in @sec-binomial-dist can be used to show that the exact probability is slightly larger than 0.0001.]
 
 ```{r}
 #| label: fig-rep-dist-clin-study
@@ -249,7 +249,7 @@ terms_chp_4 <- c(terms_chp_4,
 
 **replace this**
 
-Sums of random variables arise naturally in many problems. In the health insurance example, the amount spent by the employee during her next five years of employment can be represented as $X_1 + X_2 + X_3 + X_4 + X_5$, where $X_1$ is the cost of the first year, $X_2$ the second year, etc. If the employee's domestic partner has health insurance with another employer, the total annual cost to the couple would be the sum of the costs for the employee ($X$) and for her partner ($Y$), or $X + Y$. In~each of these examples, it is intuitively clear that the average cost would be the sum of the average of each~term.
+Sums of random variables arise naturally in many problems. When rolling two dice, the total $X$ shown on the roll is the sum of the two faces showing, $X_1 + X_2$.  If $Y$ is the total time commuting to work during a 5-day work week, $Y = Y_1 + Y_2 + \cdots +Y_5$, where the individual $Y$ values represent the commuting time for each of the 5 days.
 
 Sums of random variables represent a special case of linear combinations of variables.  
 
@@ -268,7 +268,10 @@ $$ {#eq-mean-linear-combination-rv}
 :::
 
 
-The formula easily generalizes to a sum of any number of random variables.
+The formula easily generalizes to a sum of any number of random variables.  The expected time commuting during the week will be 
+$$
+  E(Y) = E(Y_1) + E(Y_2) + \cdots + E(Y_5).
+$$
 
 The formula implies that for a random variable $Z$, $E(a + Z) = a + E(Z)$.  
 
@@ -286,7 +289,31 @@ This equation is valid only if the random variables are independent of each othe
 
 For the transformation $a + bZ$, the variance is $b^{2} \text{Var}(Z)$, since a constant $a$ has variance 0. When $b = 1$, variance of $a + Z$ is $\text{Var}(Z)$ - adding a constant to a random variable has no effect on the variability of the random variable.
 
-Equations [-@eq-mean-linear-combination-rv] and [-@eq-variance-linear-combination-ind-rv] are used in the next section.
+::: {.workedexample data-latex=""}
+
+The average body temperature in a healthy population measured in the Fahrenheit scale has been shown in some studies to be 97.9F, with a standard deviation of approximately 0.6F.  What are the average and standard deviation of body temperatures measured in the Celsius scale? 
+
+------------------------------------------------------------------------
+
+If $F$ and $C$ are random variables representing body temperature in Fahrenheit and Celsius scales, the conversion from $F$ to $C$ is
+$$
+  C = \frac{5}{9}F - 17.8
+$$
+Average temperature in Celsius is
+$$
+  E(C) = \frac{5}{9} E(F) - 17.8 = 0.556(97.9) - 17.8 = 36.6\text{ degrees celsius}
+$$
+The variance on the Celsius scale is
+\begin{align*}
+  \text{Var}(C) &= (\frac{5}{9})^2 \text{Var}(F) \\
+                &= (0.309)(0.6)^2 \\
+                &= 0.111
+\end{align*}
+The standard deviation on the Celsius scale is $\sqrt{0.111}$ = `r sqrt(0.111)`.
+
+:::
+
+Equations [-@eq-mean-linear-combination-rv] and [-@eq-variance-linear-combination-ind-rv] are illustrated in more detail in the next section.
 
 ### Example: the cost of health insurance {#sec-cost-of-hmo-ins}
 
