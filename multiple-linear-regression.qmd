@@ -17,7 +17,7 @@ Fix cross refs
 Sections~\ref{introductionMultipleLinearRegression} and \ref{simpleVsMultipleRegression} introduce the multiple regression model by examining the possible association between cognitive function and the use of statins after adjusting for potential confounders. Section~\ref{modelSelection} discusses another application of multiple regression\textemdash constructing a model that effectively explains the observed variation in the response variable. 
 -->
 
-The other sections in the chapter outline general principles of multiple regression, including the statistical model, methods for assessing quality of model fit, categorical predictors with more than two levels, interaction, and the connection between ANOVA and regression.  The methods used to conduct hypothesis tests and construct confidence intervals for regression coefficients extend naturally from simple to multiple linear regression, so the section on the statistical model for multiple regression can be treated as optional.}}
+The other sections in the chapter outline general principles of multiple regression, including the statistical model, methods for assessing quality of model fit, categorical predictors with more than two levels, interaction, and the connection between ANOVA and regression.  The methods used to conduct hypothesis tests and construct confidence intervals for regression coefficients extend naturally from simple to multiple linear regression, so the section on the statistical model for multiple regression can be treated as optional.
 :::
 
 ```{r}

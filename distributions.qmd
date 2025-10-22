@@ -9,7 +9,7 @@ source("_common.R")
 ::: {.chapterintro data-latex=""}
 When planning clinical research studies, investigators try to anticipate the results they might see under certain hypotheses. The treatments for some forms of cancer, such as advanced lung cancer, are only effective in a small percentage of patients: typically 20% or less. Suppose that a study testing a new treatment will be conducted on 20 participants, where the working assumption is that 20% of the patients will respond to the treatment. How might the possible outcomes of the study and their probabilities be modeled? 
 
-The anticipated outcome in the study can be represented as a **random variable** \index{random variable}, which numerically summarizes the possible outcomes of a random experiment. For example, let $X$ represent the number of patients out of 20 who respond to treatment in a study; a numerical value $x$ can be assigned to each possible outcome, and the probabilities of $0, 1, 2, \dots, 20$ patients having a good response can be expressed as $P(X = 0), P(X = 1), P(X = 2), \dots , P(X = 20)$. The distribution of a random variable specifies the probability of each possible outcome associated with the random variable. 
+The anticipated outcome in the study can be represented as a **random variable** \index{random variable}, which numerically summarizes the possible outcomes of a random experiment. For example, let $X$ represent the number of patients out of 20 who respond to treatment in a study; a numerical value $x$ can be assigned to each possible outcome, and the probabilities of $0, 1, 2, \dots, 20$ patients having a good response can be expressed as $P(X = 0), P(X = 1), P(X = 2), \dots , P(X = 20)$. A random variable $X$ can be thought of as a model for the outcomes of a study or experiment and its distribution the probability of each possible outcome associated with the random variable. 
 
 This chapter begins by outlining general properties of random variables and their distributions. The rest of the chapter discusses specific distributions that are commonly used throughout probability and statistics.
 
@@ -27,9 +27,10 @@ terms_chp_4 <- c("distributions",
 
 ## Random variables {#sec-random-variables}
 
-### Distributions of random variables {#sec-distributions-rv}
+A random variable assigns numerical values to the outcome of a random phenomenon, and is usually written with a capital letter such as $X$, $Y$, or $Z$. Random variables are characterized as either discrete or continuous.
 
-A random variable assigns numerical values to the outcome of a random phenomenon, and is usually written with a capital letter such as $X$, $Y$, or $Z$. 
+### Discrete random variables {#sec-distributions-rv}
+
 
 If a coin is tossed three times, the outcome is the sequence of observed heads and tails. One such outcome might be TTH: tails on the first two tosses, heads on the third. If the random variable $X$ is the number of heads for the three tosses, $X=1$; if $Y$ is the number of tails, then $Y=2$. For the sequence THT, only the order has changed, but the values of $X$ and $Y$ remain the same. For the sequence HHH, however, $X=3$ and $Y=0$. Even in this simple setting, is possible to define other random variables; for example, if $Z$ is the toss when the first H is observed, then $Z=3$ for the first set of tosses (TTH) and 1 for the third set (HHH).  
 
@@ -126,6 +127,9 @@ ggplot(df, aes(x = x, y = prob_visible)) +
 
 ```
 
+
+
+
 ```{r}
 #| include: false
 terms_chp_4 <- c(terms_chp_4, 
@@ -134,6 +138,11 @@ terms_chp_4 <- c(terms_chp_4,
                  )
 ```
 
+### Continuous random variables
+
+Discrete distributions take on a finite number of possible outcomes.  But some measurements can have all values in an interval, such as height or weight and they are best modeled with continuous random variables.  The distribution of a continuous random variable is specified by \index{probability density function} **probability density function** instead of a table.
+
+Figure~\ref{fdicHeightContDist} shows a histogram of the height for 3 million US adults from the mid-1990's, with an overlaid density curve. ^[This sample can be considered a simple random sample from the US population. It relies on the USDA Food Commodity Intake Database. 
 
 
 ### Expectation of a random variable {#sec-expectation-rv}
@@ -521,17 +530,17 @@ From the earlier example, the mean cost is $E(C)=$ \$1239.  Just as with distrib
 
 
 
-## The Bernoulli and binomial distributions {#sec-bernoulli-bin-dist}
+## The Bernoulli and binomial models {#sec-bernoulli-bin-dist}
 
-### The Bernoulli distribution {#sec-bernoulli-dist}
+### The Bernoulli model {#sec-bernoulli-dist}
 
-Psychologist Stanley Milgram\index{Milgram, Stanley} began a series of experiments in 1963 to study the effect of authority on obedience. In a typical experiment, a participant would be ordered by an authority figure to give a series of increasingly severe shocks to a stranger. Milgram found that only about 35% of people would resist the authority and stop giving shocks before the maximum voltage was reached. Over the years, additional research suggested this number is approximately consistent across communities and time.^[Find further information on Milgram's experiment at \par \ \ \hspace{0.2mm}\ \oiRedirect{textbook-milgram}{www.cnr.berkeley.edu/ucce50/ag-labor/7article/article35.htm}.]
+Psychologist Stanley Milgram\index{Milgram, Stanley} began a series of experiments in 1963 to study the effect of authority on obedience. In a typical experiment, a participant would be ordered by an authority figure to give a series of increasingly severe shocks to a stranger. Milgram found that about 35% of people would resist the authority and stop giving shocks before the maximum voltage was reached. Over the years, additional research suggested this number is approximately consistent across communities and time.^[Find further information on Milgram's experiment at \par \ \ \hspace{0.2mm}\ \oiRedirect{textbook-milgram}{www.cnr.berkeley.edu/ucce50/ag-labor/7article/article35.htm}.]
 
 Each person in Milgram's experiment can be thought of as a **trial** \index{trial}. Suppose that a trial is labeled a \index{success} **success** if the person refuses to administer the worst shock. If the person does administer the worst shock, the trial is a \index{failure} **failure**. The \index{probability of a success} **probability of a success** can be written as $p=0.35$. The probability of a failure is sometimes denoted with $q=1-p$.
 
-When an individual trial only has two possible outcomes, it is called a \index{Bernoulli random variable} **Bernoulli random variable**. Either outcome can be labeled success, and successes are usually denoted as 1 and failures with a 0. 
+When an individual trial only has two possible outcomes, its outcome is a \index{Bernoulli random variable} **Bernoulli random variable**. Either outcome can be labeled success, and successes are usually denoted as 1 and failures with a 0. 
 
-Bernoulli random variables arise in many settings.  Suppose an individual joins the hypothetical HMO described in @sec-cost-of-hmo-ins and their demographic characteristics match the population used to construct the probability distribution of number of visits in a year.  If $X$ is the variable that takes on the value 1 if the new member has one or more outpatient visits and 0 if no visits, then $X$ will be a Bernoulli variable with probability of success $p$ = 1 - `r v_probs[1]` = `r 1 - v_probs[1]`.  Suppose 10 new members from this demographic joined the plan during the last year,and whether they had 1 or more outpatient visits was recorded in the sequence of ones and zeros: {0, 1, 1, 1, 1, 0, 1, 1, 0, 0}. The observation on each new member can be regarded as a Bernoulli trial, and the observed sequence as 6 successes and 4 failures. 
+Bernoulli random variables arise in many settings.  Suppose an individual joins the hypothetical HMO described in @sec-cost-of-hmo-ins and their demographic characteristics match the population used to construct the probability distribution of number of visits in a year.  If $X$ is the variable that takes on the value 1 if the new member has one or more outpatient visits and 0 if no visits, then $X$ will be a Bernoulli variable with probability of success $p$ = 1 - `r v_probs[1]` = `r 1 - v_probs[1]`.  Suppose 10 new members from this demographic joined the plan during the last year, and whether they had 1 or more outpatient visits was recorded in the sequence of ones and zeros: {0, 1, 1, 1, 1, 0, 1, 1, 0, 0}. The observation on each new member can be regarded as a Bernoulli trial, and the observed sequence as 6 successes and 4 failures. 
 
 
 The \index{sample proportion} **sample proportion**, $\hat{p}$, is the sample mean of these observations:
@@ -575,25 +584,27 @@ Suppose that four individuals are randomly selected to participate in Milgram's 
 This is  a scenario in which there is one success (i.e., one person refuses to give the strongest shock). Label the individuals as $A$, $B$, $C$, and $D$:
 	
 \begin{align*}
-	&P(A=\text{refuse},\text{ }B=\text{shock},\text{ }C=\text{shock},\text{ }D=\text{shock}) \\
-	&\quad =  P(A=\text{refuse})\ P(B=\text{shock})\ P(C=\text{shock})\ P(D=\text{shock}) \\
-	&\quad =  (0.35)  (0.65)  (0.65)  (0.65) = (0.35)^1 (0.65)^3 = 0.096.
-	\end{align*}
+	&P(A \text{ refuses },\text{ }B \text{ shocks},\text{ }C \text{ shocks},\text{ }D \text{ shocks}) \\
+	&\quad =  P(A \text{ refuses})\ P(B \text{ shocks})\ P(C \text{ shocks})\ P(D \text{ shocks}) \\
+	&\quad =  (0.35)  (0.65)  (0.65)  (0.65) \\
+	&\quad = (0.35)^1 (0.65)^3 \\ 
+	&\quad = 0.096.
+\end{align*}
 	
 However, there are three other possible scenarios: either $B$, $C$, or $D$ could have been the one to refuse. In each of these cases, the probability is also $(0.35)^1(0.65)^3$. These four scenarios exhaust all the ways that exactly one of these four people could refuse to administer the most severe shock, so the total probability of one success is $(4)(0.35)^1(0.65)^3 = 0.38$.
 
 :::
 
-### The binomial distribution {#sec-binomial-dist}
+### The binomial model {#sec-binomial-dist}
 
-The Bernoulli distribution is unrealistic in all but the simplest of settings. However, it is a useful building block for other distributions. The \index{binomial distribution} **binomial distribution** is a  model for finding the probability of having exactly $k$ successes in $n$ independent Bernoulli trials, each with probability of success $p$. In the Milgram example as the end of the last section, the goal was to calculate the probability of 1 success out of 4 trials, with probability of success 0.35 ($n=4$, $k=1$, $p=0.35$). 
+The Bernoulli distribution is unrealistic in all but the simplest of settings. However, it is a useful building block for other distributions. The \index{binomial distribution} **binomial distribution** is a  model for exactly $k$ successes in $n$ independent Bernoulli trials, each with probability of success $p$. In the Milgram example as the end of the last section, the goal was to calculate the probability of 1 success out of 4 trials, with probability of success 0.35 ($n=4$, $k=1$, $p=0.35$). 
 
-Like the Bernoulli distribution, the binomial is a discrete distribution, and can take on only a finite number of values. A binomial variable has values 0, 1, 2, \dots, $n$.
+Like the Bernoulli distribution, the binomial model has a discrete distribution, and can take on only the finite number of values 0, 1, 2, \dots, $n$.
 
 ::: {.important data-latex=""}
-**The binomial distribution.**
+**The binomial model.**
 
-A random variable $X$ has a binomial distribution if its value is the number of successes in $n$ Bernoulli trials meeting the following  conditions:
+A random variable $X$ is a binomial model if its value is the number of successes in $n$ Bernoulli trials meeting the following  conditions:
 
 1. The trials are independent.
 2. The number of trials is fixed and known in advance.
@@ -604,7 +615,7 @@ The statistical short hand for denoting a binomial variable is  $X \sim \text{Bi
 
 :::
 
-The mean and standard deviation of a binomial variable can be calculated by using the Bernoulli building blocks.  Suppose $X \sim \text{Bin}(n, p)$ -- the total number of successes in $n$ trials with success probability $p$ .  If the random variables $X_1, X_2, \ldots, X_n$ are independent Bernoulli variables with common success probability $p$, recording 1 for a success and 0 for a failure for each of the $n$ trials, then 
+The mean and standard deviation of a binomial variable can be calculated by using the Bernoulli building blocks.  Suppose $X \sim \text{Bin}(n, p)$, the total number of successes in $n$ trials with success probability $p$ .  If the random variables $X_1, X_2, \ldots, X_n$ are independent Bernoulli variables with common success probability $p$, recording 1 for a success and 0 for a failure for each of the $n$ trials, then 
 $$
   X = X_1 + X_2 + \cdots + X_n.
 $$
@@ -651,10 +662,10 @@ $${#eq-binomial-stdev}
 :::
 
 The expression $\frac{n!}{k!(n-k)!}$ arises in many settings in probability and statistics and has its own special notation:
-
 $$
 \frac{n!}{k!(n-k)!} = {n \choose k}.
 $$.
+It turns out to be the number of ways to choose a subset of size $k$ from a set of size $n$ and is read as $n$ choose $k$.
 
 ::: {.workedexample data-latex=""}
 
@@ -709,7 +720,357 @@ The probability that a smoker will develop a severe lung condition in their life
 [^distributions-410]: Let $p = 0.30$; $X \sim \textrm{Bin}(5, 0.30)$. (a) $P(X=1) = {5 \choose 1}(0.30)^1(1-0.30)^{5-1} = 0.36$ (b) $P(X \leq 1) = P(X=0) + P(X=1) = {5 \choose 0}(0.30)^0(1-0.30)^{5-0} + 0.36 = 0.53$ (c) $P(X \geq 1) = 1 - P(X=0) = 1 - 0.36 = 0.83$.
 
 
-## The normal distribution {#sec-normal-dist}
+## The normal model {#sec-normal-dist}
+
+### Definition of the normal model {#sec-definition-normal-model}
+
+```{r heights-stats}
+
+library(NHANES)
+
+df_females <- NHANES |> select(Age, Gender, Height) |>
+  drop_na() |> 
+  filter(Age > 17, Gender == "female")
+
+n_f <- nrow(df_females)
+mu_f <- round(mean(df_females$Height), 2)
+sd_f <- round(sd(df_females$Height), 2)
+med_f <- round(median(df_females$Height), 2)
+count_160_f <- df_females$Height <= 162 & df_females$Height > 160
+sum(count_160_f)
+hist_160_162 <- round(sum(count_160_f)/n_f,3)
+count_162_f <- df_females$Height <= 164 & df_females$Height > 162
+hist_162_164 <- round(sum(count_162_f)/n_f, 3)
+
+
+df_males <- NHANES |> select(Age, Gender, Height) |>
+  drop_na() |> 
+  filter(Age > 17, Gender == "male")
+
+n_m <- nrow(df_males)
+mu_m <- round(mean(df_males$Height), 2)
+sd_m <- round(sd(df_males$Height), 2)
+med_m <- round(median(df_males$Height), 2)
+```
+
+@fig-height-histograms shows histograms for the heights in cm of `r n_f` females (upper figure) and `r n_m` males (lower figure) age 18 or older. The data come from the National Health and Nutrition Examination Survey (NHANES) and can be found in the R library NHANES.  In these plots, the heights of the bars represent the fraction of the observations found in each interval of width 2cm.  For instance, in the data for the females, approximately 11% of the heights are between 160 and 162cm, and another 11% are between 162 and 164cm, so approximately 22% are between 160 and 164cm. ^[The actual percentages `r hist_160_162*100`% and `r hist_162_164*100`%.]
+
+The shape of the two distributions is characteristic of many measurements made on human populations -- the histograms are symmetric, unimodal and appear to have few outliers, although that would have to be confirmed with a box plot.  Because of the symmetry and lack of outliers, the mean and medians will be similar.  The female heights have mean `r mu_f` and median `r med_f`; the corresponding values for the male heights are `r mu_m` and `r med_m`.  
+
+
+
+```{r height-histograms}
+#| label: fig-height-histograms
+#| fig-cap: |
+#|   Histograms of the heights of adult females and males 
+#| fig-subcap:
+#|   - Female heights (cm)
+#|   - Male heights (cm)
+#| fig-alt: | 
+#|   To be written
+#| fig-asp: 0.4
+#| layout-ncol: 1
+
+
+pf <-  ggplot(df_females,
+              aes(x = Height)) +
+       geom_histogram(aes(y = after_stat(count / sum(count))),
+       breaks = seq(130, 200, 2),
+       closed = "right") +
+  labs(x = "Height (cm)", y = "Proportion") +
+  scale_x_continuous(
+    breaks = seq(120, 220, 10)) 
+  
+
+pm <- ggplot(df_males,
+             aes(x = Height)) +
+     geom_histogram(aes(y = after_stat(count / sum(count))),
+         breaks = seq(130, 200, 2),
+         closed = "right") +
+     labs(x = "Height (cm)", y = "Proportion") +
+     scale_x_continuous(
+    breaks = seq(120, 220, 10)
+  )
+xrange <- range(c(df_females$Height, df_males$Height))
+ymax <- max(pf$counts / sum(pf$counts), pm$counts / sum(pm$counts))
+pf <- pf + xlim(xrange) + ylim(0, 0.12)
+pm <- pm + xlim(xrange) + ylim(0, 0.12)
+
+pf
+pm
+```
+
+The \index{normal model} **normal model** is often used to represent the population distribution of measurements with the characteristics seen in @fig-height-histograms.
+
+::: {.important data-latex=""}
+**The normal model.**
+
+A random variable $X$ follows a normal model if it can take on all values, and its distribution is a bell-shaped curve that is symmetric, unimodal and with very few outliers.
+
+:::
+
+A normal random variable $X$ is a continuous random variable because its values are not limited to a finite set. 
+
+### The normal density function {#sec-normal-density}
+
+The histogram in @fig-female-height-histogram-density shows the top panel in @fig-height-histograms but is drawn on a density scale.  The vertical axis has been re-scaled so that the height of the bars is now the proportion of observations divided by the width of the bins (2cm in this case).  When a histogram is drawn on the density scale, the proportion of observations falling in a bin is now the area of the bar, since multiplying the density value by the bin width recovers the proportion.  The smooth red curve in the plot is the normal density function for a random variable with mean `r mu_f` and standard deviation `r sd_f`. The histogram displays the distribution of the observed data.  The normal density function is the distribution of a random variable that is a model for heights of all adult women in the US population.
+
+
+```{r female-histogram-density-normal}
+#| label: fig-female-height-histogram-density
+#| fig-cap: |
+#|   A histogram of the heights of adult females, density scale
+#| fig-alt: | 
+#|   To be written
+#|   
+#| fig-asp: 0.4
+
+pf_d <-  ggplot(df_females,
+              aes(x = Height)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 breaks = seq(130, 200, 2),
+                 closed = "right") +
+  stat_function(
+    fun = function(Height) dnorm(Height, mean = mu_f, sd = sd_f),
+    color = "red", linewidth = 1 ) +
+  labs(x = "Adult female height (cm)", y = "Density") +
+  scale_x_continuous(
+    breaks = seq(130, 190, 10)
+  ) +
+  ylim(0, 0.06)
+pf_d
+```
+
+::: {.important data-latex=""}
+**The normal density function.**
+
+The normal density function is a symmetric, unimodal, bell-shaped curve that describes the distribution of a normal random variable $X$.  The total area under a normal density function is 1.
+
+The normal density is characterized by two parameters: the mean $\mu$ and standard deviation $\sigma$ of $X$.   The statistical short hand for denoting a normal random variable is  $X \sim N(\mu, \sigma).$  When $Z \sim N(0, 1)$ it is called a standard normal variable. 
+
+:::
+
+```{r standard-normal-density}
+#| label: fig-standard-normal-densities
+#| fig-cap: |
+#|   The density function for a standard normal variable $Z$
+#| fig-alt: | 
+#|   To be written
+#|   
+#| fig-asp: 0.4
+# parameters
+
+library(ggplot2)
+
+# create x and y values for the standard normal
+x <- seq(-4, 4, length.out = 500)
+df <- data.frame(x = x, y = dnorm(x))  # mean=0, sd=1 by default
+
+ggplot(df, aes(x = x, y = y)) +
+  geom_line(linewidth = 1.2, color = "steelblue") +
+  labs(
+    x = "Z-value",
+    y = "Density"
+  ) 
+
+```
+
+```{r normal-densities}
+#| label: fig-normal-densities
+#| fig-cap: |
+#|   Four normal density functions
+#| fig-alt: | 
+#|   To be written
+#|   
+#| fig-asp: 0.4
+# parameters
+means <- c(100, 150)
+sds   <- c(25, 40)
+
+# build a data frame with all combinations
+params <- expand.grid(mean = means, sd = sds)
+
+# create x values wide enough to cover all curves
+x <- seq(means[1] - 3*sds[2], means[2] + 3*sds[2], length.out = 500)
+
+# compute densities for each combination
+densities <- do.call(rbind, lapply(1:nrow(params), function(i) {
+  data.frame(
+    x = x,
+    y = dnorm(x, mean = params$mean[i], sd = params$sd[i]),
+    mean = params$mean[i],
+    sd = params$sd[i]
+  )
+}))
+
+# combine mean and sd into a label
+densities$label <- with(densities, paste0("μ=", mean, ", σ=", sd))
+
+# plot
+ggplot(densities, aes(x = x, y = y, color = label)) +
+  geom_line(linewidth = 1.1) +
+  labs(
+    x = "x", y = "Density", color = "Parameters"
+  ) 
+#  theme_minimal(base_size = 14)
+
+
+```
+
+### Standardizing with Z-scores {#sec-z-scores}
+
+```{r sat-act-z-score}
+#| label: fig-sat-act-z-score
+#| fig-cap: |
+#|    Scores of Students A and B plotted on the distributions of SAT and ACT scores.
+#| fig-subcap:
+#|      - Distribution of SAT scores
+#|      - Distribution of ACT scores
+#| fig-alt: | 
+#|   To be written
+#| fig-asp: 0.4
+#| layout-ncol: 1
+
+
+library(openintro)
+data(COL)
+
+set.seed(1)
+
+
+# _____ Curve 1 _____ #
+m <- 1500
+s <- 300
+X <- m + s * seq(-4, 4, 0.01)
+Y <- dnorm(X, m, s)
+plot(X, Y,
+     type = 'l',
+     axes = FALSE,
+     xlim = m + s * c(-2.7, 2.7),
+     xlab = "",
+     ylab = "")
+axis(1, at = m + s * (-3:3))
+abline(h = 0)
+lines(c(m, m),
+      dnorm(m, m, s) * c(0.01, 0.99),
+      lty = 2,
+      col = '#EEEEEE')
+lines(c(m, m) + s,
+      dnorm(m + s, m, s) * c(0.01, 1.25),
+      lty = 2, col = COL[1])
+text(m + s + 60,
+     dnorm(m + s, m, s) * 1.25,
+     'Student A',
+     pos = 3,
+     col = COL[1])
+
+
+# _____ Curve 2 _____ #
+# par(mar = c(2, 0, 1, 0))
+m <- 21
+s <- 5
+X <- m + s * seq(-4, 4, 0.01)
+Y <- dnorm(X, m, s)
+plot(X, Y,
+     type = 'l',
+     axes = FALSE,
+     xlim = m + s * c(-2.7, 2.7),
+     xlab = "",
+     ylab = "")
+axis(1, at = m + s * (-3:3))
+abline(h = 0)
+lines(c(m, m),
+      dnorm(m, m, s) * c(0.01, 0.99),
+      lty = 2,
+      col = '#EEEEEE')
+lines(c(m, m) + 3,
+      dnorm(m + 3, m, s) * c(0.01, 1.2),
+      lty = 2,
+      col = COL[1])
+text(m + 3,
+     dnorm(m + 3, m, s) * 1.05,
+     'Student B',
+     pos = 4,
+     col = COL[1])
+
+
+
+
+```
+
+### The empirical rule{#sec-empirical-rule}
+
+```{r empirical-rule-normal}
+#| label: fig-empirical-rule-normal
+#| fig-cap: |
+#|   Probabilities for falling within 1, 2, and 3 standard deviations of the mean in a normal distribution.
+#| fig-alt: | 
+#|   To be written
+#|   
+#| fig-asp: 0.6
+
+X <- seq(-4, 4, 0.01)
+Y <- dnorm(X)
+plot(X, Y,
+     type = 'n',
+     axes = FALSE,
+     xlim = c(-3.2, 3.2),
+     ylim = c(0, 0.4))
+abline(h = 0, col = COL[6])
+at <- -3:3
+labels <- expression(mu - 3 * sigma,
+                     mu - 2 * sigma,
+                     mu - sigma,
+                     mu,
+                     mu + sigma,
+                     mu + 2 * sigma,
+                     mu + 3 * sigma)
+axis(1, at, labels)
+for (i in 3:1) {
+  these <- (i - 1 <= X & X <= i)
+  polygon(c(i - 1, X[these], i),
+          c(0, Y[these], 0),
+          col = COL[i],
+          border = COL[i])
+  these <- (-i <= X & X <= -i + 1)
+  polygon(c(-i, X[these], -i + 1),
+          c(0, Y[these], 0),
+          col = COL[i],
+          border = COL[i])
+}
+
+# _____ Label 99.7 _____ #
+arrows(-3, 0.03,
+       3, 0.03,
+       code = 3,
+       col = '#444444',
+       length = 0.15)
+text(0, 0.02, '99.7%', pos = 3)
+
+# _____ Label 95 _____ #
+arrows(-2, 0.13,
+       2, 0.13,
+       code = 3,
+       col = '#444444',
+       length = 0.15)
+text(0, 0.12, '95%', pos = 3)
+
+# _____ Label 68 _____ #
+arrows(-1, 0.23,
+       1, 0.23,
+       code = 3,
+       col = '#444444',
+       length = 0.15)
+text(0, 0.22, '68%', pos = 3)
+
+lines(X, Y, col = '#888888')
+abline(h = 0, col = '#AAAAAA')
+
+
+```
+
+### Calculating normal probabilities {#sec-calculating-normal-probabilities}
+
 
 ## The Poisson distribution {#sec-poisson-dist}
 

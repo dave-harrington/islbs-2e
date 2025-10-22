@@ -270,3 +270,51 @@ test.venn.plot <- draw.pairwise.venn(
 )
 age-venn-plot
 
+# are heights normal
+# 
+library(NHANES)
+hist(NHANES$TotChol)
+hist(NHANES$Height[Age > 20])
+summary(NHANES$Age)
+a <- NHANES$Age > 20 
+b <- a & NHANES$Gender == female
+hist(NHANES$Height[a])
+hist(NHANES$Weight[a])
+nrow(NHANES$Height[a])
+h <- NHANES$Height[a]
+nrow(h)
+af <- NHANES$Age > 17 & NHANES$Gender == "female"
+am <- NHANES$Age > 17 & NHANES$Gender == "male"
+hist(NHANES$Height[af])
+hist(NHANES$Height[am])
+summary(NHANES$Height[af])
+summary(NHANES$Height[am])
+length(NHANES$Height[af])
+
+
+
+#| label: fig-female-height-histogram-density-normal
+#| fig-cap: |
+#|   A histogram of the heights of adult females, density scale
+#| fig-alt: | 
+#|   To be written
+#|   
+#| fig-asp: 0.4
+
+NHANES |> select(Age, Gender, Height) |>
+  drop_na() |> 
+  filter(Age > 17, Gender == "female") |>
+  ggplot(aes(x = Height)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 binwidth = 2.0) +
+  geom_density(aes(y = after_stat(density)), color = "red") +
+  stat_function(
+    fun = function(Height) dnorm(Height, mean = mean(Height) + 2, sd = sd(Height) * .5),
+    color = "red", linewidth = 1 ) +
+  labs(x = "Adult female height (cm)", y = "Density") +
+  scale_x_continuous(
+    breaks = seq(120, 220, 10)
+  )
+
+library(ggplot2)
+
