@@ -1826,5 +1826,5 @@ make_terms_table(terms_chp_3)
 
 \clearpage
 
-## Exercises {#sec-chp1-exercises}
+## Exercises {#sec-chp3-exercises}
 
