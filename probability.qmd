@@ -14,32 +14,31 @@ terms_chp_3 <- c("probability")
 
 
 ::: {.chapterintro data-latex=""}
-Suppose a healthy couple deciding whether to conceive a child learns from genetic testing that they both carry the gene for cystic fibrosis but are unaffected by the disease.  What is the likelihood that their child will have the disease?   When a rapid antigen self-test for COVID-19 shows a positive outcome, how likely is it that the person using the test has the infection?  
+Suppose a couple planning to have a child learns from genetic testing that they are both carriers of cystic fibrosis; they are unaffected but each have one copy of a gene containing mutations that confer cystic fibrosis. What is the likelihood that they have a child with cystic fibrosis?
 
-Probability is used to quantify uncertainty, and the rules of probability can be used to answer both questions.  In some cases, probabilities can be calculated directly without formulas, while in others the rules and formulas for probability provide tools for breaking down complex problems into a series of simpler steps.
+If someone takes a rapid antigen self-test for COVID-19 and obtains a positive test result, how likely is it that they actually have the infection?
+
+The rules of probability can be used to answer both questions. In some cases, probabilities can be calculated directly without formulas, while in others the rules and formulas for probability provide tools for breaking down complex problems into a series of simpler steps.
 :::
 
 
-## Two examples: genetic screening before conception and rapid antigen testing for COVID-19 {#sec-two-examples}
+## Two examples: genetic screening for cystic fibrosis and rapid antigen testing for COVID-19 {#sec-two-examples}
 
 ### Screening for cystic fibrosis {#sec-screening-cf}
 
 Cystic fibrosis (CF) is a life-threatening genetic disorder caused by mutations in the *CFTR* gene located on chromosome 7. Defective copies of *CFTR* can result in a reduced quantity and function of the CFTR protein, leading to the buildup of thick mucus in the lungs and pancreas.^[The CFTR protein is responsible for transporting sodium and chloride ions across cell membranes.] CF is an autosomal recessive disorder; an individual only develops CF if they have inherited two affected copies of *CFTR*. Individuals with one normal (wild-type) copy and one defective (mutated) copy are known as *carriers*; they do not develop CF, but may pass the disease-causing mutation onto their offspring.
 
-Suppose that both members of a couple are CF carriers. What is the probability that a child of this couple will be affected by CF? Assume that a parent has an equal chance of passing either gene copy (i.e., allele) to a child.
+Suppose that both members of a couple are CF carriers. What is the probability that a child of this couple will be affected by CF? Assume that a parent has an equal chance of passing either gene copy to a child.
 
-The upper left of @fig-cfInheritance shows mutated (with a red bar) and wild-type (with no red bar) maternal and paternal alleles on chromosome 7.  The four possible genotypes for a child  are shown in the lower right. Chromosomes with the wild-type and mutated versions of *CFTR* are marked with $+$ and $-$, respectively. The child is affected only if they have two mutated copies of *CFTR*, that is have genotype ($-$/$-$) in the lower right corner. Each of the four outcomes occurs with equal likelihood, so the child will be affected with probability 1-in-4, or 1/4.  
-
+In @fig-cfInheritance, chromosomes with a mutated copy of *CFTR* are marked with a red bar and notated with a $-$. Each carrier has one mutated copy and one wild-type copy; thus, their genotype is $+/-$. The four possible genotypes for a child are shown in the lower right. The child is affected only if they have two mutated copies of *CFTR*. Since inheriting the mutated copy and wild-type copy occurs with equal chance from each parent, each of the four outcomes occurs with equal likelihood. The probability that the child will have cystic fibrosis is 1/4.
 
 ```{r cf-inheritance}
 #| label: fig-cfInheritance
 #| out-width: 80%
 #| fig-cap: |
-#|   Pattern of CF inheritance for a child of two unaffected carriers.  Paternal chromosomes are depicted in green, maternal in blue, and the affected genes are denoted with a red horizontal band.
+#|   Pattern of CF inheritance for a child of two unaffected carriers.  Paternal chromosomes are depicted in green and maternal in blue. Chromosomes with CF mutations are denoted with a red horizontal band. There is a 1/4 chance of an unaffected child, 1/2 chance of a carrier, and 1/4 chance of a child with cystic fibrosis. 
 #| fig-alt: |
-#|   The pattern of inheritance for the cystic fibrosis gene for a child of two unaffected carriers. 
-#|   Paternal chromosomes are depicted in green, maternal in blue, and the affected genes are denoted 
-#|   with a red horizonatal band.  A child will have the disease if they receive two mutated genes.
+#|   The pattern of cystic fibrosis inheritance for a child of two unaffected carriers. The figure uses colored chromosomes to show genetic combinations: green for paternal and blue for maternal. Red bands are used to mark the affected chromosomes. There are four possible outcomes. With a 1-in-4 chance, a child will receive a copy of an affected chromosome from each parent and have cystic fibrosis. 
 #| fig-pos: H
 knitr::include_graphics("images/cfInheritance.png")
 ```
@@ -61,25 +60,24 @@ npv_rat_05 <- round(spec_rat * (1 - prev_covid_05) /(spec_rat * 1 - prev_covid_0
 
 ### Rapid self-tests for COVID-19 {#sec-rat-covid}
 
-Since the COVID-19 pandemic, rapid antigen tests (RAT) have been used for self-tests for the virus, i.e., tests that individuals could self-administer.   The tests continue to be available at pharmacies, neighborhood health centers, libraries and other distribution sites.  The tests are convenient and are either affordable or freely available.  But how reliable are the RATs? More specifically, what is the chance that a positive result correctly predicts presence of the infection or that a negative result correctly predicts its absence?
+Since the COVID-19 pandemic, rapid antigen tests (RAT) have been widely used as self-tests, allowing individuals to check for the virus on their own. These tests remain available at pharmacies, neighborhood health centers, libraries, and other distribution sites. They are convenient and either low-cost or free. But how reliable are the tests? More specifically, what is the chance that a positive result truly indicates infection, or that a negative result correctly confirms absence of infection?
 
-Studies have shown that when 100 people with the infection are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is `r sens_rat` when the virus is present,  while the chance of a negative test in the absence of the virus is `r spec_rat`.  But an individual who has just tested wants to know the reverse probabilities:  the chance they have COVID-19 when the test is positive or the chance do not have the infection when the test is negative.  The tools in  Sections [-@sec-conditional-probability] and [-@sec-bayes-rule] will show  that even though the rapid self-tests are correct 80% of the time when the virus is present, under some assumptions the chance that the virus is present in someone who has tested positive can be as low as `r ppv_rat_05 * 100`%. A positive test might be wrong nearly `r (1 - ppv_rat_05) * 100`% of the time. A negative test is more informative; the chance that the virus is absent in someone who has tested negative is 99%. 
-
+Studies have shown that when 100 people with COVID-19 are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is `r sens_rat` when the virus is present,  while the chance of a negative test in the absence of the virus is `r spec_rat`.  But an individual who has just tested is most interested in the *reverse* probabilities: the chance of having COVID-19 when the test is positive or the chance of not having the infection when the test is negative. In other words, out of 100 people who test positive, how many actually have COVID-19? The tools in Sections [-@sec-conditional-probability] and [-@sec-bayes-rule] will show that even though the rapid self-tests are correct 80% of the time when the virus is present, under some assumptions a positive test might only be correct `r (ppv_rat_05) * 100`% of the time. 
 
 ## The rules of probability {#sec-probability-rules}
 
-In both examples in @sec-two-examples, probability is used to quantify uncertainty about the **outcome** of a random phenomenon. These two examples differ in important ways, however.  In the first the set $S$ of all outcomes, called the **sample space**, \index{sample space} is a simple collection of 4 equally likely outcomes. Probabilities can be calculated by  counting the number of outcomes one is interested in, and dividing by the total number outcomes in the sample space. The second is more complex — it poses questions about a probability of an outcome under the condition that it has been preceded by another event — the likelihood of infection when a self-test is known to be positive - and cannot easily be solved by the direct methods of the first example.  More difficult problems need a  general definition of probability and a set of rules to guide calculations.
+In both examples in @sec-two-examples, probability is used to quantify uncertainty about the **outcome** of a random phenomenon. However, these two examples differ in important ways.  In the first example, the set $S$ of all outcomes, called the **sample space**, \index{sample space} is a simple collection of 4 equally likely outcomes. The probability of a particular set of outcomes can be calculated by counting the relevant outcomes and dividing by the total number of outcomes in the sample space. The second example is more complex; it poses questions about the probability of an outcome under the condition that it has been preceded by another outcome (that is, the likelihood of infection when a self-test is known to be positive) and cannot easily be solved by the direct methods of the first example. More difficult problems need a general definition of probability and a set of rules to guide calculations.
 
 ::: {.important data-latex=""}
 **Randomness and probability.**
 
-A phenomenon is called random if individual outcomes are uncertain but show a pattern when the phenomenon is repeated a large number of times.
+A phenomenon is called random if the outcome of a single occurrence is uncertain, but the relative frequencies of different outcomes settle into stable proportions when many outcomes are observed.
 
-The probability $p$ of an outcome in a random phenomenon is the proportion of times it would occur in a large number of replications of the phenomenon. ^[Another definition of probability is based on the subjective belief that an event will happen, that that approach is not covered in this text.]
+The probability $p$ of an outcome for a random phenomenon is the long-run proportion of times the outcome occurs if the phenomenon is repeated many times under the same conditions.^[Another definition of probability is based on the subjective belief that an event will happen, that that approach is not covered in this text.]
 
 :::
 
-This is formalized in the Law of Large Numbers: when a random experiment is repeated many times, the observed proportion of an outcome converges to its true probability. For example, the probability of rolling a 1 on a fair six-sided die is 1/6. After many rolls, the proportion of observed 1’s will approach this value.
+This is formalized in the Law of Large Numbers: when a random experiment is repeated many times, the observed proportion of an outcome converges to its true probability. For example, the probability of rolling a 1 on a fair six-sided die is 1/6. This does not mean that if the die is rolled 6 times, exactly one 1 will occur. However, if the die is rolled many times, the proportion of 1's will get closer to 1/6.
 
 ::: {.important data-latex=""}
 **Sample spaces and events.**
@@ -94,9 +92,9 @@ The  notation of set theory is used to describe events.
 
 * Two events $A$ and $B$ are **disjoint** \index{disjoint events} or **mutually exclusive** \index{mutually exclusive}  if they have no outcomes in common.  
 
-* The event $(A \text{ and } B)$ consists of the outcomes in $S$ that are members of both $A$ and $B$, sometimes denoted as members that satisfy both $A$ and $B$.  In some texts this is written $A \cap B$.
+* The event $(A \text{ and } B)$ consists of the outcomes in $S$ that are members of both $A$ and $B$, sometimes described as members that satisfy both $A$ and $B$.  In some texts this is written $A \cap B$.
 
-* The event $(A \text{ or } B)$ consists of the outcomes that are either in $A$ or $B$ or possibly both. This is sometimes written $A \cup B$.    
+* The event $(A \text{ or } B)$ consists of the outcomes that are either in $A$ or $B$ or possibly both. This can also be written as $A \cup B$.    
 
 * For conciseness, sentences such as "$B$ is the event that a child has CF" are written as $B$ = {child has CF}. 
 
@@ -122,18 +120,18 @@ The event $A$ consists of the outcomes in the upper right and lower left of the 
 
 ::: {.guidedpractice data-latex=""}
 
-Suppose the random phenomenon consists of rolling a single six-sided die.  Describe the sample space $S$, the event $A$ = {the outcome of the roll is an even number} and its complement $A^c$.
+Suppose the random phenomenon of interest is rolling a single six-sided die.  Describe the sample space $S$, the event $A$ = {the outcome of the roll is an even number} and its complement $A^c$.
 [^probability-1]
 :::
 
 [^probability-1]: $S$ = {1, 2, 3, 4, 5, 6}, $A$ = {2, 4, 6} and $A^c$ = {1, 3, 5}.  $A^c$ is the event of rolling an odd number.
 
 ::: {.guidedpractice}
-(a) When rolling a six-sided die, are the events $A$ = {the outcome is an even number} and $B$ = {the outcome is smaller than 4} disjoint?  (b) What is the event ($A \text{ and } B$)?  (c) What is the event $(A \text{ or } B$)?
+When rolling a six-sided die, are the events $A$ = {the outcome is an even number} and $B$ = {the outcome is smaller than 4} disjoint? Describe the event ($A \text{ and } B$) and the event $(A \text{ or } B)$.
 [^probability-2]
 :::
 
-[^probability-2]: (a). No.  The two events have the outcome 2 in common. $(A \text{ and } B)$ = {2}.  (b) $(A \text{ or } B)$ = {1, 2, 3, 4, 6}.
+[^probability-2]: No, the two events have the outcome 2 in common. $(A \text{ and } B)$ = {2} while $(A \text{ or } B)$ = {1, 2, 3, 4, 6}.
 
 ::: {.workedexample data-latex=""}
 
@@ -158,7 +156,7 @@ load("./data/gen_ss.Rdata")
 ```
 
 
-The General Social Survey is conducted by the National Opinion Research Center (NORC) at the University of Chicago.  The survey collects data on American society by asking respondents demographic, behavioral, and attitudinal questions along with some topics of special interest. It has been conducted approximately every two years since 1972. @tbl-gss-age-health shows  `r nrow(gen_ss)` total responses to two selected variables from respondents participating in surveys conducted between 2018 and 2024, classified according the age of the respondent and their perception of general health.^[The data in this and similar tables later in the text do not include missing values from non-response since methods for adjusting for missing values are beyond the scope of this text. Accordingly, the data in table is not used to estimate population parameters.]  
+The General Social Survey is conducted by the National Opinion Research Center (NORC) at the University of Chicago.  The survey collects data on American society by asking respondents demographic, behavioral, and attitudinal questions along with some topics of special interest. It has been conducted approximately every two years since 1972. @tbl-gss-age-health shows  `r nrow(gen_ss)` total responses to two selected variables from respondents participating in surveys conducted between 2018 and 2024, classified according to the age of the respondent and self-perception of their general health.^[The data in this and similar tables later in the text do not include missing values from non-response since methods for adjusting for missing values are beyond the scope of this text. Accordingly, the data in the table is not used to estimate population parameters.]  
 
 ```{r tbl-gss-age-health}
 #| label: tbl-gss-age-health
@@ -201,7 +199,7 @@ tbl_age_health_prop <- round(addmargins(prop.table(t)),3)
 
 ::: {.workedexample data-latex=""}
 
-Suppose that a researcher plans to sample a case randomly from the `r nrow(gen_ss)` in this dataset to conduct an additional interview using contact information in a confidential file.  (a) What is the sample space for this process?  (b) Which outcomes belong the event $A$ = {a respondent said they were older than 25}?  How many responses satisfy $A$? (c) Let $B$ = {health rating good}.  What is $B^c$? How many respondents satisfy $B^c$? (d) How many respondents satisfy the event $(A \text{ and } B)$? 
+Suppose that a researcher plans to sample a case randomly from the `r nrow(gen_ss)` in this dataset to conduct an additional interview using contact information in a confidential file.  (a) What is the sample space for this process?  (b) Which outcomes belong to the event $A$ = {a respondent said they were older than 25}?  How many responses satisfy $A$? (c) Let $B$ = {health rating good}.  What is $B^c$? How many respondents satisfy $B^c$? (d) How many respondents satisfy the event $(A \text{ and } B)$? 
 
 ------------------------------------------------------------------------
 
@@ -216,11 +214,10 @@ Suppose that a researcher plans to sample a case randomly from the `r nrow(gen_s
 
 ::: {.guidedpractice data-latex=""}
 
-For the events $A$ and $B$ defined above, describe the events $(A^c)$, $(A \text{ or } A^c)$ and $(A^c \text{ and } B)$.  How many outcomes are in each. [^probability-3]
+For the events $A$ and $B$ defined above, describe the events $(A^c)$, $(A \text{ or } A^c)$, and $(A^c \text{ and } B)$.  How many outcomes are in each? [^probability-3]
 :::
 
-[^probability-3]: The event $(A^c)$ consists of all the respondents in the age group 18 to 25; there are `r tbl_age_health[1,5]` outcomes in this event.  The event $(A \text{ or } A^c)$ consists of all  consists of all `r nrow(gen_ss)` cases in the dataset. $(A^c \text{ and } B)$ consists if the `r  tbl_age_health[1,2]` respondents who are age 18 - 25 and rated their health as good.  
-
+[^probability-3]: The event $(A^c)$ consists of all the respondents in the age group 18 to 25; there are `r tbl_age_health[1,5]` outcomes in this event.  The event $(A \text{ or } A^c)$ consists of all  `r nrow(gen_ss)` cases in the dataset. $(A^c \text{ and } B)$ consists of the `r  tbl_age_health[1,2]` respondents who are age 18 - 25 and rated their health as good.  
 
 
 @tbl-gss-age-health-prop displays the data from @tbl-gss-age-health but with proportions replacing counts; the proportions in each cell give the fraction of the observations in the cell when the counts have been divided by the size of the dataset, `r nrow(gen_ss)`, and can be used to calculate probabilities.  For instance, the value 0.019 in the upper left cell is the proportion of individuals age 18 to 25 and reporting excellent health, or `r tbl_age_health[1,1]` / `r tbl_age_health[5,5]`. 
@@ -253,7 +250,7 @@ gen_ss |>
   
 ```
 
-**Venn diagrams** \index{Venn diagrams} are often used to show visually the relationship between events in a sample space. The Venn diagram in @fig-gss-older-health-venn shows the relationship between the events $A$ and $B$ in the above example. It has less information than the full table, but provides a visual display of the overlap between $A$ and $B$.  The total possible outcomes belonging to $A$ is the sum of the 5071 members of $A$ outside $B$ and the 5844 in the intersection of the two events.  The total members of $B$ is calculated similarly.  The 417 outcomes outside the two circles represents the members of the sample space not in either event.  The percentages shown in the figure can be used to converted to proportions to calculate the probabilities of regions in the figure, so the probability of $A$ is 0.432 + 0.498 = 0.930. 
+**Venn diagrams** \index{Venn diagrams} are often used to visualize the relationship between events in a sample space. The Venn diagram in @fig-gss-older-health-venn shows the relationship between the events $A$ and $B$ in the above example. It has less information than the full table, but provides a visual display of the overlap between $A$ and $B$.  The total possible outcomes belonging to $A$ is the sum of the 5071 members of $A$ outside $B$ and the 5844 in the intersection of the two events.  The number of members in $B$ is calculated similarly.  The 417 outcomes outside the two circles represents the members of the sample space not in either event.  The percentages shown in the figure can be used to converted to proportions to calculate the probabilities of regions in the figure, so the probability of $A$ is 0.432 + 0.498 = 0.930. 
 
 ```{r, include = FALSE}
 # trying out a helper function to add sample space box
@@ -365,11 +362,11 @@ terms_chp_3 <- c(terms_chp_3, c("Venn diagram",
 
 ::: {.workedexample data-latex=""}
 
-Using the probabilities in @tbl-gss-age-health and the rules of probability, find (a) the probability that someone chosen from this cohort rated their health as good, and (b) the probability that they rated their health as other than good.
+Using the probabilities in @tbl-gss-age-health-prop and the rules of probability, find (a) the probability that someone chosen from this cohort rated their health as good, and (b) the probability that they rated their health as other than good.
 
 ------------------------------------------------------------------------
 
-(a) Intuitively, it is clear that the probability of being in good health is the sum of the probabilities in the second column, or 0.532 as shown in the last row.  
+(a) The probability of being in good health is the sum of the probabilities in the second column, which is 0.532 as shown in the last row.  
 
     More formally, summing the column is an application of the addition rule for disjoint events.  Let $D_1$ = {health rated good and age between 18 and 25}, $D_2$ = {health rated good and age between 26 and 45},  $D_3$ = {health rated good and age 56 tp 65} and $D_4$ = {health rated good and age 66+}. Then the event $B$ = {health rated good} is a combination of disjoint events:
 $$
@@ -388,7 +385,7 @@ P(H) = 1 - P(B) = 1 - 0.532 =0.477.
 $$
 A little less than 50% of this cohort rated their health as other than good.
 
-    As always, it pays to be careful with the language used in a problem statement.  The phrase **other than good**  includes both excellen clear that it includes excellent and all ratings worse than good; the phrase **not good** (for instance) might be interpreted as only fair or poor.
+    As always, it pays to be careful with the language used in a problem statement. While a phrase such as "not good" might only be interpreted as only referring to fair or poor, saying "other than good" more explicitly specifies that excellent, fair, and poor all belong to $H$.
 
 :::
 
@@ -409,10 +406,21 @@ $${#eq-general-total-probability}
 
 :::
 
+```{r lotp-general}
+#| label: fig-lotp-general
+#| out-width: 80%
+#| fig-cap: |
+#|   Diagram illustrating how to solve for the probability of an event B by breaking the event into disjoint events according to another event, E.  
+#| fig-alt: |
+#|   A large rectangle represents the sample space S, which is divided vertically into three disjoint events, $E_1$, $E_2$, and $E_3$. An oval labeled B overlaps all three regions, representing event B. The overlapping shaded regions inside the oval represent the three possible intersections of B with the three partitions of E. The area of B can be found by summing the area inside the oval that is divided by the vertical lines.  
+#| fig-pos: H
+knitr::include_graphics("images/lotp_general.png")
+```
+
 
 ::: {.workedexample data-latex=""}
 
-Suppose that approximately 7/100 adults in the US have diabetes without cardiovascular disease, while 5/100 adults have both diabetes and some form of cardiovasuclar disease.  What fraction of US adults have diabetes?
+Suppose that approximately 7/100 adults in the US have diabetes and do not have cardiovascular disease, while 5/100 adults have both diabetes and cardiovascular disease.  What fraction of US adults have diabetes?
 
 ------------------------------------------------------
 
@@ -426,17 +434,19 @@ These data suggest that about 12% of adult Americans have diabetes.
 ```{r ex-deg_wrk_status}
 t = addmargins(prop.table(table(gen_ss$degree_status, gen_ss$work_status)))
 
+t <- round(t, 3)
 ```
 
 ::: {.guidedpractice data-latex=""}
 
-The prevalence of a disease is the probability that a member of a population has the disease.  Parkinson's disease (PD) is a neurodegenerative disorder with a prevalence that varies with age.  Studies have shown that in low- to upper-middle-income countries the age-related prevalence of PD is estimated to be 7 per 100,000 for individuals age 40-49, 158 per 100,000  in age 50 - 59, 603 per 100,000 in age 60 - 79, 1251 in age 70-79 and 2181 per 100,000 in age over 80. [@pereira2024systematic]  Assuming that the disease is so rare in age less than 40 that the prevalence in that age group is 0, what is the overall prevalence of PD?
+The prevalence of a disease is the probability that a member of a population has the disease.  Parkinson's disease (PD) is a neurodegenerative disorder with a prevalence that varies with age.  Studies have shown that in low- to upper-middle-income countries the age-related prevalence of PD is estimated to be 7 per 100,000 for individuals age 40-49, 158 per 100,000  in age 50 - 59, 603 per 100,000 in age 60 - 79, 1251 in age 70-79,and 2181 per 100,000 in age over 80. [@pereira2024systematic]  Assuming that the disease is so rare in individuals who are younger than 40 that the prevalence in that age group can be considered 0, what is the overall prevalence of PD?
 [^probability-4]
+
 :::
 
 [^probability-4]: Using the general form of the law of total probability, the prevalence of PD is 
 $$
-7/100,000 + 158/100,00 + 603/100,000 + 1251/100,000 + 2181/100,000 = `r 7 + 158 + 603 + 1251 + 2181`/100,000. 
+\frac{1}{100000}(7 + 158 + 603 + 1251 + 2181) = `r 7 + 158 + 603 + 1251 + 2181`/100,000 = 0.042. 
 $$
 
 ::: {.guidedpractice data-latex=""}
@@ -445,7 +455,7 @@ $$
 [^probability-5]
 :::
 
-[^probability-5]: (a) The probability is the sum of the elements in the first two columns, `r t[6,1] + t[6,2]`; (b) the sum of the last two rows, `r t[3,9] + t[4,9]`; (c) the sum of the values in the intersection of the last two rows and the third and fourth columns,  `r t[3,3] + t[3,4] + t[4,3] + t[4,4]`.
+[^probability-5]: (a) The probability is the sum of the elements in the first two columns, `r t[6,1] + t[6,2]`; (b) the sum of the last two rows, `r t[4,9] + t[5,9]`; (c) the sum of the values in the intersection of the last two rows and the columns for unemployed and retired, `r t[4,4] + t[4,5] + t[5,4] + t[5,5]`.
 
 
 ```{r tbl-gss-deg-work-prop}
