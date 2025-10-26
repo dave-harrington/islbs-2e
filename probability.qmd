@@ -406,15 +406,72 @@ $${#eq-general-total-probability}
 
 :::
 
-```{r lotp-general}
-#| label: fig-lotp-general
-#| out-width: 80%
-#| fig-cap: |
-#|   Diagram illustrating how to solve for the probability of an event B by breaking the event into disjoint events according to another event, E.  
+
+
+```{r}
+#| label: fig-lotp-general-venn
+#| out-width: 65%
+#| fig-cap: | 
+#|     Diagram illustrating how to solve for the probability of an event $B$ by breaking the event into 
+#|     disjoint events according to another three events $E_1, E_2$ and $E_3$. 
 #| fig-alt: |
-#|   A large rectangle represents the sample space S, which is divided vertically into three disjoint events, $E_1$, $E_2$, and $E_3$. An oval labeled B overlaps all three regions, representing event B. The overlapping shaded regions inside the oval represent the three possible intersections of B with the three partitions of E. The area of B can be found by summing the area inside the oval that is divided by the vertical lines.  
-#| fig-pos: H
-knitr::include_graphics("images/lotp_general.png")
+#|      A large rectangle represents the sample space S, which is divided vertically into three disjoint events, $E_1$, $E_2$, and $E_3$. An oval labeled B overlaps all three regions, representing event B. The overlapping shaded regions inside the oval represent the three possible intersections of B with the three partitions of E. The area of B can be found by summing the area inside the oval that is divided by the vertical lines.  
+#|     
+#| 
+
+
+library(grid)
+library(ggforce)
+
+# --- canvas & partition ---
+xlim <- c(0, 10)
+ylim <- c(0, 6)
+cuts <- c(3, 7)
+
+# diagonal hatch lines over the sample space
+step <- 0.35
+t <- seq(-ylim[2], xlim[2], by = step)
+hatch <- data.frame(
+  x    = t,
+  xend = t + ylim[2],
+  y    = 0,
+  yend = ylim[2]
+)
+
+# ellipse (event B)
+B <- data.frame(x0 = 5.0, y0 = 3.0, a = 4.0, b = 2.4, angle = 0)
+
+ggplot() +
+  # sample space border
+  geom_rect(aes(xmin = xlim[1], xmax = xlim[2], ymin = ylim[1], ymax = ylim[2]),
+            fill = NA, color = "black", linewidth = 1) +
+  # hatch
+  geom_segment(data = hatch,
+               aes(x = x, xend = xend, y = y, yend = yend),
+               color = "#5DADE2", alpha = 0.25, linewidth = 0.6) +
+  # event B
+  geom_ellipse(data = B,
+               aes(x0 = x0, y0 = y0, a = a, b = b, angle = angle),
+               fill = "#2E86C1", alpha = 0.35, color = "#2E86C1", linewidth = 1) +
+  # partition lines
+  geom_segment(aes(x = cuts[1], xend = cuts[1], y = ylim[1], yend = ylim[2]),
+               color = "black", linewidth = 0.7) +
+  geom_segment(aes(x = cuts[2], xend = cuts[2], y = ylim[1], yend = ylim[2]),
+               color = "black", linewidth = 0.7) +
+  # labels
+  annotate("text", x = 2.2, y = 3.1, label = "B ~ and ~ E[1]", size = 6, parse =  TRUE) +
+  annotate("text", x = 5.0, y = 3.1, label = "B ~ and ~ E[2]", size = 6, parse = TRUE) +
+  annotate("text", x = 8.2, y = 3.1, label = "B ~ and ~ E[3]", size = 6, parse = TRUE) +
+  annotate("text", x = 1.0, y = 0.35, label = "E[1]", size = 6, parse = TRUE) +
+  annotate("text", x = 5.0, y = 0.35, label = "E[2]", size = 6, parse = TRUE) +
+  annotate("text", x = 8.0, y = 0.35, label = "E[3]", size = 6, parse = TRUE) +
+  annotate("segment", x = 9.2, y = 5.5, xend = 7.5, yend = 4.9,
+           arrow = arrow(length = unit(0.25, "cm")), linewidth = 0.7) +
+  annotate("text", x = 8.8, y = 5.8, label = "Event B", hjust = 0, size = 5) +
+  coord_fixed(xlim = xlim, ylim = ylim, expand = FALSE) +
+  theme_void()
+
+
 ```
 
 

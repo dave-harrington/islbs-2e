@@ -318,3 +318,143 @@ NHANES |> select(Age, Gender, Height) |>
 
 library(ggplot2)
 
+library(ggplot2)
+library(ggforce)
+
+# Circles for A and B
+df <- data.frame(
+  x = c(0, 1),   # centers
+  y = c(0, 0),
+  r = c(1, 1),
+  label = c("A", "B")
+)
+
+# Base plot with circles
+ggplot(df) +
+  geom_circle(aes(x0 = x, y0 = y, r = r, fill = label),
+              alpha = 0.3, color = "black", size = 1) +
+  # Intersection shading (A ∩ B)
+  annotate("rect", xmin = 0, xmax = 0.5, ymin = -1, ymax = 1,
+           fill = "steelblue", alpha = 0.2) +
+  coord_fixed() +
+  xlim(-1.5, 2.5) + ylim(-1.5, 1.5) +
+  theme_void() +
+  labs(
+    title = "Rule of Total Probability",
+    subtitle = "P(A) = P(A and B) + P(A and B^c)"
+  ) +
+  annotate("text", x = -0.5, y = 0.8, label = "A and Bᶜ", size = 5) +
+  annotate("text", x = 0.7, y = 0.8, label = "A and B", size = 5)
+
+# install.packages("ggforce")  # if needed
+library(ggplot2)
+library(ggforce)
+library(grid)   # for unit() in the arrow
+
+# -------- canvas & partition --------
+xlim <- c(0, 10); ylim <- c(0, 6)
+cuts <- c(3, 7)           # vertical boundaries for E1 | E2 | E3
+
+# diagonal hatch for the sample space Ω
+hatch <- {
+  step <- 0.35
+  t <- seq(-ylim[2], xlim[2], by = step)
+  data.frame(x    = t,
+             xend = t + ylim[2],
+             y    = 0,
+             yend = ylim[2])
+}
+
+# ellipse (event B) parameters
+B <- data.frame(x0 = 5.8, y0 = 3.0, a = 3.2, b = 2.0, angle = 0)  # tweak if desired
+
+ggplot() +
+  # sample space border
+  geom_rect(aes(xmin = xlim[1], xmax = xlim[2], ymin = ylim[1], ymax = ylim[2]),
+            fill = NA, color = "black", linewidth = 1) +
+  # hatch (light diagonal lines) clipped to panel
+  geom_segment(data = hatch,
+               aes(x = x, xend = xend, y = y, yend = yend),
+               color = "#5DADE2", alpha = 0.25, linewidth = 0.6) +
+  # ellipse for B
+  geom_ellipse(data = B,
+               aes(x0 = x0, y0 = y0, a = a, b = b, angle = angle),
+               fill = "#2E86C1", alpha = 0.35, color = "#2E86C1", linewidth = 1) +
+  # vertical partition lines (E1 | E2 | E3)
+  geom_segment(aes(x = cuts[1], xend = cuts[1], y = ylim[1], yend = ylim[2]),
+               color = "black", linewidth = 0.7) +
+  geom_segment(aes(x = cuts[2], xend = cuts[2], y = ylim[1], yend = ylim[2]),
+               color = "black", linewidth = 0.7) +
+  # labels for intersections inside B
+  annotate("text", x = 2.5, y = 3.1, label = expression(B %*cap% E[1]),
+           size = 5.2, color = "black") +
+  annotate("text", x = 5.6, y = 3.1, label = expression(B %*cap% E[2]),
+           size = 5.2, color = "black") +
+  annotate("text", x = 8.2, y = 3.1, label = expression(B %*cap% E[3]),
+           size = 5.2, color = "black") +
+  # labels for E1, E2, E3 at the bottom
+  annotate("text", x = 1.0, y = 0.35, label = expression(E[1]), size = 6) +
+  annotate("text", x = 5.0, y = 0.35, label = expression(E[2]), size = 6) +
+  annotate("text", x = 9.0, y = 0.35, label = expression(E[3]), size = 6) +
+  # arrow & label pointing to B
+  annotate("segment", x = 9.2, y = 5.4, xend = 7.1, yend = 4.2,
+           arrow = arrow(length = unit(0.25, "cm")), linewidth = 0.7) +
+  annotate("text", x = 9.25, y = 5.55, label = "Event B", hjust = 0, size = 5) +
+  coord_fixed(xlim = xlim, ylim = ylim, expand = FALSE) +
+  theme_void()
+
+
+
+
+# install.packages("ggforce")  # if needed
+library(ggplot2)
+library(ggforce)
+library(grid)
+
+# --- canvas & partition ---
+xlim <- c(0, 10)
+ylim <- c(0, 6)
+cuts <- c(3, 7)
+
+# diagonal hatch lines over the sample space
+step <- 0.35
+t <- seq(-ylim[2], xlim[2], by = step)
+hatch <- data.frame(
+  x    = t,
+  xend = t + ylim[2],
+  y    = 0,
+  yend = ylim[2]
+)
+
+# ellipse (event B)
+B <- data.frame(x0 = 5.8, y0 = 3.0, a = 3.2, b = 2.0, angle = 0)
+
+ggplot() +
+  # sample space border
+  geom_rect(aes(xmin = xlim[1], xmax = xlim[2], ymin = ylim[1], ymax = ylim[2]),
+            fill = NA, color = "black", linewidth = 1) +
+  # hatch
+  geom_segment(data = hatch,
+               aes(x = x, xend = xend, y = y, yend = yend),
+               color = "#5DADE2", alpha = 0.25, linewidth = 0.6) +
+  # event B
+  geom_ellipse(data = B,
+               aes(x0 = x0, y0 = y0, a = a, b = b, angle = angle),
+               fill = "#2E86C1", alpha = 0.35, color = "#2E86C1", linewidth = 1) +
+  # partition lines
+  geom_segment(aes(x = cuts[1], xend = cuts[1], y = ylim[1], yend = ylim[2]),
+               color = "black", linewidth = 0.7) +
+  geom_segment(aes(x = cuts[2], xend = cuts[2], y = ylim[1], yend = ylim[2]),
+               color = "black", linewidth = 0.7) +
+  # labels
+  annotate("text", x = 2.5, y = 3.1, label = "B and E[1]", size = 5.2) +
+  annotate("text", x = 5.6, y = 3.1, label = "B and E[2]", size = 5.2) +
+  annotate("text", x = 8.2, y = 3.1, label = "B and E[3]", size = 5.2) +
+  annotate("text", x = 1.0, y = 0.35, label = "E[1]", size = 6) +
+  annotate("text", x = 5.0, y = 0.35, label = "E[2]", size = 6) +
+  annotate("text", x = 9.0, y = 0.35, label = "E[3]", size = 6) +
+  annotate("segment", x = 9.2, y = 5.4, xend = 7.1, yend = 4.2,
+           arrow = arrow(length = unit(0.25, "cm")), linewidth = 0.7) +
+  annotate("text", x = 9.25, y = 5.55, label = "Event B", hjust = 0, size = 5) +
+  coord_fixed(xlim = xlim, ylim = ylim, expand = FALSE) +
+  theme_void()
