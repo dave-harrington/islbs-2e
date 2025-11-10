@@ -25,7 +25,8 @@ book:
     - intro-to-data.qmd
     - collecting-data.qmd
     - probability.qmd
-    - distributions.qmd
+    - random-variables.qmd
+    - important-distributions.qmd
     - inference-foundations.qmd
     - inference-numerical-data.qmd
     - simple-linear-regression.qmd

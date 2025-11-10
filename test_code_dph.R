@@ -7,54 +7,6 @@ rm(list = ls())
 
 
 
-# crabs
-# 
-# methods for aligning plots.
-#   Maybe us gridArrange()
-
-
-library(patchwork)
-p1  <- ggplot(crabs, aes(x = satell, y = color)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Color", x = NULL) +
-  scale_x_continuous(breaks = seq(0, 16, 4))
-
-p2  <- ggplot(crabs, aes(x = satell, y = spine)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Spine condition", x = "Number of satellites") +
-  scale_x_continuous(breaks = seq(0, 16, 4))
-
-p1/p2 + plot_annotation(title = "Two stacked bar plots", tag_levels = "a")
-
-library(cowplot)
-p1  <- ggplot(crabs, aes(x = satell, y = color)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Color", x = NULL) +
-  scale_x_continuous(breaks = seq(0, 16, 4))
-
-p2  <- ggplot(crabs, aes(x = satell, y = spine)) +
-  geom_boxplot() +
-  scale_color_openintro("two") +
-  labs(y = "Spine condition", x = "Number of satellites") +
-  scale_x_continuous(breaks = seq(0, 16, 4))
-
-p1/p2
-
-p4 <- ggplot(crabs, aes(x = width, y = satell)) +
-  geom_point() +
-  geom_smooth(se = FALSE, color = IMSCOL["red", "full"])
-
-p4
-
-p5 <- ggplot(crabs, aes(x = weight, y = satell)) +
-  geom_point() +
-  geom_smooth()
-
-p5
-
 
 
 # Danish ED
@@ -67,39 +19,7 @@ hist(df$age^2)
 table(df$sex, df$triage)
 boxplot(df$age)
 
-library(RJSONIO)
 
-# Fetch the metadata
-metadata <- 
-  fromJSON("https://ourworldindata.org/grapher/correlation-between-child-mortality-and-mean-years-of-schooling-for-those-aged-15-and-older.metadata.json?v=1&csvType=filtered&useColumnShortNames=true&tab=table")
-
-
-mort_ed_owd <- read.csv("https://ourworldindata.org/grapher/correlation-between-child-mortality-and-mean-years-of-schooling-for-those-aged-15-and-older.csv?v=1&csvType=filtered&useColumnShortNames=true&tab=table&time=2020")
-
-
-plot_data <- mort_ed_owd |> 
-  filter(Year == 2020) |> 
-  rename(c_mortality= obs_value__indicator_under_five_mortality_rate__sex_total__wealth_quintile_total__unit_of_measure_deaths_per_100_live_births) |> 
-  rename(f_education = f_youth_and_adults__15_64_years__average_years_of_education) |> 
-  drop_na(c_mortality, f_education) |> 
-  dplyr::filter(Code != "" ) |> 
-  dplyr::filter(Entity != "World")
-
-# violin plots in dds
-#
-
-dds_reformat |> 
-  filter(ethnicity == "Hispanic" | ethnicity == "White non-Hispanic") |> 
-  ggplot(aes(
-    y = expenditures, 
-    x = age.cohort)) +
-  geom_violin(alpha = 0.5) +
-  labs(y = "Expenditures (USD)", x = "Age catetory") +
-  stat_summary(fun.min = function(x) quantile(x, 0.25), 
-               fun.max = function(x) quantile(x, 0.75), 
-               geom = "linerange", color = "black", linewidth = 1.2) +
-  stat_summary(fun = median, geom = "point", color = "red", size = 3) 
-  
 
 # gss data tables 
 # 
@@ -108,189 +28,6 @@ dds_reformat |>
 
 library(gssr)
 library(gssrdoc)
-
-install.packages("eulerr")
-library(eulerr)
-
-venn_model <- euler(c(
-  A = 0.7,
-  B = 0.6,
-  "A&B" = 0.3
-))
-
-# covid 19 RAT example
-# 
-
-
-plot(venn_model,
-     fills = c("cornflowerblue", "lightpink"), 
-     quantities = list(type = percent),
-     labels = TRUE)
-
-sens_rat <- 0.80
-spec_rat <- 0.98
-prev_covid <- 0.01
-
-venn_model <- euler(c(
-covid19 = 0.01, # prev
-positive_test = sens_rat * prev_covid + (1 - spec_rat) * (1 - prev_covid),
-"covid19&positive_test" = sens_rat * prev_covid
-))
-
-plot(venn_model, fills = c("cornflowerblue", "lightpink"), labels = TRUE)
-
-# tree diagrams from openintro function
-# 
-treeDiag(
-  c("Flight on time?", "Luggage on time?"),
-  c(0.8, 0.2), list(c(0.97, 0.03), c(0.15, 0.85))
-)
-treeDiag(c("Breakfast?", "Go to class"), c(.4, .6),
-         list(c(0.4, 0.36, 0.34), c(0.6, 0.3, 0.1)), c("Yes", "No"),
-         c("Statistics", "English", "Sociology"),
-         showWork = TRUE
-)
-treeDiag(
-  c("Breakfast?", "Go to class"), c(0.4, 0.11, 0.49),
-  list(c(0.4, 0.36, 0.24), c(0.6, 0.3, 0.1), c(0.1, 0.4, 0.5)),
-  c("one", "two", "three"), c("Statistics", "English", "Sociology")
-)
-treeDiag(c("Dow Jones rise?", "NASDAQ rise?"),
-         c(0.53, 0.47), list(c(0.75, 0.25), c(0.72, 0.28)),
-         solSub = list(c("(a)", "(b)"), c("(c)", "(d)")), solwd = 0.08
-)
-
-library(eulerr)
-
-# this is the most promising
-
-# Raw counts
-raw_counts <- c("Female" = 50,          # 100 total in A minus 6 in overlap
-                "85+" = 50,          #  total in B minus 30 in overlap
-                "Female & 85+" = 10)        # intersection
-
-# Convert to proportions
-total <- sum(raw_counts)          # Total unique individuals: 110
-proportions <- raw_counts / total
-
-# Create Euler diagram from proportions
-fit_prop <- euler(proportions)
-
-# Plot with proportions shown as percentages
-plot(fit_prop,
-     fills = c("skyblue", "salmon"),
-     quantities = list(type = "percent", digits = 1),
-     labels = TRUE,
-     main = "Venn Diagram with Proportions")
-
-
-
-# example: A = 60, B = 50, overlap = 20
-plot_venn2(60, 50, 20)
-
-# Install if needed
-install.packages("VennDiagram")
-
-# Load package
-library(VennDiagram)
-
-# Draw Venn diagram with specified areas
-draw.pairwise.venn(
-  area1 = 100,     # set A
-  area2 = 80,      # set B
-  cross.area = 30, # overlap
-  #  category = c("A", "B"),
-  fill = c("skyblue", "orange"),
-  lty = "blank",
-  cex = 1.5,
-  cat.cex = 1.5
-)
-
-
-
-n <- 1000000
-
-library(eulerr)
-
-plot(euler(c(A = n * 0.26, B = n * 0.113, "A&B" = n* 0.062 * 0.113)))
-
-n <- 1000000
-# Convert to proportions
-raw <- c(A = n * 0.26, n * 0.112, "A&B" = n * 0.62 * 0.113)
-total <- sum(
-  raw["A"], raw["B"], -raw["A&B"]  # avoid double-counting the intersection
-)
-
-proportions <- raw / total
-
-# Fit Euler diagram with proportions
-fit_prop <- euler(proportions)
-
-
-
-
-library(eulerr)
-
-age
-
-# Raw counts
-raw_counts <- c("A" = 70,          # 100 total in A minus 30 in overlap
-                "B" = 50,          # 80 total in B minus 30 in overlap
-                "A&B" = 30)        # intersection
-
-# Convert to proportions
-total <- sum(raw_counts)          # Total unique individuals: 70 + 50 + 30 = 150
-proportions <- raw_counts / total
-
-# Create Euler diagram from proportions
-fit_prop <- euler(proportions)
-
-# Plot with proportions shown as percentages
-plot(fit_prop,
-     fills = c("skyblue", "salmon"),
-     quantities = list(type = "percent", digits = 1),
-     labels = TRUE,
-     main = "Venn Diagram with Proportions")
-
-
-# Load package
-library(VennDiagram)
-
-# Draw Venn diagram with specified areas
-test.venn.plot <- draw.pairwise.venn(
-  area1 = 0.505,     # set A
-  area2 = 0.18,      # set B
-  cross.area = 0.072, # overlap
-  category = c("Female", "Age 80+"),
-  fill = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]),
-  lty = "blank",
-  cex = 1.5,
-  cat.cex = 1.5,
-  ext.text = FALSE
-)
-age-venn-plot
-
-# are heights normal
-# 
-library(NHANES)
-hist(NHANES$TotChol)
-hist(NHANES$Height[Age > 20])
-summary(NHANES$Age)
-a <- NHANES$Age > 20 
-b <- a & NHANES$Gender == female
-hist(NHANES$Height[a])
-hist(NHANES$Weight[a])
-nrow(NHANES$Height[a])
-h <- NHANES$Height[a]
-nrow(h)
-af <- NHANES$Age > 17 & NHANES$Gender == "female"
-am <- NHANES$Age > 17 & NHANES$Gender == "male"
-hist(NHANES$Height[af])
-hist(NHANES$Height[am])
-summary(NHANES$Height[af])
-summary(NHANES$Height[am])
-length(NHANES$Height[af])
-
 
 
 #| label: fig-female-height-histogram-density-normal
@@ -316,145 +53,362 @@ NHANES |> select(Age, Gender, Height) |>
     breaks = seq(120, 220, 10)
   )
 
+
+#install.packages("fitdistrplus")
+library(fitdistrplus)
 library(ggplot2)
 
+# Example: your data vector
+# Replace with your actual numeric values
+x <- adult_wt_ht$BMXWT
+
+# Fit a Gamma distribution
+fit_gamma <- fitdist(x, "gamma")
+
+# View estimated parameters
+fit_gamma
+# shape and rate parameters are printed (Gamma(shape, rate))
+
+# Plot diagnostic graphs
+plot(fit_gamma)
+
 library(ggplot2)
-library(ggforce)
 
-# Circles for A and B
-df <- data.frame(
-  x = c(0, 1),   # centers
-  y = c(0, 0),
-  r = c(1, 1),
-  label = c("A", "B")
-)
 
-# Base plot with circles
-ggplot(df) +
-  geom_circle(aes(x0 = x, y0 = y, r = r, fill = label),
-              alpha = 0.3, color = "black", size = 1) +
-  # Intersection shading (A ∩ B)
-  annotate("rect", xmin = 0, xmax = 0.5, ymin = -1, ymax = 1,
-           fill = "steelblue", alpha = 0.2) +
-  coord_fixed() +
-  xlim(-1.5, 2.5) + ylim(-1.5, 1.5) +
-  theme_void() +
-  labs(
-    title = "Rule of Total Probability",
-    subtitle = "P(A) = P(A and B) + P(A and B^c)"
+shape <- 14.8
+rate  <- 0.18
+
+x_max <- qgamma(0.999, shape = shape, rate = rate)
+df <- data.frame(x = seq(0, x_max, length.out = 2000))
+df$y <- dgamma(df$x, shape = shape, rate = rate)
+
+p_band <- pgamma(60, shape = shape, rate = rate) -
+  pgamma(50, shape = shape, rate = rate)
+
+ggplot(df, aes(x = x, y = y)) +
+  geom_line(linewidth = 1) +
+  geom_ribbon(
+    data = subset(df, x >= 50 & x <= 60),
+    aes(ymin = 0, ymax = y),     # inherits x and y from ggplot()
+    fill = "steelblue", alpha = 0.5
   ) +
-  annotate("text", x = -0.5, y = 0.8, label = "A and Bᶜ", size = 5) +
-  annotate("text", x = 0.7, y = 0.8, label = "A and B", size = 5)
+  labs(
+    title = "Gamma Density: shape = 14.8, rate = 0.18",
+    subtitle = paste0("P(50 \u2264 X \u2264 60) = ", sprintf("%.4f", p_band)),
+    x = "x", y = "Density"
+  ) +
+  theme_minimal(base_size = 14)
 
-# install.packages("ggforce")  # if needed
+
+x <- seq(0, 22, 0.01)
+y <- dchisq(x, 5)
+M <- weighted.mean(x, y)
+
+par(mar = c(1.65, 0, 0, 0), mgp = c(5, 0.5, 0))
+plot(x, y + 0.035,
+     type = 'l',
+     ylim = range(c(0.025, y + 0.035)),
+     axes = FALSE)
+axis(1, at = c(-100, M, 100), labels = c('', expression(mu), ''))
+lines(c(0, 22), rep(0.035, 2))
+polygon(x, y + 0.035, col = COL[1])
+polygon(c(M - 20, M + 20, M),
+        c(-0.2, -0.2, 0.035),
+        col = COL[4])
+
+x <- seq(0, 22, 0.01)
+y <- dchisq(x, 5)
+
+# Mean (as you had it)
+M <- weighted.mean(x, y)          # ~ df = 5
+
+# Median for Chi-square(df = 5)
+Med <- qchisq(0.5, df = 5)        # exact median
+
+par(mar = c(1.65, 0, 0, 0), mgp = c(5, 0.5, 0))
+plot(x, y + 0.035,
+     type = 'l',
+     ylim = range(c(0.025, y + 0.035)),
+     axes = FALSE)
+# Existing mean tick/label at mu
+axis(1, at = c(-100, M, 100), labels = c('', expression(mu), ''))
+
+# Add median tick/label (uses \tilde{x} for median)
+axis(1, at = Med, labels = expression(tilde(x)))
+
+# Baseline
+lines(c(0, 22), rep(0.035, 2))
+
+# Fill the density (as you had it)
+polygon(x, y + 0.035, col = IMSCOL["blue", "full"])
+
+# Triangle for the mean (your original)
+polygon(c(M - 20, M + 20, M),
+        c(-0.2, -0.2, 0.035),
+        col = COL[4])
+
+# Triangle for the median (choose a different color index if you like)
+
+#arrows(x0 = Med, y0 = -0.15, y1 = 0.035,
+#       length = 0.1, lwd = 2, col = COL[4])
+#       
+#       
+ggplot(df, aes(x = x)) +
+  geom_density(fill = "skyblue", alpha = 0.5, color = "darkblue") +
+  labs(title = "Filled Density Curve", x = "x", y = "Density") +
+  theme_minimal(base_size = 14)
+
+# area between two points on geom density
+
+p <- ggplot(adult_wt_ht, aes(BMXWT)) + geom_density(bw = 4.2)
+pb <- ggplot_build(p)
+
+dens_data <- pb$data[[1]]  # Contains x, y, and other columns
+
+a <- 50; b <- 60
+dx <- diff(dens_data$x)[1]
+area_plot <- sum(dens_data$y[dens_data$x >= a & dens_data$x <= b]) * dx
+area_plot
+
+# shade area between two points
+
 library(ggplot2)
-library(ggforce)
-library(grid)   # for unit() in the arrow
 
-# -------- canvas & partition --------
-xlim <- c(0, 10); ylim <- c(0, 6)
-cuts <- c(3, 7)           # vertical boundaries for E1 | E2 | E3
+mu_wt = mean(adult_wt_ht$BMXWT)
+p <- ggplot(adult_wt_ht, aes(BMXWT)) +
+        geom_density(bw = 4.8,
+                     fill = IMSCOL["blue", "full"], alpha = 0.5)
+pb <- ggplot_build(p)
+curve <- pb$data[[1]][, c("x", "y")]  # density grid used by ggplot
 
-# diagonal hatch for the sample space Ω
-hatch <- {
-  step <- 0.35
-  t <- seq(-ylim[2], xlim[2], by = step)
-  data.frame(x    = t,
-             xend = t + ylim[2],
-             y    = 0,
-             yend = ylim[2])
-}
+a <- 50; b <- 60
+dx <- diff(curve$x)[1]
+area_ab <- sum(curve$y[curve$x >= a & curve$x <= b]) * dx
 
-# ellipse (event B) parameters
-B <- data.frame(x0 = 5.8, y0 = 3.0, a = 3.2, b = 2.0, angle = 0)  # tweak if desired
-
-ggplot() +
-  # sample space border
-  geom_rect(aes(xmin = xlim[1], xmax = xlim[2], ymin = ylim[1], ymax = ylim[2]),
-            fill = NA, color = "black", linewidth = 1) +
-  # hatch (light diagonal lines) clipped to panel
-  geom_segment(data = hatch,
-               aes(x = x, xend = xend, y = y, yend = yend),
-               color = "#5DADE2", alpha = 0.25, linewidth = 0.6) +
-  # ellipse for B
-  geom_ellipse(data = B,
-               aes(x0 = x0, y0 = y0, a = a, b = b, angle = angle),
-               fill = "#2E86C1", alpha = 0.35, color = "#2E86C1", linewidth = 1) +
-  # vertical partition lines (E1 | E2 | E3)
-  geom_segment(aes(x = cuts[1], xend = cuts[1], y = ylim[1], yend = ylim[2]),
-               color = "black", linewidth = 0.7) +
-  geom_segment(aes(x = cuts[2], xend = cuts[2], y = ylim[1], yend = ylim[2]),
-               color = "black", linewidth = 0.7) +
-  # labels for intersections inside B
-  annotate("text", x = 2.5, y = 3.1, label = expression(B %*cap% E[1]),
-           size = 5.2, color = "black") +
-  annotate("text", x = 5.6, y = 3.1, label = expression(B %*cap% E[2]),
-           size = 5.2, color = "black") +
-  annotate("text", x = 8.2, y = 3.1, label = expression(B %*cap% E[3]),
-           size = 5.2, color = "black") +
-  # labels for E1, E2, E3 at the bottom
-  annotate("text", x = 1.0, y = 0.35, label = expression(E[1]), size = 6) +
-  annotate("text", x = 5.0, y = 0.35, label = expression(E[2]), size = 6) +
-  annotate("text", x = 9.0, y = 0.35, label = expression(E[3]), size = 6) +
-  # arrow & label pointing to B
-  annotate("segment", x = 9.2, y = 5.4, xend = 7.1, yend = 4.2,
-           arrow = arrow(length = unit(0.25, "cm")), linewidth = 0.7) +
-  annotate("text", x = 9.25, y = 5.55, label = "Event B", hjust = 0, size = 5) +
-  coord_fixed(xlim = xlim, ylim = ylim, expand = FALSE) +
-  theme_void()
+ggplot(curve, aes(x, y)) +
+  geom_line(linewidth = 1.0) +
+  geom_area(
+    data = subset(curve, x >= a & x <= b),
+    fill = IMSCOL["blue", "full"], alpha = 0.50
+  ) +
+  labs(
+    x = "Weight (kg)", y = "Density"
+  ) +
+  theme_minimal(base_size = 12)
 
 
-
-
-# install.packages("ggforce")  # if needed
-library(ggplot2)
-library(ggforce)
-library(grid)
-
-# --- canvas & partition ---
-xlim <- c(0, 10)
-ylim <- c(0, 6)
-cuts <- c(3, 7)
-
-# diagonal hatch lines over the sample space
-step <- 0.35
-t <- seq(-ylim[2], xlim[2], by = step)
-hatch <- data.frame(
-  x    = t,
-  xend = t + ylim[2],
-  y    = 0,
-  yend = ylim[2]
+mu_wt = mean(adult_wt_ht$BMXWT)
+p <- ggplot(adult_wt_ht, aes(BMXWT)) +
+  geom_density(bw = 4.8,
+               fill = IMSCOL["blue", "full"], alpha = 0.5)
+tri_height <- max(adult_wt_ht$BMXWT) * 0.05
+triangle_df <- data.frame(
+  x = c(mu_wt - 0.2, mu_wt + 0.2, mu_wt),
+  y = c(-0.2, 0.2 , 0)  # small height relative to the density
 )
 
-# ellipse (event B)
-B <- data.frame(x0 = 5.8, y0 = 3.0, a = 3.2, b = 2.0, angle = 0)
+p + geom_polygon(data = triangle_df, aes(x, y),
+                 fill = "red", color = "black")
 
-ggplot() +
-  # sample space border
-  geom_rect(aes(xmin = xlim[1], xmax = xlim[2], ymin = ylim[1], ymax = ylim[2]),
-            fill = NA, color = "black", linewidth = 1) +
-  # hatch
-  geom_segment(data = hatch,
-               aes(x = x, xend = xend, y = y, yend = yend),
-               color = "#5DADE2", alpha = 0.25, linewidth = 0.6) +
-  # event B
-  geom_ellipse(data = B,
-               aes(x0 = x0, y0 = y0, a = a, b = b, angle = angle),
-               fill = "#2E86C1", alpha = 0.35, color = "#2E86C1", linewidth = 1) +
-  # partition lines
-  geom_segment(aes(x = cuts[1], xend = cuts[1], y = ylim[1], yend = ylim[2]),
-               color = "black", linewidth = 0.7) +
-  geom_segment(aes(x = cuts[2], xend = cuts[2], y = ylim[1], yend = ylim[2]),
-               color = "black", linewidth = 0.7) +
-  # labels
-  annotate("text", x = 2.5, y = 3.1, label = "B and E[1]", size = 5.2) +
-  annotate("text", x = 5.6, y = 3.1, label = "B and E[2]", size = 5.2) +
-  annotate("text", x = 8.2, y = 3.1, label = "B and E[3]", size = 5.2) +
-  annotate("text", x = 1.0, y = 0.35, label = "E[1]", size = 6) +
-  annotate("text", x = 5.0, y = 0.35, label = "E[2]", size = 6) +
-  annotate("text", x = 9.0, y = 0.35, label = "E[3]", size = 6) +
-  annotate("segment", x = 9.2, y = 5.4, xend = 7.1, yend = 4.2,
-           arrow = arrow(length = unit(0.25, "cm")), linewidth = 0.7) +
-  annotate("text", x = 9.25, y = 5.55, label = "Event B", hjust = 0, size = 5) +
-  coord_fixed(xlim = xlim, ylim = ylim, expand = FALSE) +
-  theme_void()
+
+library(ggplot2)
+
+set.seed(123)
+x <- rnorm(1000, mean = 10, sd = 2)
+mean_x <- mean(x)
+
+# Compute density for reference
+dens <- density(x)
+dens_df <- data.frame(x = dens$x, y = dens$y)
+
+# Build base plot with filled density
+p <- ggplot(dens_df, aes(x, y)) +
+  geom_area(fill = "skyblue", alpha = 0.5) +
+  geom_line(linewidth = 1.1, color = "black") +
+  labs(
+    title = "Density with Triangle Marker at the Mean",
+    x = "x", y = "Density"
+  ) +
+  theme_minimal(base_size = 14)
+
+# Add a small triangle (as a filled polygon)
+# Here we define a triangle around the mean:
+triangle_df <- data.frame(
+  x = c(mean_x - 0.2, mean_x + 0.2, mean_x),
+  y = c(0, 0, max(dens_df$y) * 0.05)  # small height relative to the density
+)
+
+p + geom_polygon(data = triangle_df, aes(x, y),
+                 fill = "red", color = "black")
+
+polygon(c(mu_wt - 20, mu_wt + 20, mu_wt),
+        c(-0.2, -0.2, 0.035),
+        col = COL[4])
+
+library(ggplot2)
+
+set.seed(123)
+x <- rnorm(1000, mean = 10, sd = 2)
+mean_x <- mean(x)
+
+# Compute density for reference
+dens <- density(x)
+dens_df <- data.frame(x = dens$x, y = dens$y)
+
+# Build base plot with filled density
+p <- ggplot(dens_df, aes(x, y)) +
+  geom_area(fill = "skyblue", alpha = 0.5) +
+  geom_line(linewidth = 1.1, color = "black") +
+  labs(
+    title = "Density with Triangle Marker at the Mean",
+    x = "x", y = "Density"
+  ) +
+  theme_minimal(base_size = 14)
+
+# Add a small triangle (as a filled polygon)
+# Here we define a triangle around the mean:
+library(ggplot2)
+
+set.seed(123)
+x <- rnorm(1000, mean = 10, sd = 2)
+mean_x <- mean(x)
+
+# Compute density
+dens <- density(x)
+dens_df <- data.frame(x = dens$x, y = dens$y)
+
+# Base density plot with shaded area
+p <- ggplot(dens_df, aes(x, y)) +
+  geom_area(fill = "skyblue", alpha = 0.5) +
+  geom_line(linewidth = 1.1, color = "black") +
+  labs(
+    title = "Density with Downward Triangle at the Mean",
+    x = "x", y = "Density"
+  ) +
+  theme_minimal(base_size = 14)
+
+# Define a small triangle *below* the x-axis
+triangle_df <- data.frame(
+  x = c(mean_x - 0.2, mean_x + 0.2, mean_x),
+  y = c(0, 0, -max(dens_df$y) * 0.05)   # below the axis, pointing downward
+)
+
+# Add the triangle polygon
+p + geom_polygon(
+  data = triangle_df, aes(x, y),
+  fill = "red", color = "black"
+)
+triangle_df <- data.frame(
+  x = c(mean_x - 0.2, mean_x + 0.2, mean_x),
+  y = c(-0.2, - 0.2, 0.2)  # small height relative to the density
+)
+
+p + geom_polygon(data = triangle_df, aes(x, y),
+                 fill = "red", color = "black")
+
+library(ggplot2)
+
+set.seed(123)
+x <- rnorm(1000, mean = 10, sd = 2)
+mean_x <- mean(x)
+
+# Compute density
+dens <- density(x)
+dens_df <- data.frame(x = dens$x, y = dens$y)
+
+# Base density plot with shaded area
+p <- ggplot(dens_df, aes(x, y)) +
+  geom_area(fill = "skyblue", alpha = 0.5) +
+  geom_line(linewidth = 1.1, color = "black") +
+  labs(
+    title = "Density with Downward Triangle at the Mean",
+    x = "x", y = "Density"
+  ) 
+
+# Define a small triangle *below* the x-axis
+triangle_df <- data.frame(
+  x = c(mean_x - 0.2, mean_x + 0.2, mean_x),
+  y = c(0, 0, -max(dens_df$y) * 0.05)   # below the axis, pointing downward
+)
+
+# Add the triangle polygon
+p + geom_polygon(
+  data = triangle_df, aes(x, y),
+  fill = "red", color = "black"
+)
+
+
+library(ggplot2)
+
+# data & stats
+x <- seq(0, 22, 0.01)
+y <- dchisq(x, 5)
+M <- weighted.mean(x, y)          # mean of the density grid (≈ df for chisq)
+
+df <- data.frame(x = x, y = y, y_off = y + 0.035)
+
+# optional color fallbacks if custom palettes aren't defined
+fill_col <- if (exists("IMSCOL")) IMSCOL["blue", "full"] else "steelblue"
+tri_col  <- if (exists("COL")) COL[4] else "tomato"
+
+# triangle (upward) with tip at the baseline y = 0.035
+tri_df <- data.frame(
+  x = c(M - 20, M + 20, M),
+  y = c(-0.20, -0.20, 0.035)   # base well below, tip touches baseline
+)
+
+ggplot(df, aes(x, y_off)) +
+  # filled area under the offset curve
+  geom_area(fill = fill_col, alpha = 1) +
+  # curve outline (optional, remove if you want area-only)
+  geom_line(linewidth = 0.8, color = "black") +
+  # baseline at y = 0.035 (matches your base-R 'lines(c(0,22), rep(0.035,2))')
+  geom_segment(aes(x = 0, xend = 22, y = 0.035, yend = 0.035)) +
+  # upward triangle pointing to the mean (tip at baseline)
+  geom_polygon(data = tri_df, aes(x, y), inherit.aes = FALSE,
+               fill = tri_col, color = NA) +
+  # x scale: show only one tick at the mean, labeled μ
+  scale_x_continuous(limits = c(0, 22),
+                     breaks = M,
+                     labels = c(expression(mu))) +
+  # y limits so the triangle base is visible
+  scale_y_continuous(limits = c(-0.20, max(df$y_off))) +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_size = 13) +
+  theme(
+    axis.title = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid = element_blank()
+  )
+
+# ---- Best-fitting chi-square and ggplot overlay ----
+library(ggplot2)
+
+# your data vector (nonnegative)
+# x <- your_data_vector
+x <- adult_wt_ht$BMXWT      # keep valid values
+
+# 1) MLE for df via 1-D optimization of the log-likelihood
+ll <- function(df) sum(dchisq(x, df = df, log = TRUE))
+# method-of-moments for a sensible starting range
+mm_df <- 2 * mean(x)^2 / var(x)
+
+low  <- max(1e-6, mm_df / 10)
+high <- max(low * 2, mm_df * 10)   # ensure high > low
+opt  <- optimize(function(d) -ll(d), interval = c(low, high))
+df_hat <- opt$minimum
+
+# 2) Plot: histogram (density-scaled) + fitted chi-square density
+ggplot(data.frame(x), aes(x)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 bins = 50, fill = "grey85", color = "grey40") +
+  stat_function(fun = dchisq,
+                args = list(df = df_hat),
+                color = "red", linewidth = 1.2) +
+  labs(
+    title = sprintf("Fitted Chi-square Density (df ≈ %.2f)", df_hat),
+    x = "x",
+    y = "Density"
+  ) +
+  theme_minimal(base_size = 13)

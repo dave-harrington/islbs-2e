@@ -22,13 +22,14 @@ The text is organized into chapters:
 - **1. Introduction to data.** Data structures, basic data collection principles, numerical and graphical summaries, and exploratory data analysis.
 - **2. Collecting data**
 - **3. Probability.** The basic principles of probability.
-- **4. Distributions of random variables.** Introduction to random variables, distributions of discrete and continuous random variables, and distributions for pairs of random variables.
-- **5. Foundations for inference.** General ideas for statistical inference in the context of estimating a population mean.
-- **6. Inference for numerical data.** Inference for one-sample and two-sample means with the $t$-distribution, power calculations for a difference of means, and ANOVA.
-- **7. Simple linear regression.** An introduction to linear regression with a single explanatory variable, evaluating model assumptions, and inference in a regression context.
-- **8. Multiple linear regression.** General multiple regression model, categorical predictors with more than two values, interaction, and model selection.
-- **9. Inference for categorical data.** Inference for single proportions, inference for two or more groups, and outcome-based sampling.
-- **10. Logistic regression.** Simple and multiple logistic regression, inference for parameters, estimating prediction error.
+- **4. Random variables**
+- **5. Distributions of random variables.** Introduction to random variables, distributions of discrete and continuous random variables, and distributions for pairs of random variables.
+- **6. Foundations for inference.** General ideas for statistical inference in the context of estimating a population mean.
+- **7. Inference for numerical data.** Inference for one-sample and two-sample means with the $t$-distribution, power calculations for a difference of means, and ANOVA.
+- **8. Simple linear regression.** An introduction to linear regression with a single explanatory variable, evaluating model assumptions, and inference in a regression context.
+- **9. Multiple linear regression.** General multiple regression model, categorical predictors with more than two values, interaction, and model selection.
+- **10. Inference for categorical data.** Inference for single proportions, inference for two or more groups, and outcome-based sampling.
+- **11. Logistic regression.** Simple and multiple logistic regression, inference for parameters, estimating prediction error.
 
 
 
