@@ -6,6 +6,21 @@
 source("_common.R")
 ```
 
+:::{.underconstruction data-latex="}
+
+Incomplete draft, possible additions and corrections pending
+
+:::
+
+:::{.todo data-latex=""}
+
+- Exercises are incomplete.
+
+- No chapter summary
+
+:::
+
+
 ::: {.chapterintro data-latex=""}
 Data are the result of a study. The study might have been an experiment or observational study, and the data collected using the methods discussed in @sec-collecting-data. **Random variables** \index{random variable} connect the important concepts of recording measurements and probability: a random variable assigns numerical values to the outcome of a random phenomenon and the distribution of the variable reflects the variability in outcomes. 
 
@@ -14,7 +29,7 @@ Random variables are usually written with a capital letter such as $X$, $Y$, or 
 
 ```{r}
 #| include: false
-terms_chp_4 <- c("random variable")
+terms_chp_4 <- c("random variable (RV)")
 ```
 
 ## Discrete random variables {#sec-discrete-rv}
@@ -121,7 +136,7 @@ Using independence again, each of the 8 outcomes have probability 1/8, so $P(X =
 
 : Tabular form for the distribution of the number of heads in three coin tosses. {#tbl-dist-coin-tossing}
 
-Bar plots can be used to show the distribution of a random variable. @fig-bar-plot-coin-tossing is a bar plot of the distribution of $X$ in the coin tossing example. When bar plots are used to show the distribution of a dataset, the heights of the bars show either the frequency or relative frequency of each observation of the variable in the dataset. In contrast, bar heights for a probability distribution show the probabilities of possible values of a random variable before any observations have been made.
+**Bar plots** can be used to show the distribution of a random variable. @fig-bar-plot-coin-tossing is a bar plot of the distribution of $X$ in the coin tossing example. When bar plots are used to show the distribution of a dataset, the heights of the bars show either the frequency or relative frequency of each observation of the variable in the dataset. In contrast, bar heights for a probability distribution show the probabilities of possible values of a random variable before any observations have been made.
 
 ```{r bar-plot-coin-tossing}
 #| label: fig-bar-plot-coin-tossing
@@ -155,6 +170,13 @@ ggplot(x.df, aes(x = x.values, y = x.probs)) +
 $X$ is an example of a **discrete random variable** \index{discrete random variable} -- a variable taking on a finite number of values  -- and its distribution.[^random-variables-1]
 
 [^random-variables-1]: Some discrete random variables have an infinite number of possible values, such as all the non-negative integers.
+
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4,
+                 "discrete RV",
+                 "bar plots")
+```
 
 ### Distribution of a discrete random variable
 
@@ -216,9 +238,14 @@ ggplot(dice_data, aes(x = factor(Sum), y = Probability)) +
 ```
 :::
 
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4,
+                 "distribution of discrete RV")
+```
 ## Continuous random variables {#sec-continuous-rv}
 
-Measurements of human characteristics such as height, weight, or systolic blood pressure are not limited to a finite number of discrete values. They can take on all values within a certain range. **Continuous random variables** \index{continuous random variable} are used are used to model or represent these types of measurements. For the discrete random variables discussed earlier, such as the sum of two dice, it was possible to specify a random phenomenon that could be used to derive the distribution of a discrete variable, such as in @tbl-sum-two-dice. That is rarely possible with continuous random variables so their distributions are chosen to match available data.
+Measurements of human characteristics such as height, weight, or systolic blood pressure are not limited to a finite number of discrete values. They can take on all values within a certain range. **Continuous random variables** \index{continuous random variable} are used to model or represent these types of measurements. For the discrete random variables discussed earlier, such as the sum of two dice, it was possible to specify a random phenomenon or process that gave rise to the distribution of a variable, such as in @tbl-sum-two-dice. That is rarely possible with continuous random variables; the phenomena that lead to variations in weight, for instance, are not well-enough understood. Instead, the distributions of continuous variables are often chosen to match historical data.
 
 ```{r}
 library(nhanesA)
@@ -251,16 +278,16 @@ med_w <-round(median(adult_wt_ht$BMXWT), 2)
 
 @fig-adult-wt-box-hist-prop shows the distribution of the weight in kilograms (kg) of `r nw` members of the US population. The data come from the National Health and Nutrition Examination Survey (NHANES) conducted between 2021 and 2023. Both the box plot and the histogram show that the distribution is skewed right with many outliers; the mean weight (`r mu_w`) is larger than the median (`r med_w`). The graph shows that it would be inappropriate to think of weights as symmetrically distributed.  
 
-The minimum and maximum observed weights are `r min(adult_wt_ht$BMXWT)`kg and `r max(adult_wt_ht$BMXWT)`kg. ^[The maximum weight in the data is certainly large, but human weights have been recorded as large as 500 - 600kg.]  The histogram shows relative frequencies, so the heights of the bars represent the fraction of the observations found in each interval of width 5kg. For instance, approximately 3.8% (proportion 0.0375) of the weights are between 50 and 55kg, and another 6.3% are between 55 and 60kg, so approximately 10.1% are between 50 and 60kg. 
+The minimum and maximum observed weights are `r min(adult_wt_ht$BMXWT)`kg and `r max(adult_wt_ht$BMXWT)`kg. ^[The maximum weight in the data is certainly large, but human weights have been recorded as large as 500 - 600kg.]  The histogram shows relative frequencies, so the heights of the bars represent the fraction of the observations found in each interval of width 5kg. For instance, approximately 3.8%, or 0.0375, of the weights are between 50 and 55kg, and another 6.3% are between 55 and 60kg, so approximately 10.1% are between 50 and 60kg. 
 
-Both plots illustrate that the middle 50% of weights of US adults is approximately symmetric but overall skews toward being overweight or obese, a tendency that has been widely studied in the US population.  What random variable $W$ might be used to model this distribution?
+Both plots illustrate that the middle 50% of weights of US adults is approximately symmetric but overall the distribution skews toward being overweight or obese, a tendency that has been widely studied in the US population.  What random variable $W$ might be used to model this distribution?
 
 
 ```{r}
 #| label: fig-adult-wt-box-hist-prop
 #| out-width: 80%
 #| fig-cap: | 
-#|     Distribution of weights (kg) IS adults 18 or older.
+#|     Distribution of weights (kg) US adults 18 or older.
 
 
 library(patchwork)
@@ -293,7 +320,7 @@ p1/p2 + plot_layout(heights = c(0.25, 0.75))
 
 ```
 
-The histogram in @fig-adult-wt-hist-density uses the same data as @fig-adult-wt-box-hist-prop but is drawn on a **density scale** \index{density scale}. The vertical axis has been re-scaled so that the height of the bars is now the proportion of observations divided by the width of the bins (5kg in this case). When a histogram is drawn on the density scale, the proportion of observations falling in a bin is now the area of the bar, since multiplying the density value by the bin width recovers the proportion. For instance, the probability that a weight is between 50 and 60kg can be read directly from the plot as a little larger that 0.010. Since proportions like probabilities add to 1, the total area under the histogram drawn on a density scale will be 1.
+The histogram in @fig-adult-wt-hist-density uses the same data as @fig-adult-wt-box-hist-prop but is drawn on a **density scale** \index{density scale}. The vertical axis has been re-scaled so that the height of the bars is now the proportion of observations divided by the width of the bins (5kg in this case). When a histogram is drawn on the density scale, the proportion of observations falling in a bin is now the area of the bar, since multiplying the density value by the bin width recovers the proportion. For instance, the probability that a weight is between 50 and 60kg can be read directly from the plot as a little larger than 0.010. Since proportions like probabilities add to 1, the total area under the histogram drawn on a density scale will be 1.
 
 A random variable $W$ that might be used to model weights should reflect the shape of the histogram, but "smooth out" the features of the data from the sample of `r nw` observations.  The smooth red curve in the plot is the best fitting smooth **density curve** \index{density curve} to the histogram where the total area under the curve is 1. The extended right tail in the curve reflects the large weights that occur in small numbers. Since the curve approximates the histogram, the probability of an observation in a range of heights will be approximately the area under the density curve in that range of heights.
 
@@ -370,6 +397,15 @@ What is the probability that a randomly selected person weighs **exactly** 53.47
 This probability is zero. A person's weight might be close to 53.47kg, but not exactly that value. This is consistent with the definition of probability as an area under the density curve; there is no area captured above a single point.
 :::
 
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4,
+                 "continuous RV",
+                 "density scale",
+                 "density function",
+                 "area under a density function")
+```
+
 ## Expected value of a random variable {#sec-expected-value-rv}
 
 Just like distributions of data, distributions of random variables have means, variances, and standard deviations; these characteristics are computed a bit differently for random variables but have the same interpretation. The mean of a random variable is called its **expected value** \index{expected value} and written $E(X)$. It is computed differently for discrete and continuous random variables but it has the same interpretation in both cases.
@@ -377,7 +413,7 @@ Just like distributions of data, distributions of random variables have means, v
 ### Expected value of a discrete random variable {sec-expected-value-discrete-rv}
 
 ::: {.important data-latex=""}
-If $X$ is a discrete variable taking on the $k$ values $x_1$, ..., $x_k$ with probabilities $P(X=x_1)$, ..., $P(X=x_k)$, the expected value of $X$ is the sum of each value multiplied by its corresponding probability:
+If $X$ is a discrete variable taking on the $k$ values $x_1 \ldots x_k$ with probabilities $P(X=x_1) \ldots P(X=x_k)$, the expected value of $X$ is the sum of each value multiplied by its corresponding probability:
 
 $$
 \begin{aligned}
@@ -386,7 +422,7 @@ E(X)  &= x_1 P(X=x_1) + \cdots + x_k P(X=x_k) \\
 \end{aligned}
 $$ {#eq-expectation-discrete-rv}
 
-The Greek letter $\mu$\index{Greek!mu ($\mu$)} may be used in place of the notation $E(X)$. The expected value of $X$ us sometimes written $\mu_X$ to eliminate ambiguity.
+The Greek letter $\mu$\index{Greek!mu ($\mu$)} may be used in place of the notation $E(X)$. The expected value of $X$ is sometimes written $\mu_X$ to eliminate ambiguity.
 :::
 
 
@@ -414,9 +450,32 @@ The expected value for a random variable represents the average outcome. For exa
 Calculate the expected value of $Y$, where $Y$ represents the number of heads in three tosses of an unfair coin, where the probability of heads is 0.70. [^random-variables-3]
 :::
 
-[^random-variables-3]: First, calculate the probability distribution. $P(Y=0) = (1 - 0.70)^3 = 0.027$ and $P(Y=3) = (0.70)^3 = 0.343.$ Note that there are three ways to obtain 1 head (HTT, THT, TTH), thus, $P(Y=1) = (3)(0.70)(1 - 0.70)^2 = 0.189$. By the same logic, $P(Y = 2) = (3)(0.70)^2( 1- 0.70) = 0.441$. Thus, $E(Y) = (0)(0.027) + (1)(0.189) + (2)(0.441) + (3)(0.343) = 2.1$. The expected value of $Y$ is 2.1.
+[^random-variables-3]: First, calculate the probability distribution of $Y$. $P(Y=0) = (1 - 0.70)^3 = 0.027$ and $P(Y=3) = (0.70)^3 = 0.343.$ Note that there are three ways to obtain 1 head (HTT, THT, TTH), thus, $P(Y=1) = (3)(0.70)(1 - 0.70)^2 = 0.189$. By the same logic, $P(Y = 2) = (3)(0.70)^2( 1- 0.70) = 0.441$. Thus, $E(Y) = (0)(0.027) + (1)(0.189) + (2)(0.441) + (3)(0.343) = 2.1$. The expected value of $Y$ is 2.1.
+
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4,
+                 "expected value"
+                 )
+```
 
 ### Expected value of a continuous random variable {#sec-expected-value-continuous-rv}
+
+
+```{r mean-sd-adult-weights}
+
+dens <- density(adult_wt_ht$BMXWT)
+df <- data.frame(x = dens$x, y = dens$y)
+
+# Mean of the density estimate
+mean_kde <- round(sum(df$x * df$y) / sum(df$y), 1)
+
+# Variance of the density estimate
+var_kde <- round(sum((df$x - mean_kde)^2 * df$y) / sum(df$y), 2)
+sd_kde <- round(sqrt(var_kde), 2)
+
+
+```
 
 Expected values of continuous random variables are calculated using either calculus or software, so there are no formulas like @eq-expectation-discrete-rv. But the expected value of a continuous random variable does have a concrete interpretation. Think of the area under a density curve as a distribution of weight or mass, with larger values of the density indicating more mass. The expected value $\mu$ of a continuous random variable is the point on the horizontal axis where the density would balance. @fig-chi-sq-density-with-mean illustrates that concept.[^random-variables-4]
 
@@ -428,7 +487,7 @@ When the density is skewed right with a heavy tail, the balance point moves righ
 #| label: fig-chi-sq-density-with-mean
 #| out-width: 70%
 #| fig-cap: | 
-#|     A theoretical probability density function with mean $\mu$.  If the density represents a distribution of mass, it will balance at the value $\mu$ on the horizonta axis.
+#|     A theoretical probability density function with mean $\mu$.  If the density represents a distribution of mass, it will balance at the value $\mu$ on the horizontal axis.
 x <- seq(0, 22, 0.01)
 y <- dchisq(x, 5)
 M <- weighted.mean(x, y)
@@ -448,7 +507,7 @@ polygon(c(M - 20, M + 20, M),
 
 ```
 
-@fig-weight-density-with-mean illustrates the idea with the density function of $W$ used to model the distribution of weights NHANES. Values on the x-axis are not shown, but the balance point is $E(W)$ = 82.9kg.
+@fig-weight-density-with-mean illustrates the idea with the density function of $W$ used to model the distribution of weights NHANES. Values on the x-axis are not shown, but the balance point is $E(W)$ = `r mean_kde`kg.
 
 ```{r}
 #| label: fig-weight-density-with-mean
@@ -495,10 +554,13 @@ ggplot(adult_wt_ht, aes(BMXWT)) +
         
 ```
 
+
+
 ## Variance and standard deviation of a random variable {#sec-variance-rv}
 
 The variability of a random variable can be described by its \index{variance} **variance** and \index{standard deviation} **standard deviation**. For a dataset with $n$ observations, the variance is computed by squaring deviations from the mean of the data, $(x_i - \bar{x})^2,$  then computing the average those deviations using a denominator of $n - 1$. (See @sec-summarizing-numerical-data.) 
-In the case of a random variable, the squared deviations from the mean $\mu$ of the variable are used instead of from the sample mean $\bar{x}$, and the average is a weighted average using the corresponding probabilities. This weighted sum of squared deviations is the variance of the random variable; the standard deviation is the square root of the variance.
+
+In the case of a random variable, the squared deviations from the mean $\mu$ are used instead of from the sample mean $\bar{x}$, and the average is a weighted average using the corresponding probabilities. This weighted sum of squared deviations defines the variance of the random variable; the standard deviation is the square root of the variance.
 
 ::: {.important data-latex=""}
 
@@ -539,49 +601,34 @@ The coin tossing scenario provides a simple illustration of the mean and varianc
 ```{r}
 #| include: false
 terms_chp_4 <- c(terms_chp_4, 
-               c("variance",
-                 "standard deviation")
+               c("variance of an RV",
+                 "standard deviation of an RV")
 )
 ```
 
 ### The variance of a continuous random variable {#sec-variance-continuous-rv}
 
-```{r}
-dens <- density(adult_wt_ht$BMXWT)
-df <- data.frame(x = dens$x, y = dens$y)
-
-# Mean of the density estimate
-mean_kde <- sum(df$x * df$y) / sum(df$y)
-
-# Variance of the density estimate
-var_kde <- round(sum((df$x - mean_kde)^2 * df$y) / sum(df$y), 2)
-sd_kde <- round(sqrt(var_kde), 2)
-
-
-```
 
 The variance of a continuous random variable has the same interpretation as that of a discrete variable -- it is the average of the squared deviation of each value from the mean.
 
 ::: {.important data-latex=""}
 **Name.**
 
-Suppose $X$ is a continuous random variable with mean $\mu = E(X)$.  The variance of $X$ is
+Suppose $X$ is a continuous random variable with mean $\mu = E(X)$.  The variance of $X$ is ^[The calculus based definition is  $\text{Var}(X) = \int (x - \mu)^2 f(x)dx$, but that is not needed in this text and can be ignored.]
 $$
  \text{Var}(X) = E(X - \mu)^2,
 $$
 and its standard deviation is 
 $$
-  \text{SD}(X) = \sqrt{\text{Var}(X)}.
+  \sigma_X = \sqrt{\text{Var}(X)}.
 $$
 :::
 
-The calculus based definition is  $\text{Var}(X) = \int (x - \mu)^2 f(x)dx, but that is not needed in this text and can be ignored.
 
 The calculations are not shown here, but the variance and standard deviation of adult weights in the NHANES data are `r var_kde`kg^2^ and `r sd_kde`kg, respectively.  
 
 
 ## Sums of random variables {#sec-sums-rv}
-
 
 Sums of random variables arise naturally in many problems. When rolling two dice, the total $X$ shown on the roll is the sum of the two faces showing, $X_1 + X_2$.  If $Y$ is the total time commuting to work during a 5-day work week, $Y = Y_1 + Y_2 + \cdots +Y_5$, where the individual $Y$ values represent the commuting time for each of the 5 days.
 
@@ -590,14 +637,13 @@ Sums of random variables represent a special case of linear combinations of vari
 ::: {.important data-latex=""}
 **The expected value of a sum of random variables.**
 
-Suppose $X$ and $Y$ are random variables.  Then and 
+Suppose $X$ and $Y$ are random variables.  Then 
 
 $$
 E(aX + bY) = aE(X) + bE(Y) = a\mu_X + b\mu_Y.
 $$ {#eq-mean-linear-combination-rv}
 
 :::
-
 
 The formula easily generalizes to a sum of any number of random variables.  The expected time commuting during the week will be 
 $$
@@ -606,10 +652,25 @@ $$
 
 The formula implies that for a random variable $Z$, $E(a + Z) = a + E(Z)$.  
 
-A similar formula applies to the variance of a linear combination of random variables, but with an important additional condition, independence.  Independence of random variables is formally defined in @sec-distributions-pairs-rv.  Informally two random variables are independent if the outcome of one is not associated with outcomes of the other.
+A similar formula applies to the variance of a sum of random variables, but with an important additional condition, independence.   Informally two random variables are **independent** \index{independent random variables} if the outcome of one is not associated with outcomes of the other. When members of a large population are sampled randomly to participate in a survey, the survey responses are independent.  When study participants are assigned randomly to an intervention versus a control treatment, study outcomes are independent.
+
+When two variables are not independent, they are not surprisingly called dependent.  Dependence is encountered more often than independence. People with larger shoe size tend to be taller than people with smaller feet, so shoe size and height are not independent.  People with lower income tend to rent rather than own a home, so income and home ownership are not independent.   
+
+The concepts of independent random variables and correlated data are closely related. The numerical observations of independent random variables will be uncorrelated, while dependent random variables lead to correlated observations.
+
+The mathematical definition for independent random variables uses the definition of independent events, but is not needed here.  For the purposes of this text it is sufficient to use the informal definition and insight into how variables are measured.
+
+::: {.guidedpractice data-latex=""}
+
+Which of the following pairs of measurements can be represented by independent random variables?  (a) Blood pressure and weight. (b) The response to a medication of two individuals who are not related and do not know each other. (c) Eye color and choosing to respond to an online survey. (d) Height of two siblings.  (e) Family income and zip code of residence. (f) Age and work status. [^random-variables-501]
+:::
+
+[^random-variables-501]: (b) and (c); there is no biological evidence that eye color is associated with are independent since there is no biological evidence these.  The others are dependent.
+
+
 
 ::: {.important data-latex=""}
-**The variance of linear combinations of random variables.**
+**The variance of a sum of random variables.**
 
 $$
 \text{Var}(aX + bY) = a^2 \text{Var}(X) + b^2\text{Var}(Y).
@@ -618,7 +679,7 @@ This equation is valid only if the random variables are independent of each othe
 
 :::
 
-For the transformation $a + bZ$, the variance is $b^{2} \text{Var}(Z)$, since a constant $a$ has variance 0. When $b = 1$, variance of $a + Z$ is $\text{Var}(Z)$ - adding a constant to a random variable has no effect on the variability of the random variable.
+For the sum $a + bZ$, the variance is $b^{2} \text{Var}(Z)$, since a constant $a$ has variance 0. When $b = 1$, variance of $a + Z$ is $\text{Var}(Z)$ - adding a constant to a random variable has no effect on the its variability.
 
 ::: {.workedexample data-latex=""}
 
@@ -646,6 +707,16 @@ The standard deviation on the Celsius scale is $\sqrt{0.111}$ = `r sqrt(0.111)`.
 
 Equations [-@eq-mean-linear-combination-rv] and [-@eq-variance-linear-combination-ind-rv] are illustrated in more detail in the next section.
 
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4, 
+               c("expected value of sum of RVs",
+                 "variance of sum of RVs",
+                 "standard deviation of sum of RVs")
+)
+```
+
+
 ## Example: the cost of health insurance {#sec-cost-of-hmo-ins}
 
 ```{r hmo-visits-costs}
@@ -664,7 +735,7 @@ c_sd <- sqrt(c_var)
 ```
 
 
-In most  health insurance plans in the United States, members of the plan pay annually in three categories: a monthly premium, a deductible amount that members pay each year before the insurance covers prescription drugs or hospitalization, and the ``out-of-pocket'' co-payments for each outpatient visit.   This example illustrates a hypothetical setting in which a Health Maintenance Organization uses its records to communicate the expected cost of the premium and outpatient visits to potential plan members who generally need only routine care.   It does not consider the cost of prescription drugs, specialized diagnostic tests or major events like hospitalization, and so does not include the deductible.
+In most  health insurance plans in the United States, members pay annually in three categories: a monthly premium, a deductible amount paid  each year before the insurance covers prescription drugs or hospitalization, and the ``out-of-pocket'' co-payments for each outpatient visit.   This example illustrates a hypothetical setting in which a Health Maintenance Organization uses its records to communicate the expected cost of the premium and outpatient visits to potential plan members who generally need only routine care.   It does not consider the cost of prescription drugs, specialized diagnostic tests or major events like hospitalization, and so does not include the deductible.
 
 Since health care visits and expenses increase with age, the HMO decides to calculate this average among members age 25 - 40 who have not been diagnosed with a serious chronic disease, like diabetes or chronic heart disease.  After reviewing its records for the last several years, the HMO found that the majority of plan members in this segment had either no or one visit in an year, and none had more than 4 visits.  The plan analytics department used the data to create a probability distribution for annual visits of members in this population.
 
@@ -702,7 +773,7 @@ Construct a bar plot of the distribution of annual visits.  Describe the shape o
 #| fig-width: 4
 
 # Create the data frame
-v_df <- data_frame(v_values, v_probs)
+v_df <- tibble(v_values, v_probs)
 ggplot(v_df, aes(x = factor(v_values), y = v_probs)) +
   geom_col(fill = IMSCOL["blue", "full"]) +
   scale_y_continuous(limits = c(0, 0.5), expand = c(0, 0)) +
@@ -737,23 +808,22 @@ Since $E(V) = 1.49$, this population of plan members has (on average) approximat
 
 ::: {.workedexample data-latex=""}
 
-Suppose now the the monthly premium for the plan is \$100 and the co-payment for each office visit and standard services like physical therapy is \$20. (a) What can a new plan member who matches the characteristic of this population expect to pay in the coming year? (b) If the annual premium and co-payment do not change for the next 3 years, what would be their expected their costs during that period?
+Suppose now the monthly premium for the plan is \$100 and the co-payment for each office visit and standard services like physical therapy is \$20. (a) What can a new plan member matching the characteristics of this population expect to pay in the coming year? (b) If the annual premium and co-payment do not change for the next 3 years, what would be their expected their costs during that period?
 
 ------------------------------------------------------------------------
 
-a. The total annual cost is a function of the annual premium and the co-payment for visits.  If $C$ denotes annual outpatient costs,
+a. The total annual cost is a function of the premium and the co-payment.  If $C$ denotes annual outpatient costs,
 $$
  C = (12)(100) + (20)(V).
 $$
-$C$ is a linear function of the random variable $V$.
-Using @eq-linear-combination-rv
+Using @eq-eq-mean-linear-combination-rv,
 \begin{align*}
  E(C) &= E(1200 + (20)(V)) \\
       &= 1200 + (20)(E(V)) \\
       &= 1200 + (20)(`r v_mean`) \\
       &= `r round(1200 + 20 * v_mean, 2)` \text{ dollars }
 \end{align*}
-It would be statistically correct for the HMO to to advertise  that  a plan member in this population can expect to pay approximately \$`r round(1200 + 20 * v_mean, 0)` annually for outpatient visits, but would be misleading because of the shape of the distribution.  Forty-four percent of patients pay only the premium (1200\$), while another 25% pay the cost of the premium + 4 visits (\$1280).
+It would be statistically correct for the HMO to advertise that  a plan member in this population can expect to pay approximately \$`r round(1200 + 20 * v_mean, 0)` annually but it would be misleading because of the shape of the distribution.  Forty-four percent of patients pay only the premium (\$1200), while another 25% pay the cost of the premium + 4 visits (\$1280). The  plan should also remind members that these costs do not include the deductible for prescription drugs.
 
 b. If $C_1, C_2$ and $C_3$ represent the cost of care for each of the three years,
 \begin{align*}
@@ -768,11 +838,11 @@ E(C_1 + C_2 + C_3) &= E(C_1) + E(C_2) + E(C_3) \\
 
 ::: {.workedexample data-latex=""}
 
-Using the same assumptions of the above example, calculate the standard deviation of 3 years of costs for outpatient visits.  Does it seem as though the standard deviation a reasonable measure of spread for this distribution?
+Using the same assumptions of the above example, calculate the standard deviation of 3 years of costs for outpatient visits. Does it seem as though the standard deviation a reasonable measure of spread for this distribution?
 
 ------------------------------------------------------------------------
 
-For a single year, the variance for a single year of costs is $\text{Var}(C)$.  Using @eq-variance-discrete-rv,
+The variance for a single year of costs is $\text{Var}(C)$.  Using @eq-variance-linear-combination-ind-rv,
 \begin{align*}
   \text{Var}(C) &= \text{Var}(1200 + (20)(V)) \\
                 &= (20^2) \text{Var}(V) \\
@@ -780,7 +850,7 @@ For a single year, the variance for a single year of costs is $\text{Var}(C)$.  
                 &= `r round(c_var, 2)` \text{ dollars}^2.
   \end{align*}
 
-Under the assumption that costs each year are independent of costs in previous years (a very strong assumption!), the variance for three years will be 
+Under the assumption that costs of each year are independent of those in previous years (a very strong assumption!), the variance for three years will be 
 
 \begin{align*}
 \text{Var}(C_1 + C_2 + C_3) &= \text{Var}(C_1) + \text{Var}(C_2) +\text{Var}(C_3) \\
@@ -800,11 +870,11 @@ Why is the assumption that the variances for the three years can be added such a
 
 [^distributions-602]: The health characteristics of members of this population may not change from year to year, but they are unlikely to be independent: someone who has not visited the HMO for an outpatient visit is more likely not to visit in the next year, for instance, so the conditional probability of no visits in a coming year given that there were none in the previous year may be  different (and probably larger) than the unconditional probability of no visits.
 
-The calculations for the mean and standard deviation of the annual cost of care did not use directly the distribution for annual cost, but instead used formulas from linear combinations of variables.  The probability distribution for the annual cost of the premium plus co-pay for outpatient visits can be derived using the distribution of number of annual visits.  The expense to the plan member will be the \$1200 premium with probability 0.40 (the probability of no outpatient visits) when there are no visits, \$1220 with probability 0.10 when there is one visit, etc.  @fig-bar-plot-hmo-cost-dist is a bar plot for the distribution.
+The calculations for the mean and standard deviation of the annual cost of care did not use directly the distribution for annual cost, but instead used formulas for sums of variables.  The probability distribution for the annual cost of the premium plus co-pay for outpatient visits can be derived using the distribution of number of annual visits.  The expense to the plan member will be the \$1200 premium with probability 0.40 (the probability of no outpatient visits) when there are no visits, \$1220 with probability 0.10 when there is one visit, etc.  @fig-bar-plot-hmo-cost-dist is a bar plot for the distribution.
 
 ```{r bar-plot-hmo-cost-dist}
 #| label: fig-bar-plot-hmo-cost-dist
-#| fig-cap: Bar plot of the distribution of the annual costs per year in a hypothetical HMO among healthy adults age 25 - 40..
+#| fig-cap: Bar plot of the distribution of the annual costs per year in a hypothetical HMO among healthy adults age 25 - 40.
 #| fig-alt: |
 #|   coming 
 #| fig-width: 4
@@ -825,7 +895,7 @@ ggplot(v.df, aes(x = factor(v.values), y = v.probs)) +
 ```
 
 
-Because of the relationship between cost and the number of visits, Figures  [-@fig-bar-plot-hmo-visit-dist] and [-@fig-bar-plot-hmo-visit-dist] are similar: the bar heights showing probabilities are identical, and the number of visits have been replaced by the cost associated with each number of visits.  The distribution has the same right-skewed,  bimodal shape in both cases.
+Because of the relationship between cost and the number of visits, Figures  [-@fig-bar-plot-hmo-visit-dist] and [-@fig-bar-plot-hmo-cost-dist] are similar: the bar heights showing probabilities are identical, and the number of visits have been replaced by the cost associated with each number of visits.  The distribution has the same right-skewed,  bimodal shape in both cases.
 
 ::: {.workedexample data-latex=""}
 
@@ -850,6 +920,25 @@ From the earlier example, the mean cost is $E(C)=$ \$1239.  Just as with distrib
 
 :::
 
+## Chapter review {#sec-chp4-review}
 
 
+### Summary
 
+Coming
+
+### Terms
+
+
+```{r}
+#| label: tbl-terms-chp-4
+#| tbl-cap: Terms introduced in this chapter.
+#| tbl-pos: H
+make_terms_table(terms_chp_4)
+```
+
+\clearpage
+
+## Exercises {#sec-chp4-exercises}
+
+Coming
