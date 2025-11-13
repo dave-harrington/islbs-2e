@@ -14,9 +14,8 @@ Incomplete draft, possible additions and corrections pending
 
 :::{.todo data-latex=""}
 
-- Exercises are incomplete.
+- Exercises to be added.
 
-- No chapter summary
 
 :::
 
@@ -245,7 +244,7 @@ terms_chp_4 <- c(terms_chp_4,
 ```
 ## Continuous random variables {#sec-continuous-rv}
 
-Measurements of human characteristics such as height, weight, or systolic blood pressure are not limited to a finite number of discrete values. They can take on all values within a certain range. **Continuous random variables** \index{continuous random variable} are used to model or represent these types of measurements. For the discrete random variables discussed earlier, such as the sum of two dice, it was possible to specify a random phenomenon or process that gave rise to the distribution of a variable, such as in @tbl-sum-two-dice. That is rarely possible with continuous random variables; the phenomena that lead to variations in weight, for instance, are not well-enough understood. Instead, the distributions of continuous variables are often chosen to match historical data.
+Measurements of human characteristics such as height, weight, or systolic blood pressure are not limited to a finite number of discrete values. They can take on all values within a certain range. **Continuous random variables** \index{continuous random variable} are used to model or represent these types of measurements. For the discrete random variables discussed earlier, such as the sum of two dice, it was possible to specify a random phenomenon or process that gave rise to the distribution of a variable, such as in @tbl-sum-two-dice. That is rarely possible with continuous random variables; the phenomena that lead to variations in weight, for instance, are not well enough understood. Instead, the distributions of continuous variables are often chosen to match historical data.
 
 ```{r}
 library(nhanesA)
@@ -322,7 +321,7 @@ p1/p2 + plot_layout(heights = c(0.25, 0.75))
 
 The histogram in @fig-adult-wt-hist-density uses the same data as @fig-adult-wt-box-hist-prop but is drawn on a **density scale** \index{density scale}. The vertical axis has been re-scaled so that the height of the bars is now the proportion of observations divided by the width of the bins (5kg in this case). When a histogram is drawn on the density scale, the proportion of observations falling in a bin is now the area of the bar, since multiplying the density value by the bin width recovers the proportion. For instance, the probability that a weight is between 50 and 60kg can be read directly from the plot as a little larger than 0.010. Since proportions like probabilities add to 1, the total area under the histogram drawn on a density scale will be 1.
 
-A random variable $W$ that might be used to model weights should reflect the shape of the histogram, but "smooth out" the features of the data from the sample of `r nw` observations.  The smooth red curve in the plot is the best fitting smooth **density curve** \index{density curve} to the histogram where the total area under the curve is 1. The extended right tail in the curve reflects the large weights that occur in small numbers. Since the curve approximates the histogram, the probability of an observation in a range of heights will be approximately the area under the density curve in that range of heights.
+A random variable $W$ used to model weights should reflect the shape of the histogram, but "smooth out" the features of the data from the sample of `r nw` observations.  The smooth red curve in the plot is the best fitting smooth **density curve** \index{density curve} to the histogram where the total area under the curve is 1. The extended right tail in the curve reflects the large weights that occur in small numbers. Since the curve approximates the histogram, the probability of an observation in a range of heights will be approximately the area under the density curve in that range of heights.
 
 ```{r}
 #| label: fig-adult-wt-hist-density
@@ -346,7 +345,7 @@ ggplot(adult_wt_ht, aes(x = BMXWT)) +
 
 ```
 
-If the NHANES data are approximately representative of the US adult population, the density function shows the distribution of a continuous  random variable $W$ representing the weight of a randomly sampled individual from the US population.  Unlike a discrete random variable, where distributions can be displayed in a table, the distribution of continuous random variable is summarized in a **probability density function** \index{probability density function}.
+If the NHANES data are approximately representative of the US adult population, the density function shows the distribution of a continuous  random variable $W$ representing the weight of a randomly sampled individual from the US population.  Unlike a discrete random variable, where distributions can be displayed in a table, the distribution of a continuous random variable is summarized in a **probability density function** \index{probability density function}.
 
 ::: {.important data-latex=""}
 **Probability density function.**
@@ -558,7 +557,7 @@ ggplot(adult_wt_ht, aes(BMXWT)) +
 
 ## Variance and standard deviation of a random variable {#sec-variance-rv}
 
-The variability of a random variable can be described by its \index{variance} **variance** and \index{standard deviation} **standard deviation**. For a dataset with $n$ observations, the variance is computed by squaring deviations from the mean of the data, $(x_i - \bar{x})^2,$  then computing the average those deviations using a denominator of $n - 1$. (See @sec-summarizing-numerical-data.) 
+The variability of a random variable can be described by its \index{variance} **variance** and \index{standard deviation} **standard deviation**. For a dataset with $n$ observations, the variance is computed by squaring deviations from the mean of the data, $(x_i - \bar{x})^2,$  then computing the average of those squared deviations using a denominator of $n - 1$. (See @sec-summarizing-numerical-data.) 
 
 In the case of a random variable, the squared deviations from the mean $\mu$ are used instead of from the sample mean $\bar{x}$, and the average is a weighted average using the corresponding probabilities. This weighted sum of squared deviations defines the variance of the random variable; the standard deviation is the square root of the variance.
 
@@ -808,7 +807,7 @@ Since $E(V) = 1.49$, this population of plan members has (on average) approximat
 
 ::: {.workedexample data-latex=""}
 
-Suppose now the monthly premium for the plan is \$100 and the co-payment for each office visit and standard services like physical therapy is \$20. (a) What can a new plan member matching the characteristics of this population expect to pay in the coming year? (b) If the annual premium and co-payment do not change for the next 3 years, what would be their expected their costs during that period?
+Suppose now the monthly premium for the plan is \$100 and the co-payment for each office visit and standard services like physical therapy is \$20. (a) What can a new plan member matching the characteristics of this population expect to pay in the coming year? (b) If the annual premium and co-payment do not change for the next 3 years, what would be their expected  costs during that period?
 
 ------------------------------------------------------------------------
 
@@ -816,7 +815,7 @@ a. The total annual cost is a function of the premium and the co-payment.  If $C
 $$
  C = (12)(100) + (20)(V).
 $$
-Using @eq-eq-mean-linear-combination-rv,
+Using @eq-mean-linear-combination-rv,
 \begin{align*}
  E(C) &= E(1200 + (20)(V)) \\
       &= 1200 + (20)(E(V)) \\
@@ -925,7 +924,13 @@ From the earlier example, the mean cost is $E(C)=$ \$1239.  Just as with distrib
 
 ### Summary
 
-Coming
+Random variables are an important link between exploring a dataset and learning about the phenomenon that was the source of the data.  Observations made on participants in a study are never constant -- outcomes vary from participant to participant. Indeed, when studies are repeated, even the summary statistics such as a  mean or the variability of responses will differ.  Random variables model that variability by thinking of data as observations on random variables.  They are a way of thinking about the potential outcomes of an observation,
+
+The distribution of a random variable characterizes the range of values that might be observed and which values have high or low  likelihood.  Those distributions have means, called expected values, and a variability captured by standard deviations. In data, however, the mean is the center of the distribution the data analyst is looking at.  For a random variable, the mean is the expected value of the next observation.
+
+The material in this chapter serves as a background to the important distributions described in the next chapter, distributions and random variables that are  widely used in the life sciences, public health and medical research.
+
+
 
 ### Terms
 
