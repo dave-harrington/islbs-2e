@@ -14,7 +14,7 @@ Incomplete draft, possible additions and corrections pending
 
 :::{.todo data-latex=""}
 
-- Exercises to be added.
+- More exercises to be added.
 
 
 :::
@@ -926,7 +926,7 @@ From the earlier example, the mean cost is $E(C)=$ \$1239.  Just as with distrib
 
 Random variables are an important link between exploring a dataset and learning about the phenomenon that was the source of the data.  Observations made on participants in a study are never constant -- outcomes vary from participant to participant. Indeed, when studies are repeated, even the summary statistics such as a  mean or the variability of responses will differ.  Random variables model that variability by thinking of data as observations on random variables.  They are a way of thinking about the potential outcomes of an observation,
 
-The distribution of a random variable characterizes the range of values that might be observed and which values have high or low  likelihood.  Those distributions have means, called expected values, and a variability captured by standard deviations. In data, however, the mean is the center of the distribution the data analyst is looking at.  For a random variable, the mean is the expected value of the next observation.
+The distribution of a random variable characterizes the range of values that might be observed and which values have high or low  likelihood.  Those distributions have means, called expected values, and a variability captured by standard deviations. In data, however, the mean is the center of the distribution the data analyst is examining.  For a random variable, the mean is the expected value of the next observation.
 
 The material in this chapter serves as a background to the important distributions described in the next chapter, distributions and random variables that are  widely used in the life sciences, public health and medical research.
 
@@ -946,4 +946,13 @@ make_terms_table(terms_chp_4)
 
 ## Exercises {#sec-chp4-exercises}
 
-Coming
+The exercises are not numbered yet and no solutions are available in this draft.
+
+<!---
+Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-04].
+--->
+::: {.exercises data-latex=""}
+{{< include exercises/_04-ex-random-variables.qmd >}}
+:::
+
+
