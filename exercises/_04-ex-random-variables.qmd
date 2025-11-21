@@ -135,6 +135,156 @@ axis(2, at = seq(0,40,10))
 ```
 <!--- add distributions from NHANESA -->
 
+
+
+```{r}
+library(ggplot2)
+
+library(nhanesA)
+# browseNHANES() opens nhanes site in browser
+#  BXO_L is from 2021 - 2023 post-pandemic cycle
+bpx  <- nhanes("BPXO_L")   # Body Measures
+demo <- nhanes("DEMO_L")  # Demographics
+
+bpx_demo <- inner_join(bpx, demo, by = "SEQN")
+
+bp <- bpx_demo |> 
+  filter(!is.na(BPXOSY1),
+         !is.na(BPXODI1)) |> 
+  select(BPXOSY1, BPXODI1, RIAGENDR, RIDAGEYR) 
+
+
+# demographics not used for now but may be useful
+n_cases <- nrow(bp)
+mean_sbp_bp <- round(mean(bp$BPXOSY1), 2)
+med_sbp_bp <- round(median(bp$BPXOSY1), 2)
+mean_dbp_bp <- round(mean(bp$BPXODI1), 2)
+med_dbp_bp <- round(median(bp$BPXODI1), 2)
+
+```
+
+<!--- new problem --->
+
+**Systolic blood pressure**
+
+Systolic blood pressure (SBP) is the maximum pressure blood exerts against the walls of arteries when the heart is beating.  It is measured in mm Hg (mercury) when it is measured with a blood pressure cuff.  @fig-systolic-bp-prop is a histogram showing the distribution of SBP in `r n_cases` from the 2021 - 2023 cycle of the NHANES health survey.
+
+  a.  Describe the distribution.
+  
+  b. How would you expect the mean and median to compare?
+  
+  c. Approximately what proportion of SBP measurements fall below 90mm HG?
+  
+  d. Approximately what proportion of SPB measurements fall between 90 and 175mm HG?
+  
+  e. If the histogram had been drawn on a density scale, would the shape of the curve change?
+  
+  f. If the histogram had been drawn on a density scale, how would the vertical axis labels change.
+  
+```{r}
+#| label: fig-systolic-bp-prop
+#| out-width: 80%
+#| fig-cap: | 
+#|     Distribution systolic blood pressure from NHANES.
+ggplot(bp, aes(x = BPXOSY1)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))),
+         breaks = seq(60, 220, 5),
+         closed = "right") +
+     labs(x = "Systolic blood pressure", y = "Proportion") +
+     scale_x_continuous(
+       breaks = seq(60, 220, 10))+
+    scale_y_continuous(breaks = seq(0, .15, 0.01))
+
+```
+<!--- new problem --->
+
+**Diastolic blood pressure**
+
+Diastolic blood pressure (DBP) is the pressure blood exerts against the walls of arteries when the heart is beating resting and is also measured in mm HG.   @fig-systolic-bp-prop is a histogram showing the distribution of DBP in `r n_cases` from the 2021 - 2023 cycle of the NHANES health survey.
+
+  a.  Describe the distribution.
+  
+  b. How would you expect the mean and median to compare?
+  
+  c. Approximately what proportion of DBP measurements fall below 55mm HG?
+  
+  d. Approximately what proportion of DPB measurements fall between 60 and 70mm HG?
+  
+```{r}
+#| label: fig-diastolic-bp-prop
+#| out-width: 80%
+#| fig-cap: | 
+#|     Distribution diastolic blood pressure from NHANES.
+ggplot(bp, aes(x = BPXODI1)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))),
+         breaks = seq(30, 120, 5),
+         closed = "right") +
+     labs(x = "Diastolic blood pressure", y = "Proportion") +
+     scale_x_continuous(
+       breaks = seq(30, 120, 10))+
+    scale_y_continuous(breaks = seq(0, .20, 0.01))
+
+```
+
+
+
+```{r}
+#  BMX_J is 2021 - 2023 post-pandemic cycle
+bmx  <- nhanes("BMX_L")   # Body Measures
+demo <- nhanes("DEMO_L")  # Demographics
+
+bmx_demo <- inner_join(bmx, demo, by = "SEQN")
+
+youth <- bmx_demo |> 
+  filter(RIDAGEYR < 18,
+         !is.na(BMXWT),
+         !is.na(BMXHT),
+         !is.na(RIAGENDR),
+         BMXWT > 0,
+         BMXHT > 0) |> 
+  select(BMXWT, BMXHT, RIAGENDR) 
+
+n_cases_youth <- nrow(youth)
+mean_weight <- round(mean(youth$BMXWT), 2)
+med_weight <- round(median(youth$BMXWT), 2)
+
+```
+
+<!--- new problem --->
+
+**Weights of US youths**
+
+@fig-youth-wt-density is a density plot of the weight in kg  of `r n_cases_youth` participants in the NHANES 2021 - 2023 survey who were less than 18 years of age.
+
+  a.  Describe the distribution.
+  
+  b.  What is the probability that a randomly chosen individual from this group weighs less than 25kg?
+  
+  c.  What is the probability that someone chosen randomly weights between 25 and 35 kg?
+  
+  d.  What other variable associated with weight might be helpful to know to understand the shape of the plot?
+  
+  e.  What proportion of this sample weighs 10kg?
+
+```{r}
+#| label: fig-youth-wt-density
+#| out-width: 80%
+#| fig-cap: | 
+#|     Distribution weight (kg) for people under age 18, from NHANES.
+
+ggplot(youth, aes(x = BMXWT)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 breaks = seq(0, 150, 5),
+                 closed = "right") +
+  labs(x = "Weight (kg)", y = "Density") +
+  scale_x_continuous(
+    breaks = seq(0, 150, 25)) +
+  scale_y_continuous(
+    breaks = seq(0, 0.3, 0.005)
+  )
+
+```
+
 *Sums of random variables*
 
 <!--- OS4 3.44 --->
@@ -145,10 +295,12 @@ However, there is some variability in the amount of ice cream in a box as well a
 the amount of ice cream scooped out. We represent the amount of ice cream in the 
 box as $X$ and the amount scooped out as $Y$. Suppose these random variables have 
 the following means, standard deviations, and variances:
+
 | Variable | Mean | SD   | Variance |
 |:----------|-----:|----:|---------:|
 | $X$       | 48   | 1   | 1.0000   |
 | $Y$       | 2    | 0.25| 0.0625   |
+
   a. An entire box of ice cream, plus 3 scoops from a second box is served at a 
 party. How much ice cream do you expect to have been served at this party? What 
 is the standard deviation of the amount of ice cream served?
@@ -159,6 +311,22 @@ the standard deviation of the amount left in the box?
 
   c. Using the context of this exercise, explain why we add variances when we 
 subtract one random variable from another.
+
+<!--- new problem --->
+
+**The cost of health care, I.**  Suppose the HMO described in @sec-cost-of-hmo-insurance is considering doubling the fee for both the premium and for each visit.
+
+   a.  What will be the the expected cost for each member?
+   
+   b.  What will be the variance?
+   
+**The coast of health care, II.**  Two individuals who share a large house decide to create a common budget.  They have the same insurance with the health plan described in @sec-cost-of-hmo-insurance and both are between 25 and 40 and have no chronic diseases
+
+  a.  What is their expected total annual cost of health care?
+  
+  b.  What is the variance of their total cost?  What assumption did you make and is it reasonable?
+
+  c.  Is the variance in part b the same as that calculated in the previous problem?  Explain.
 
 <!--- OS4 3.45 --->
 

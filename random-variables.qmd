@@ -251,7 +251,7 @@ library(nhanesA)
 library(dplyr)
 library(ggplot2)
 
-#  BMX_J is 2021 - 2023 pre-pandemic cycle
+#  BMX_J is 2021 - 2023 post-pandemic cycle
 bmx  <- nhanes("BMX_L")   # Body Measures
 demo <- nhanes("DEMO_L")  # Demographics
 
@@ -320,6 +320,8 @@ p1/p2 + plot_layout(heights = c(0.25, 0.75))
 ```
 
 The histogram in @fig-adult-wt-hist-density uses the same data as @fig-adult-wt-box-hist-prop but is drawn on a **density scale** \index{density scale}. The vertical axis has been re-scaled so that the height of the bars is now the proportion of observations divided by the width of the bins (5kg in this case). When a histogram is drawn on the density scale, the proportion of observations falling in a bin is now the area of the bar, since multiplying the density value by the bin width recovers the proportion. For instance, the probability that a weight is between 50 and 60kg can be read directly from the plot as a little larger than 0.010. Since proportions like probabilities add to 1, the total area under the histogram drawn on a density scale will be 1.
+
+### Density functions for continuous random variables {#sec-density-functions}
 
 A random variable $W$ used to model weights should reflect the shape of the histogram, but "smooth out" the features of the data from the sample of `r nw` observations.  The smooth red curve in the plot is the best fitting smooth **density curve** \index{density curve} to the histogram where the total area under the curve is 1. The extended right tail in the curve reflects the large weights that occur in small numbers. Since the curve approximates the histogram, the probability of an observation in a range of heights will be approximately the area under the density curve in that range of heights.
 
@@ -664,7 +666,7 @@ The mathematical definition for independent random variables uses the definition
 Which of the following pairs of measurements can be represented by independent random variables?  (a) Blood pressure and weight. (b) The response to a medication of two individuals who are not related and do not know each other. (c) Eye color and choosing to respond to an online survey. (d) Height of two siblings.  (e) Family income and zip code of residence. (f) Age and work status. [^random-variables-501]
 :::
 
-[^random-variables-501]: (b) and (c); there is no biological evidence that eye color is associated with are independent since there is no biological evidence these.  The others are dependent.
+[^random-variables-501]: b. and c. Eye color and survey participation are independent since there is no biological evidence of association.  The others are dependent.
 
 
 
@@ -678,7 +680,7 @@ This equation is valid only if the random variables are independent of each othe
 
 :::
 
-For the sum $a + bZ$, the variance is $b^{2} \text{Var}(Z)$, since a constant $a$ has variance 0. When $b = 1$, variance of $a + Z$ is $\text{Var}(Z)$ - adding a constant to a random variable has no effect on the its variability.
+For the sum $a + bZ$, the variance is $b^{2} \text{Var}(Z)$, since a constant $a$ has variance 0. When $b = 1$, variance of $a + Z$ is $\text{Var}(Z)$ - adding a constant to a random variable has no effect on its variability.
 
 ::: {.workedexample data-latex=""}
 
@@ -716,7 +718,7 @@ terms_chp_4 <- c(terms_chp_4,
 ```
 
 
-## Example: the cost of health insurance {#sec-cost-of-hmo-ins}
+## Example: the cost of health insurance {#sec-cost-of-hmo-insurance}
 
 ```{r hmo-visits-costs}
 
@@ -769,7 +771,7 @@ Construct a bar plot of the distribution of annual visits.  Describe the shape o
 #| fig-cap: Bar plot of the distribution of the number of visits per year in a hypothetical HMO among healthy adults age 25 - 40.
 #| fig-alt: |
 #|   coming 
-#| fig-width: 4
+#| out-width: 70%
 
 # Create the data frame
 v_df <- tibble(v_values, v_probs)
@@ -778,7 +780,7 @@ ggplot(v_df, aes(x = factor(v_values), y = v_probs)) +
   scale_y_continuous(limits = c(0, 0.5), expand = c(0, 0)) +
   labs(
     x = "Annual visits",
-    y = "Probabilities"
+    y = "Probability"
   ) 
 ```
 
@@ -837,7 +839,7 @@ E(C_1 + C_2 + C_3) &= E(C_1) + E(C_2) + E(C_3) \\
 
 ::: {.workedexample data-latex=""}
 
-Using the same assumptions of the above example, calculate the standard deviation of 3 years of costs for outpatient visits. Does it seem as though the standard deviation a reasonable measure of spread for this distribution?
+Using the same assumptions of the above example, calculate the standard deviation of 3 years of costs for outpatient visits. Does it seem as though the standard deviation is a reasonable measure of spread for this distribution?
 
 ------------------------------------------------------------------------
 
@@ -876,7 +878,7 @@ The calculations for the mean and standard deviation of the annual cost of care 
 #| fig-cap: Bar plot of the distribution of the annual costs per year in a hypothetical HMO among healthy adults age 25 - 40.
 #| fig-alt: |
 #|   coming 
-#| fig-width: 4
+#| out-width: 70%
 
 # Create the data frame
 v.df <- data.frame(
@@ -889,7 +891,7 @@ ggplot(v.df, aes(x = factor(v.values), y = v.probs)) +
   scale_y_continuous(limits = c(0, 0.5), expand = c(0, 0)) +
   labs(
     x = "Annual cost",
-    y = "Probabilities"
+    y = "Probability"
   ) 
 ```
 
@@ -926,7 +928,7 @@ From the earlier example, the mean cost is $E(C)=$ \$1239.  Just as with distrib
 
 Random variables are an important link between exploring a dataset and learning about the phenomenon that was the source of the data.  Observations made on participants in a study are never constant -- outcomes vary from participant to participant. Indeed, when studies are repeated, even the summary statistics such as a  mean or the variability of responses will differ.  Random variables model that variability by thinking of data as observations on random variables.  They are a way of thinking about the potential outcomes of an observation,
 
-The distribution of a random variable characterizes the range of values that might be observed and which values have high or low  likelihood.  Those distributions have means, called expected values, and a variability captured by standard deviations. In data, however, the mean is the center of the distribution the data analyst is examining.  For a random variable, the mean is the expected value of the next observation.
+The distribution of a random variable characterizes the range of values that might be observed and which values have high or low  likelihood.  Those distributions have means, called expected values, and a variability captured by standard deviations. In data, however, the mean is the center of the distribution the that data analyst is examining.  For a random variable, the mean is the expected value of the next observation.
 
 The material in this chapter serves as a background to the important distributions described in the next chapter, distributions and random variables that are  widely used in the life sciences, public health and medical research.
 

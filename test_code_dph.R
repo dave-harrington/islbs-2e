@@ -32,5 +32,6 @@ NHANES |> select(Age, Gender, Height) |>
 
 
 
-library(ggplot2)
+
+
 
