@@ -62,7 +62,7 @@ npv_rat_05 <- round(spec_rat * (1 - prev_covid_05) /(spec_rat * 1 - prev_covid_0
 
 Since the COVID-19 pandemic, \index{rapid antigen tests (RAT)} rapid antigen tests (RAT) have been widely used as self-tests, allowing individuals to check for the virus on their own. These tests remain available at pharmacies, neighborhood health centers, libraries, and other distribution sites. They are convenient and either low-cost or free. But how reliable are the tests? More specifically, what is the chance that a positive result truly indicates infection, or that a negative result correctly confirms absence of infection?
 
-Studies have shown that when 100 people with COVID-19 are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is `r sens_rat` when the virus is present,  while the chance of a negative test in the absence of the virus is `r spec_rat`.  But an individual who has just tested is most interested in the *reverse* probabilities: the chance of the are infected with COVID-19 when the test is positive or the chance of not having the infection when the test is negative. In other words, out of 100 people who test positive, how many actually have COVID-19? The tools in @sec-diagnostic-tests will show that even though the rapid self-tests are correct 80% of the time when the virus is present, under some assumptions a positive test might only be correct `r (ppv_rat_05) * 100`% of the time. 
+Studies have shown that when 100 people with COVID-19 are tested using a nasal swab RAT, about 80 will test positive [@khalid2022performance]. The same studies have shown that when 100 people without the infection are tested, about 98 will test negative.  In the language of probability, the chance of a positive test is `r sens_rat` when the virus is present,  while the chance of a negative test in the absence of the virus is `r spec_rat`.  But an individual who has just tested is most interested in the *reverse* probabilities: the chance of being infected with COVID-19 when the test is positive or the chance of not having the infection when the test is negative. In other words, out of 100 people who test positive, how many actually have COVID-19? The tools in @sec-diagnostic-tests will show that even though the rapid self-tests are correct 80% of the time when the virus is present, under some assumptions a positive test might only be correct `r (ppv_rat_05) * 100`% of the time. 
 
 ## The rules and language of probability {#sec-probability-rules}
 
@@ -88,17 +88,38 @@ The **sample space** $S$ of a random phenomenon is the set of all possible outco
 
 :::
 
-The  notation of set theory is used to describe events.  
+Each event can be thought of a *set* of outcomes. The relationships between events, such as "A and B", can then be described using language (and notation) from set theory. 
 
-* The complement $A^c$ of an event $A$ consists of all the outcomes in $S$ not in $A$.  
+* The complement of an event $A$, written $A^c$, consists of all the outcomes in $S$ that are not in $A$. Together, $A$ and $A^c$ comprise all the events in $S$.
 
-* Two events $A$ and $B$ are **disjoint** \index{disjoint events} or **mutually exclusive** \index{mutually exclusive}  if they have no outcomes in common.  
+* The intersection of events $A$ and $B$, written as $(A \text{ and } B)$, consists of the outcomes that are in both $A$ and $B$. This can also be written as $A \cap B$.
 
-* The event $(A \text{ and } B)$ consists of the outcomes in $S$ that are members of both $A$ and $B$, sometimes described as members that satisfy both $A$ and $B$.  In some texts this is written $A \cap B$.
+* The union of events $A$ and $B$, which is commonly referred to as $(A \text{ or } B)$, consists of the outcomes that are either in $A$ or in $B$ or both. In probability, "or" is **inclusive**, meaning that the union includes outcomes where both $A$ and $B$ occur.
 
-* The event $(A \text{ or } B)$ consists of the outcomes that are either in $A$ or $B$ or possibly both. This can also be written as $A \cup B$.    
+* Two events $A$ and $B$ are **disjoint** \index{disjoint events} if they have no outcomes in common. Such events can also be described as being **mutually exclusive** \index{mutually exclusive}.
 
-* For conciseness, sentences such as "$B$ is the event that a child has CF" are written as $B$ = {child has CF}. 
+* For conciseness, sentences such as "$B$ is the event that a child has CF" can be written as $B$ = {child has CF}. 
+
+@fig-setTheoryNotation shows some events related to the possible outcomes when rolling a six-sided die: $A$ = {1, 2}, $B$ = {4, 6}, and $D$ = {2, 3}. 
+
+* Since $A$ = {1, 2}, $A^c$ = {3, 4, 5, 6}. $S$ represents the set of all possible outcomes. 
+
+* There is one shared outcome between $A$ and $D$: $(A \text{ and } D)$ = {2}. Thus, $A$ and $D$ are not disjoint whereas $A$ and $B$ are disjoint. 
+
+* The union of $A$ and $D$ refers to $(A \text{ or } D)$ = {1, 2, 3}. 
+
+```{r cf-inheritance}
+#| label: fig-setTheoryNotation
+#| out-width: 80%
+#| fig-cap: |
+#|   Diagram showing the possible outcomes when rolling one six-sided die and relationships between events.
+#| fig-alt: |
+#|   A diagram showing die faces labeled as outcomes 1 through 6. Three ovals represent different events: Event A includes dice showing 1 and 2; Event B includes dice showing 4 and 6; Event D includes dice showing 2 and 3. Event A and D overlap at outcome 2, showing a shared outcome, while Event B is separate, showing disjointness.
+#| fig-pos: H
+knitr::include_graphics("images/disjointEvents.png")
+```
+
+
 
 ```{r}
 terms_chp_3 <- c(terms_chp_3, c("sample space",
@@ -142,7 +163,7 @@ What is the sample space corresponding to the random process of rolling two six-
 
 ------------------------------------------------------------------------
 
-There are 6 possible outcomes for the first die, and for each of those outcomes there are 6 possible outcomes for the second die, so the sample space consists of the 36 ordered pairs $(j,k)$, where $j$ and $k$ can be any of the integers between 1 and 6.  There are two outcomes where the sum is 3, (1,2) and (2,1), so the probability that the sum is 3 is 2/36.
+There are 6 possible outcomes for the first die, and for each of those outcomes there are 6 possible outcomes for the second die, so the sample space consists of the 36 ordered pairs $(j,k)$, where $j$ and $k$ can be any of the integers between 1 and 6.  There are two outcomes where the sum is 3, (1,2) and (2,1), and each outcome is equally likely, so the probability that the sum is 3 is 2/36.
 :::
 
 ::: {.guidedpractice data-latex=""}
@@ -154,7 +175,7 @@ Describe the event $A$ = {the sum of dice is 4} when rolling two dice.  What is 
 
 ### The properties of probability {#sec-probability-properties}
 
-The properties of probability summarized here have already been used implicitly in the dice rolling example.
+The properties of probability summarized below have already been used implicitly in the dice rolling example.
 
 
 ::: {.important data-latex=""}
@@ -198,7 +219,7 @@ load("./data/gen_ss.Rdata")
 ```
 
 
-The \index{General Social Survey} General Social Survey is conducted by the National Opinion Research Center (NORC) at the University of Chicago.  The survey collects data on American society by asking respondents demographic, behavioral, and attitudinal questions along with some topics of special interest and has been conducted approximately every two years since 1972. @tbl-gss-age-health shows  `r nrow(gen_ss)` total responses to two selected variables from respondents participating in surveys conducted between 2018 and 2024, classified according to the age of the respondent and self-perception of their general health.^[The data in this and similar tables later in the text do not include missing values from non-response since methods for adjusting for missing values are beyond the scope of this text. Accordingly, the data in the table should not used to estimate population parameters.]  
+The \index{General Social Survey} General Social Survey is conducted by the National Opinion Research Center (NORC) at the University of Chicago.  The survey collects data on American society by asking demographic, behavioral, and attitudinal questions along with some topics of special interest and has been conducted approximately every two years since 1972. @tbl-gss-age-health shows  `r nrow(gen_ss)` total responses to two selected variables from respondents participating in surveys conducted between 2018 and 2024, classified according to the age of the respondent and self-perception of their general health.^[The data in this and similar tables later in the text do not include missing values from non-response since methods for adjusting for missing values are beyond the scope of this text. Accordingly, the data in the table should not used to estimate population parameters.]  
 
 ```{r tbl-gss-age-health}
 #| label: tbl-gss-age-health
@@ -247,7 +268,7 @@ Suppose that a researcher plans to sample a case randomly from the `r nrow(gen_s
 
 (a)  The sample space consists of the `r nrow(gen_ss)`  cases in the dataset.
 
-(b) The event $A$ consists of a response in one of the 3 older age groups, 26 to 45, 46 to 65, and 65+.  The total number of outcomes is the sum of the number of respondents listed in the **Sum** column for the  3 corresponding rows, or `r tbl_age_health[2,5] + tbl_age_health[3, 5] + tbl_age_health[4, 5]`.  $P(A)$ = `r tbl_age_health[2,5] + tbl_age_health[3, 5] + tbl_age_health[4, 5]` / `r nrow(gen_ss)` = `r round((tbl_age_health[2,5] + tbl_age_health[3, 5] + tbl_age_health[4, 5]) / nrow(gen_ss), 3)`. $A^c$ consists of sampling a case from the `r tbl_age_health[15]` cases in the first row, and since $P(A) = 1 - P(A^c)$, $P(A)$ can also be calculated as 1 - `r tbl_age_health[1,5]`/ `r nrow(gen_ss)` = `r round(1 - tbl_age_health[1,5]/nrow(gen_ss), 3)`.
+(b) The event $A$ consists of a response in one of the 3 older age groups, 26 to 45, 46 to 65, and 65+.  The total number of outcomes is the sum of the number of respondents listed in the **Sum** column for the  3 corresponding rows, or `r tbl_age_health[2,5] + tbl_age_health[3, 5] + tbl_age_health[4, 5]`.  $P(A)$ = `r tbl_age_health[2,5] + tbl_age_health[3, 5] + tbl_age_health[4, 5]` / `r nrow(gen_ss)` = `r round((tbl_age_health[2,5] + tbl_age_health[3, 5] + tbl_age_health[4, 5]) / nrow(gen_ss), 3)`. $A^c$ consists of sampling a case from the `r tbl_age_health[1, 5]` cases in the first row, and since $P(A) = 1 - P(A^c)$, $P(A)$ can also be calculated as 1 - `r tbl_age_health[1,5]`/ `r nrow(gen_ss)` = `r round(1 - tbl_age_health[1,5]/nrow(gen_ss), 3)`.
 
 
 (c) The number of outcomes satisfying $(A \text{ and } B)$ is the sum of the counts in rows 2, 3 and 4 of column 2, or `r tbl_age_health[2,2] + tbl_age_health[3, 2] + tbl_age_health[4, 2]`.  So $P(A \text{ and } B)$ =  `r round((tbl_age_health[2,2] + tbl_age_health[3, 2] + tbl_age_health[4, 2]) / nrow(gen_ss), 3)`.
@@ -261,7 +282,7 @@ For the events $A$ and $B$ defined above, describe the events $(A \text{ or } A^
 [^probability-3]: The event $(A \text{ or } A^c)$ consists of all  `r nrow(gen_ss)` cases in the dataset. $(A^c \text{ and } B)$ consists of the `r  tbl_age_health[1,2]` respondents who are age 18 - 25 and rated their health as good.  
 
 
-@tbl-gss-age-health-prop displays the data from @tbl-gss-age-health but with proportions replacing counts; the proportions in each cell give the fraction of the observations in the cell when the counts have been divided by the size of the dataset, `r nrow(gen_ss)`, and can be used to calculate probabilities directly.  For instance, the value 0.019 in the upper left cell is the proportion of individuals age 18 to 25 and reporting excellent health, or `r tbl_age_health[1,1]` / `r tbl_age_health[5,5]`. 
+@tbl-gss-age-health-prop displays the data from @tbl-gss-age-health but with proportions replacing counts; the proportions in each cell give the fraction of the observations in the cell when the counts have been divided by the size of the dataset, `r nrow(gen_ss)`, and can be used to calculate probabilities directly.  For instance, the value 0.019 in the upper left cell is the proportion of individuals age 18 to 25 and reporting excellent health, or `r tbl_age_health[1,1]` / `r tbl_age_health[5,5]`; this can also be interpreted as the probability of randomly sampling an individual who reports their health as excellent and is in the 18 to 25 age group. 
 
 ```{r tbl-gss-age-health-prop}
 #| tbl-cap:  "Heath rating and age group, with counts replaced by proportions"
@@ -291,9 +312,9 @@ gen_ss |>
   
 ```
 
-@tbl-gss-age-health-prop illustrates the first two rules of probability: the sum of all the probabilities is 1, and the values are between 0 and 1.  
+@tbl-gss-age-health-prop illustrates the first two rules of probability: the sum of all the probabilities is 1, and all values in the table are between 0 and 1.  
 
-In this example of sampling from the GSS data, @tbl-gss-age-health-prop shows the **probability distribution** for each of the single outcomes in the sample space that are characterized by the age and health rating of a respondent.
+In this example of sampling from the GSS data, @tbl-gss-age-health-prop shows the **probability distribution** for each of the possible outcomes in the sample space that are characterized by the age and health rating of a respondent.
 
 ::: {.important data-latex=""}
 **Probability distribution.**
@@ -310,7 +331,7 @@ terms_chp_3 <- c(terms_chp_3, c("probability distribution")
 
 ### Venn diagrams {#sec-venn-diagrams}
 
-**Venn diagrams** \index{Venn diagrams} are often used to visualize the relationship between events in a sample space. The Venn diagram in @fig-gss-older-health-venn shows the relationship between the events $A$ and $B$ in the above example. It has less information than the full table, but provides a visual display of the overlap between $A$ and $B$.  The total possible outcomes belonging to $A$ is the sum of the 5071 members of $A$ outside $B$ and the 5844 in the intersection of the two events.  The number of members in $B$ is calculated similarly.  The 417 outcomes outside the two circles represents the members of the sample space not in either event.  The percentages shown in the figure can be used to converted to proportions to calculate the probabilities of regions in the figure, so the probability of $A$ is 0.432 + 0.498 = 0.930. 
+**Venn diagrams** \index{Venn diagrams} are often used to visualize the relationship between events in a sample space. The Venn diagram in @fig-gss-older-health-venn shows the relationship between the events $A$ and $B$ in the above example. It has less information than the full table, but provides a visual display of the overlap between $A$ and $B$. The total possible outcomes belonging to A equals $5071 + 5844$, which represents the members belonging to $A$ but not to $B$ and the members belonging to both $A$ and $B$. The number of members in $B$ is calculated similarly. The 417 outcomes outside the two circles represents the members of the sample space not in either event.  The percentages shown in the figure can be converted to proportions to calculate the probabilities of regions in the figure; for example, the probability of $A$ is 0.432 + 0.498 = 0.930. 
 
 ```{r, include = FALSE}
 # trying out a helper function to add sample space box
@@ -359,6 +380,9 @@ add_sample_space <- function(p, expand = 0.05, color = "black", linewidth = 1) {
 #| out-width: 80%
 #| fig-cap: | 
 #|     Venn diagram showing the overlap between the events {older than age 25} and {health rating good}.  
+#| fig-alt: |
+#|   A Venn diagram consisting of a blue circle and a red circle with an overlapping area. The blue circle represents event A and the red circle represents event B. The overlapping area is labeled 5,844. The blue area that does not overlap is labeled 5,071 and the red area that does not overlap is labeled 402. The Venn diagram is within a rectangle; the label 417 appears inside the rectangle but outside the Venn diagram.
+
 `Older than 25 (A)` <- (gen_ss$age_group != "18 to 25") 
 `Health rating good (B)` <- (gen_ss$health_status == "good")
 d <- data_frame(`Older than 25 (A)`, `Health rating good (B)`)
@@ -374,7 +398,7 @@ add_sample_space(p)
 
 ::: {.workedexample data-latex=""}
 
-Describe in words the 417 outcomes represented by the white space outside the circles in @fig-gss-older-health-venn.
+In the context of what the events $A$ and $B$ represent, describe the 417 outcomes represented by the white space outside the circles in @fig-gss-older-health-venn.
 
 ------------------------------------------------------------------------
 
@@ -398,7 +422,7 @@ $$
 where   
     - $D_1$ = ({health rated good} and {age between 18 and 25})     
     - $D_2$ = ({health rated good} and {age between 26 and 45})      
-    - $D_3$ = ({health rated good} and {age 56 tp 65}} and     
+    - $D_3$ = ({health rated good} and {age 56 to 65}} and     
     - $D_4$ = ({health rated good} and {age 66+}). 
 
 Thus
@@ -420,7 +444,7 @@ As always, it pays to be careful with the language in a problem statement. While
 
 ### The Law of Total Probability {#sec-lotp}
 
-The solution to (a) in the problem in the last section used implicitly another probability rule, the law of total probability, by breaking the event $B$ into disjoint chunks.  Here is a formal statement of the rule:
+The solution to (a) in the problem in the last section implicitly used another probability rule, the law of total probability, by breaking the event $B$ into disjoint chunks.  Here is a formal statement of the rule:
 
 ::: {.important data-latex=""}
 
@@ -449,7 +473,6 @@ $${#eq-general-total-probability}
 #|      A large rectangle represents the sample space S, which is divided vertically into three disjoint events, $E_1$, $E_2$, and $E_3$. An oval labeled B overlaps all three regions, representing event B. The overlapping shaded regions inside the oval represent the three possible intersections of B with the three partitions of E. The area of B can be found by summing the area inside the oval that is divided by the vertical lines.  
 #|     
 #| 
-
 
 library(grid)
 library(ggforce)
@@ -501,8 +524,6 @@ ggplot() +
   annotate("text", x = 8.8, y = 5.8, label = "Event B", hjust = 0, size = 5) +
   coord_fixed(xlim = xlim, ylim = ylim, expand = FALSE) +
   theme_void()
-
-
 ```
 
 
@@ -527,7 +548,7 @@ t <- round(t, 3)
 
 ::: {.guidedpractice data-latex=""}
 
-The prevalence of a disease is the probability that a member of a population has the disease.  Parkinson's disease (PD) is a neurodegenerative disorder with a prevalence that varies with age.  Studies have shown that in low- to upper-middle-income countries the age-related prevalence of PD is estimated to be 7 per 100,000 for individuals age 40-49, 158 per 100,000  in age 50 - 59, 603 per 100,000 in age 60 - 79, 1251 in age 70-79,and 2181 per 100,000 in age over 80. [@pereira2024systematic]  Assuming that the disease is so rare in individuals who are younger than 40 that the prevalence in that age group can be considered 0, what is the overall prevalence of PD?
+The prevalence of a disease is the probability that a member of a population has the disease.  Parkinson's disease (PD) is a neurodegenerative disorder with a prevalence that varies with age.  Studies have shown that in low- to upper-middle-income countries the age-related prevalence of PD is estimated to be 7 per 100,000 for individuals age 40 - 49, 158 per 100,000 in age 50 - 59, 603 per 100,000 in age 60 - 79, 1251 in age 70 - 79,and 2181 per 100,000 in age over 80. [@pereira2024systematic]  Assuming that the disease is so rare in individuals who are younger than 40 that the prevalence in that age group can be considered 0, what is the overall prevalence of PD?
 [^probability-4]
 
 :::
@@ -576,9 +597,11 @@ terms_chp_3 <- c(terms_chp_3, c("law of total probability (LOTP)")
 )               
 ```
 
-### The general addition rule for probabilities {#sec-general-addition-rule}
+### The general addition rule {#sec-general-addition-rule}
 
-Suppose now as in the example with age and health status, $B$ = {health rating good} and $E$ = {respondent is age 26 - 45}.  The probability $P(B \text{ and } E)$ is the value in @tbl-gss-age-health-prop in the intersection of the shaded second row, and second column shown in @tbl-gss-age-health-prop-shaded, or `r tbl_age_health_prop[2,2]`.  What about $P(B \text{ or }E)$? The events $B$ and $E$ are not disjoint so the addition rule for disjoint events does not apply.  Adding together the sums of second row and second column (`r  tbl_age_health_prop[2,5] + tbl_age_health_prop[5,2]`) includes the proportion for the event ({age 26-45} and {health rating good} twice, so it must be subtracted once:
+Now, consider the events $B$ = {health rating good} and $E$ = {respondent is age 26 - 45}. The probability $P(B \text{ and } E)$ is `r tbl_age_health_prop[2,2]`, shown in the intersection of the shaded rows in @tbl-gss-age-health-prop-shaded. 
+
+What about $P(B \text{ or }E)$, as shown by the shaded cells in @tbl-gss-age-health-prop-shaded? The events $B$ and $E$ are not disjoint so the addition rule for disjoint events does not apply. Adding together the sums of the second row and second column (`r  tbl_age_health_prop[2,5] + tbl_age_health_prop[5,2]`) includes $P(B \text{ and } E)$ twice, so it must be subtracted once:
 \begin{align*}
 P(B \text{ or } E) &= P(B) + P(E) - P(B \text{ and } E) \\
     &= `r tbl_age_health_prop[2,5]` + `r tbl_age_health_prop[5,2]` - `r tbl_age_health_prop[2,2]` \\
@@ -617,10 +640,10 @@ gen_ss |>
 ```
 
 
-The calculation of $P(B \text{ or } E)$ illustrates to the General Addition Rule for Probabilities:
+The calculation of $P(B \text{ or } E)$ illustrates the General Addition Rule:
 
 ::: {.important data-latex=""}
-**General addition rule for probabilities.**
+**General addition rule**
 
 If $A$ and $B$ are any two events, disjoint or not, then the probability that at least one of them will occur is
 $$
@@ -636,15 +659,17 @@ terms_chp_3 <- c(terms_chp_3, c("general addition rule of probability")
 ```
 
 
-The idea behind the general addition rule can be visualized in the Venn diagram in  @fig-gss-age-health-venn showing the relationship between the events {age 26 to 45} and {health rating good}.  The figure shows that there are 1896 + 2180 = 4076 outcomes in the event {age 26 to 45} and 4066 + 2180 = 6246  in the event {health rating good}.  Adding the two total outcomes 4076 + 6246 = 10322 double counts the 2180 in the overlap, so the number of outcomes in ({age 26 to 45} or {health rating good}) is 4076 + 6246 - 2180 = 8146.
+The idea behind the general addition rule can also be visualized in @fig-gss-age-health-venn, a Venn diagram showing the relationship between the events {age 26 to 45} and {health rating good}. The figure shows that there are 1896 + 2180 = 4076 outcomes in the event {age 26 to 45} and 4066 + 2180 = 6246  in the event {health rating good}. Simply adding the sums for each event, 4076 + 6246 = 10322, double counts the 2180 in the overlap. Instead, the number of outcomes in ({age 26 to 45} or {health rating good}) is 4076 + 6246 - 2180 = 8146.
 
 
 ```{r fig-gss-age-health-venn}
 #| label: fig-gss-age-health-venn
 #| out-width: 80%
 #| fig-cap: | 
-#|     Venn diagram showing the overlap between the events {age 26 to 45} and {health rating good}.  
-#|     The two events are not disjoint.  
+#|     Venn diagram showing the overlap between the events {age 26 to 45} and {health rating good}. The two events are not disjoint.  
+#| fig-alt: |
+#|   A Venn diagram consisting of a blue circle and a red circle with an overlapping area. The blue circle represents event {Age 26 to 45} and the red circle represents event {Health rating good}. The overlapping area is labeled 2,180. The blue area that does not overlap is labeled 1,896 and the red area that does not overlap is labeled 4,066. The Venn diagram is within a rectangle; the label 3,592 appears inside the rectangle but outside the Venn diagram.
+
 `Age 26 to 45` <- (gen_ss$age_group == "26 to 45") 
 `Health rating good` <- (gen_ss$health_status == "good")
 d <- data_frame(`Age 26 to 45`, `Health rating good`)
@@ -668,7 +693,7 @@ add_sample_space(p)
 (a) Use @fig-gss-age-health-venn to calculate $P${age 26 to 45} and $P${health rating good}. (b) Confirm that the Venn diagram does indeed include all outcomes in the sample space  [^probability-6]
 :::
 
-[^probability-6]: (a) $P(\text{age 26 to 45}) = 0.162 + 0.186 = `r 0.162 + 0.186`$. $P(\text{health rating good}) = `r 0.186 + 0.347`$.
+[^probability-6]: (a) $P(\text{age 26 to 45}) = 0.162 + 0.186 = `r 0.162 + 0.186`$. $P(\text{health rating good}) = 0.186 + 0.347 = `r 0.186 + 0.347`$.
 (b) The total outcomes shown in the figure is 1896 + 2180 + 4066 + 3592 = `r 1896 + 2180 + 4066 + 3592`, which is the size of the dataset.
 
 
@@ -694,7 +719,7 @@ Let $A$ = {age 66+} and $F$ = {health rating poor}. Using @eq-general-addition-r
 
 ::: {.guidedpractice data-latex=""}
 
-What is the probability that (a) someone is older than age 46 and rates their health as poor and (b) they are either older than 46 or have rated their health as poor.  [^probability-8]
+Using @tbl-gss-age-health-prop, what is the probability that (a) someone is older than age 46 and rates their health as poor and (b) they are either older than 46 or have rated their health as poor?  [^probability-8]
 
 :::
 
@@ -713,8 +738,11 @@ P(H \text{ or } F) &= P(H) + P(F) - P(H \text{ and } F) \\
 
 ## Conditional probability {#sec-conditional-probability}
 
-Often, probabilities are re-calculated based on some additional or prior information.  For instance, the prevalence of diabetes in the US population is  11.6%, so the chance that a randomly chosen member of the US population has been diagnosed with diabetes is 0.116, or about 0.12.^[https://www.cdc.gov/diabetes/php/data-research/index.html]  Since older adults are more at risk for diabetes, the prevalence changes with age.  Among adults age 65 or older, 24.4% have been diagnosed with diabetes. When sampling randomly from the population of adults age 65 or older, the chance selecting someone with diabetes is about 0.24, double the chance when sampling from the overall population.
+Estimates of probability may change once new information is available. Probabilities that once described the whole population may no longer apply once additional context is known. For example, about 11.6\% of people in the United States have been diagnosed with diabetes, so if a person is selected at random, the probability that they have diabetes is 0.116, or about 0.12.^[https://www.cdc.gov/diabetes/php/data-research/index.html] 
 
+But, suppose we learn that the selected individual is 65 years old or older; i.e., in an age group that is at higher risk for diabetes. Among American adults 65 and older, about 24.4\% have been diagnosed with diabetes. Now, the relevant probability is no longer the overall prevalence of diabetes but the prevalence given age. 
+
+Incorporating the person's age, or in other words, *conditioning* on age, allows for a more precise estimate of the probability that the person has diabetes.
 
 ::: {.important data-latex=""}
 **Conditional probability.**
@@ -723,7 +751,7 @@ Let $A$ and $B$ be two events.  The conditional probability of $B$ given $A$, wr
 
 :::
 
-If $B$ is event that someone  has diabetes and $A$ is the event that they have been sampled from a population age 65 or older older, then
+If $B$ is the event that someone has diabetes and $A$ is the event that they are 65 or older, then
 $$
 P(B) = 0.12,
 $$
@@ -731,18 +759,18 @@ while
 $$
  P(B \mid A) = 0.24,
 $$
-The probability of diabetes is different, conditional the age of population being sampled.
+The probability of diabetes is different conditional on age group. 
 
-### Example: Conditional probabilities in the GSS data.
+### Example: Conditional probabilities in the GSS data
 
-Conditional probabilities can be calculated from tables such as @tbl-gss-age-health.  Suppose $A$ = {age 26 to 45}.  Conditioning on the event $A$ = {age 26 to 45} means calculating probabilities for reported health among the `r tbl_age_health[2,5]` respondents in that age group.  Conditional probabilities for a reported health rating will be the proportion of the observed outcomes among the number of respondents between 26 and 46. For instance, 
+Conditional probabilities can be calculated from tables such as @tbl-gss-age-health. Suppose $A$ = {age 26 to 45}.  Conditioning on the event $A$ = {age 26 to 45} means calculating probabilities for reported health specifically among the `r tbl_age_health[2,5]` respondents in that age group. For instance, 
 
 $$
 P(\text{health rating = good} | A) =  \frac{`r tbl_age_health[2,2]`}{`r tbl_age_health[2,5]`} = `r tbl_age_health[2,2]/ tbl_age_health[2,5]`.
 $$
+@tbl-gss-age-health-row-prop shows the probabilities of each health rating conditional on age, which are equal to row proportions calculated from @tbl-gss-age-health. These can also be described as conditional distributions for health rating based on age. Comparing the rows of the table shows how the conditional probabilities of health rating vary with age. For example, while "good" is the most commonly reported health rating within each age group, the table indicates how "excellent" is less commonly reported among older individuals compared to younger individuals.
 
-Conditioning on any other age group involves calculating proportions for outcomes in that age group.  These conditional probabilities will be the row proportions in a table based @tbl-gss-age-health, but with counts replaced by row proportions.  The  modified table is shown in @tbl-gss-age-health-row-prop.
-
+Notice how conditional probabilities are simply probabilities re-calculated in a subset of the original sample space. In any given row, all the probabilities are between 0 and 1 and sum to 1. 
 
 ```{r tbl-gss-age-health-row-prop}
 #| label: tbl-gss-age-health-row-prop
@@ -770,25 +798,37 @@ gen_ss |>
   column_spec(2:6, width = "4em") 
 ```
 
+While Tables [-@tbl-gss-age-health-prop] and [-@tbl-gss-age-health-row-prop] appear similar, the values have different interpretations:  
 
-@tbl-gss-age-health-prop shows 4 conditional distributions for health rating, each corresponding to a different age range.  Since conditional probabilities are simply probabilities recalculated in a reduced sample space, they satisfy the 4 properties of probability in @sec-probability-properties. For instance, all conditional probabilities are between 0 and 1, and the rows sum to 1.
+  * In @tbl-gss-age-health-prop, the value in the second row, second column (`r tbl_age_health_prop[2,2]`) is $P$({age 26 to 45} and {health rating good}). This is the proportion of respondents who are age 26 to 45 **and** reported a good health status out of all 11,734 respondents and is called a \index{joint probability} **joint probability** for the two outcomes.
+  
+  * In @tbl-gss-age-health-row-prop, the value in the second row, second column (0.535) is $P$({health rating good} | {age 26 to 45}). This is a  \index{conditional probability} **conditional probability**, the proportion of respondents rating their health good out of the `r tbl_age_health[2,5]` respondents who are age 26 to 45. 
 
-Tables such as @tbl-gss-age-health-row-prop provide convenient summaries of conditional probabilities that depend on categorical variables.  The conditional probability for any reported health rating, given a respondent is age 66+ (for instance), can be read from the last row of the table, and the comparing the rows of the table shows how the conditional probabilities of health rating vary with age. In @sec-relationships-two-categorical tables with row proportions were used to explore the relationship between two categorical variables in the World Values Survey (e.g., @tbl-wvs-edu-health-row-prop).   Instead of showing a relationship in collected data, however, @tbl-gss-age-health-row-prop shows how probabilities vary across levels of a categorical variable.
-
-Tables [-@tbl-gss-age-health-prop] and [-@tbl-gss-age-health-row-prop] appear similar, but the values in the two tables correspond to different types of probabilities.  In @tbl-gss-age-health-prop the value in the second row, second column (`r tbl_age_health_prop[2,2]`) is $P$({age 26 to 45} and {health rating good}).  It is the proportion of respondents who fell simultaneously into that age and health status among all `r tbl_age_health[5,5]` respondents and is called a \index{joint probability} **joint probability** for the two outcomes. In @tbl-gss-age-health-row-prop the value in the second row, second column  is a **conditional probability**, the proportion of respondents rating their health good when restricted to (conditioned on) those in age group 26 to 45.  In @tbl-gss-age-health-prop the row sums in the last column show the probability of an age group among the respondents, regardless of health status; the column sums in the last row show the probabilities of health rating, regardless of age.  These probabilities are called **marginal probabilities** \index{marginal probability} for health rating and age.  
-
-
-### Formula for condditional probability
+In @tbl-gss-age-health-prop, the row sums in the last column show the probability of an age group among the respondents, regardless of health status; the column sums in the last row show the probabilities of health rating, regardless of age.  These probabilities are called **marginal probabilities** \index{marginal probability} for health rating and age.  
 
 
-The calculation of a row proportion suggests a formula for calculating conditional probabilities.  Suppose, for example, $A$ = {age 26 to 45} and  $B$ = {Health rating good}. The element in @tbl-gss-age-health-row-prop corresponding to $P(B \mid A)$ is  
+### Formula for conditional probability
+
+The earlier example showing the calculation for a row proportion points to a general approach for calculating conditional probabilities. 
+
+Suppose that $A$ = {Age 26 to 45} and $B$ = {Health rating good}. The element in @tbl-gss-age-health-row-prop corresponding to $P(B \mid A)$ can be calculated as
 
 \begin{aligned}
 P(B \mid A) 
   &= \frac{\text{number of outcomes in } (B \text{ and } A)}{\text{number of outcomes in } A} \\
+  &= \frac{2180}{4076} \\
+  &= 0.535
+\end{aligned}
+
+Equivalently, it can also be calculated from the joint probability and the marginal probability of $B$, rather from directly using the counts.
+
+\begin{aligned}
+P(B \mid A) 
   &= \frac{\text{number of outcomes in } (B \text{ and } A) /{\text{total outcomes}}}
           {\text{number of outcomes in } A / {\text{total outcomes}}} \\
-  &= \frac{P(B \text{ and } A)}{P(A)}.
+  &= \frac{P(B \text{ and } A)}{P(A)} \\
+  &= \frac{0.1858}{0.3473} \\
+  &= 0.535
 \end{aligned}
 
 ::: {.important data-latex=""}
@@ -810,17 +850,44 @@ terms_chp_3 <- c(terms_chp_3, c("conditional probability",
 ```
 
 
-In many texts @eq-conditional-probability serves as the definition of conditional probability.  In this text, @eq-conditional-probability is viewed as a way to calculate the conceptual definition given earlier.
+In many texts @eq-conditional-probability serves as the definition of conditional probability.  In this text, @eq-conditional-probability is viewed as a way to calculate a conditional probability based on the conceptual definition given earlier.
 
+
+A simple rearrangement of the the formula for conditional probability yields the multiplication rule.
+
+::: {.important data-latex=""}
+**Multiplication rule**
+
+If $A$ and $B$ are two events in a sample space, then
+$$
+P(B\text{ and } A) = P(B | A)P(A).
+$${#eq-mult-rule-two-probs}
+::: 
+ 
 ::: {.workedexample data-latex=""}
 
-In the United States, women live longer than men.   Approximately 7.4%  of the population are females age 80 or older (80+), while only 4.4% are males 80+ . Suppose that 50.5% of the US population are females. (a) Draw a Venn diagram showing the relationship between the events {selecting a female} and {selecting someone 80+ years old}, showing the probabilities of the non-overlapping regions. Use the information in the Venn diagram to compute (b) the probability that a randomly sampled female is age 80+ and (c) the probability that a randomly sampled person age 80+ is a female. (d)  Explain these two conditional probabilities in terms that someone without a background in statistics would understand.
+Suppose that among adults age 25 to 40 years who consume a high sodium diet, hypertension occurs about 18% of the time. Assume that 60\% of adults in this age group consume a high-sodium diet. What is the probability of randomly selecting an adult in this age group who has hypertension and consumes a high-sodium diet?
 
 ------------------------------------------------------------------------
 
-It is best to begin by writing in probability notation what is known and what is being asked.  Let $A$ = {randomly selected person is alive at age 80 or older}, and $F$ = {randomly selected person is female}.  In the problem statement $P(F \text{ and } A)$ = 0.074, $P(F^c \text{ and } A)$ = 0.044, and $P(F)$ = 0.505. Part (a) asks for the Venn diagram showing the relationship between $A$ and $F$. Parts (b) and (c) ask for $P(A \mid F)$ and $P(F \mid A)$, respectively, while (d) asks for an explanation of the conditional probabilities that does not use the jargon of probability.
+Let $A$ be the event that a person in this age group has hypertension and $B$ the event that a person in this age group consumes a high-sodium diet. $P(A|B)$, the probability of hypertension given high-sodium diet, is 0.18. Thus, $P(A \text{ and } B) = (0.18)(0.60) = 0.108$.
+:::
 
-(a) It is best to begin by sketching the main features of a Venn diagram before calculating the probabilities of events. The  @fig-female-80plus-venn-blank shows an initial Venn diagram, emphasizing the relationship between the events but without the probabilities.  Since $P(F \text{ and } A) > 0$, there will be an overlap between the events, as shown in the diagram.  The white space surrounding the diagram represents individuals who are neither females or in the 80+ group (males who are less than 80 years old.)
+::: {.workedexample data-latex=""}
+
+In the United States, younger people are more likely to rent their home than other age groups. Approximately 65\% of residents who are age 35 or younger rent, while 42\% of older residents rent. Suppose that about 30\% of the U.S. population are age 35 or younger.
+
+(a) Draw a Venn diagram showing the relationship between the events {age 35 or younger} and {rents their home}, showing the probabilities of the non-overlapping regions.
+
+(b) Use the information in the Venn diagram to compute the probability that someone who rents their home is age 35 or younger.
+
+(c) Explain the difference between the quantity calculated in part b. and the probability that a randomly sampled person who is age 35 or younger rents their home. Use terms that someone without a background in statistics would understand.
+
+------------------------------------------------------------------------
+
+Let $A$ = {randomly selected person is age 35 or younger}, and $R$ = {randomly selected person rents their home}. From the problem statement, $P(R \mid A)$ = 0.65, $P(R \mid A^c)$ = 0.042, and $P(A)$ = 0.30. 
+
+(a) @fig-rent-35younger-venn-blank shows an initial Venn diagram which shows the relationship between the events $A$ and $R$, but without the probabilities. Since $P(R|A) > 0$, there will be an overlap between the events. The white space surrounding the circles represents individuals who are older than 35 years and who do not rent their home. 
 
 ```{r, include = FALSE}
 # trying helper for plots from VennDiagram 
@@ -846,8 +913,33 @@ add_vd_border <- function(g,
 }
 ```
 
+```{r fig-rent-35younger-venn-blank}
+#| label: fig-rent-35younger-venn-blank
+#| out-width: 70%
+#| fig-cap: | 
+#|     Venn diagram showing the relationship between A = {age 35 or younger} and R = {rent}, without probabilities.
+#| fig-alt: |
+#|   A Venn diagram consisting of a blue circle and a red circle with an overlapping area. The red circle represents event A and the blue circle represents event R. There are no labels with probabilities.
+library(VennDiagram)
+# Draw Venn diagram with specified areas
+age_venn <-  draw.pairwise.venn(
+  area1 = 0.489,     # set A
+  area2 = 0.30,      # set B
+  cross.area = 0.195, # overlap
+  category = c("<= 35", "Rents"),
+  fill = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]),
+  lty = "blank",
+  #cex = 1.5,
+  cat.cex = 1.5,
+  ext.text = TRUE,
+  scaled = FALSE,
+  cex = 0
+)
 
-```{r fig-female-80plus-venn-blank}
+grid.draw(add_vd_border(age_venn, pad = unit(1.5, "mm"), lwd = 2))
+```
+
+```{r fig-female-80plus-venn-blank, include = F}
 #| label: fig-female-80plus-venn-blank
 #| out-width: 70%
 #| fig-cap: | 
@@ -870,18 +962,48 @@ age_venn <-  draw.pairwise.venn(
 
 grid.draw(add_vd_border(age_venn, pad = unit(1.5, "mm"), lwd = 2))
 ```
-@fig-female-80plus-venn adds the probabilities to the diagram.  The slice in the middle is $P(F \text{ and } A)$ and is given as 0.074. The size of the blue area is $P(F \text{ and } A^c).$  By the rule of total probability (@eq-total-probability)
-$$
-  P(F) = P(F \text{ and } A) + P(F \text{ and } A^c),
-$$
-so 
-$$
-P(F \text{ and } A^c) = P(F) - P(F \text{ and } A) = 0.505 - 0.074 = 0.431.
-$$
-The red section on the right has size $P(F^c \text{ and } A)$, the probability that someone is 80+ and male, and is given as 0.44.
 
+@fig-rent-35younger-venn adds the probabilities to the diagram. The overlapping segment is $P(A \text{ and } R)$. By the general multiplication rule:
+$$
+P(A \text{ and } R) = P(R \mid A)P(A) = (0.65)(0.30) = 0.195.
+$$
+By the rule of total probability (@eq-total-probability)
+$$
+  P(A) = P(A \text{ and } R) + P(A \text{ and } R^c),
+$$
+so
+$$
+P(A \text{ and } R^c) = P(A) - P(A \text{ and } R) = 0.30 - 0.195 = 0.105.
+$$
+Using the same logic, the blue section on the right which does not overlap represents $P(A^c \text{ and }R)$ and equals 0.294.
 
-```{r fig-female-80plus-venn}
+```{r fig-rent-35younger-venn}
+#| label: fig-rent-35younger-venn
+#| out-width: 70%
+#| fig-cap: | 
+#|     Venn diagram showing the relationship between A = {age 35 or younger} and R = {rent}, with probabilities.
+#| fig-alt: |
+#|     A Venn diagram consisting of a blue circle and a red circle with an overlapping area. The red circle represents event A and the blue circle represents event R. The overlapping part is labeled 0.195. The non-overlapping red area is labeled 0.294 and the non-overlapping blue area is labeled 0.105.
+library(VennDiagram)
+# Draw Venn diagram with specified areas
+age_venn <-  draw.pairwise.venn(
+  area1 = 0.489,     # set A
+  area2 = 0.30,      # set B
+  cross.area = 0.195, # overlap
+  category = c("<= 35", "Rents"),
+  fill = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]),
+  lty = "blank",
+  #cex = 1.5,
+  cat.cex = 1.5,
+  ext.text = TRUE,
+  scaled = FALSE,
+  cex = 1.5
+)
+
+grid.draw(add_vd_border(age_venn, pad = unit(1.5, "mm"), lwd = 2))
+```
+
+```{r fig-female-80plus-venn, include = F}
 #| label: fig-female-80plus-venn
 #| out-width: 70%
 #| fig-cap: | 
@@ -905,63 +1027,36 @@ age_venn <-  draw.pairwise.venn(
 grid.draw(add_vd_border(age_venn, pad = unit(1.5, "mm"), lwd = 2))
 ```
 
-(b) The conditional probability that a randomly sampled female is 80+ is the conditional probability of being in that age group, given that the sampled person is female, $P(A \mid F)$.  
+(b) The conditional probability $P(A \mid R)$ is 
 \begin{align*}
-P(A \mid F) &= \frac{P(F \text{ and } A)}{P(F)} \\
-            &= \frac{0.074}{0.505} \\
-            &= 0.147.
+P(A \mid R) &= \frac{P(A \text{ and } R)}{P(R)} \\
+            &= \frac{0.195}{0.294 + 0.195} \\
+            &= 0.399.
 \end{align*}
 
 
-(c) The conditional probability $P(F \mid A)$ is 
-\begin{align*}
-P(F \mid A) &= \frac{P(F \text{ and } A)}{P(A)} \\
-            &= \frac{0.074}{0.074 + 0.044} \\
-            &= 0.627.
-\end{align*}
-
-
-(d) Approximately 15% of the females in the US are at least 80 years old.  Part (c): Among the elders in the US who are at least 80 years old, approximately 63% are female.  So a majority of people in the US at least 80 years old are female.  Women do indeed live longer than men.
+(c) Out of people who are age 35 or younger, 65\% rent their home. The quantity in part b., however, indicates that out of people who rent their home, 39.9\% are age 35 or younger.
 
 :::
 
 ::: {.guidedpractice data-latex=""}
 
-In the above example what population is represented by the white space outside the ovals in @fig-female-80plus-venn?  What is the probability if selecting someone 
+In the above example what population is represented by the white space outside the ovals in @fig-rent-35younger-venn?  What is the probability of selecting someone 
 from that population?[^probability-330]
 
 :::
 
-[^probability-330]: The population represented by the white space are neither female nor age 80+.  They are the males  less than 80 years old.  The probability in that region is 1 minus the total area in the ovals, 1 - (0.431 + 0.074 + 0.044) = 0.451.  Approximately 45% of the US population are males less than 80 years old.
+[^probability-330]: The population represented by the white space are neither renting their home nor ages 35 or younger.  They are residents who are older than 35 who own their home.  The probability in that region is 1 minus the total area in the ovals, 1 - (0.294 + 0.195 + 0.105) = 0.406.  Approximately 40.6% of the US population are older than 35 years and own their home.
 
-
-A simple rearrangement of the the formula for conditional probability yields the multiplication rule for probabilities.
-
-::: {.important data-latex=""}
-**Multiplication rule for probabilities.**
-
-If $A$ and $B$ be two events in a sample space, then
-$$
-P(B\text{ and } A) = P(B | A)P(A).
-$${#eq-mult-rule-two-probs}
-::: 
- 
-::: {.workedexample data-latex=""}
-
-Suppose that among male adults between 25 and 40 years of age, hypertension occurs about 18% of the time. For simplicity assume that the population is 50% male, 50% female. What is the probability of randomly selecting a male with hypertension from the population of individuals 25-40 years of age?
-
-------------------------------------------------------------------------
-
-Let $A$ be the event that a person has hypertension, and $B$ the event that they are a male adult between 25 and 40 years of age. $P(A|B)$, the probability of hypertension given male sex, is 0.18. Thus, $P(A \text{ and } B) = (0.18)(0.50) = 0.09$.
-:::
 
 ```{r}
-terms_chp_3 <- c(terms_chp_3, c("formula for condidtional probability")
+terms_chp_3 <- c(terms_chp_3, c("formula for conditional probability")
 )               
 ```
+
 ### Independence {#sec-independent-events}
 
-The conditional probability $P(B \mid A)$ quantifies how knowing that $A$ has occurred changes the chance of $B$ happening.  When $P(B)$ and $P(B \mid A)$ are the same, knowing that $A$ has occurred provides no information about the chance of $B$.  In that case, $A$ and $B$ are called **statistically independent** \index{independent}.
+The conditional probability $P(B \mid A)$ quantifies how knowing that $A$ has occurred changes the chance of $B$ happening.  When $P(B)$ and $P(B \mid A)$ are the same, knowing that $A$ has occurred provides no information about the chance of $B$.  In that case, $A$ and $B$ are considered **independent** \index{independent} events.
 
 
 ::: {.important data-latex=""}
@@ -973,9 +1068,10 @@ $$
 $${#eq-independence-definition}
 ::: 
 
-Applying the multiplication rule to two independent events $A$ and $B$ yields an alternative definition for independent events:
+Applying the multiplication rule to solve for $P(A \text{ and } B)$ when $A$ and $B$ are independent yields an alternative formula for $P(A \text{ and } B)$ that is specific to independent events:
+
 $$
- P(B\text{ and } A) = P(B \mid A)P(A) = P(B)P(A).
+ P(A \text{ and } B) = P(A)P(B \mid A) = P(A)P(B).
 $${#eq-two-independent-events}
 
 Similarly, if there are $k$ events $A_1$, ..., $A_k$ from $k$ independent processes, then the probability they all occur is
@@ -987,18 +1083,13 @@ Independence for two events can be checked using either  @eq-independence-defini
 
 ::: {.workedexample}
 
-In the US population, 45% of the of people are blood group O. Suppose that 40% of Asian people living in the US are blood group O, and that the Asian population in the United States is approximately 4%. Do these data suggest that blood group is independent of ethnicity?
+In the US population, 45% of people are blood group O. Suppose that 40% of Asian people living in the US are blood group O, and that the Asian population in the United States is approximately 4%. Do these data suggest that blood group is independent of ethnicity?
 
 ---------------------------------------
 
-Let $B$ represent blood group O, and $A$ represent Asian ethnicity. Since $P(B|A) = 0.40$ does not equal $P(B) = 0.45$, the two events are not independent.   Alternatively, 
-\begin{align*}
-P(A \text{ and } B) &= P(B |A)P(A) \\
-    &= (0.40)(0.04) \\
-    &\neq (0.45)(0.04) \\
-    &= P(B)P(A).
-\end{align*}
-Blood group is not independent of ethnicity.
+Let $B$ represent blood group O, and $A$ represent Asian ethnicity. Since $P(B|A) = 0.40$ does not equal $P(B) = 0.45$, the two events are not independent.   
+
+Alternatively, check whether $P(A \text{ and } B)$ equals $P(A)P(B)$. $P(A)P(B) = (0.04)(0.45) = 0.018$ and since $P(A)P(B) \neq P(A \text{ and } B)$, blood group is not independent of ethnicity.
 
 :::
 
@@ -1009,7 +1100,7 @@ Blood group is not independent of ethnicity.
 
 :::
 
-[^probability-301]: $A$ and $B$ are not independent since $P(B)$ = 1/12 (approximately) but $P(B|A) = 0,$ since a day in October cannot be a day in summer.  The two events are disjoint, however, since both $A$ and $B$ cannot happen simultaneously.
+[^probability-301]: $A$ and $B$ are not independent since $P(B)$ = 1/12 (approximately) but $P(B|A) = 0$, since a day in October cannot be a day in summer. The two events are disjoint, however, since both $A$ and $B$ cannot happen simultaneously. Another way to approach this question is to apply the reasoning that since $A$ and $B$ are disjoint, they are necessarily dependent; if $A$ happens, then $B$ does not happen. 
 
 ::: {.guidedpractice data-latex=""}
 
@@ -1017,14 +1108,14 @@ Is the event of drawing a heart from a deck of cards independent of drawing an a
 
 :::
 
-[^probability-302]:The probability the card is a heart is 13/52 = 1/4  and the probability that it is an ace is 4/52=1/13. The probability that the card is the ace of hearts $\text{A}{\heartsuit}$) is 1/52. Check whether @eq-two-independent-events is satisfied: $$P({\heartsuit}) P(\text{A}) = \left(\frac{1}{4} \right) \left( \frac{1}{13} \right) = \frac{1}{52} 
-= P({\color{redcards}\heartsuit}\text{A}).$$  Since the equation holds, the event that the card is a heart and the event that the card is an ace are independent events.
+[^probability-302]:The probability the card is a heart is 13/52 = 1/4  and the probability that it is an ace is 4/52=1/13. The probability that the card is the ace of hearts $\text{A}{\heartsuit}$) is 1/52. Check whether @eq-two-independent-events is satisfied: $$P(\text{A})P({\heartsuit}) =\left( \frac{1}{13} \right)\left(\frac{1}{4} \right) = \frac{1}{52} 
+= P({\text{A}\color{redcards}\heartsuit}).$$  Since the equation holds, the event that the card is a heart and the event that the card is an ace are independent events.
 
 
 
 ::: {.workedexample data-latex=""}
 
-Mandatory drug testing in the workplace is common practice for certain professions, such as air traffic controllers and transportation workers.  A false positive in a drug screening test occurs when the test incorrectly indicates that a screened person is an illegal drug user. Suppose a mandatory drug test has a false positive rate of 1.2% (i.e., has probability  0.012 of indicating that an employee is using illegal drugs when that is not the case).  Given 150 employees who are in reality drug free, what is the probability that at least one will falsely test positive? Assume that the outcome of one drug test has no effect on the others.
+Mandatory drug testing in the workplace is common practice for certain professions, such as air traffic controllers and transportation workers.  A false positive in a drug screening test occurs when the test incorrectly indicates that a screened person is an illegal drug user. Suppose a mandatory drug test has a false positive rate of 1.2% (i.e., has probability  0.012 of indicating that an employee is using illegal drugs when that is not the case).  Given 150 employees who are in reality drug free, what is the probability that at least one will falsely test positive? Assume that the outcome of one drug test provides no information about the others.
 
 ------------------------------------------------------------------------
 
@@ -1044,37 +1135,45 @@ P(\text{At least 1 } \texttt{+})
 
 ::: {.guidedpractice data-latex=""}
 
-Because of the high likelihood of at least one false positive in company wide drug screening programs, an individual with a positive test is always re-tested with a different screening test: one that is more expensive than the first, but has a lower false positive probability. Suppose the second test has a false positive rate of 0.8%.  What is the probability that an employee who is not using illegal drugs will test positive on both tests? [^probability-303]
+Because of the high likelihood of at least one false positive in company-wide drug screening programs, an individual who tests positive is always re-tested with a different screening test: one that is more expensive but has a lower false positive probability. Suppose the second test has a false positive rate of 0.8%.  
+
+a) Suppose that once we know an employee’s true drug-use status, knowing the result of one test gives us no additional information about how the employee will perform on the other test. Under that assumption, what is the probability that a drug-free employee tests positive on both tests?
+
+b) In reality, the two tests might not be completely unrelated, even for employees who don't use drugs. Posit an explanation as to why it might not be realistic to assume that the outcome of the two tests are unrelated for an employee who does not use drugs.
+
+c) Now consider the situation in which the drug use behavior of the employee is unknown. How does this differ from part (a), which conditioned on the person not using drugs? Would you expect the two test results to be independent? Explain your reasoning.[^probability-303]
+
 :::
 
-[^probability-303]: The outcomes of the two tests are independent of one another; $P (A\text{ and } B) = P(A) P(B)$, where events $A$ and $B$ are the results of the two tests. The probability of a false positive with the first test is 0.012 and 0.008 with the second. Thus, the probability of an employee who is not using illegal drugs testing positive on both tests is $(0.012) (0.008) = (9.6) 10^{-5}.$
+[^probability-303]: (a) Under the assumption that once we know a person's true drug use status, the two tests are independent; thus, $P (A\text{ and } B) = P(A) P(B)$, where events $A$ and $B$ are the results of the two tests. The probability of a false positive with the first test is 0.012 and 0.008 with the second. Thus, the probability of an employee who is not using illegal drugs testing positive on both tests is $(0.012) (0.008) = (9.6) 10^{-5}.$ (b) A person who falsely tests positive on the first test may be more likely to test positive on a second test due to factors such as certain medications or dietary factors. In that case, the outcomes of the two tests would not be independent. (c) In a situation where the employee's drug use status is unknown (i.e., drug use status is no longer being conditioned on), then it would be reasonable to think that the two test results are dependent. Seeing a positive result on the first test makes it more likely that the person actually uses drugs, which increases the chance of a positive result on the second test. *Note*: This scenario illustrates the idea of **conditional independence**. The two tests may be independent within each group (drug users and non-users) but not independent in the overall population. In other words, the tests are independent given the employee's true drug status, but dependent when that status is unknown.
+
 
 ::: {.workedexample data-latex=""}
 
+**ABO blood groups** There are four different common blood types (A, B, AB, and O) that are determined by the presence of certain antigens located on cell surfaces. Antigens are substances used by the immune system to recognize self versus non-self; cells with antigens not normally found own the body's own cells will be recognized as foreign. When patients receive blood transfusions, it is critical that the antigens of transfused cells match those of the patient's, or else an immune system response will be triggered.
 
-**ABO blood groups** There are four different common blood types (A, B, AB, and O) that are are determined by the presence of certain antigens located on cell surfaces. Antigens are substances used by the immune system to recognize self versus non-self; if the immune system encounters antigens not normally found on the body's own cells, it will attack the foreign cells. When patients receive blood transfusions, it is critical that the antigens of transfused cells match those of the patient's, or else an immune system response will be triggered.
-
-The ABO blood group system consists of four different blood groups, which describe whether an individual's red blood cells carry the A antigen, B antigen, both, or neither. The ABO gene has three alleles: ${I}^{A}$, ${I}^{B}$, and *i*. The *i* allele is recessive to both ${I}^{A}$ and ${I}^{B}$, and does not produce antigens; thus, an individual with genotype ${I}^{A}i$ is blood group A and an individual with genotype ${I}^{B}i$ is blood group B. The ${I}^{A}$ and ${I}^{B}$ alleles are codominant, such that individuals of ${I}^{A}$${I}^{B}$ genotype are AB. Individuals who inherit two copies of the \textit{i} allele are known as blood group O, with neither A nor B antigens. @fig-abo-inheritance shows graphically how inheritance determines blood group.
+The ABO blood group system consists of four different blood groups, which describe whether an individual's red blood cells carry the A antigen, B antigen, both, or neither. The ABO gene has three alleles: ${I}^{A}$, ${I}^{B}$, and *i*. The *i* allele is recessive to both ${I}^{A}$ and ${I}^{B}$, and does not produce antigens; thus, an individual with genotype ${I}^{A}i$ is blood group A and an individual with genotype ${I}^{B}i$ is blood group B. The ${I}^{A}$ and ${I}^{B}$ alleles are codominant, such that individuals of ${I}^{A}$${I}^{B}$ genotype are AB. Individuals who inherit two copies of the $i$ allele are known as blood group O, with neither A nor B antigens. @fig-abo-inheritance shows graphically how inheritance determines blood group.
 
 ```{r abo-inheritance}
 #| label: fig-abo-inheritance
 #| out-width: 70%
 #| fig-cap: |
-#|   Pattern of inheritance of the genes that determine one of the four different common blood types (A, B, AB, and O)
+#|   Pattern of inheritance for the alleles that determine one of the four different common blood groups (A, B, AB, and O)
 #| fig-alt: |
-#|   
+#|   A diagram showing possible offspring blood groups based on combinations of alleles $I^A$, $I^B$, and $i$, arranged in the form of a table. The top row and left column list the possible parental alleles. Each cell inside the table shows the resulting offspring genotype from combining one allele from each parent. The genotypes $I^A I^A$ and $I^A i$ correspond to blood group A; $I^B I^B$ and $I^B i$ to blood group B; $I^A I^B$ to blood group AB; and $ii$ to blood group O.
 #| fig-pos: H
 knitr::include_graphics("images/abo-inheritance.png")
 ```
 
-Suppose that both members of a couple have Group AB blood.	(a) What is the probability that a child of this couple will have Group A blood? (b) What is the probability that they have two children with Group A blood?
-
+Suppose that both members of a couple have Group AB blood.	(a) What is the probability that a child of this couple will have Group A blood? (b) What is the probability that they have two children with Group A blood? (c) Parts (a) and (b) assumed that the parental genotypes were known. Now, suppose that both parents are known to have Group A blood, but it is unknown whether they are $I^A I^A$ or $I^A i$. Would the blood groups of their children still be independent? Think about whether seeing the blood group of one child would provide any information about the likely blood groups of their siblings.
 
 ------------------------------------------------------------------------
 
 (a) An individual with Group AB blood is genotype ${I}^{A}$${I}^{B}$. Two ${I}^{A}$${I}^{B}$ parents can produce children with genotypes ${I}^{A}$${I}^{B}$, ${I}^{A}$${I}^{A}$, or ${I}^{B}$${I}^{B}$. Of these possibilities, only children with genotype ${I}^{A}$${I}^{A}$ have Group A blood. Each parent has 0.5 probability of passing down their ${I}^{A}$ allele. Thus, the probability that a child of this couple will have Group A blood is P(parent 1 passes down ${I}^{A}$ allele) $\times$ P(parent 2 passes down ${I}^{A}$ allele) = $(0.5)(0.5) = 0.25$.
 
   (b) Inheritance of alleles is independent between children. Thus, the probability of two children having Group A blood equals P(child 1 has Group A blood) $\times$ P(child 2 has group A blood). The probability of a child of this couple having Group A blood was previously calculated as 0.25, so the answer is $(0.25)(0.25) = 0.0625$.
+  
+  (c) If the parental genotypes are known, the children's blood groups are independent given those genotypes because the process of inheriting alleles for each child is separate. But, if the parental genotypes are unknown, then observing one child's blood group provides information about what alleles the parents likely carry, which provides new information that affects the predicted probability for the next child's blood group. For example, if a couple with Group A blood has five children who are all blood group A, that pattern makes it more likely that the parents are $I^A I^A$ genotype rather than (both) $I^A i$. If each parent were $I^A i$, about one in four children would be expected to have blood group O. Not seeing any Group O children suggests that the parents probably do not carry the $i$ allele and that the next child will also be Group A. 
 	
 :::
 
@@ -1108,21 +1207,24 @@ Specific terminology is used to describe behavior of diagnostic tests.  Suppose 
 
 * The **prevalence** of a disease $D$ is the proportion of individuals in a population with the disease.  It is the probability that a randomly chosen member of a population has the disease and is denoted by $P(D)$.
 
-* The **sensitivity** \index{sensitivity} of $T$ is the conditional probability $P(T^+ \mid D)$.  If someone has the disease, how often is the test positive?  Sensitivity is also called the probability of a true positive for the test.
+* The **sensitivity** \index{sensitivity} of a test is the conditional probability $P(T^+ \mid D)$.  If someone has the disease, how often is the test positive?  Sensitivity is also called the probability of a true positive result.
 
-* The **specificity** \index{specificity} of $T$ is the conditional probability $P(T-\mid D^C)$. If someone does not have the disease,  how often is the test negative?  Specificity is the probability of a true negative.
+* The **specificity** \index{specificity} of a test is the conditional probability $P(T-\mid D^C)$. If someone does not have the disease, how often is the test negative?  Specificity is the probability of a true negative result.
 
-* The the **positive predictive value (PPV)** \index{positive predictive value} of the test $T$ is the conditional probability $P(D \mid T^+)$.  If a test is positive, how often is the disease present?
+* The **positive predictive value (PPV)** \index{positive predictive value} of a test is the conditional probability $P(D \mid T^+)$. If someone tests positive, how often do they have the disease?
 
-* The **negative predictive value (NPV)** \index{negative predictive value} of $T$ is the conditional probability $P(D^C \mid T^-)$.  If $T$ is negative, how often is the disease truly absent?
+* The **negative predictive value (NPV)** \index{negative predictive value} of a test is the conditional probability $P(D^C \mid T^-)$.  If someone tests negative, how often do they not have the disease?
 
-@eq-rat-sensitivity posits a sensitivity for a RAT, while @eq-rat-ppv is its positive predictive value.   How does the PPV of a test depend on its sensitivity?  This section discusses three approaches to calculating the PPV of a test: the use of tree diagrams, an application of Bayes' Rule,  and the construction of a hypothetical population where a 2$\times$2 table can be used to calculate conditional probabilities from counts, as in @sec-conditional-probability.  
+@eq-rat-sensitivity posits a sensitivity for a RAT, while @eq-rat-ppv represents the positive predictive value of a RAT. 
+How are the PPV of a test and the sensitivity of a test related? The PPV of a test actually depends on the test's sensitivity and specificity, as well as the prevalence of disease. 
 
-In addition to the sensitivity of a diagnostic test, all three methods depend on the specificity of the test (the probability of a true negative) and the prevalence of the disease. For the COVID-19 example,  the calculations assume $P(\text{RAT}^- \mid \text{COVID-19}^C)$ = 0.98, the probability of a true negative cited in @sec-two-examples. The prevalence of COVID-19 changes seasonally and among regions.  Initially the solution provided here assumes the infection is present in 5% of a population, so $P(D)$ = 0.05.  But it is important to examine how the PPV changes with prevalence, and that is explored later. 
+This section discusses three approaches to calculating the PPV of a test: 1) tree diagrams, 2) applying Bayes' Rule, and 3) constructing a $2 \times 2$ table based on a hypothetical population. 
+
+Note that the prevalence of COVID-19 changes seasonally and varies by region. Initially, the solution discussed in the subsequent sections assumes the infection is present in 5\% of the population, so $P(D) = 0.05$. Later, the relationship between PPV and prevalence is also explored.
 
 ### Tree diagrams {#sec-tree-diagrams}
 
-A **tree diagram** \index{tree diagram} is especially useful when two or more processes occur in a sequence, with the conditional probability of each outcome depending the preceding outcomes.  The tree provides a scheme for computing joint probabilities.
+A **tree diagram** \index{tree diagram} is a useful visual tool for organizing probabilities when two or more related events occur, and the probability of one event depends on the outcome of another. The tree makes conditional probabilities explicit and provides a systematic way to compute joint probabilities.
 
 ```{r}
 # ppv for covid RAT
@@ -1134,13 +1236,21 @@ spec_rat <- 0.98
 prev_covid <- 0.05
 ```
 
-In @fig-rat-tree, the first branches (called the primary branches) of the tree split the population by COVID-19 status, and show the marginal probabilities 0.05 and 0.95 of having or not having the infection. The secondary branches show conditional probabilities determined by the primary branches; for example, the top branch is the conditional probability of a positive RAT given that an individual has the infection. The secondary branch below it shows the conditional probability of a negative test, given the disease is present.  A negative test when the disease is present is the complement of a positive test and has probability 1 - 0.20 = 0.80.  The values along the other branches are calculated similarly.
+In @fig-rat-tree, the primary branches divide the population by COVID-19 status: an individual either has COVID-19 or does not, with marginal probabilities 0.05 and 0.95. 
+
+The secondary branches show the possible outcomes of a RAT, conditional on an individual's disease status. Although there are two branches labeled positive, they represent different conditional events. One branch corresponds to testing positive given that COVID-19 is present, while the other corresponds to testing positive given that COVID-19 is absent. For example, among individuals who have COVID-19, the probability of a positive test is 0.80, and the probability of a negative test is 1 - 0.80 = 0.20. Similarly, among individuals who do not have COVID-19, the probabilities of a positive and negative test are 0.02 and 0.98, respectively. 
+
+At each of these secondary branch points, the probabilities add to 1 because they describe all possible test outcomes conditional on a particular disease status. More generally, at any branch point in a tree diagram, the outgoing branches must sum to 1 because they represent all possible outcomes given the events that have already occurred. 
 
 ```{r rat-tree}
 #| label: fig-rat-tree
 #| out-width: 80%
 #| fig-cap: | 
 #|     Tree diagram for the behavior of COVID-19 self-tests (RATs)
+#| fig-alt: | 
+#|  Tree diagram drawn as branching line segments arranged from left to right. A single starting point on the left splits into two branches representing COVID-19 status: COVID-19 present with probability 0.05 and COVID-19 absent with probability 0.95. Each of these branches then splits again into two branches representing rapid antigen test outcomes, creating four endpoints in total. From the COVID-19 present branch, the test result splits into positive with conditional probability 0.80 and negative with conditional probability 0.20. From the COVID-19 absent branch, the test result splits into positive with conditional probability 0.02 and negative with conditional probability 0.98. Following any complete path from left to right corresponds to one joint outcome combining disease status and test result.
+
+
 treeDiag(c('COVID-19', 'RAT Self test'),
          c(0.05, 0.95),
          list(c(0.80, 0.20),
@@ -1155,8 +1265,9 @@ treeDiag(c('COVID-19', 'RAT Self test'),
          showWork = TRUE)
 ```
 
+Each complete path through the tree corresponds to a unique joint outcome, such as having COVID-19 and testing positive. Since these joint outcomes show all possible combinations of what could happen, the probabilities at the ends of the branches must sum to 1.
 
-Joint probabilities are calculated at the end of each branch by multiplying the numbers from right to left, using the Multiplication Rule for Probabilities, @eq-mult-rule-two-probs. For instance, the probability of having the infection and testing positive is the conditional probability of testing positive given COVID-19 is present times the probability COVID-19 is present:
+Joint probabilities are calculated at the end of each branch by multiplying the numbers from right to left, using the multiplication rule, @eq-mult-rule-two-probs. For instance, the probability of having the infection and testing positive is the conditional probability of testing positive given COVID-19 is present times the probability COVID-19 is present:
 
 \begin{align*}
 P(\text{COVID-19 and RAT$^+$}) &= P(\text{RAT$^+$ } |\ \text{COVID-19}) \times  P(\text{COVID-19}) \\
@@ -1166,13 +1277,15 @@ P(\text{COVID-19 and RAT$^+$}) &= P(\text{RAT$^+$ } |\ \text{COVID-19}) \times  
 
 The rest of the joint probabilities are calculated the same way.
 
-The tree diagram can be used to calculate the PPV of a RAT, 
-$$
-P(\text{COVID-19} \mid \text{RAT}^+) = \frac{P(\text{COVID-19 and RAT}^+)}
-{P(\text{RAT}^+)}. 
-$$
+The tree diagram can be used to calculate the PPV of a RAT:
+\begin{align*}
+P(\text{COVID-19} \mid \text{RAT}^+) =& \frac{P(\text{COVID-19 and RAT}^+)}
+{P(\text{RAT}^+)} \\
+=& \frac{P(\text{COVID-19 and RAT}^+)}
+{P(\text{COVID-19 and RAT}^+) + P(\text{COVID-19}^C  \text{and RAT}^+)}
+\end{align*}
 
-The numerator is the probability of the top branch, 0.04.  The denominator is the sum of the probabilities along the two branches that lead to a positive RAT: either a true positive when having COVID-19, 0.04, or a false positive in the absence of the infection, 0.019.  So $P(\text{RAT}+)$ = 0.059. The PPV is the ratio 0.04/0.059 = 0.678.  With a positive self-test, the chance of COVID-19 is 68% under the assumption that the prevalence of the infection is 5%.
+The numerator is the probability of the top branch, 0.04.  The denominator is the sum of the probabilities along the two branches that lead to a positive RAT: either a true positive when having COVID-19, 0.04, or a false positive in the absence of the infection, 0.019. Thus, $P(\text{RAT}+)$ = 0.059. The PPV is the ratio 0.04/0.059 = 0.678.  With a positive self-test, the chance of COVID-19 is 68% under the assumption that the prevalence of the infection is 5%.
 
 
 ```{r}
@@ -1196,19 +1309,114 @@ npv_rat_08 <- round(spec_rat * (1 - prev_covid_08) /(spec_rat * 1 - prev_covid_0
 
 ::: {.workedexample data-latex=""}
 
-Under the assumptions above, use the tree diagram to calculate the negative predictive value (NPV) of a COVID-19 self-test.
+Assuming the same diagnostic test characteristics and prevalence of COVID-19, use the tree diagram to calculate the negative predictive value (NPV) of a COVID-19 self-test.
 
 ------------------------------------------------------------------------
 
 The NPV is 
 $$
-P(\text{COVID-19}^C) \mid \text{RAT}^-) = \frac{P(\text{COVID-19}^C \text{ and RAT}^-)}
+P(\text{COVID-19}^C \mid \text{RAT}^-) = \frac{P(\text{COVID-19}^C \text{ and RAT}^-)}
 {P(\text{RAT}^-)}.
 $$  
-The numerator is the value at the end of the lowest branch, 0.931.  The denominator is sum of the values on the two branches that lead to a negative test, 0.01 + 0.931 = 0.941.  The PPV is 0.931/0.941 = 0.989.  Under the assumptions used here, the chance that the infection is absent when a test is negative is 99%. 
+The numerator is the value at the end of the lowest branch, 0.931.  The denominator is sum of the values on the two branches that lead to a negative test, 0.01 + 0.931 = 0.941.  The NPV is 0.931/0.941 = 0.989.  Under the assumptions used here, the chance that the infection is absent when a test is negative is 99%. 
 :::
 
-The PPV and NPV for COVID-19 self-tests calculated here match those claimed in @sec-two-examples but depend on the assumptions made about the test and the setting in which it is administered.  The sensitivity and specificity are characteristics of the test itself and do not change unless the technology of the test changes.  But the prevalence depends on the population using the test and may change with time or location.
+Even after using a tree diagram to calculate the PPV, the result may still seem counterintuitive. The test has high sensitivity and specificity, so why is the PPV is only about 68%? A mosaic plot helps clarify this by showing how the population is distributed across test result and disease status. In @fig-mosaic, each region represents a group of individuals, with area proportional to the number of people in that group. Most of the plot is taken up by individuals who do not have COVID-19 and correctly test negative, reflecting both the low prevalence of the disease and the accuracy of the test.
+
+Focusing on the vertical segment representing positive test results (i.e., the segment on the right), we see that although a large portion corresponds to individuals who truly have COVID-19, there remains a noticeable portion corresponding to individuals who do not have the disease. This visual contrast highlights what PPV represents: among all individuals who receive a positive test result, the PPV is the fraction who actually have the disease. The mosaic plot makes it clear that when a disease is rare, even a reasonably accurate test can produce many false positives relative to true positives. When false positives make up a substantial fraction of all positive test results, the PPV is low. 
+
+```{r rat-mosaic}
+#| label: fig-mosaic
+#| out-width: 80%
+#| fig-cap: | 
+#|     Mosaic diagram for the behavior of COVID-19 self-tests (RATs) when prevalence is 0.05. The area of each region is proportional to the number of individuals in that category.
+#| fig-alt: | 
+#|  Mosaic plot showing the relationship between rapid antigen test results and COVID-19 disease status, with the plot split first by test result. The plot consists of two vertical sections labeled “Test Neg.” and “Test Pos.” The width of each section is proportional to the total number of individuals with that test result. Within each section, the area is divided by disease status, showing the proportion of individuals with COVID-19 present versus COVID-19 absent. In the “Test Pos.” section, a substantial portion of the area corresponds to individuals with COVID-19, indicating that a positive test is associated with a higher probability of disease compared to the overall population. In the “Test Neg.” section, nearly all of the area corresponds to individuals without COVID-19, reflecting a high negative predictive value. The area of each region is proportional to the number of individuals in that category.
+
+library(ggmosaic)
+
+total <- 10000
+prev <- 0.05
+sens <- 0.80
+spec <- 0.98
+
+d   <- round(prev * total)
+d_c <- total - d
+
+true_pos  <- round(sens * d)
+false_neg <- d - true_pos
+
+true_neg  <- round(spec * d_c)
+false_pos <- d_c - true_neg
+
+counts <- data.frame(
+  disease = c("COVID Present", "COVID Present",
+              "COVID Absent",  "COVID Absent"),
+  test_result = c("Test Pos.", "Test Neg.",
+                  "Test Pos.", "Test Neg."),
+  n = c(true_pos, false_neg, false_pos, true_neg)
+)
+
+ggplot(counts) + 
+  geom_mosaic(
+    aes(x = product(test_result), weight = n,
+      fill = disease)) +
+  scale_fill_manual(values = c("#247ba0", "#ff1654")) +
+  labs(x = "", y = "", fill = "Disease") +
+  theme_light() +
+  theme(text = element_text(size = 15),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+
+A mosaic plot also helps us reason about how the PPV (as well as the NPV) would change if the disease were more or less common in the population. If the disease were more common, a larger portion of the population would have COVID-19, and this would change the composition of both the positive and negative test groups. In @fig-mosaic-prev-high, this appears as a larger share of the “Test Pos.” region corresponding to individuals with COVID-19, increasing the PPV. At the same time, the “Test Neg.” region contains a larger share of individuals with disease, reducing the NPV. The mosaic plot makes these changes visible by showing how the mix of individuals within each test result depends on disease prevalence. When a disease is common, then true positives make up a greater portion of all positive tests, which raises the PPV.
+
+```{r rat-mosaic-prev-high}
+#| label: fig-mosaic-prev-high
+#| out-width: 80%
+#| fig-cap: | 
+#|     Mosaic diagram for the behavior of COVID-19 self-tests (RATs) when prevalence is 0.08. The area of each region is proportional to the number of individuals in that category.
+#| fig-alt: |
+#|     Mosaic plot showing the relationship between rapid antigen test results and COVID-19 disease status, with the plot split first by test result. In this version of the plot, there is a greater share of the "Test Pos." section that corresponds to individuals with the disease.
+
+library(ggmosaic)
+
+total <- 10000
+prev <- 0.08
+sens <- 0.80
+spec <- 0.98
+
+d   <- round(prev * total)
+d_c <- total - d
+
+true_pos  <- round(sens * d)
+false_neg <- d - true_pos
+
+true_neg  <- round(spec * d_c)
+false_pos <- d_c - true_neg
+
+counts <- data.frame(
+  disease = c("COVID Present", "COVID Present",
+              "COVID Absent",  "COVID Absent"),
+  test_result = c("Test Pos.", "Test Neg.",
+                  "Test Pos.", "Test Neg."),
+  n = c(true_pos, false_neg, false_pos, true_neg)
+)
+
+ggplot(counts) + 
+  geom_mosaic(
+    aes(x = product(test_result), weight = n,
+      fill = disease)) +
+  scale_fill_manual(values = c("#247ba0", "#ff1654")) +
+  labs(x = "", y = "", fill = "Disease") +
+  theme_light() +
+  theme(text = element_text(size = 15),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+
+
+The sensitivity and specificity are characteristics of the test itself and do not change unless the technology of the test changes. However, the prevalence depends on the population using the test and may change with time or location.
 
 ::: {.workedexample data-latex=""}
 
@@ -1226,20 +1434,24 @@ b. When the prevalence is 0.08 (8%), the
 \end{align*}
 The chance of COVID-19 after a positive test increases to 78% when the prevalence of the infection is 8% instead of 5%.
 
-The chance you have COVID-19 after a positive test depends on how many people around you are infected as well as the quality of the test.  The reasons for this will be explored later.
+The chance you have COVID-19 after a positive test depends on how many people around you are infected as well as the quality of the test. 
 :::
+
+The dependence of PPV on prevalence creates a challenge when screening populations for rare diseases: even when a test is accurate, a substantial proportion of positive test results may be false positives. This is especially important when a positive screening result is followed by a more invasive or costly diagnostic procedure. 
+
+These considerations help explain why screening recommendations for entire populations often weigh the benefits of early detection against the risks associated with false positive results. For example, prostate-specific antigen (PSA) testing is used to screen for prostate cancer, a disease that is relatively uncommon in the general population. Widespread screening may identify many individuals who do not have cancer but are referred for additional procedures such as prostate biopsy. For this reason, PSA screening is typically recommended only for specific age groups in which prostate cancer is more common, since higher disease prevalence increases the PPV and reduces the proportion of false positive results.
 
 
 ### Bayes' Rule  {#sec-bayes-rule}
 
-Bayes' Rule provides a formula for calculating conditional probabilities when the the event of interest and conditioning event are reversed, as in sensitivity and PPV. 
+Bayes' Rule provides a formula for calculating conditional probabilities when the event of interest and conditioning event are reversed, as in sensitivity and PPV. 
 
 ::: {.important data-latex=""}
 **Bayes' Rule, short version**[^probability-341]
 
 [^probability-341]: @eq-bayes-rule is a direct application of the definition of conditional probability and the multiplication rule.
 $$
- P(B \mid A) = \frac{P(B \text{ and } A)}{P(A)} = \frac{P(A \mid B)P(B)}{P(A)}.
+ P(B \mid A) = \frac{P(A \text{ and } B)}{P(A)} = \frac{P(A \mid B)P(B)}{P(A)}.
 $$
 
 
@@ -1258,19 +1470,19 @@ $$
 P(D \mid T^+) = \frac{P(T^+ \mid D) P(D)}{P(T^+)}. 
 $${#eq-bayes-testing}
 
-@eq-bayes-testing shows that the PPV of $T$ depends on its sensitivity $P(T^+ \mid D)$, the prevalence $P(D)$ of $D$, and the likelihood of a positive test in the population.  Then chance of a positive test is rarely specified in advance, but can be calculated using the characteristics of the test and the prevalence of $D$:
+@eq-bayes-testing shows that the PPV of a test depends on its sensitivity $P(T^+ \mid D)$, the prevalence $P(D)$, and the probability of a positive test in the population $P(T^+)$.  The chance of a positive test is rarely specified in advance, but can be calculated using the characteristics of the test and the prevalence of disease:
 \begin{align*}
 P(T^+) &= P(T^+ \text{ and } D) + P(T^+ \text{ and } D^C) \\
        &= P(T^+ \mid D)P(D) + P(T^+ \mid D^C)P(D^C) \\
 \end{align*}
-The first line uses the Rule of Total Probability (@eq-total-probability) and the second the Multiplication Rule (@eq-mult-rule-two-probs).
+The first line uses the Law of Total Probability (@eq-total-probability) and the second the Multiplication Rule (@eq-mult-rule-two-probs).
 
 Using this expression for the denominator in @eq-bayes-testing,  
 $$
 \text{PPV} = \frac{P(T^+ \mid D) P(D)}{P(T^+ \mid D)P(D) + P(T^+ \mid D^C)P(D^C)}.
 $${#eq-bayes-testing-expanded}
 
-@eq-bayes-testing-expanded leads to a useful mnemonic often used in medicine and public health for the PPV of diagnostic test:
+@eq-bayes-testing-expanded leads to a useful mnemonic often used in medicine and public health for the PPV of a diagnostic test:
 
 $$
 \text{PPV} = \frac{\text{sensitivity } \times \text{ prevalence}}{[\text{sensitivity } \times \text{ prevalence}] + [\text{(1 - specificity) } \times \text{ (1 - prevalence)}]}.
@@ -1281,11 +1493,10 @@ $$
 \text{NPV} = \frac{\text{specificity } \times (\text{1 - prevalence})}{[(\text{1 - sensitivity}) \times \text{ prevalence}] + [\text{specificity } \times \text{ (1 - prevalence)}]}.
 $${#eq-bayes-npv-mnemonic}
 
-These are not formulas to memorize -- it would be too easy to get them confused.  But they are useful they have been recorded.
 
 ::: {.guidedpractice data-latex=""}
 
-Some congenital disorders are caused by errors that occur during cell division, resulting in the presence of additional chromosome copies. Trisomy 21 (Down syndrome) occurs in approximately 1 out of 800 births. Cell-free fetal DNA (cfDNA) testing is one commonly used way to screen fetuses for trisomy 21. The test sensitivity is 0.98 and the specificity is 0.995. Calculate the PPV and NPV of the test. [^probability-440]
+Some congenital disorders are caused by errors that occur during cell division, resulting in the presence of additional chromosome copies. Trisomy 21 (Down syndrome) occurs in approximately 1 out of 800 live births in the United States. Cell-free fetal DNA (cfDNA) testing is one commonly used way to screen fetuses for trisomy 21. The test sensitivity is 0.98 and the specificity is 0.995. Calculate the PPV and NPV of the test for this population. [^probability-440]
 :::
 
 [^probability-440]:
@@ -1307,7 +1518,7 @@ If your were counseling parents whose fetus will be tested for Trisomy 21 using 
 [^probability-441]
 :::
 
-[^probability-441]: Here is one possible script: Since you have no special risk factors for Down syndrome in an infant,  your overall chance of having an affected infant is about 1/800, approximately one tenth of 1%. The test we use to screen for the congenital mutation is the best we have, but it is not perfect. If the test is negative (sugggesting the mutation is not present) there is a 99.5% chance that your infant will not be affected.  If it is positive, then there is about a 20% chance the mutation is present.  So a negative test would be very good news.  A positive test is not necessarily bad news: it will suggest that the chance is about 1 in 5 that your infant will be affected.  Do you have any questions?
+[^probability-441]: Here is one possible script: Since you have no special risk factors for Down syndrome in an infant,  your overall chance of having an affected infant is about 1/800, approximately one tenth of 1%. The test we use to screen for the congenital mutation is the best we have, but it is not perfect. If the test is negative (suggesting the mutation is not present) there is a 99.5% chance that your infant will not be affected. If it is positive, then there is about a 20% chance the mutation is present. In other words, a positive result does not indicate with 100% certainty that your infant will be affected. But rather, it would indicate that there is about a 1 in 5 chance of Down syndrome. Do you have any questions?
 
 @eq-bayes-testing-expanded is a specific example of more general versions of Bayes' rule:
 
@@ -1353,9 +1564,9 @@ ppv_05 <- round(t_pos_05 / tot_pos_05, 3)
 
 ```
 
-The positive predictive value (PPV) of a diagnostic test can be calculated by constructing a 2 $\times$ 2contingency table for a large, hypothetical population and calculating conditional probabilities by conditioning on rows or columns. Using a large enough hypothetical population results in an empirical estimate of PPV that is very close to the exact value obtained via using the previously discussed approaches.
+Contingency tables provide another way to calculate the positive predictive value (PPV) that may feel more concrete than tree diagrams or Bayes' Rule. Rather than working directly with probabilities, this approach begins by imagining a large, hypothetical population and calculating how many individuals fall into each combination of test result and disease status. When the hypothetical population is large, the resulting proportions closely approximate the exact probabilities obtained using the earlier approaches. 
 
-The method begins by constructing an empty $2 \times 2$ table, with the possible outcomes of the diagnostic test as the rows, and the possible disease statuses as the columns as in @tbl-rat-setup. The table should include cells for the row and column sums.
+The method begins by constructing an empty $2 \times 2$ table, with the possible outcomes of the diagnostic test as the rows and the possible disease statuses as the columns as in @tbl-rat-setup. Each cell of the table represents a group of individuals. The table should include cells for the row and column sums.
 
 
 |               | COVID-19 Present | COVID-19 Absent  | Sum     |
@@ -1366,13 +1577,15 @@ The method begins by constructing an empty $2 \times 2$ table, with the possible
 
 : A 2 \times 2 table for the COVID RAT test example with a hypothetical population size $N$ of 100,000 {#tbl-rat-setup} 
 
-Continue populating the table with the following steps, using the information in @fig-rat-tree:
+Like the mosaic plot, the contingency table represents the population as groups of individuals defined by test result and disease status, but does so numerically rather than visually. 
+
+The table can be populated by thinking through how the test classifies individuals, using the earlier provided information about the test characteristics and assumed prevalence:
+
+* An 80% chance of testing positive for individuals with COVID-19
+
+* A 98% chance of testing negative for individuals without COVID-19
 
 * An assumed prevalence of 5%
-
-* An 80% chance of a true positive and 20% of a false negative
-
-* A 98% chance of a true negative and 2% of a false positive
 
 1.  Calculate the two column totals (the number of individuals with and without COVID-19) from $P(\text{COVID-19})$, the infection prevalence:
 	$$N \times P(\text{COVID-19}) = 100,000 \times .05 = 5,000 \text{ individuals with COVID-19}.$$
@@ -1380,11 +1593,11 @@ Continue populating the table with the following steps, using the information in
 	
 	Alternatively, the number of individuals without COVID-19 can be calculated by subtracting the number with COVID-19 from $N$.
 	
-2. Calculate the two numbers in the first column: the number of individuals with COVID-19 testing either positive (true positive) or negative (false negative).
+2. Calculate the two numbers in the first column: the number of individuals with COVID-19 testing either positive (true positive) or negative (false negative). Recall that since 80\% of individuals with COVID-19 test positive, then $(1 - 0.80)(100) = 20$\% test negative.
 	$$\text{COVID-19 infected} \times P(\text{true positive}) = 5,000 \times 0.80 = 4,000 \text{ true positives}$$
 	$$\text{COVID-19 infected} \times P(\text{false negative}) = 5,000 \times 0.20 = 1,000 \text{ false negatives}$$
 	
-3. Calculate the two numbers in the second column: the number of individuals without the infection testing either positive (false positive) or negative (true negative). 
+3. Calculate the two numbers in the second column: the number of individuals without the infection testing either positive (false positive) or negative (true negative). Recall that since 98\% of individuals without COVID-19 test negative, then $(1 - 0.98)(100) = 2$\% test positive.
 	$$\text{COVID-19 uninfected} \times P(\text{false positive}) = 95,000 \times 0.02 = 1,900 \text{ false positives}$$
 	$$\text{COVID-19 uninfected} \times P(\text{true negative})] = 95,000 \times 0.98 = 93,100 \text{ true negatives}$$
 	
@@ -1405,7 +1618,9 @@ Continue populating the table with the following steps, using the information in
 
 : A 2 \times 2 table for the COVID RAT test example with a hypothetical population size $N$ of 100,000 and prevalence 5%, with numbers added {#tbl-rat-complete} 
 
-@tbl-rat-complete and the calculations to fill in the cells provide a more concrete interpretation of PPV.  The positive predictive value of a diagnostic test is the fraction of the number of instances of a true positive test out of all tests that would be positive, including the false positive outcomes.  If you are a member of the subset of the population testing positive, how likely is it that you have a true positive?  This interpretation can be used to explore the effect prevalence on PPV.
+@tbl-rat-complete and the calculations used to fill in the cells provide an interpretation of PPV that focuses on individuals. The PPV of a diagnostic test is the proportion of positive test results that are true positives; i.e., the proportion of individuals who actually have the disease among all those who test positive. Viewed this way, PPV answers the question: if you are among the subset of the population who test positive, how likely is it that you truly have the disease?
+
+<!---
 
 ```{r}
 # code for contingency tables
@@ -1444,6 +1659,8 @@ ppv_01 <- round(t_pos_01 / tot_pos_01, 3)
 The PPV is now `r ppv_01`.  The reduced prevalence causes fewer true positive results, `r t_pos_01` versus `r t_pos_05`, and because of the larger number of individuals without the infection, an increased number of false positives, `r f_pos_01` versus `r f_pos_05`.  The ratio of true positives to total positives decreases.
 
 The dependence of PPV on prevalence causes a conundrum in for screening populations for a rare disease -- there will be a large proportion of false positives.  That is especially important when a positive diagnostic test might be followed by a more invasive procedure.
+
+--->
 
 ```{r}
 terms_chp_3 <- c(terms_chp_3, c("Bayes' rule",
@@ -1512,7 +1729,7 @@ Using the notation above, rewrite the following information from the problem sta
 
 The first sentence provides information about the prevalence of white cats with one blue eye and white cats with two blue eyes: $P(B_1) = 0.30$ and $P(B_2) = 0.10$. The only other possible eye color combination is zero blue eyes (i.e., two non-blue eyes); i.e., since $P(B_0) + P(B_1) + P(B_2) = 1$, $P(B_0) = 1  - P(B_1) - P(B_2) = 0.60$. Sixty percent of white cats have two non-blue eyes.
 
-While it is not difficult to recognize that the second and third sentences provide information about deafness in relation to eye color, it can be easy to miss that these probabilities are conditional probabilities. A close reading should focus on the language: "About 73% *of* white cats with two blue eyes are deaf...": i.e., out of the white cats that have two blue eyes, 73% are deaf. Thus, these are probabilities of deafness conditioned on eye color. From these sentences, $P(D|B_2) = 0.73$, $P(D|B_1) = 0.40$, and $P(D|B_0) = 0.19$. 
+Although it is straightforward to see that the second and third sentences describe deafness in relation to eye color, it can be easy to overlook that these probabilities are conditional. A close reading should focus on the language used in the statements, such as phrases like "About 73\% *of* white cats with two blue eyes are deaf". The word *of* signals that the percentage is calculated *out of* the group of white cats with two blue eyes, indicating a probability of deafness conditional on eye color. Interpreted this way, these sentences correspond to the conditional probabilities $P(D|B_2) = 0.73$, $P(D|B_1) = 0.40$, and $P(D|B_0) = 0.19$. 
 
 :::
 
