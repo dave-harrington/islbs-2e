@@ -32,6 +32,50 @@ NHANES |> select(Age, Gender, Height) |>
 
 
 
+# using NHANESA for heights
+# 
+
+
+# Negative Z table core (same structure, but no LaTeX markup)
+
+z <- matrix(NA_real_, 39, 10)
+for (i in 1:39) {
+  for (j in 1:9) {
+    z[i, j] <- -((39 - i) / 10 + (10 - j) / 100) + 0.01
+  }
+}
+
+Z <- matrix(NA_character_, 39, 10)
+for (i in 1:39) {
+  for (j in 1:9) {
+    # format the probability with 4 decimals, no LaTeX
+    prob <- round(pnorm(z[i, j]), 4)
+    Z[i, j] <- format(prob, nsmall = 4)
+  }
+  # last column: Z value itself, no $...$
+  z_val   <- z[i, 9]
+  Z[i, 10] <- format(z_val, nsmall = 1)
+}
+
+# row names = Z values along rows
+tmp  <- c(round(pnorm(seq(-3.89, -0.09, 0.1)), 4), 0.0001)
+hold <- as.character(format(tmp)[1:39])
+rownames(Z) <- hold  # you might want format(..., nsmall = 4) depending on style
+
+# column names = second decimal place of Z (you can choose order you like)
+colnames(Z) <- format(seq(0.08, -0.01, -0.01))
+
+library(knitr)
+
+kable(
+  Z[5:39, ],
+  format = "pipe",          # GitHub-style Markdown table
+  align = "r",              # right-align numbers
+  col.names = c(colnames(Z)), # or customize header
+  row.names = TRUE
+)
+
+
 
 
 

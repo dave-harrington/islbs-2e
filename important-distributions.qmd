@@ -7,15 +7,18 @@ source("_common.R")
 ```
 
 ::: {.chapterintro data-latex=""}
-When planning clinical research studies, investigators try to anticipate the results they might see under certain hypotheses. The treatments for some forms of cancer, such as advanced lung cancer, are only effective in a small percentage of patients: typically 20% or less. Suppose that a study testing a new treatment will be conducted on 20 participants, where the working assumption is that 20% of the patients will respond to the treatment. How might the possible outcomes of the study and their probabilities be modeled? 
-
-The anticipated outcome in the study can be represented as a **random variable** \index{random variable}, which numerically summarizes the possible outcomes of a random experiment. For example, let $X$ represent the number of patients out of 20 who respond to treatment in a study; a numerical value $x$ can be assigned to each possible outcome, and the probabilities of $0, 1, 2, \dots, 20$ patients having a good response can be expressed as $P(X = 0), P(X = 1), P(X = 2), \dots , P(X = 20)$. A random variable $X$ can be thought of as a model for the outcomes of a study or experiment and its distribution the probability of each possible outcome associated with the random variable. Random variables can be either discrete or continuous.
-
-This chapter begins by outlining general properties of random variables and their distributions. The rest of the chapter discusses specific distributions that are commonly used throughout probability and statistics.
-
+@sec-random-variables discussed general principles of random variables along with a few applications.  This chapter examines some specific random variables and their distributions which are useful models in public health and medicine
 :::
 
-```{r hmo-visits-costs}
+
+
+```{r}
+#| include: false
+terms_chp_4 <- c("distributions",
+                 "random variable")
+```
+
+```{r}
 
 v_values <- c(0, 1, 2, 3, 4)
 v_probs <- c(0.44, 0.19, 0.06, 0.06, 0.25)
@@ -30,17 +33,9 @@ c_var <- 3 * (20)^2 * v_var
 c_sd <- sqrt(c_var)
 ```
 
+## The Bernoulli and binomial distributions {#sec-bernoulli-bin-dist}
 
-```{r}
-#| include: false
-terms_chp_4 <- c("distributions",
-                 "random variable")
-```
-
-
-## The Bernoulli and binomial models {#sec-bernoulli-bin-dist}
-
-### The Bernoulli model {#sec-bernoulli-dist}
+### The Bernoulli distrubution {#sec-bernoulli-dist}
 
 Psychologist Stanley Milgram\index{Milgram, Stanley} began a series of experiments in 1963 to study the effect of authority on obedience. In a typical experiment, a participant would be ordered by an authority figure to give a series of increasingly severe shocks to a stranger. Milgram found that about 35% of people would resist the authority and stop giving shocks before the maximum voltage was reached. Over the years, additional research suggested this number is approximately consistent across communities and time.^[Find further information on Milgram's experiment at \par \ \ \hspace{0.2mm}\ \oiRedirect{textbook-milgram}{www.cnr.berkeley.edu/ucce50/ag-labor/7article/article35.htm}.]
 
@@ -103,7 +98,7 @@ However, there are three other possible scenarios: either $B$, $C$, or $D$ could
 
 :::
 
-### The binomial model {#sec-binomial-dist}
+### The binomial distribution {#sec-binomial-dist}
 
 The Bernoulli distribution is unrealistic in all but the simplest of settings. However, it is a useful building block for other distributions. The \index{binomial distribution} **binomial distribution** is a  model for exactly $k$ successes in $n$ independent Bernoulli trials, each with probability of success $p$. In the Milgram example as the end of the last section, the goal was to calculate the probability of 1 success out of 4 trials, with probability of success 0.35 ($n=4$, $k=1$, $p=0.35$). 
 
@@ -146,7 +141,7 @@ The first equality follows from @eq-variance-linear-combination-ind-rv and the s
 It is possible to derive a formula for the probability distribution of a binomial variable generalizing the argument used in the Milgram example in @sec-bernoulli-dist; the details are outlined in the exercises.  The formula along with the mean and standard deviation are summarized here for convenience:
 
 ::: {.important data-latex=""}
-**Formulas for a Binomial random variable.**
+**The distribution, mean and standard deviation of a binomial random variable.**
 
 Suppose $X \sim \text{Bin}(n, p)$.  Then
 
@@ -227,48 +222,175 @@ The probability that a smoker will develop a severe lung condition in their life
 
 [^distributions-410]: Let $p = 0.30$; $X \sim \textrm{Bin}(5, 0.30)$. (a) $P(X=1) = {5 \choose 1}(0.30)^1(1-0.30)^{5-1} = 0.36$ (b) $P(X \leq 1) = P(X=0) + P(X=1) = {5 \choose 0}(0.30)^0(1-0.30)^{5-0} + 0.36 = 0.53$ (c) $P(X \geq 1) = 1 - P(X=0) = 1 - 0.36 = 0.83$.
 
+## The geometric distribution {#sec-geometric-model}
 
-## The normal model {#sec-normal-dist}
+::: {.important data-latex=""}
+**The geometric random variable.**
+
+The geometric distribution is a model for the waiting time until one success for a series of independent Bernoulli random variables, in which the probability of success $p$ remains constant.
+
+:::
+
+
+
+::: {.workedexample data-latex=""}
+
+Recall that in the Milgram shock experiments, the probability of a person refusing to give the most severe shock is $p = 0.35$. Suppose that participants are tested one at a time until one person refuses; i.e., until the first occurrence of a successful trial. What are the chances that the first occurrence happens with the first trial? The second trial? The third?%
+
+
+------------------------------------------------------------------------
+
+The probability that the first trial is successful is simply $p = 0.35$. If the second trial is the first successful one, then the first one must have been unsuccessful. Thus, the probability is given by $(0.65)(0.35) = 0.228$.
+
+Similarly, the probability that the first success is the third trial: $(0.65)(0.65)(0.35) = 0.148$.
+
+This can be stated generally. If the first success is on the $n^{th}$ trial, then there are $n-1$ failures and finally 1 success, which corresponds to the probability $(0.65)^{n-1}(0.35)$.
+
+:::
+
+The geometric distribution from the Milgram example  is shown in @fig-bar-plot-geometric-dist-35. In general, the probabilities for a geometric distribution decrease rapidly, so that even though large waiting times to the first success are possible, they are unlikely.
+
+```{r}
+#| label: fig-bar-plot-geometric-dist-35
+#| fig-cap: Bar plot of the geometric distributiuon from the Milgram example.
+#| fig-alt: |
+#|   coming 
+#| out-width: 70%
+
+
+p <- 0.35
+x <- 1:100
+y <- (1 - p)^(x - 1) * p
+
+plot(x, y,
+     xlim = c(0.5, 14.5),
+     type = 'n',
+     axes = FALSE,
+     xlab = 'Number of trials',
+     ylab = 'Probability')
+axis(1, at = seq(2, 14, 2), cex.axis = 0.8)
+par(mgp = c(2.25, 0.5, 0))
+axis(2, seq(0, 0.3, 0.1), cex.axis = 0.8)
+for (i in 1:14) {
+  rect(x[i] - 0.4, 0,
+       x[i] + 0.4, y[i],
+       col = COL[1])
+}
+abline(h = 0)
+text(14.7, 0.003, '...', col = '#444444')
+
+```
+
+
+::: {.important data-latex=""}
+**The distribution, mean and standard deviation of a geometric random variable.**
+
+A geometric random variable is used to model the waiting time to the first success in a sequence of Bernoulli trials.  If the probability of a success in one trial is $p$ and the probability of a failure is $1-p$, then the probability of finding the first success in the $k^{th}$ trial is given by
+$$
+P(X = k) = (1-p)^{k-1}p.
+$$ {#eq-geometric-distribution}
+
+The mean (i.e. expected value), variance, and standard deviation of this waiting time are given by
+\begin{align*}
+\mu &= \frac{1}{p}
+	&\sigma^2&=\frac{1-p}{p^2}
+	&\sigma &= \sqrt{\frac{1-p}{p^2}}
+\label{geomFormulas}
+\end{align*}
+A geometric random variable $X$ can be expressed as $X \sim \textrm{Geom}(p)$.
+
+:::
+
+\begin{exercisewrap}
+\begin{nexercise}
+If individuals were examined until one did not administer the most severe shock, how many might need to be tested before the first success?\footnotemark{}
+\end{nexercise}
+\end{exercisewrap}
+\footnotetext{About $1/p = 1/0.35 = 2.86$ individuals.}
+
+\begin{examplewrap}
+\begin{nexample}{What is the probability of the first success occurring within the first 4 people?}\label{marglimFirstSuccessIn4}%
+This is the probability it is the first ($k=1$), second ($k=2$), third ($k=3$), or fourth ($k=4$) trial that is the first success, which represent four disjoint outcomes. Compute the probability of each case and add the separate results:
+\begin{eqnarray*}
+&&P(X=1, 2, 3,\text{ or }4) \\
+	&& \quad = P(X=1)+P(X=2)+P(X=3)+P(X=4) \\
+	&& \quad = (0.65)^{1-1}(0.35) + (0.65)^{2-1}(0.35) + (0.65)^{3-1}(0.35) + (0.65)^{4-1}(0.35) \\
+	&& \quad = 0.82.
+\end{eqnarray*}
+
+Alternatively, find the complement of P(X = 0), since the described event is the complement of no success in 4 trials: $1 - (0.65)^{4}(0.35)^{0} = 0.82$.
+
+There is a 0.82 probability that the first success occurs within 4 trials.
+\end{nexample}
+\end{examplewrap}
+
+Note that there are differing conventions for defining the geometric distribution; while this text uses the definition that the distribution describes the total number of trials *including* the success, others define the distribution as the number of trials required before the success is obtained. In R, the latter definition is used. 
+
+<!---
+
+\index{distribution!geometric|)}
+
+--->
+
+
+
+## The normal distribution {#sec-normal-dist}
+
+```{r}
+library(nhanesA)
+library(dplyr)
+library(ggplot2)
+
+#  BMX_J is 2021 - 2023 post-pandemic cycle
+bmx  <- nhanes("BMX_L")   # Body Measures
+demo <- nhanes("DEMO_L")  # Demographics
+
+bmx_demo <- inner_join(bmx, demo, by = "SEQN")
+
+adult_wt_ht <- bmx_demo |> 
+  filter(RIDAGEYR >= 18,
+         !is.na(BMXWT),
+         !is.na(BMXHT),
+         !is.na(RIAGENDR),
+         BMXWT > 0,
+         BMXHT > 0) |> 
+  select(BMXWT, BMXHT, RIAGENDR) 
+
+female_heights <- adult_wt_ht |> 
+  filter(RIAGENDR == "Female")
+
+male_heights <- adult_wt_ht |> 
+  filter(RIAGENDR == "Male")
+
+```
+
+```{r}
+
+n_female <- nrow(female_heights)
+mean_female <- round(mean(female_heights$BMXHT), 2)
+med_female <- round(median(female_heights$BMXHT), 2)
+sd_female <- round(sd(female_heights$BMXHT, 2))
+
+n_male <- nrow(male_heights)
+mean_male <- round(mean(male_heights$BMXHT), 2)
+med_male <- round(median(male_heights$BMXHT), 2)
+sd_male <- round(sd(male_heights$BMXHT, 2))
+
+```
+
+e;;
 
 ### Definition of the normal model {#sec-definition-normal-model}
 
-```{r heights-stats}
 
-library(NHANES)
+@fig-height-density-histograms-by-sex shows density histograms for the heights in cm of `r n_female` females (upper figure) and `r n_male` males (lower figure) age 18 or older. The data come from the National Health and Nutrition Examination Survey (NHANES) and were used in @sec-continuous-rv.  In these plots, the heights of the bars represent the probability of the observations found in each interval of width 2cm.  In the data for the females, the probability of a height  between 160 and 162cm is approximately 0.058, and is approximately 0.056 for heights between 162 and 164cm, so the probability of an observed height  between 160 and 164cm is approximately 0.114. 
 
-df_females <- NHANES |> select(Age, Gender, Height) |>
-  drop_na() |> 
-  filter(Age > 17, Gender == "female")
-
-n_f <- nrow(df_females)
-mu_f <- round(mean(df_females$Height), 2)
-sd_f <- round(sd(df_females$Height), 2)
-med_f <- round(median(df_females$Height), 2)
-count_160_f <- df_females$Height <= 162 & df_females$Height > 160
-sum(count_160_f)
-hist_160_162 <- round(sum(count_160_f)/n_f,3)
-count_162_f <- df_females$Height <= 164 & df_females$Height > 162
-hist_162_164 <- round(sum(count_162_f)/n_f, 3)
-
-
-df_males <- NHANES |> select(Age, Gender, Height) |>
-  drop_na() |> 
-  filter(Age > 17, Gender == "male")
-
-n_m <- nrow(df_males)
-mu_m <- round(mean(df_males$Height), 2)
-sd_m <- round(sd(df_males$Height), 2)
-med_m <- round(median(df_males$Height), 2)
-```
-
-@fig-height-histograms shows histograms for the heights in cm of `r n_f` females (upper figure) and `r n_m` males (lower figure) age 18 or older. The data come from the National Health and Nutrition Examination Survey (NHANES) and can be found in the R library NHANES.  In these plots, the heights of the bars represent the fraction of the observations found in each interval of width 2cm.  For instance, in the data for the females, approximately 11% of the heights are between 160 and 162cm, and another 11% are between 162 and 164cm, so approximately 22% are between 160 and 164cm. ^[The actual percentages `r hist_160_162*100`% and `r hist_162_164*100`%.]
-
-The shape of the two distributions is characteristic of many measurements made on human populations -- the histograms are symmetric, unimodal and appear to have few outliers, although that would have to be confirmed with a box plot.  Because of the symmetry and lack of outliers, the mean and medians will be similar.  The female heights have mean `r mu_f` and median `r med_f`; the corresponding values for the male heights are `r mu_m` and `r med_m`.  
+The shape of the two distributions is characteristic of many measurements made on human populations -- the histograms are bell-shaped, symmetric, unimodal and appear to have few outliers, although that would have to be confirmed with a box plot.  Because of the symmetry and lack of outliers, the mean and medians will be similar.  The female heights have mean `r mean_female` and median `r med_female`; the corresponding values for the male heights are `r mean_male` and `r med_male`.  
 
 
 
-```{r height-histograms}
-#| label: fig-height-histograms
+```{r height-histograms-by-sex}
+#| label: fig-height-density-histograms-by-sex
 #| fig-cap: |
 #|   Histograms of the heights of adult females and males 
 #| fig-subcap:
@@ -279,74 +401,79 @@ The shape of the two distributions is characteristic of many measurements made o
 #| fig-asp: 0.4
 #| layout-ncol: 1
 
-
-pf <-  ggplot(df_females,
-              aes(x = Height)) +
-       geom_histogram(aes(y = after_stat(count / sum(count))),
-       breaks = seq(130, 200, 2),
-       closed = "right") +
-  labs(x = "Height (cm)", y = "Proportion") +
+adult_wt_ht |> filter(RIAGENDR == "Female") |> 
+  ggplot(aes(x = BMXHT)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 breaks = seq(140, 200, 2.0),
+                 closed = "right") +
+  labs(x = "Height (cm)", y = "Density") +
   scale_x_continuous(
-    breaks = seq(120, 220, 10)) 
-  
+    breaks = seq(140, 200, 20)) 
 
-pm <- ggplot(df_males,
-             aes(x = Height)) +
-     geom_histogram(aes(y = after_stat(count / sum(count))),
-         breaks = seq(130, 200, 2),
-         closed = "right") +
-     labs(x = "Height (cm)", y = "Proportion") +
-     scale_x_continuous(
-    breaks = seq(120, 220, 10)
-  )
-xrange <- range(c(df_females$Height, df_males$Height))
-ymax <- max(pf$counts / sum(pf$counts), pm$counts / sum(pm$counts))
-pf <- pf + xlim(xrange) + ylim(0, 0.12)
-pm <- pm + xlim(xrange) + ylim(0, 0.12)
+adult_wt_ht |> filter(RIAGENDR == "Male") |> 
+  ggplot(aes(x = BMXHT)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 breaks = seq(140, 200, 2.0),
+                 closed = "right") +
+  labs(x = "Height (cm)", y = "Density") +
+  scale_x_continuous(
+    breaks = seq(140, 200, 20)) 
 
-pf
-pm
 ```
 
-The \index{normal model} **normal model** is often used to represent the population distribution of measurements with the characteristics seen in @fig-height-histograms.
+The \index{normal model} **normal model** is often used to represent the population distribution of measurements with the characteristics seen in @fig-height-density-histograms-by-sex.
 
 ::: {.important data-latex=""}
 **The normal model.**
 
-A random variable $X$ follows a normal model if it can take on all values, and its distribution is a bell-shaped curve that is symmetric, unimodal and with very few outliers.
+A random variable $X$ follows a normal model if it can take on all values, and its distribution is a bell-shaped curve that is symmetric, unimodal and with very few outliers. 
 
 :::
 
-A normal random variable $X$ is a continuous random variable because its values are not limited to a finite set. 
+A normal random variable $X$ is a continuous random variable because its values are not limited to a finite discrete set of values. 
 
 ### The normal density function {#sec-normal-density}
 
-The histogram in @fig-female-height-histogram-density shows the top panel in @fig-height-histograms but is drawn on a density scale.  The vertical axis has been re-scaled so that the height of the bars is now the proportion of observations divided by the width of the bins (2cm in this case).  When a histogram is drawn on the density scale, the proportion of observations falling in a bin is now the area of the bar, since multiplying the density value by the bin width recovers the proportion.  The smooth red curve in the plot is the normal density function for a random variable with mean `r mu_f` and standard deviation `r sd_f`. The histogram displays the distribution of the observed data.  The normal density function is the distribution of a random variable that is a model for heights of all adult women in the US population.
+The histograms in @fig-height-density-histogram-normal add normal density functions (in red) to each of the histograms in @fig-height-density-histograms-by-sex.   The normal density functions are the distributions of normal random variable that model for heights of all adult women or men in the US population.  The two densities have their peaks at different values (males tend to be taller than women but have roughly equal spread.
 
 
-```{r female-histogram-density-normal}
-#| label: fig-female-height-histogram-density
+```{r height-density-histogram-normal}
+#| label: fig-height-density-histogram-normal
 #| fig-cap: |
-#|   A histogram of the heights of adult females, density scale
+#|   A density histogram of the heights of US adults, with a normal density added in red.
+#| fig-subcap:
+#|   - Female heights (cm)
+#|   - Male heights (cm)
 #| fig-alt: | 
 #|   To be written
 #|   
 #| fig-asp: 0.4
+#| layout-ncol: 1
 
-pf_d <-  ggplot(df_females,
-              aes(x = Height)) +
+adult_wt_ht |> filter(RIAGENDR == "Female") |> 
+  ggplot(aes(x = BMXHT)) +
   geom_histogram(aes(y = after_stat(density)),
-                 breaks = seq(130, 200, 2),
+                 breaks = seq(140, 200, 2.0),
                  closed = "right") +
   stat_function(
-    fun = function(Height) dnorm(Height, mean = mu_f, sd = sd_f),
+    fun = function(Height) dnorm(Height, mean = mean_female, sd = sd_female),
     color = "red", linewidth = 1 ) +
   labs(x = "Adult female height (cm)", y = "Density") +
   scale_x_continuous(
-    breaks = seq(130, 190, 10)
-  ) +
-  ylim(0, 0.06)
-pf_d
+    breaks = seq(140, 200, 10))
+ 
+adult_wt_ht |> filter(RIAGENDR == "Male") |> 
+  ggplot(aes(x = BMXHT)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 breaks = seq(140, 200, 2.0),
+                 closed = "right") +
+  stat_function(
+    fun = function(Height) dnorm(Height, mean = mean_male, sd = sd_male),
+    color = "red", linewidth = 1 ) +
+  labs(x = "Adult male height (cm)", y = "Density") +
+  scale_x_continuous(
+    breaks = seq(140, 200, 10))
+ 
 ```
 
 ::: {.important data-latex=""}
@@ -358,30 +485,7 @@ The normal density is characterized by two parameters: the mean $\mu$ and standa
 
 :::
 
-```{r standard-normal-density}
-#| label: fig-standard-normal-densities
-#| fig-cap: |
-#|   The density function for a standard normal variable $Z$
-#| fig-alt: | 
-#|   To be written
-#|   
-#| fig-asp: 0.4
-# parameters
-
-library(ggplot2)
-
-# create x and y values for the standard normal
-x <- seq(-4, 4, length.out = 500)
-df <- data.frame(x = x, y = dnorm(x))  # mean=0, sd=1 by default
-
-ggplot(df, aes(x = x, y = y)) +
-  geom_line(linewidth = 1.2, color = "steelblue") +
-  labs(
-    x = "Z-value",
-    y = "Density"
-  ) 
-
-```
+The normal density function characterizes a family of normal random variables indexed by the two parameters $\mu$ and $\sigma$.  When $\mu$ changes, the center of the distribution shifts right or left; when $\sigma$ changes the  distribution changes its spread. @fig-normal-densities shows 4 normal density functions with means 100 or 150, and standard deviations 25 or 40.
 
 ```{r normal-densities}
 #| label: fig-normal-densities
@@ -425,7 +529,71 @@ ggplot(densities, aes(x = x, y = y, color = label)) +
 
 ```
 
-### Standardizing with Z-scores {#sec-z-scores}
+@fig-standard-normal-density is a plot of the density for a standard normal random variable.  In principle any value of a normal random variable is possible, values of a standard normal smaller than -4 or larger than 4 are unlikely
+
+```{r standard-normal-density}
+#| label: fig-standard-normal-density
+#| fig-cap: |
+#|   The density function for a standard normal variable $Z$
+#| fig-alt: | 
+#|   To be written
+#|   
+#| fig-asp: 0.4
+# parameters
+
+library(ggplot2)
+
+# create x and y values for the standard normal
+x <- seq(-4, 4, length.out = 500)
+df <- data.frame(x = x, y = dnorm(x))  # mean=0, sd=1 by default
+
+ggplot(df, aes(x = x, y = y)) +
+  geom_line(linewidth = 1.2, color = "steelblue") +
+  labs(
+    x = "Z-value",
+    y = "Density"
+  ) 
+
+```
+
+
+
+### Standardizing with $z$-scores {#sec-z-scores}
+
+When data are approximately normally distributed, the $Z$-score of an observation quantifies how far the observation is from the mean, in units of standard deviation(s). If $x$ is an observation from a distribution $N(\mu, \sigma)$, the Z-score is defined as:
+\begin{align*}
+	Z = \frac{x-\mu}{\sigma}.
+\end{align*}
+
+An observation equal to the mean has a $Z$-score of 0. Observations above the mean have positive $Z$-scores, while observations below the mean have negative $Z$-scores. For example, if an observation is one standard deviation above the mean, it has a $Z$-score of 1; if it is 1.5 standard deviations below the mean, its $Z$-score is -1.5. 
+
+$Z$-scores can be used to identify which observations are more extreme than others, and are especially useful when comparing observations from different normal distributions. One observation $x_1$ is said to be more unusual than another observation $x_2$ if the absolute value of its z-score is larger than the absolute value of the other observation's Z-score: $|z_1| > |z_2|$. In other words, the further an observation is from the mean in either direction, the more extreme it is. 
+
+$Z$-scores are also used to compare observations from normal distributions that are measured on different scales.
+
+::: {.workedexample data-latex=""}
+
+The SAT and the ACT are two standardized tests commonly used for college admissions in the United States. The distribution of test scores are both nearly normal. For the SAT, $N(1500, 300)$; for the ACT, $N(21, 5)$. While some colleges request that students submit scores from both tests, others allow students the choice of either the ACT or the SAT. Suppose that one student scores an 1800 on the SAT (Student A) and another scores a 24 on the ACT (Student B). A college admissions officer would like to compare the scores of the two students to determine which student performed better.
+
+------------------------------------------------------------------------
+
+Calculate a $Z$-score for each student; i.e., convert $x$ to $Z$.
+		
+Using $\mu_{SAT}=1500$, $\sigma_{SAT}=300$, and $x_{A}=1800$, find Student A's $Z$-score:
+\begin{align*}
+	Z_{A} = \frac{x_{A} - \mu_{SAT}}{\sigma_{SAT}} = \frac{1800-1500}{300} = 1.
+\end{align*}
+
+For Student B:
+\begin{align*}
+	Z_{B} = \frac{x_{B} - \mu_{ACT}}{\sigma_{ACT}} = \frac{24 - 21}{5} = 0.6.
+\end{align*}
+
+Student A's score is 1 standard deviation above average on the SAT, while Student B's score is 0.6 standard deviations above the mean on the ACT. As illustrated in @fig-sat-act-z-score, Student A's score is more extreme, indicating that Student A has scored higher with respect to other scores than Student B.
+
+:::
+
+
 
 ```{r sat-act-z-score}
 #| label: fig-sat-act-z-score
@@ -506,7 +674,44 @@ text(m + 3,
 
 ```
 
+::: {.important data-latex=""}
+**The Z-score.**
+
+The $Z$-score of an observation quantifies how far the observation is from the mean, in units of standard deviation(s). The $Z$-score for an observation $x$ that follows a distribution with mean $\mu$ and standard deviation $\sigma$ can be calculated using
+\begin{align*}
+z = \frac{x-\mu}{\sigma}.
+\end{align*}
+
+:::
+
+::: {.workedexample data-latex=""}
+
+How high would a student need to score on the ACT to have a score equivalent to Student A's score of 1800 on the SAT?
+
+------------------------------------------------------------------------
+
+As shown in the above example, a score of 1800 on the SAT is 1 standard deviation above the mean. ACT scores are normally distributed with mean 21 and standard deviation 5. To convert a value from the standard normal curve (Z) to one on a normal distribution $N(\mu, \sigma)$:
+
+\begin{align*}
+x = \mu + Z\sigma.
+\end{align*}
+
+Thus, a student would need a score of $21 + 1(5) = 26$ on the ACT to have a score equivalent to 1800 on the SAT. 
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+Systolic blood pressure (SBP) for adults in the United States aged 18-39 follow an approximate normal distribution, $N(115, 17.5)$. As age increases, systolic blood pressure also tends to increase. Mean systolic blood pressure for adults 60 years of age and older is 136 mm Hg, with standard deviation 40 mm Hg. Systolic blood pressure of 140 mm Hg or higher is indicative of hypertension (high blood pressure). 
+(a) How many standard deviations away from the mean is a 30-year-old with systolic blood pressure of 125 mm Hg? (b) Compare how unusual a systolic blood pressure of 140 mm Hg is for a 65-year-old, versus a 30-year-old. [^important-distributions-310]
+:::
+
+[^important-distributions-310]: a. Calculate the $z$-score: $\frac{\overline{x} - \mu}{\sigma} = \frac{125 - 115}{17.5} = 0.571$. A 30-year-old with systolic blood pressure of 125 mm Hg is about 0.6 standard deviations above the mean. (b) For $x_1=140$ mm Hg: $z_1 = \frac{x_1 - \mu}{\sigma} = \frac{140 - 115}{17.5} = 1.43$. For $x_2=140$ mm Hg: $z_2 = \frac{x_2 - \mu}{\sigma} = \frac{140 - 136}{40} = 0.1$. While an SBP of 140 mm Hg is almost 1.5 standard deviations above the mean for a 30-year-old, it is only 0.1 standard deviations above the mean for a 65-year-old.
+
+
 ### The empirical rule{#sec-empirical-rule}
+
+The empirical rule (also known as the 68-95-99.7 rule) states that for a normal distribution, almost all observations will fall within three standard deviations of the mean. Specifically, 68\% of observations are within one standard deviation of the mean, 95\% are within two SD's, and 99.7\% are within three SD's. 
 
 ```{r empirical-rule-normal}
 #| label: fig-empirical-rule-normal
@@ -577,10 +782,255 @@ abline(h = 0, col = '#AAAAAA')
 
 ```
 
+While it is possible for a normal random variable to take on values 4, 5, or even more standard deviations from the mean, these occurrences are extremely rare if the data are nearly normal. For example, the probability of being further than 4 standard deviations from the mean is about 1-in-30,000.
+
+
+
 ### Calculating normal probabilities {#sec-calculating-normal-probabilities}
+
+There are two main types of problems that involve the normal distribution: calculating probabilities from a given value (whether $X$ or $Z$), or identifying the observation that corresponds to a particular probability. Normal probabilities can be calculated using either software or tables of the normal distribution in @sec-normal-probability-table.  The tables in @sec-normal-probability-table are sometimes useful in a classroom setting but are never used in practice.   Examples using tables of the normal distribution are given in @sec-normal-probability-table. 
+
+There are many software resources for calculating normal probabilities, including pocket calculators like the TI-84 or online programs like the [Desmos graphing calculator](https://www.desmos.com/calculator).  This section illustrates functions in the  R statistical software to compute normal probabilities.  The same examples used here are also used in @sec-normal-probability-table to illustrate the use of the normal table.
+
+In R, the  function **pnorm** calculates the area under a normal curve to the left of a specified value, so it calculates the probability of observing a value less than or equal to the specified value. The normal curve is specified by its mean and standard deviation.  When the mean and standard deviation are not given, a mean and standard deviation 0 and 1 are used. 
+
+
+::: {.workedexample data-latex=""}
+
+Based on the data in  @sec-definition-normal-model the heights of US adult females is approximately normally distributed with mean 160cm and standard deviation 7cm.  Use the function pnorm to find percentile of the height distribution for a woman 167cm tall.
+
+------------------------------------------------------------------------
+
+The percentile is the percentage of adult women who are the same height or shorter, and it will be the size of the shaded area in the normal curve in @fig-height-below-167-example
+
+
+```{r}
+#| label: fig-height-below-167-example
+#| fig-cap: Normal distribution for the heigts of adult US women.
+#| fig-alt: A normal distribution is shown that is centered at 160cm with a standard deviation of 200cm. The region to the left of 167 (where Z equals 1) is shaded, which appears to represent about 80\% of the area under the distribution.
+
+normTail(160, 7,
+         L = 167,
+         col = COL[1],
+         cex.axis = 0.6)
+
+```
+
+The function pnorm can be used to calculate the size of the shaded area.  In pnorm, $q$ denotes the observed value, labeled a quantile in R.
+
+```{r echo=TRUE}
+pnorm(q = 167, mean = 160, sd = 7)
+
+```
+This woman  is in the $84^{th}$ percentile of heights.
+:::
+
+::: {.workedexample data-latex=""}
+
+Use a $Z$-score and the standard normal distribution to calculate the percentile in the above example.
+
+------------------------------------------------------------------------
+
+For height 167cm, 
+$$
+Z = \frac{167 - 160}{7} = 1.
+$$
+The corresponding area under a standard normal curve is shown in @fig-height-below-1sd.
+
+```{r fig-height-below-1sd}
+#| label: fig-height-below-1sd
+#| fig-cap: Standard normal distribution with shaded area below Z = 1.
+#| fig-alt: A standard normal distribution is shown that is centered at 0 with a standard deviation 1. The region to the left of 1 (where Z equals 1) is shaded, which appears to represent about 80\% of the area under the distribution.
+
+normTail(0, 1,
+         L = 1,
+         col = COL[1],
+         cex.axis = 0.6)
+
+```
+The size of area can be calculated with the default version of pnorm.
+
+
+```{r echo=TRUE}
+pnorm(1)
+
+```
+
+:::
+
+
+Tail areas can be used to calculate the probability of an observation falling in an interval with specified endpoints.
+
+
+
+::: {.workedexample data-latex=""}
+
+What is the probability that an adult women's  height is between 158 and 169cm?
+
+------------------------------------------------------------------------
+
+First, draw the figure that represents the probability.  The area of interest is an interval, not a tail area.
+
+```{r}
+#| label: fig-area-between-158-169
+#| fig-cap: Normal density for adulst women's height showing the area between 158 and 168cm. 
+#| fig-alt: A normal distribution is shown centered at 160 with standard deviation 7.  The area under the density curve between 158cm and 169cm is shaded.
+
+normTail(160, 7,
+         M = c(158, 169),
+         col = COL[1],
+         axes = FALSE)
+labels <- round(c(158, 169), 2)
+axis(1, labels, cex.axis = 0.8)
+
+```
+
+To find the middle area, find the area to the left of 169; from that area, subtract the area to the left of 158.
+	
+First, convert to $Z$-scores:
+	
+$$
+	Z_{169} = \dfrac{x-\mu}{\sigma} = \dfrac{169 - 160}{7} = 1.29, \qquad Z_{158} = \dfrac{x-\mu}{\sigma} = \dfrac{158-160}{7} = -0.286.
+$$
+ 
+ Now use pnorm to calculate the tail areas corresponding to these $Z$-scores.
+ 
+```{r echo=TRUE}
+pnorm(1.29) - pnorm(-0.286)
+```
+
+The steps are shown graphically in 
+
+
+```{r}
+#| label: fig-diff-tail-areas-169-158
+#| fig-cap: Standard normal densities depicting the operation to calculate the area under a normal density in an interval. 
+#| fig-alt: The figure show graphically that the area under the normal curve in an interval is obtained by subtracting two tail areas.  Three standard normal densities with mean 0 and standard deviation 1 are shown, side by side.  The density on the left shows the shaded area in the left tail less than or equal to Z = 1.29, with the probability of that area, 0.901, written above the density curve.  The middle density shows the shaded area in the left tail less than or equal to Z = -0.286, with probability value 0.388 above it. The density on the right shows the shaded area between Z = -0.286 and Z = 1.29.  The probabilty of the shaded area, 0.518, is written above the density.
+#| 
+
+AddShadedPlot <- function(x, y, offset,
+                          shade.start = -8,
+                          shade.until = 8) {
+  lines(x + offset, y)
+  lines(x + offset, rep(0, length(x)))
+  these <- which(shade.start <= x & x <= shade.until)
+  polygon(c(x[these[1]], x[these], x[rev(these)[1]]) + offset,
+          c(0, y[these], 0),
+          col = COL[1])
+  lines(x + offset, y)
+}
+AddText <- function(x, text) {
+  text(x, 0.549283, text)
+}
+
+X <- seq(-3.2, 3.2, 0.01)
+Y <- dnorm(X)
+
+plot(X, Y,
+     type = 'l',
+     axes = FALSE,
+     xlim = c(-3.4, 16 + 3.4),
+     ylim = c(0, 0.622),
+     xlab = "",
+     ylab = "")
+
+AddShadedPlot(X, Y, 0, -8, 1.21)
+AddText(0, format(0.901 , scientific = FALSE)[1])
+
+AddShadedPlot(X, Y, 8, -8, -0.3)
+AddText(8, format(0.387, scientific = FALSE)[1])
+
+AddShadedPlot(X, Y, 16, -0.3, 1.21)
+AddText(16, format(0.514, scientific = FALSE)[1])
+
+lines(c(3.72, 4.28), rep(0.549283, 2), lwd = 1)
+lines(c(3 + 3, 2*3-3.5), c(0.2, 0.2), lwd = 3)
+
+text(12, 0.549283,
+     ' = ')
+segments(rep(11, 2), c(0.17, 0.23), rep(13, 2), lwd = 3)
+
+
+```
+
+:::
+
+
+The R function **qnorm** can be used to find the value of an observation that corresponds to a given percentile.  In qnorm, $p$ denotes required percentile.
+
+
+::: {.workedexample data-latex=""}
+
+Find the height that marks the 80^th^ percentile of the distribution of heights of adult women in the United States.
+ 
+------------------------------------------------------------------------
+
+Use qnorm with the specified percentile, and the mean and standard deviation of the normal distribution.
+
+```{r echo=TRUE}
+qnorm(p = 0.80, mean = 160, sd = 7)
+
+```
+The 80^th^ percentile for the distribution of heights is 166cm.  In other words, 80% of US women are as short or shorter than 166cm; 20\% are taller than 166cm.
+
+When the mean and standard deviation are not specificed, qnorm assumes a standard normal and  returns the $Z$-score for that percentile.
+
+```{r echo=TRUE}
+qnorm(p = 0.80)
+
+```
+In this problem, the $Z$-score can then be converted back to the original scale, using
+the $Z$-score and solving for $x$:
+  
+  $$
+  Z = 0.84 = \frac{x - 160}{7}, 
+  $$
+  so 
+  $$
+  x = (0.84)(7) + 160 = 166.
+  $$
+  Solving for $x$ yields $x$ = 166cm. 
+  
+:::
 
 
 ## The Poisson distribution {#sec-poisson-dist}
+
+The **Poisson distribution** \index{distribution!Poisson} is a discrete distribution used to calculate probabilities for the number of occurrences of a rare event.  In technical terms, it is used as a model for count data. For example, historical records of hospitalizations in New York City indicate that among a population of approximately 8 million people, 4.4 people are hospitalized each day for an acute myocardial infarction (AMI), on average.  A histogram of showing the distribution of the number of AMIs per day on 365 days for NYC is shown in Figure~\ref{amiIncidencesOver100Days}.^[These data are simulated. In practice, it would be important to check for an association between successive days.]
+
+
+
+```{r}
+#| label: fig-ami-incidences-over-100-days
+#| fig-cap: A histogram of the number of people hospitalized for an AMI on 365 days for NYC, 
+#|     as simulated from a Poisson distribution with mean 4.4.   
+#|  
+#| fig-alt: A histogram is shown for "AMI Events (by Day)". There are 11 non-zero values shown - a frequency of 
+#|     about 15 at a value of 1, a frequency of 50 at 2, 70 at 3, 85 at 4, 55 at 5, 45 at 6, 
+#|     25 at 7, 20 at 8, 5 at 9, 5 at 10, and a frequency of about 2 at 11.    
+#| 
+set.seed = 1
+r <- 200 / 10^6
+N <- 8 * 10^6
+n <- 365
+x <- rpois(n, r * N / 365)
+
+histPlot(x,
+         breaks = (0:max(2 * x + 1)) / 2 - 0.25,
+         axes = FALSE,
+         col = COL[1],
+         xlab = "AMI events (by day)")
+at     <- 0:1000
+# labels <- rep("", length(at))
+# axis(1, at = at, labels = labels, tcl = -0.18)
+axis(1, at = seq(0, 1000, 5), tcl = -0.35)
+axis(2, at = seq(0, 1000, 20))
+
+
+
+```
+
+
 
 ## Distributions related  to  Bernoulli trials {#sec-dist-related-to-bernoulli}
 

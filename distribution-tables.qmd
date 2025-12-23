@@ -1,0 +1,274 @@
+# Distribution tables {#sec-distribution-tables} 
+
+
+## Normal probability table {#sec-normal-probability-table}
+
+```{r}
+#| include: false
+
+source("_common.R")
+```
+
+A \index{normal probability table} **normal probability table** may be used to
+find percentiles of a normal distribution using a $Z$-score,
+or vice-versa. Such a table lists $Z$-scores and the corresponding percentiles.
+@tbl-abbrev-normal-right-tail shows the first 15 rows of the full table for the right tail of a normal distribution and is used for the examples in this appendix. The full tables may be found in Tables [-@tbl-normal-left-tail] and [-@tbl-normal-right-tail].
+
+```{r abbrev-normal-right-tail}
+#| label: tbl-abbrev-normal-right-tail
+#| tbl-cap: "The first section of the right tail of the normal distribution.  The column headings are the second decimal of Z."
+
+nr <- 15
+z <- matrix(NA, nr, 10)
+z_col <- matrix(NA, nr, 1)
+prob <- matrix(NA, nr, 10)
+for (i in 1:nr) {
+  for (j in 1:10) {
+    z[i,j] <- (i - 1) / 10 + (j - 1) / 100
+    prob[i,j] <- pnorm(z[i,j])
+  }
+  z_col[i] <- (i - 1)/10
+}
+
+
+prob <- apply(prob, 2, function(col) sprintf("%.4f", as.numeric(col)))
+z_col <- apply(z_col, 2, function(col) sprintf("%.1f", as.numeric(col)))
+
+p_tbl <- cbind(z_col, prob)
+p_print <- p_tbl[]
+
+colnames(p_tbl) <- c("Z", "0.00", "0.01", "0.02", "0.03", "0.04", "0.05", 
+                     "0.06", "0.07","0.08","0.09")
+kbl(
+  p_tbl,
+  align   = "r"
+) |>
+  kable_styling(
+    font_size  = 8,
+    full_width = FALSE,
+    html_font  = "monospace"
+  ) |>
+  row_spec(0, extra_css = "line-height: 0.9;") |>
+  row_spec(1:nrow(p_tbl), extra_css = "line-height: 0.7;") |> 
+  column_spec(1:ncol(p_tbl), extra_css = "padding-left: 2px; padding-right: 2px;")
+```
+
+When using a normal probability table to find a percentile
+for $Z$ (rounded to two decimals),
+identify the proper row in the normal probability
+table up through the first decimal, and then determine the
+column representing the second decimal value.
+The intersection of this row and column is the percentile
+of the observation.
+For instance, the percentile of $Z = 0.45$ is shown in row
+$0.4$ and column $0.05$ @tbl-abbrev-normal-right-tail:
+0.6736, or the $67.36^{th}$ percentile.
+
+
+```{r normal-tails}
+#| label: fig-normal-tails
+#| fig-cap: The area to the left of Z represents the percentile of an observation.
+#| fig-alt: Two normal distributions are shown. The first is labeled "Negative Z", where the left tail of the distribution is shaded up to a location that is to the left of the center of the distribution (where Z would be about -1). The second normal distribution is labeled "Positive Z", where the left tail of the distribution is shaded up to a location that is to the right of the center of the distribution (where Z would be about positive 1). The area in the first plot is smaller, less than 50\% of the area under the distribution, while the area in the second plot is larger and represents well over 50\% of the area under the distribution.
+#| fig-subcap:
+#|    - Negative Z
+#|    - Positive Z
+#| layout-ncol: 2
+normTail(0, 1,
+         -0.8,
+         col = COL[1],
+         axes = FALSE)
+at <- c(-5, 0, 5)
+# labels <- c(-5, 'Negative Z', 5)
+cex.axis <- 0.7
+tick <- FALSE
+# axis(1, at, labels, cex.axis = cex.axis, tick = tick)
+lines(c(0, 0),
+      dnorm(0) * c(0.01, 0.99),
+      col = COL[6],
+      lty = 3,
+      lwd = 1.5)
+
+normTail(0, 1,
+         0.8,
+         col = COL[1],
+         axes = FALSE)
+# labels <- c(-5, 'Positive Z', 5)
+# axis(1, at, labels, cex.axis = cex.axis, tick = tick)
+lines(c(0, 0),
+      dnorm(0) * c(0.01, 0.99),
+      col = COL[6],
+      lty = 3,
+      lwd = 1.5)
+
+```
+
+::: {.workedexample data-latex=""}
+
+Based on the data in  @sec-definition-normal-model the heights of US adult females is approximately normally distributed with mean 160cm and standard deviation 7cm.  If a woman is 167cm tall, what percentile of the distribution of heights does she fall in among adult women?
+
+------------------------------------------------------------------------
+
+The percentile is the percentage of adult women who are not as tall. The total area under the normal curve is always equal to 1, and the proportion of adult women not as tall is equal to the **area** of the shaded region in @fig-height-below-167.  The area is found by looking in row $1.0$ and column $0.00$
+in @tbl-abbrev-normal-right-tail: 0.8413.  This woman  is in the $84^{th}$ percentile of heights.
+
+
+
+```{r}
+#| label: fig-height-below-167
+#| fig-cap: Normal distribution for the heigts of adult US women.
+#| fig-alt: A normal distribution is shown that is centered at 160cm with a standard deviation of 200cm. The region to the left of 167 (where Z equals 1) is shaded, which appears to represent about 80\% of the area under the distribution.
+
+normTail(160, 7,
+         L = 167,
+         col = COL[1],
+         cex.axis = 0.6)
+
+```
+:::
+
+
+
+::: {.workedexample data-latex=""}
+
+How does one find an upper tail area? 
+
+------------------------------------------------------------------------
+
+The normal probability table *always* gives the area
+  to the left.   To find an area to the right,
+  first find the lower tail and then subtract it from 1.
+  For instance, 84.13\% of adult women are shorter than 167cm,
+  so 15.87\% of women are taller than 167cm. 
+
+:::
+
+::: {.workedexample data-latex=""}
+
+Find the height that marks the 80^th^ percentile of the distribution of heights of adult women.
+ 
+------------------------------------------------------------------------
+
+
+Look for the are to the value in the table closest to 0.8000.
+  The closest value is 0.7995, which corresponds to $Z = 0.84$,
+  where 0.8 comes from the row value and 0.04 comes from the
+  column value.
+  Next, set up the equation for the $Z$-score and the unknown
+  value $x$ as follows, and then solve for $x$:
+  $$
+  Z = 0.84 = \frac{x - 160}{7}. 
+  $$
+  Solving for $x$ yields $x$ = 166cm. 
+  
+:::
+
+Other ways to calculate normal probabilities can be found in @sec-calculating-normal-probabilities.
+
+
+```{r}
+#| label: fig-std-normal-left-tail
+#| fig-cap: Negative Z
+#| fig-alt: A normal distribution is shown and labeled "Negative Z", where the left tail of the distribution is shaded up to a location that is to the left of the center of the distribution (where Z would is -0.5). This shaded area represents less than 50\% of the area under the normal distribution.
+
+normTail(0, 1,
+         L = -0.5,
+         col = COL[1],
+         cex.axis = 0.6)
+
+```
+
+```{r normal-left-tail}
+#| label: tbl-normal-left-tail
+#| tbl-cap: "Left tail of the normal distribution.  The column headings are the second decimal of Z."
+
+nr <- 35
+z <- matrix(NA, nr, 10)
+z_col <- matrix(NA, nr, 1)
+prob <- matrix(NA, nr, 10)
+for (i in 1:nr) {
+  for (j in 1:10) {
+    z[i,j] <- -((nr - i) / 10 + (10 - j) / 100) + 0.01
+    prob[i,j] <- pnorm(z[i,j])
+  }
+  z_col[i] <- -(nr - i)/10
+}
+
+prob <- apply(prob, 2, function(col) sprintf("%.4f", as.numeric(col)))
+z_col <- apply(z_col, 2, function(col) sprintf("%.1f", as.numeric(col)))
+
+p_tbl <- cbind(prob, z_col)
+p_print <- p_tbl[]
+
+
+colnames(p_tbl) <- c("0.09", "0.08", "0.07", "0.06", "0.05", "0.04", 
+                     "0.03", "0.02","0.01","0.00", "Z")
+kbl(
+  p_tbl,
+  align   = "r"
+) |>
+  kable_styling(
+    font_size  = 8,
+    full_width = FALSE,
+    html_font  = "monospace"
+  ) |>
+  row_spec(0, extra_css = "line-height: 0.9;") |>
+  row_spec(1:nrow(p_tbl), extra_css = "line-height: 0.7;") |> 
+  column_spec(1:ncol(p_tbl), extra_css = "padding-left: 2px; padding-right: 2px;")
+
+```
+
+For $Z \leq -3.50$, the probability is less than or equal to $0.0002$
+
+
+```{r}
+#| label: fig-std-normal-right-tail
+#| fig-cap: Positive Z
+#| fig-alt: A normal distribution is shown and labeled "Positive Z", where the left tail of the distribution is shaded up to a location that is to the right of the center of the distribution (where Z is 0.5). This shaded area represents more than 50\% of the area under the normal distribution.
+
+normTail(0, 1,
+         L = 0.5,
+         col = COL[1],
+         cex.axis = 0.6)
+
+```
+
+```{r normal-right-tail}
+#| label: tbl-normal-right-tail
+#| tbl-cap: "Right tail of the normal distribution.  The column headings are the second decimal of Z."
+
+nr <- 35
+z <- matrix(NA, nr, 10)
+z_col <- matrix(NA, nr, 1)
+prob <- matrix(NA, nr, 10)
+for (i in 1:nr) {
+  for (j in 1:10) {
+    z[i,j] <- (i - 1) / 10 + (j - 1) / 100
+    prob[i,j] <- pnorm(z[i,j])
+  }
+  z_col[i] <- (i - 1)/10
+}
+
+
+prob <- apply(prob, 2, function(col) sprintf("%.4f", as.numeric(col)))
+z_col <- apply(z_col, 2, function(col) sprintf("%.1f", as.numeric(col)))
+
+p_tbl <- cbind(z_col, prob)
+p_print <- p_tbl[]
+
+colnames(p_tbl) <- c("Z", "0.00", "0.01", "0.02", "0.03", "0.04", "0.05", 
+                     "0.06", "0.07","0.08","0.09")
+kbl(
+  p_tbl,
+  align   = "r"
+) |>
+  kable_styling(
+    font_size  = 8,
+    full_width = FALSE,
+    html_font  = "monospace"
+  ) |>
+  row_spec(0, extra_css = "line-height: 0.9;") |>
+  row_spec(1:nrow(p_tbl), extra_css = "line-height: 0.7;") |> 
+  column_spec(1:ncol(p_tbl), extra_css = "padding-left: 2px; padding-right: 2px;")
+```
+
+For $Z \geq 3.50$, the probability is less than or equal to $0.9998$

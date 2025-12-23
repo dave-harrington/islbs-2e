@@ -36,6 +36,7 @@ book:
     
   appendices:
     - exercise-solutions.qmd
+    - distribution-tables.qmd
     - references.qmd
 
 bibliography: 
