@@ -271,4 +271,4 @@ kbl(
   column_spec(1:ncol(p_tbl), extra_css = "padding-left: 2px; padding-right: 2px;")
 ```
 
-For $Z \geq 3.50$, the probability is less than or equal to $0.9998$
+For $Z \leq 3.50$, the probability is less than or equal to $0.9998$
