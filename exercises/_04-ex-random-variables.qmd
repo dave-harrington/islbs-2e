@@ -14,7 +14,7 @@ students smoke.
 
   a. Calculate the expected number of smokers in a random sample of 100 students 
 from this university.
-
+  
   b. The university gym opens at 9 am on Saturday mornings. One Saturday morning 
 at 8:55 am there are 27 students outside the gym waiting for it to open. Should 
 you use the same approach from part (a) to calculate the expected number of 
@@ -202,7 +202,7 @@ ggplot(bp, aes(x = BPXOSY1)) +
 
 Diastolic blood pressure (DBP) is the pressure blood exerts against the walls of arteries when the heart is beating resting and is also measured in mm HG.   @fig-systolic-bp-prop is a histogram showing the distribution of DBP in `r n_cases` from the 2021 - 2023 cycle of the NHANES health survey.
 
-  a.  Describe the distribution.
+  a. Describe the distribution.
   
   b. How would you expect the mean and median to compare?
   
@@ -285,7 +285,7 @@ ggplot(youth, aes(x = BMXWT)) +
 
 ```
 
-*Sums of random variables*
+*Sums of independent random variables*
 
 <!--- OS4 3.44 --->
 
@@ -314,13 +314,13 @@ subtract one random variable from another.
 
 <!--- new problem --->
 
-**The cost of health care, I.**  Suppose the HMO described in @sec-cost-of-hmo-insurance is considering doubling the fee for both the premium and for each visit.
+**The cost of health care, I**  Suppose the HMO described in @sec-cost-of-hmo-insurance is considering doubling the fee for both the premium and for each visit.
 
    a.  What will be the the expected cost for each member?
    
    b.  What will be the variance?
    
-**The coast of health care, II.**  Two individuals who share a large house decide to create a common budget.  They have the same insurance with the health plan described in @sec-cost-of-hmo-insurance and both are between 25 and 40 and have no chronic diseases
+**The coast of health care, II**  Two individuals who share a large house decide to create a common budget.  They have the same insurance with the health plan described in @sec-cost-of-hmo-insurance and both are between 25 and 40 and have no chronic diseases.
 
   a.  What is their expected total annual cost of health care?
   
@@ -330,8 +330,7 @@ subtract one random variable from another.
 
 <!--- OS4 3.45 --->
 
-**Variance of a mean, I.**  Suppose we have independent observations $X_1$ and $X_2$ from
-a distribution with mean $\mu$ and standard deviation $\sigma$.
+**Variance of a mean, I**  Suppose we have independent observations $X_1$ and $X_2$ froma distribution with mean $\mu$ and standard deviation $\sigma$.
 What is the variance of the mean of the two values:
 $\frac{X_1 + X_2}{2}$?
 
@@ -351,3 +350,51 @@ a distribution with mean $\mu$ and standard deviation $\sigma$.
 What is the variance of the mean of these $n$ values:
 $\frac{X_1 + X_2 + \dots + X_n}{n}$?
 
+*Distributions of pairs of random variables*
+
+**Joint distributions.**
+
+Consider two random variables, $X$ and $Y$, with the joint distribution shown in @tbl-joint-dist-exercise. 
+
+|        | $Y = 1$ | $Y = 2$ |
+|:------:|:------:|:------:|
+| $X = 1$ | 0.20 | 0.40 |
+| $X = 4$ | 0.30 | 0.10 |
+
+: Joint distribution of $X$ and $Y$. {#tbl-joint-dist-exercise}
+
+  a.  Compute the marginal distributions of $X$ and $Y$. 
+
+  b.  Identify the joint probability $p_{X,Y}(1, 2)$. 
+
+  c.  What is the value of $p_{X, Y}(2, 1)$? 
+
+  d.  Compute the conditional distribution of $X$ given that $Y = 2$.
+
+<!--- new problem--->
+
+**Marginal means and standard deviations.**
+
+Compute the mean and standard deviation for $X$ and $Y$ with joint distribution @tbl-joint-dist-exercise.
+
+<!--- new problem -->
+**Checking independence.**
+
+Are the random variables with joint distribution in @tbl-joint-dist-exercise independent?
+
+<!--- new problem --->
+**Correlated of random variables.**
+
+  a.  Calculate the correlation of the variables $X$ and $Y$ with joint distribution in @tbl-joint-dist-exercise, using @eq-spec-form-corr-alt.
+  
+  b. Use @tbl-joint-dist-exercise to explain why $X$ and $Y$ are negatively correlated.
+  
+<!--- new problem --->
+
+**Variance of a sum of correlated variables.**
+
+  a. Using @eq-general-var-sum-rvs Compute the variance and standard deviation of $X + Y$ if $X$ and $Y$ have the joint distribution in @tbl-joint-dist-gprac.    
+  
+  b. Compare the variance of $X + Y$ with $\operatorname{Var}(X) + \operatorname{Var}(Y)$ and explain the difference.
+  
+  c. Compute the variance and standard deviation of $X - Y$.

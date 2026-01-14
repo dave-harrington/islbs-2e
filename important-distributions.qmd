@@ -43,7 +43,7 @@ Each person in Milgram's experiment can be thought of as a **trial** \index{tria
 
 When an individual trial only has two possible outcomes, its outcome is a \index{Bernoulli random variable} **Bernoulli random variable**. Either outcome can be labeled success, and successes are usually denoted as 1 and failures with a 0. 
 
-Bernoulli random variables arise in many settings.  Suppose an individual joins the hypothetical HMO described in @sec-cost-of-hmo-ins and their demographic characteristics match the population used to construct the probability distribution of number of visits in a year.  If $X$ is the variable that takes on the value 1 if the new member has one or more outpatient visits and 0 if no visits, then $X$ will be a Bernoulli variable with probability of success $p$ = 1 - `r v_probs[1]` = `r 1 - v_probs[1]`.  Suppose 10 new members from this demographic joined the plan during the last year, and whether they had 1 or more outpatient visits was recorded in the sequence of ones and zeros: {0, 1, 1, 1, 1, 0, 1, 1, 0, 0}. The observation on each new member can be regarded as a Bernoulli trial, and the observed sequence as 6 successes and 4 failures. 
+Bernoulli random variables arise in many settings.  Suppose an individual joins the hypothetical HMO described in @sec-cost-of-hmo-insurance and their demographic characteristics match the population used to construct the probability distribution of number of visits in a year.  If $X$ is the variable that takes on the value 1 if the new member has one or more outpatient visits and 0 if no visits, then $X$ will be a Bernoulli variable with probability of success $p$ = 1 - `r v_probs[1]` = `r 1 - v_probs[1]`.  Suppose 10 new members from this demographic joined the plan during the last year, and whether they had 1 or more outpatient visits was recorded in the sequence of ones and zeros: {0, 1, 1, 1, 1, 0, 1, 1, 0, 0}. The observation on each new member can be regarded as a Bernoulli trial, and the observed sequence as 6 successes and 4 failures. 
 
 
 The \index{sample proportion} **sample proportion**, $\hat{p}$, is the sample mean of these observations:
@@ -222,7 +222,7 @@ The probability that a smoker will develop a severe lung condition in their life
 
 [^distributions-410]: Let $p = 0.30$; $X \sim \textrm{Bin}(5, 0.30)$. (a) $P(X=1) = {5 \choose 1}(0.30)^1(1-0.30)^{5-1} = 0.36$ (b) $P(X \leq 1) = P(X=0) + P(X=1) = {5 \choose 0}(0.30)^0(1-0.30)^{5-0} + 0.36 = 0.53$ (c) $P(X \geq 1) = 1 - P(X=0) = 1 - 0.36 = 0.83$.
 
-## The geometric distribution {#sec-geometric-model}
+## The geometric distribution {#sec-geometric-dist}
 
 ::: {.important data-latex=""}
 **The geometric random variable.**
@@ -709,7 +709,7 @@ Systolic blood pressure (SBP) for adults in the United States aged 18-39 follow 
 [^important-distributions-310]: a. Calculate the $z$-score: $\frac{\overline{x} - \mu}{\sigma} = \frac{125 - 115}{17.5} = 0.571$. A 30-year-old with systolic blood pressure of 125 mm Hg is about 0.6 standard deviations above the mean. (b) For $x_1=140$ mm Hg: $z_1 = \frac{x_1 - \mu}{\sigma} = \frac{140 - 115}{17.5} = 1.43$. For $x_2=140$ mm Hg: $z_2 = \frac{x_2 - \mu}{\sigma} = \frac{140 - 136}{40} = 0.1$. While an SBP of 140 mm Hg is almost 1.5 standard deviations above the mean for a 30-year-old, it is only 0.1 standard deviations above the mean for a 65-year-old.
 
 
-### The empirical rule{#sec-empirical-rule}
+### The empirical rule {#sec-empirical-rule}
 
 The empirical rule (also known as the 68-95-99.7 rule) states that for a normal distribution, almost all observations will fall within three standard deviations of the mean. Specifically, 68\% of observations are within one standard deviation of the mean, 95\% are within two SD's, and 99.7\% are within three SD's. 
 
@@ -973,7 +973,7 @@ qnorm(p = 0.80, mean = 160, sd = 7)
 ```
 The 80^th^ percentile for the distribution of heights is 166cm.  In other words, 80% of US women are as short or shorter than 166cm; 20\% are taller than 166cm.
 
-When the mean and standard deviation are not specificed, qnorm assumes a standard normal and  returns the $Z$-score for that percentile.
+When the mean and standard deviation are not specified, qnorm assumes a standard normal and  returns the $Z$-score for that percentile.
 
 ```{r echo=TRUE}
 qnorm(p = 0.80)
@@ -996,7 +996,7 @@ the $Z$-score and solving for $x$:
 
 ## The Poisson distribution {#sec-poisson-dist}
 
-The **Poisson distribution** \index{distribution!Poisson} is a discrete distribution used to calculate probabilities for the number of occurrences of a rare event.  In technical terms, it is used as a model for count data. For example, historical records of hospitalizations in New York City indicate that among a population of approximately 8 million people, 4.4 people are hospitalized each day for an acute myocardial infarction (AMI), on average.  A histogram of showing the distribution of the number of AMIs per day on 365 days for NYC is shown in Figure~\ref{amiIncidencesOver100Days}.^[These data are simulated. In practice, it would be important to check for an association between successive days.]
+The **Poisson distribution** \index{distribution!Poisson} is a discrete distribution used to calculate probabilities for the number of occurrences of a rare event.  In technical terms, it is used as a model for count data. For example, historical records of hospitalizations in New York City indicate that among a population of approximately 8 million people, 4.4 people are hospitalized each day for an acute myocardial infarction (AMI), on average.  A histogram of showing the distribution of the number of AMIs per day on 365 days for NYC is shown in @fig-ami-incidences-over-100-days.^[These data are simulated. In practice, it would be important to check for an association between successive days.]
 
 
 
@@ -1030,11 +1030,251 @@ axis(2, at = seq(0, 1000, 20))
 
 ```
 
+::: {.important data-latex=""}
+**The Poisson distribution.**
+
+The Poisson distribution is a probability model for the number of events that occur in a population.  The probability that exactly $k$ events occur is given by 
+\begin{align*}
+P(X = k) = \frac{e^{-\lambda}(\lambda)^{k}}{k!},
+\end{align*}
+where $k$ may take a value 0, 1, 2, $\dots$ The mean and standard deviation of this distribution are $\lambda$ and $\sqrt{\lambda}$, respectively.
+A Poisson random variable $X$ can be expressed as $X \sim \textrm{Pois}(\lambda)$.
+
+:::
+
+When events accumulate over time in such a way that the probability an event occurs in an interval is proportional to the length of an interval and that the number of events in non-overlapping intervals are independent, the parameter $\lambda$  represents the average number of events per unit time, i.e., the rate per unit time.
+
+In this setting, the number of events in $t$ units of time has probability
+$$
+P(X = k) = \frac{e^{-\lambda t}(\lambda t)^{k}}{k!}, 
+$$
+where $k$ takes on values 0, 1, 2, $\dots$.  When used this way, the mean and standard deviation  are $\lambda t$ and $\sqrt{\lambda t}$, respectively. The rate parameter $\lambda$ represents the expected number of events per unit time, while the quantity $\lambda t$ represents the expected number events over a time period of $t$ units.
+
+The histogram in @fig-ami-incidences-over-100-days  approximates a Poisson distribution with rate equal to 4.4 events per day, for a population of 8 million. 
+
+::: {.workedexample data-latex=""}
+
+In New York City, what is the probability that 2 individuals are hospitalized for AMI in seven days, if the rate is known to be 4.4 deaths per day?
+
+------------------------------------------------------------------------
+
+From the given information, $\lambda = 4.4$, $k = 2$, and $t = 7$. 
+\begin{align*}
+P(X = k) =& \frac{e^{-\lambda t}(\lambda t)^{k}}{k!} \\
+P(X = 2) =& \frac{e^{-4.4 \times 7}(4.4 \times 7)^{2}}{2!} = 1.99 \times 10^{-11}.
+\end{align*}
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+In New York City, what is the probability that (a) at most 2 individuals are hospitalized for AMI in seven days, (b) at least 3 individuals are hospitalized for AMI in seven days?  [^important-distributions-401]
+:::
+
+[^important-distributions-401]: For (a), 
+\begin{align*} 
+P(X \leq 2) &= P(X=0) + P(X=1) + P(X=2) \\
+&= \frac{e^{-4.4 \times 7}(4.4 \times 7)^{0}}{0!} + \frac{e^{-4.4 \times 7}(4.4 \times 7)^{1}}{1!} + \frac{e^{-4.4 \times 7}(4.4 \times 7)^{2}}{2!} 
+&= 2.12 \times 10^{-11}
+\end{align*}
+(b) $P(X \geq 3) = 1 - P(X < 3) = 1 - P(X \leq 2) = 1 - 2.12 \times 10^{-11} \approx 1 $
+
+::: {.workedexample data-latex=""}
+
+For children ages 0 - 14, the incidence rate of acute lymphocytic leukemia (ALL) was approximately 30 diagnosed cases per million children per year in 2010. Approximately 20% of the US population of 319,055,000 are in this age range. What is the expected number of cases of ALL in the US over five years?}
+
+------------------------------------------------------------------------
+
+The incidence rate for one year can be expressed as $30/1,000,000 = 0.00003$; for five years, the rate is $(5)(0.00003) = 0.00015$. The number of children age 0-14 in the population is $(0.20)(319,055,000) \approx 63,811,000$. 
+\begin{align*}
+\lambda &= \text{(relevant population size)(rate per child)} \\
+&= 63,811,000 \times 0.00015 \\
+&= 9,571.5
+\end{align*}
+	
+The expected number of cases over five years is 9,571.5 cases.
+
+:::
+
+## The negative binomial distribution {#sec-neg-binomial-dist}
+
+The geometric distribution in @sec-geometric-dist describes the probability of observing the first success on the $k^{th}$ trial. The \index{negative binomial distribution} **negative binomial-distribution**  is more general: it describes the probability of observing the $r^{th}$ success on the $k^{th}$ trial.
+
+Suppose a research assistant needs to successfully extract RNA from four plant samples before leaving the lab for the day. Yesterday, it took 6 attempts to attain the fourth successful extraction. The last extraction must have been a success; that leaves three successful extractions and two unsuccessful ones that make up the first five attempts. There are ten possible sequences, which are shown in @tbl-rna-extractions.
+
+$$
+\newcommand{\succObs}[1]{\color{blue}{\stackrel{#1}{S}}}
+$$
 
 
-## Distributions related  to  Bernoulli trials {#sec-dist-related-to-bernoulli}
 
-## Distributions for pairs of random variables {#sec-distributions-pairs-rv}
+| Seq | 1 | 2 | 3 | 4 | 5 | 6 |
+|:---:|:--:|:--:|:--:|:--:|:--:|:--:|
+| 1  | $F$ | $F$ | $\succObs{1}$ | $\succObs{2}$ | $\succObs{3}$ | $\succObs{4}$ |
+| 2  | $F$ | $\succObs{1}$ | $F$ | $\succObs{2}$ | $\succObs{3}$ | $\succObs{4}$ |
+| 3  | $F$ | $\succObs{1}$ | $\succObs{2}$ | $F$ | $\succObs{3}$ | $\succObs{4}$ |
+| 4  | $F$ | $\succObs{1}$ | $\succObs{2}$ | $\succObs{3}$ | $F$ | $\succObs{4}$ |
+| 5  | $\succObs{1}$ | $F$ | $F$ | $\succObs{2}$ | $\succObs{3}$ | $\succObs{4}$ |
+| 6  | $\succObs{1}$ | $F$ | $\succObs{2}$ | $F$ | $\succObs{3}$ | $\succObs{4}$ |
+| 7  | $\succObs{1}$ | $F$ | $\succObs{2}$ | $\succObs{3}$ | $F$ | $\succObs{4}$ |
+| 8  | $\succObs{1}$ | $\succObs{2}$ | $F$ | $F$ | $\succObs{3}$ | $\succObs{4}$ |
+| 9  | $\succObs{1}$ | $\succObs{2}$ | $F$ | $\succObs{3}$ | $F$ | $\succObs{4}$ |
+|10  | $\succObs{1}$ | $\succObs{2}$ | $\succObs{3}$ | $F$ | $F$ | $\succObs{4}$ |
+
+: The ten possible sequences when the fourth successful extraction is on the sixth attempt. {#tbl-rna-extractions}
+
+::: {.guidedpractice data-latex=""}
+
+Each sequence in @tbl-rna-extractions has exactly two failures and four successes with the last attempt always being a success. If the probability of a success is $p=0.8$, find the probability of the first sequence. [^important-distributions-402]
+:::
+
+[^important-distributions-402]: The first sequence: $0.2\times0.2\times0.8\times0.8\times0.8\times0.8 = 0.0164$.
+
+If the probability of a successful extraction is $p=0.8$, what is the probability that it takes exactly six attempts to reach the fourth successful extraction? Using the above example, there are 10 different ways this event can occur. The probability of the first sequence is 0.0164, and each of the other sequences have the same probability. Thus, the total probability is $(10)(0.0164) = 0.164$.
+
+A general formula for computing a negative binomial probability can be generated using similar logic as for binomial probability. The probability is comprised of two pieces: the probability of a single sequence of events, and then the number of possible sequences. The probability of observing $r$ successes out of $k$ attempts can be expressed as $(1-p)^{k-r} p^{r}$. Next, identify the number of possible sequences. In the above example, 10 sequences were identified by fixing the last observation as a success and looking for ways to arrange the other observations. In other words, the goal is to arrange $r-1$ successes in $k-1$ trials. This can be expressed as: 
+$$
+{k-1 \choose r-1} = \frac{(k-1)!}{(r-1)! \left((k-1) - (r-1)\right)!} = \frac{(k-1)!}{(r-1)! \left(k - r\right)!}.
+$$
+
+::: {.important data-latex=""}
+**Negative binomial distribution.**
+
+The negative binomial distribution describes the probability of observing the $r^{th}$ success on the $k^{th}$ trial, for independent trials:
+$$
+P(X = k) = {k-1 \choose r-1} p^{r}(1-p)^{k-r},
+$$ {#eq-negative-binomial-equation}
+where $p$ is the probability an individual trial is a success.
+
+The mean and variance are given by\vspace{-2.5mm}
+\begin{align*}
+\mu &= \frac{r}{p}
+&\sigma^2&=\frac{r(1-p)}{p^2}
+\end{align*}
+A negative binomial random variable $X$ can be expressed as $X \sim \textrm{NB}(r, p)$.
+
+:::
+
+::: {.important data-latex=""}
+**Four conditions to check before using the negative binomial model**
+
+1.  The trials are independent. 
+
+2.  Each trial outcome can be classified as a success or failure. 
+
+3. The probability of a success ($p$) is the same for each trial. 
+
+4. The last trial must be a success.
+
+:::
+
+::: {.workedexample data-latex=""}
+
+Calculate the probability of a fourth successful extraction on the fifth attempt.
+
+------------------------------------------------------------------------
+
+The probability of a single success is $p=0.8$, the number of successes is $r=4$, and the number of necessary attempts under this scenario is $k=5$.
+
+\begin{align*}
+P(4^{th} \text{ success on } 5^{th} \text{ trial }) &= {k-1 \choose r-1}p^r(1-p)^{k-r} \\
+	&= \frac{4!}{3!1!} (0.8)^4 (0.2) \\ 
+	&= 4 \times 0.08192 \\ 
+	&= 0.328.
+\end{align*}
+:::
+
+::: {.guidedpractice data-latex=""}
+
+Assume that each extraction attempt is independent. What is the probability that the fourth success occurs within 5 attempts?  [^important-distributions-403]
+:::
+
+[^important-distributions-403]: If the fourth success ($r=4$) is within five attempts, it either took four or five tries ($k=4$ or $k=5$):
+\begin{align*}
+& P(k=4\text{ OR }k=5) = P(k=4) + P(k=5) \\
+&\quad = {4-1 \choose 4-1} 0.8^4 + {5-1 \choose 4-1} (0.8)^4(1-0.8) = 1\times 0.41 + 4\times 0.082 = 0.41 + 0.33 = 0.74.
+\end{align*}
+
+::: {.important data-latex=""}
+**Binomial versus negative binomial.**
+
+The binomial distribution is used when considering the number of successes for a fixed number of trials. For negative binomial problems, there is a fixed number of successes and the goal is to identify the number of trials necessary for a certain number of successes (note that the last observation must be a success).
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+On 70% of days, a hospital admits at least one heart attack patient. On 30% of the days, no heart attack patients are admitted. Identify each case below as a binomial or negative binomial case, and compute the probability. (a) What is the probability the hospital will admit a heart attack patient on exactly three days this week? (b) What is the probability the second day with a heart attack patient will be the fourth day of the week? (c) What is the probability the fifth day of next month will be the first day with a heart attack patient? [^important-distributions-404]
+:::
+
+[^important-distributions-404]: In each part, $p=0.7$. (a) The number of days is fixed, so this is binomial. The parameters are $k=3$ and $n=7$: 0.097. (b) The last "success" (admitting a patient) is fixed to the last day, so apply the negative binomial distribution. The parameters are $r=2$, $k=4$: 0.132. (c) This problem is negative binomial with $r=1$ and $k=5$: 0.006. Note that the negative binomial case when $r=1$ is the same as using the geometric distribution.
+
+In R, the negative binomial distribution is defined as the number of failures that occur before a target number of successes is reached; i.e., $k - r$. In this text, the distribution is defined in terms of the total number of trials required to observe $r$ successes, where the last trial is necessarily a success. 
+
+## The hypergeometric distribution {#sec-hypergeometric-dist}
+
+Suppose that a large number of deer live in a forest. Researchers are interested in using the capture-recapture method to estimate total population size. A number of deer are captured in an initial sample and marked, then released; at a later time, another sample of deer are captured, and the number of marked and unmarked deer are recorded.^[It is assumed that enough time has passed so that the marked deer redistribute themselves in the population, and that marked and unmarked deer have equal probability of being captured in the second sample.] An estimate of the total population can be calculated based on the assumption that the proportion of marked deer in the second sample should equal the proportion of marked deer in the entire population. For example, if 50 deer were initially captured and marked, and then 5 out of 40 deer (12.5%) in a second sample are found to be marked, then the population estimate is 400 deer, since 50 out of 400 is 12.5%.
+
+The capture-recapture method sets up an interesting scenario that requires a new probability distribution. Let $N$ represent the total number of deer in the forest, $m$ the number of marked deer captured in the original sample, and $n$ the number of deer in the second sample. What are the probabilities of obtaining $0, 1, \dots , m$ marked deer in the second sample, if $N$ and $m$ are known?
+
+It is helpful to think in terms of a series of Bernoulli trials, where each capture in the second sample represents a trial; consider the trial a success if a marked deer is captured, and a failure if an unmarked deer is captured. If the deer were sampled *with replacement*, such that one deer was sampled, checked if it were marked versus unmarked, then released before another deer was sampled, then the probability of obtaining some number of marked deer in the second sample would have a binomial distribution  with probability of success $m/N$ (out of $n$ trials). The trials are independent, and the probability of success remains constant across trials.
+
+However, in capture-recapture, the goal is to collect a representative sample such that the proportion of marked deer in the sample can be used to estimate the total population;  the sampling is done *without replacement*. Once a trial occurs and a deer is sampled, it is not returned to the population before the next trial. The probability of success is not constant from trial to trial; i.e., these trials are dependent. For example, if a marked deer has just been sampled, then the probability of sampling a marked deer in the next trial decreases, since there is one fewer marked deer available. 
+
+Suppose that out of 9 deer, 4 are marked. What is the probability of observing 1 marked deer in a sample of size 3, if the deer are sampled without replacement? First, consider the total number of ways to draw 3 deer from the population; As shown in @fig-h-geom-schematic, samples may consist of 3, 2, 1, or 0 marked deer. There are ${4 \choose 3}$ ways to obtain a sample consisting of 3 marked deer out of the 4 total marked deer. By independence, there are ${4 \choose 2} {5 \choose 1}$ ways to obtain a sample consisting of exactly 2 marked deer and 1 unmarked deer. In total, there are 84 possible combinations; this quantity is equivalent to ${9 \choose 3}$. Only ${4 \choose 1} {5 \choose 2} = 40$ of those combinations represent the desired event of exactly 1 marked deer. Thus, the probability of observing 1 marked deer in a sample of size 3, under sampling without replacement, equals $40/84 = 0.476$.
+
+```{r}
+#| label: fig-h-geom-schematic
+#| out-width: 90%
+#| fig-cap: |
+#|   Possible samples of marked and unmarked deer in a sample $n = 3$, where $m = 4$ and $N - m = 5.$ Striped circles represent marked deer, and empty circles represent unmarked deer.
+#| fig-alt: |
+#|  The figure shows the outcome of observing 1 marked deer in a sample of size 3 from a population of 9 deer, of which 4 are marked.  A box on the left side of the figure shows the 5 unmarked and 4 marked deer as 9 discs, 5 empty and 4 shaded.  The next figure shows all the possible outcomes of sampling 3 deer in a 3 x 4 matrix of discs.  In the top row all three are shaded, indicating three  marked deer chosen.  Each of the subsequent rows shows, respectively, 2, 1 and 0 marked deer chosen. The last panel in the plot shows the sum of the binomial coefficients corresponding to each of the 4 possible numbers of deer chosen, and inidates that the sum in 84.
+#| fig-pos: H
+knitr::include_graphics("images/h-geom-schematic.png")
+```
+
+::: {.guidedpractice data-latex=""}
+
+Suppose that out of 9 deer, 4 are marked. What is the probability of observing 1 marked deer in a sample of size 3, if the deer are sampled with replacement?  [^important-distributions-405]
+:::
+
+[^important-distributions-405]:  Let $X$ represent the number of marked deer in the sample of size 3. If the deer are sampled with replacement, $X \sim \textrm{Bin}(3, 4/9)$, and $P(X = 1) = { 3 \choose 1 } (4/9)^1 (5/9)^2 = 0.412$.
+
+::: {.important data-latex=""}
+**Hypergeometric distribution.**
+
+The hypergeometric distribution describes the probability of observing $k$ successes in a sample of size $n$, from a population of size $N$, where there are $m$ successes, and individuals are sampled without replacement:
+$$
+P(X = k) = \frac{{m \choose k} {N - m \choose n-k}}{{N \choose n}}.
+$$ {#eq-hypergeometric-prob}
+
+Let $p = m/N$, the probability of success. The mean and variance are given 
+\begin{align*}
+\mu &= np \\
+&\sigma^2&=np(1-p)\frac{N-n}{N-1}
+\end{align*}
+A hypergeometric random variable $X$ can be written as $X \sim \textrm{HGeom}(m, N-m, n)$.
+
+:::
+
+::: {.important data-latex=""}
+**Is it hypergeometric? Conditions to check.**
+
+1.  The trials are dependent. 
+
+1. Each trial outcome can be classified as a success or failure. 
+
+1.  The probability of a success is different for each trial.
+
+:::
+
+::: {.guidedpractice data-latex=""}
+
+A small clinic would like to draw a random sample of 10 individuals from their patient list of 120, of which 30 patients are smokers. (a) What is the probability of 6 individuals in the sample being smokers? (b) What is the probability that at least 2 individuals in the sample smoke? [^important-distributions-406]
+:::
+
+[^important-distributions-406]: \(a\) Let $X$ represent the number of smokers in the sample. $P(X = 6) = \dfrac{{30 \choose 6}{90 \choose 4}}{{120 \choose 10}} = 0.013$. (b) $P(X \geq 2) = 1 - P(X \leq 1) = 1 - P(X = 0) - P(X = 1) = 1 - \dfrac{{30 \choose 0}{90 \choose 10}}{{120 \choose 10}} - \dfrac{{30 \choose 1}{90 \choose 9}}{{120 \choose 10}} = 0.768$. 
 
 
 ## Chapter review {#sec-chp4-review}

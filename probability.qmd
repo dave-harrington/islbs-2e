@@ -761,7 +761,7 @@ $$
 $$
 The probability of diabetes is different conditional on age group. 
 
-### Example: Conditional probabilities in the GSS data
+### Example: Conditional probabilities in the GSS data {#sec-conditional-prob-gss}
 
 Conditional probabilities can be calculated from tables such as @tbl-gss-age-health. Suppose $A$ = {age 26 to 45}.  Conditioning on the event $A$ = {age 26 to 45} means calculating probabilities for reported health specifically among the `r tbl_age_health[2,5]` respondents in that age group. For instance, 
 
@@ -2023,7 +2023,10 @@ knitr::include_graphics("images/catGeneticsTreesC.png")
 
 ### Summary
 
-Chapter summary here
+Probability is an essential tool for quantifying uncertainty, and conditional probability may be the most important idea in the chapter.  If I test positive for a disease, how likely is it that I have the condition?  How do the rules of probability govern the genetic makeup of a child from based on the information in genetic screening of the parents?  
+
+Probability calculations can be difficult, but they become easier when guided by some of the tools discussed here, such as Venn diagrams, tree diagrams or contingency tables that mirror the characteristics of population.
+
 
 
 ```{r}
@@ -2037,3 +2040,8 @@ make_terms_table(terms_chp_3)
 
 ## Exercises {#sec-chp3-exercises}
 
+The exercises are not numbered yet and no solutions are available in this draft.
+
+::: {.exercises data-latex=""}
+{{< include exercises/_03-ex-probability.qmd >}}
+:::

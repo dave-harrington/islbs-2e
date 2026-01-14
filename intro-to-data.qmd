@@ -7,27 +7,11 @@ source("_common.R")
 
 :::{.underconstruction data-latex="}
 
-Incomplete draft, additions and proofing to come
+Incomplete draft.
 
 :::
 
-:::{.todo data-latex=""}
 
-
-- Add substantive detail to fig-alt captions
-
-- Indexing of data is incomplete
-
-- Use patchwork to align plots in @fig-trees-carbon-beeswarm, label subplots with plot_annotation
-
-- Add guided practice and worked examples, esp relationships between 2 numerical variables
-
-- More detail about the  infant mortality data: source, possible bias    
-
-- Add chapter summary
-
-
-:::
 
 
 ::: {.chapterintro data-latex=""}
@@ -936,7 +920,7 @@ ggplot(crabs, aes(x = satell)) +
 
 \index{data!crabs|(}
 
-The sample standard deviation has a direct interpretation as a measure of spread when a distribution is symmetric. The \index{empirical rule} **empirical rule** states that for symmetric, unimodal distributions, approximately  68%  of the observations are within one standard deviation of the mean, 95%  within two standard deviations, and  99.7% within three standard deviations. The rule is based on the properties of bell-shaped distributions discussed later in @sec-distributions.
+The sample standard deviation has a direct interpretation as a measure of spread when a distribution is symmetric. The \index{empirical rule} **empirical rule** states that for symmetric, unimodal distributions, approximately  68%  of the observations are within one standard deviation of the mean, 95%  within two standard deviations, and  99.7% within three standard deviations. The rule is based on the properties of bell-shaped distributions discussed later in @sec-empirical-rule.
 
 ```{r }
 #| include: false
@@ -1589,12 +1573,11 @@ grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, nrow = 2)
 **Correlation coefficient**
 
 The correlation between two variables $x$ and $y$ is given by:
-\begin{align}
-  r &=  \frac{1}{n-1}\sum^{n}_{i=1}
+$$
+  r =  \frac{1}{n-1}\sum^{n}_{i=1}
   \left(\frac{x_{i}-\overline{x}}
   {s_{x}}\right)\left(\frac{y_{i}-\overline{y}}{s_{y}}\right),
-  \label{correlationEquation}
-\end{align}
+$$ {#eq-correlation-equation}
 where $(x_1,y_1), (x_2,y_2), \ldots, (x_n, y_n)$ are the $n$ paired values of $x$ and $y$, and $s_x$ and $s_y$ are the sample standard deviations of the $x$ and $y$
 variables, respectively.
 :::

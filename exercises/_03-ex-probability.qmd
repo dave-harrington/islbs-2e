@@ -1,0 +1,330 @@
+
+*The language of probability*
+
+<!--- add examples from gss, health survey in chap 1 --->
+
+<!--- OS 4, 3.1, except for part a. from oibiostat 2.1 --->
+
+**True or false.** Determine if the statements 
+below are true or false, and explain your reasoning.
+
+  a. Assume that a couple has an equal chance of having a boy or a girl. If a couple's previous three children have all been boys, then the chance that their next child is a boy is somewhat less than 50%.
+  
+  b. If a fair coin is tossed many times and the last eight tosses are all heads, 
+then the chance that the next toss will be heads is somewhat less than 50%.
+
+  c. Drawing a face card (jack, queen, or king) and drawing a red card from a 
+full deck of playing cards are mutually exclusive events.
+
+  d.  Drawing a face card and drawing an ace from a full deck of playing cards 
+are mutually exclusive events.
+
+<!--- os4 3.6 --->
+
+**Rolling dice.** If you roll a pair of fair dice, what is 
+the probability of
+
+  a. getting a sum of 1?
+  
+  b. getting a sum of 5?
+  
+  c. getting a sum of 12?
+  
+<!--- oi-biostat 2.3  --->
+
+**Colorblindness.**  Red-green colorblindness is a commonly inherited form of colorblindness; the gene involved is transmitted on the X chromosome in a recessive manner. If a male inherits an affected X chromosome, he is necessarily colorblind (genotype $X^{-}Y$). However, a female can only be colorblind if she inherits two defective copies (genotype $X^{-}X^{-}$); heterozygous females are not colorblind. Suppose that a couple consists of a genotype $X^{+}Y$ male and a genotype $X^{+}X^{-}$ female.
+
+  a. What is the probability of the couple producing a colorblind male?
+
+  b. True or false: Among the couple's offspring, colorblindness and female sex are mutually exclusive events.
+  
+<!--- oibiostat 2.4  ---> 
+
+**Diabetes and hypertension.**  Diabetes and hypertension are two of the most common diseases in Western, industrialized nations. In the United States, approximately 9% of the population have diabetes, while about 30% of adults have high blood pressure. The two diseases frequently occur together: an estimated 6% of the population have both diabetes and hypertension.
+
+  a. Are having diabetes and having hypertension disjoint?
+  
+  b. Draw a Venn diagram summarizing the variables and their associated probabilities.
+\item Let $A$ represent the event of having diabetes, and $B$ the event of having hypertension. Calculate $P(A \text{ or } B)$. 
+
+  c.What percent of Americans have neither hypertension nor diabetes?
+  
+  d. Is the event of someone being hypertensive independent of the event that someone has diabetes?
+
+<!--- oibiostat 2.5, OS4 3.11---> 
+
+**Educational attainment by gender.** The table 
+	below shows the distribution of education level attained by US residents by 
+	gender based on data collected during the 2010 American Community Survey. ^[@eduSexMod]
+	
+| Highest education attained | Male | Female |
+|----------------------------|--------------------------------------------|:----:|:------:|
+| Less than 9th grade                        | 0.07 | 0.13 |
+| 9th to 12th grade, no diploma              | 0.10 | 0.09 |
+| HS graduate (or equivalent)                | 0.30 | 0.20 |
+| Some college, no degree                    | 0.22 | 0.24 |
+| Associate's degree                         | 0.06 | 0.08 |
+| Bachelor's degree                          | 0.16 | 0.17 |
+| Graduate or professional degree            | 0.09 | 0.09 |
+| **Total**                                  | **1.00** | **1.00** |	
+
+  a. What is the probability that a randomly chosen individual is a high school graduate? Assume that there is an equal proportion of males and females in the population.
+
+  b. Define Event $A$ as having a graduate or professional degree. Calculate the probability of the complement, $A^c$.
+		
+  c. What is the probability that a randomly chosen man has at least a 
+		Bachelor's degree?
+		
+  d. What is the probability that a randomly chosen woman has at least a 
+		Bachelor's degree?
+
+  c. What is the probability that a man and a woman getting married both have at 
+		least a Bachelor's degree? Note any assumptions made -- are they reasonable?
+		
+<!--- oibiostat 2.6, OS4 3.8--->   
+
+**Poverty and language.** The American Community 
+Survey is an ongoing survey that provides data every year to give communities the 
+current information they need to plan investments and services. The 2010 American 
+Community Survey estimates that 14.6% of Americans live below the poverty line, 
+20.7% speak a language other than English (foreign language) at home, and 4.2% 
+fall into both categories. ^[@poorLangMod]
+
+  a. Are living below the poverty line and speaking a foreign language at home 
+disjoint?
+
+  b. Draw a Venn diagram summarizing the variables and their associated 
+probabilities.
+
+  c. What percent of Americans live below the poverty line and only speak 
+English at home?
+
+  d. What percent of Americans live below the poverty line or speak a foreign 
+language at home?
+
+  e. What percent of Americans live above the poverty line and only speak 
+English at home? 
+
+  f. Is the event that someone lives below the poverty line independent of the 
+event that the person speaks a foreign language at home?
+
+<!--- oi biostat 2.7 -->
+
+**Urgent care visits.** Urgent care centers are open beyond typical office hours and provide a broader range of services than that of many primary care offices. A study conducted to collect information about urgent care centers in the United States reported that in one week, 15.8% of centers saw 0-149 patients, 33.7% saw 150-299 patients, 28.8% saw 300-449 patients, and 21.7% saw 450 or more patients. Assume that the data can be treated as a probability distribution of patient visits for any given week. 
+
+  a. What is the probability that three random urgent care centers in a county all see between 300-449 patients in a week? Note any assumptions made. Are the assumptions reasonable?
+  
+  b. What is the probability that ten random urgent care centers throughout a state all see 450 or more patients in a week? Note any assumptions made. Are the assumptions reasonable?
+		
+  c. With the information provided, is it possible to compute the probability that one urgent care center sees between 150-299 patients in one week and 300-449 patients in the next week? Explain why or why not.
+
+<!--- oibiostat 2.4 OS4 3.12 --->
+
+**School absences.** Data collected at elementary 
+schools in DeKalb County, GA suggest that each year roughly 25% of students miss 
+exactly one day of school, 15% miss 2 days, and 28% miss 3 or more days due to 
+sickness. ^[@Mizan:2011]
+
+  a. What is the probability that a student chosen at random doesn't miss any 
+days of school due to sickness this year?
+
+  b. What is the probability that a student chosen at random misses no more than 
+one day?
+
+  c. What is the probability that a student chosen at random misses at least one 
+day?
+
+  d. If a parent has two kids at a DeKalb County elementary school, what is the 
+probability that neither kid will miss any school? Note any assumptions made and evaluate how reasonable they are.
+
+  e. If a parent has two kids at a DeKalb County elementary school, what is the 
+probability that both kids will miss some school, i.e. at least one day? Note any assumptions made and evaluate how reasonable they are.
+
+<!--- oibiostat 2.9, os4 3.9 --->
+
+**Disjoint vs. independent.**  In parts a and b, 
+identify whether the events are disjoint, independent, or neither (events cannot 
+be both disjoint and independent).
+
+  a. You and a randomly selected student from your class both earn A's in this 
+course. 
+
+  b. You and your class study partner both earn A's in this course.
+
+  c. If two events can occur at the same time, must they be dependent?
+
+<!--- oibiostat 2.10 --->
+
+**Health coverage, frequencies.** The 
+Behavioral Risk Factor Surveillance System (BRFSS) is an annual telephone survey 
+designed to identify risk factors in the adult population and report emerging 
+health trends. The following table summarizes two variables for the respondents: 
+health status and health coverage, which describes whether each respondent had 
+health insurance. ^[@data:BRFSS2010]
+
+| Health Coverage | Status | Excellent | Very good | Good | Fair | Poor | Total |
+|-----------------|--------|:---------:|:---------:|:----:|:----:|:----:|------:|
+| *Health*        | No     | 459       | 727       | 854  | 385  | 99   | 2,524 |
+| *Coverage*      | Yes    | 4,198     | 6,245     | 4,821| 1,634| 578  |17,476 |
+|                 | **Total** | **4,657** | **6,972** | **5,675** | **2,019** | **677** | **20,000** |
+
+  a. If one individual is drawn at random, what is the probability that the 
+respondent has excellent health and doesn't have health coverage?
+
+  b. If one individual is drawn at random, what is the probability that the 
+respondent has excellent health or doesn't have health coverage?
+
+*Conditional probability*
+
+<!--- oibiostat 2.11, OS4 3.15 --->
+**Global warming.**  A Pew Research poll asked 
+1,306 Americans ``From what you've read and heard, is there solid evidence that 
+the average temperature on earth has been getting warmer over the past few 
+decades, or not?". The table below shows the distribution of responses by party 
+and ideology (labeled Group), where the counts have been replaced with relative frequencies.
+^[@globalWarming]
+
+| Ideology/Party         | Earth is warming | Not warming | Don’t know / Refuse | Total |
+|------------------------|:----------------:|:-----------:|:-------------------:|:-----:|
+| Conservative Republican| 0.11 | 0.20 | 0.02 | 0.33 |
+| Mod/Lib Republican     | 0.06 | 0.06 | 0.01 | 0.13 |
+| Mod/Cons Democrat      | 0.25 | 0.07 | 0.02 | 0.34 |
+| Liberal Democrat       | 0.18 | 0.01 | 0.01 | 0.20 |
+| **Total**              | **0.60** | **0.34** | **0.06** | **1.00** |
+
+  a. Are believing that the earth is warming and being a liberal Democrat mutually 
+exclusive?
+
+  b. What is the probability that a randomly chosen respondent believes the 
+earth is warming or is a liberal Democrat?
+
+  c. What is the probability that a randomly chosen respondent believes the 
+earth is warming given that he is a liberal Democrat?
+
+  d. What is the probability that a randomly chosen respondent believes the 
+earth is warming given that he is a conservative Republican?
+
+  e. Does it appear that whether or not a respondent believes the earth is 
+warming is independent of their party and ideology? Explain your reasoning.
+
+  f. What is the probability that a randomly chosen respondent is a 
+moderate/liberal Republican given that he does not believe that the earth is 
+warming? 
+
+<!--- oibiostat 2.12 -->
+
+**ABO blood groups.**   The ABO blood group system consists of four different blood groups, which describe whether an individual's red blood cells carry the A antigen, B antigen, both, or neither. The ABO gene has three alleles: ${I}^{A}$, ${I}^{B}$, and *i*. The *i* allele is recessive to both ${I}^{A}$ and ${I}^{B}$, while the ${I}^{A}$ and ${I}^{B}$ alleles are codominant. Individuals homozygous for the *i* allele are known as blood group O, with neither A nor B antigens.
+	
+| **Alleles inherited** | **Blood type** |
+|----------------------|---------------|
+| $I^A$ and $I^A$      | A |
+| $I^A$ and $I^B$      | AB |
+| $I^A$ and $i$        | A |
+| $I^B$ and $I^B$      | B |
+| $I^B$ and $i$        | B |
+| $i$ and $i$          | O |
+	
+Blood group follows the rules of Mendelian single-gene inheritance -- alleles are inherited independently from either parent, with probability 0.5.
+	
+  a. Suppose that both members of a couple have Group AB blood. What is the probability that a child of this couple will have Group A blood?
+  
+  b. Suppose that one member of a couple is genotype $I^{B}i$ and the other is $I^{A}i$. What is the probability that their first child has Type O blood and the next two do not?
+  
+  c. Suppose that one member of a couple is genotype $I^{B}i$ and the other is $I^{A}i$. Given that one child has Type O blood and two do not, what is the probability of the first child having Type O blood?
+
+<!---oibiostat 2.13 --->
+
+**Seat belts** Seat belt use is the most effective way to save lives and reduce injuries in motor vehicle crashes. In a 2014 survey, respondents were asked, "How often do you use seat belts when you drive or ride in a car?". The following table shows the distribution of seat belt usage by sex.
+
+| Sex  | Always | Nearly always | Sometimes | Seldom | Never | Total |
+|-----|--------|:------:|:-------------:|:---------:|:------:|:-----:|------:|
+| Male   | 146,018 | 19,492 | 7,614 | 3,145 | 4,719 | 180,988 |
+| Female | 229,246 | 16,695 | 5,549 | 1,815 | 2,675 | 255,980 |
+| **Total** | **375,264** | **36,187** | **13,163** | **4,960** | **7,394** | **436,968** |
+
+  a. Calculate the marginal probability that a randomly chosen individual always wears seatbelts.
+		
+  b. What is the probability that a randomly chosen female always wears seatbelts?
+		
+  c. What is the conditional probability of a randomly chosen individual always wearing seatbelts, given that they are female? 
+		
+  d.  What is the conditional probability of a randomly chosen individual always wearing seatbelts, given that they are male?
+  
+  e. Calculate the probability that an individual who never wears seatbelts is male.
+		
+  f. Does gender seem independent of seat belt usage?
+
+<!--- oibiostat 2.14, OS4 3.16 --->
+
+**Health coverage, relative frequencies.** The Behavioral Risk Factor Surveillance System (BRFSS) is an annual telephone 
+survey designed to identify risk factors in the adult population and report 
+emerging health trends. The following table displays the distribution of health 
+status of respondents to this survey (excellent, very good, good, fair, poor) 
+and whether or not they have health insurance.
+
+| Health Coverage | Status | Excellent | Very good | Good | Fair | Poor | Total |
+|-----------------|--------|:---------:|:---------:|:----:|:----:|:----:|:-----:|
+| *Health*        | No     | 0.0230 | 0.0364 | 0.0427 | 0.0192 | 0.0050 | 0.1262 |
+| *Coverage*      | Yes    | 0.2099 | 0.3123 | 0.2410 | 0.0817 | 0.0289 | 0.8738 |
+|                 | **Total** | **0.2329** | **0.3486** | **0.2838** | **0.1009** | **0.0338** | **1.0000** |
+
+  a. Are being in excellent health and having health coverage mutually 
+exclusive?
+
+  b. What is the probability that a randomly chosen individual has excellent 
+health?
+
+  c. What is the probability that a randomly chosen individual has excellent 
+health given that he has health coverage?
+
+  d. What is the probability that a randomly chosen individual has excellent 
+health given that he doesn't have health coverage?
+
+  e. Do having excellent health and having health coverage appear to be 
+independent?
+
+<!--- oibiostat 2.15, OS4 3.41--->
+
+**HIV in Swaziland** In 2012, Swaziland had the highest 
+HIV prevalence in the world: 25.9% of this country's population is infected with 
+HIV.^[ciaFactBookHIV:2012] The ELISA test is one of the first and 
+most accurate tests for HIV. For those who carry HIV, the ELISA test is 99.7% 
+accurate. For those who do not carry HIV, the test is 92.6% accurate. Calculate the 
+NPV and PPV of the test. 
+
+<!--- oibiostat 2.16, 3.18 --->
+
+**Assortative mating** Assortative mating is a 
+nonrandom mating pattern where individuals with similar genotypes and/or 
+phenotypes mate with one another more frequently than what would be expected 
+under a random mating pattern. Researchers studying this topic collected data on 
+eye colors of 204 Scandinavian men and their female partners. The table below 
+summarizes the results. ^[Laeng:2007]
+
+
+
+**Eye color of 204 female partners (columns) by eye color of male respondents  (rows)**
+
+|             |       | Blue | Brown | Green | Total |
+|-------------|-------|:----:|:-----:|:-----:|------:|
+|             | **Blue**  | 78   | 23    | 13    | 114   |
+| **Male respondent** | **Brown** | 19   | 23    | 12    | 54    |
+|             | **Green** | 11   | 9     | 16    | 36    |
+|             | **Total** | **108** | **55** | **41** | **204** |
+
+
+
+  a. What is the probability that a randomly chosen male respondent or his 
+partner has blue eyes?
+
+  b. What is the probability that a randomly chosen male respondent with blue 
+eyes has a partner with blue eyes? 
+
+  c. What is the probability that a randomly chosen male respondent with brown 
+eyes has a partner with blue eyes? What about the probability of a randomly 
+chosen male respondent with green eyes having a partner with blue eyes?
+
+  d. Does it appear that the eye colors of male respondents and their partners 
+are independent? Explain your reasoning.
+
+

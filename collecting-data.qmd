@@ -12,22 +12,6 @@ Incomplete draft, additions and proofing to come
 
 :::
 
-:::{.todo data-latex=""}
-
-
-- Indexing of data is incomplete
-
-- Add guidelines for conducting studies?
-
-- Exercise reordering and solutions
-
-- Add guided practice and worked examples
-
-- Add chapter summary
-
-
-:::
-
 
 
 ::: {.chapterintro data-latex=""}

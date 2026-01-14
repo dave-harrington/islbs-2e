@@ -1,9 +1,12 @@
 # Random variables {#sec-random-variables}
 
+
+
 ```{r}
 #| include: false
 
 source("_common.R")
+options(warn = 1)
 ```
 
 :::{.underconstruction data-latex="}
@@ -12,16 +15,11 @@ Incomplete draft, possible additions and corrections pending
 
 :::
 
-:::{.todo data-latex=""}
 
-- More exercises to be added.
-
-
-:::
 
 
 ::: {.chapterintro data-latex=""}
-Data are the result of a study. The study might have been an experiment or observational study, and the data collected using the methods discussed in @sec-collecting-data. **Random variables** \index{random variable} connect the important concepts of recording measurements and probability: a random variable assigns numerical values to the outcome of a random phenomenon and the distribution of the variable reflects the variability in outcomes. 
+Data are the result of a study. The study might have been an experiment or observational study, and with data collected using the methods discussed in @sec-collecting-data. **Random variables** \index{random variable} connect the important concepts of recording measurements and probability: a random variable assigns numerical values to the outcome of a random phenomenon and the distribution of the variable reflects the variability in outcomes. 
 
 Random variables are usually written with a capital letter such as $X$, $Y$, or $Z$ and are characterized as either discrete or continuous. This chapter outlines general properties of random variables and their distributions. The next chapter discusses some specific random variables that often arise in practice.
 :::
@@ -126,7 +124,7 @@ ggplot(df, aes(x = x, y = y_plot)) +
 
 The probabilities  assigned to the outcomes in a random phenomenon are used to assign probabilities to values of a random variable. Using independence, $P(\text{HHH}) = (1/2)^3 = 1/8$. Since $X$ in the above example can only be three if the three tosses are all heads, $P(X=3) = 1/8$. The distribution of a random variable is the collection of probabilities for all of the variable's possible values. @fig-coin-toss shows the eight possible outcomes when a coin is tossed three times: TTT, HTT, THT, TTH, HHT, HTH, THH, HHH. For the first set of tosses, $X = 0$; for the next three, $X=1$, then $X=2$ for the following three tosses and $X=3$ for the last set (HHH).
 
-Using independence again, each of the 8 outcomes have probability 1/8, so $P(X = 0) = P(X = 3) = 1/8$ and $P(X = 1) = P(X = 2) = 3/8$. @tbl-dist-coin-tossing shows the probability distribution for $X$. Probability distributions for random variables follow the rules for probability; for instance, the probabilities must be between 0 and 1 and their sum must be 1. The possible outcomes of $X$ are labeled with a corresponding lower case letter $x$ and subscripts. The values of X are $x_1 = 0$, $x_2 = 1$, $x_3 = 2$, and $x_4 = 3$; these occur with probabilities $1/8$, $3/8$, $3/8$ and $1/8$.
+Using independence again, each of the 8 outcomes has probability 1/8, so $P(X = 0) = P(X = 3) = 1/8$ and $P(X = 1) = P(X = 2) = 3/8$. @tbl-dist-coin-tossing shows the probability distribution for $X$. Probability distributions for random variables follow the rules for probability; for instance, the probabilities must be between 0 and 1 and their sum must be 1. The possible outcomes of $X$ are labeled with a corresponding lower case letter $x$ and subscripts. The values of $X$ are $x_1 = 0$, $x_2 = 1$, $x_3 = 2$, and $x_4 = 3$; these occur with probabilities $1/8$, $3/8$, $3/8$ and $1/8$.
 
 |     $i$      |  1  |  2  |  3  |  4  |      Total |
 |:------------:|:---:|:---:|:---:|:---:|-----------:|
@@ -180,7 +178,7 @@ terms_chp_4 <- c(terms_chp_4,
 ### Distribution of a discrete random variable
 
 ::: {.important data-latex=""}
-**Distribution of a discrete random variable.**
+**Definition of the distribution of a discrete random variable.**
 
 The distribution of a discrete random variable $X$ is the set of its possible values $x_1, x_2, \dots, x_k$ and the associated probabilities $P(x_1), P(x_2), \ldots , P(x_k)$. It must satisfy the following conditions:
 
@@ -277,7 +275,7 @@ med_w <-round(median(adult_wt_ht$BMXWT), 2)
 
 @fig-adult-wt-box-hist-prop shows the distribution of the weight in kilograms (kg) of `r nw` members of the US population. The data come from the National Health and Nutrition Examination Survey (NHANES) conducted between 2021 and 2023. Both the box plot and the histogram show that the distribution is skewed right with many outliers; the mean weight (`r mu_w`) is larger than the median (`r med_w`). The graph shows that it would be inappropriate to think of weights as symmetrically distributed.  
 
-The minimum and maximum observed weights are `r min(adult_wt_ht$BMXWT)`kg and `r max(adult_wt_ht$BMXWT)`kg. ^[The maximum weight in the data is certainly large, but human weights have been recorded as large as 500 - 600kg.]  The histogram shows relative frequencies, so the heights of the bars represent the fraction of the observations found in each interval of width 5kg. For instance, approximately 3.8%, or 0.0375, of the weights are between 50 and 55kg, and another 6.3% are between 55 and 60kg, so approximately 10.1% are between 50 and 60kg. 
+The minimum and maximum observed weights are `r min(adult_wt_ht$BMXWT)`kg and `r max(adult_wt_ht$BMXWT)`kg. ^[The maximum weight in the data is certainly large, but human weights have been recorded as large as 500 - 600kg.]  The histogram shows relative frequencies, so the heights of the bars represent the fraction of the observations found in each interval of width 5kg. For instance, approximately 3.8%, or 0.038, of the weights are between 50 and 55kg, and another 6.3% are between 55 and 60kg, so approximately 10.1% are between 50 and 60kg. 
 
 Both plots illustrate that the middle 50% of weights of US adults is approximately symmetric but overall the distribution skews toward being overweight or obese, a tendency that has been widely studied in the US population.  What random variable $W$ might be used to model this distribution?
 
@@ -319,7 +317,7 @@ p1/p2 + plot_layout(heights = c(0.25, 0.75))
 
 ```
 
-The histogram in @fig-adult-wt-hist-density uses the same data as @fig-adult-wt-box-hist-prop but is drawn on a **density scale** \index{density scale}. The vertical axis has been re-scaled so that the height of the bars is now the proportion of observations divided by the width of the bins (5kg in this case). When a histogram is drawn on the density scale, the proportion of observations falling in a bin is now the area of the bar, since multiplying the density value by the bin width recovers the proportion. For instance, the probability that a weight is between 50 and 60kg can be read directly from the plot as a little larger than 0.010. Since proportions like probabilities add to 1, the total area under the histogram drawn on a density scale will be 1.
+The histogram in @fig-adult-wt-hist-density uses the same data as @fig-adult-wt-box-hist-prop but is drawn on a \index{density scale} **density scale**. The vertical axis has been re-scaled so that the height of the bars is now the proportion of observations divided by the width of the bins (5kg in this case). When a histogram is drawn on the density scale, the proportion of observations falling in a bin is now the area of the bar, since multiplying the density value by the bin width recovers the proportion. For instance, the probability that a weight is between 50 and 60kg can be read directly from the plot as a little larger than 0.010. Since proportions like probabilities add to 1, the total area under the histogram drawn on a density scale will be 1.
 
 ### Density functions for continuous random variables {#sec-density-functions}
 
@@ -358,7 +356,7 @@ The probability density function $f(x)$ of a continuous random variable $X$ is a
 
 -   The total area under the curve $f(x)$ is 1.^[Using calculus notation, $\int f(x)dx = 1$]
 
--   The probability that $X$ has a value between two numbers $a$ and $b$, $P(a \leq X \leq b)$, is the area under $f(x)$ between $x = a$ and $x = b$.
+-   The probability that $X$ has a value between two numbers $a$ and $b$, denoted by $P(a \leq X \leq b)$, is the area under $f(x)$ between $x = a$ and $x = b$.
 :::
 
 The probability density function in @fig-adult-wt-density-fit is a theoretical density function for a random variable $W$ that can be used to model the distribution of observed weights from randomly selected members of the US adult population. The shaded area under the curve between 50 and 60kg is 0.102, close to the earlier values estimated from the histogram drawn on the proportion scale. Software is generally used to calculate area under a density curve. For the purposes of this text, however, the concept of a density function is more important than the details of how to calculate probabilities. It is important to remember that areas are used to calculate probabilities with a density function, not the height of the curve.
@@ -423,7 +421,7 @@ E(X)  &= x_1 P(X=x_1) + \cdots + x_k P(X=x_k) \\
 \end{aligned}
 $$ {#eq-expectation-discrete-rv}
 
-The Greek letter $\mu$\index{Greek!mu ($\mu$)} may be used in place of the notation $E(X)$. The expected value of $X$ is sometimes written $\mu_X$ to eliminate ambiguity.
+The Greek letter $\mu$\index{Greek!mu ($\mu$)} may be used in place of the notation $E(X)$. 
 :::
 
 
@@ -514,7 +512,7 @@ polygon(c(M - 20, M + 20, M),
 #| label: fig-weight-density-with-mean
 #| out-width: 80%
 #| fig-cap: | 
-#|     The probability density function for the weights $W$ with mean $\mu_W$ = 82.9kg. 
+#|     The probability density function for the weights $W$ with mean $\mu_W$ = 82.9 kg. 
 M <- mu_w
 tri_df <- data.frame(
   x = c(M - 12, M + 12, M),
@@ -579,25 +577,39 @@ The standard deviation of $X$, labeled $\text{SD}(X)$ or $\sigma$ \index{Greek!s
 
 :::
  
-The variance of a random variable can be interpreted as the expectation of the terms $(x_i - \mu)^2$; i.e., $\sigma^2 = E(X - \mu)^2$. While this compact form is not useful for direct computation, it can be helpful for understanding the concept of variability of a random variable; variance is simply the average of the squared deviations from the mean, just as it is when calculating the variance of observations in a dataset.
+The variance of a random variable can be interpreted as the expectation of the terms $(x_i - \mu)^2$; i.e., $\sigma^2 = E(X - \mu)^2$. This compact form can be helpful for understanding the concept of variability of a random variable; variance is simply the average of the squared deviations from the mean, just as it is when calculating the variance of observations in a dataset.
+
+Algebra and the properties of expectation can be used to show that the variance can also be written
+$$
+\sigma^2 = E(X^2) - [E(X)]^2 = \mu_{X^2} - (\mu_X)^2.
+$$ {#eq-variance-alt}
 
 ::: {.workedexample data-latex=""}
 
-Compute the variance and standard deviation of $X$, the number of heads in three tosses of a fair coin.
+Compute the variance and standard deviation of $X$, the number of heads in three tosses of a fair coin, using both @eq-variance-discrete-rv and @eq-variance-alt.
 
 ------------------------------------------------------------------------
 
-In the formula for the variance, $k = 4$ and $\mu_X = E(X) = 1.5$. 
+Using @eq-variance-discrete-rv, $k = 4$ and $\mu_X = E(X) = 1.5$. 
 \begin{align*}
 	\sigma_X^2 &= (x_1-\mu_X)^2P(X=x_1) + \cdots + (x_4-\mu)^2 P(X=x_4)  \\
 	&= (0- 1.5)^2(1/8) + (1 - 1.5)^2 (3/8) + 
 	(2 -1.5)^2 (3/8) + (3-1.5)^2 (1/8) \\
 	&= 3/4.
 \end{align*}
-The variance is $3/4 = 0.75$ and the standard deviation is $\sigma = \sqrt{3/4} = 0.866$. 
+
+Using @eq-variance-alt
+\begin{align*}
+  E(X^2) &= 0^2(1/8) + 1^2 (3/8) + 2^2 (3/8) + 3^2 (1/8) \\
+         &= 3,
+\end{align*}
+so the variance is $3 - (3/2)^2 = 3/4$.
+
+Since the variance is $3/4 = 0.75$, the standard deviation is $\sigma = \sqrt{3/4} = 0.866$. 
 :::
 
-The coin tossing scenario provides a simple illustration of the mean and variance of a random variable. A more realistic example is discussed in For the rest of this section, a more realistic example will be discussed -  calculating expected health care costs.
+The coin tossing scenario provides a simple illustration of the mean and variance of a random variable.  A more realistic example is discussed in the next section -  calculating expected health care costs.
+
 
 ```{r}
 #| include: false
@@ -613,7 +625,7 @@ terms_chp_4 <- c(terms_chp_4,
 The variance of a continuous random variable has the same interpretation as that of a discrete variable -- it is the average of the squared deviation of each value from the mean.
 
 ::: {.important data-latex=""}
-**Name.**
+**Variance of a continuous random variable.**
 
 Suppose $X$ is a continuous random variable with mean $\mu = E(X)$.  The variance of $X$ is ^[The calculus based definition is  $\text{Var}(X) = \int (x - \mu)^2 f(x)dx$, but that is not needed in this text and can be ignored.]
 $$
@@ -629,7 +641,7 @@ $$
 The calculations are not shown here, but the variance and standard deviation of adult weights in the NHANES data are `r var_kde`kg^2^ and `r sd_kde`kg, respectively.  
 
 
-## Sums of random variables {#sec-sums-rv}
+## Sums of independent random variables {#sec-sum-indep-rvs}
 
 Sums of random variables arise naturally in many problems. When rolling two dice, the total $X$ shown on the roll is the sum of the two faces showing, $X_1 + X_2$.  If $Y$ is the total time commuting to work during a 5-day work week, $Y = Y_1 + Y_2 + \cdots +Y_5$, where the individual $Y$ values represent the commuting time for each of the 5 days.
 
@@ -694,7 +706,7 @@ $$
 $$
 Average temperature in Celsius is
 $$
-  E(C) = \frac{5}{9} E(F) - 17.8 = 0.556(97.9) - 17.8 = 36.6\text{ degrees celsius}
+  E(C) = \frac{5}{9} E(F) - 17.8 = 0.556(97.9) - 17.8 = 36.6\text{ degrees Celsius}
 $$
 The variance on the Celsius scale is
 \begin{align*}
@@ -712,8 +724,8 @@ Equations [-@eq-mean-linear-combination-rv] and [-@eq-variance-linear-combinatio
 #| include: false
 terms_chp_4 <- c(terms_chp_4, 
                c("expected value of sum of RVs",
-                 "variance of sum of RVs",
-                 "standard deviation of sum of RVs")
+                 "variance of sum of independent RVs",
+                 "standard deviation of sum of independent RVs")
 )
 ```
 
@@ -738,7 +750,7 @@ c_sd <- sqrt(c_var)
 
 In most  health insurance plans in the United States, members pay annually in three categories: a monthly premium, a deductible amount paid  each year before the insurance covers prescription drugs or hospitalization, and the ``out-of-pocket'' co-payments for each outpatient visit.   This example illustrates a hypothetical setting in which a Health Maintenance Organization uses its records to communicate the expected cost of the premium and outpatient visits to potential plan members who generally need only routine care.   It does not consider the cost of prescription drugs, specialized diagnostic tests or major events like hospitalization, and so does not include the deductible.
 
-Since health care visits and expenses increase with age, the HMO decides to calculate this average among members age 25 - 40 who have not been diagnosed with a serious chronic disease, like diabetes or chronic heart disease.  After reviewing its records for the last several years, the HMO found that the majority of plan members in this segment had either no or one visit in an year, and none had more than 4 visits.  The plan analytics department used the data to create a probability distribution for annual visits of members in this population.
+Since health care visits and expenses increase with age, the HMO decides to calculate this average among members age 25 - 40 who have not been diagnosed with a serious chronic disease, like diabetes or chronic heart disease.  After reviewing its records for the last several years, the HMO found that the majority of plan members in this segment had either no or one visit in a year, and none had more than 4 visits.  The plan analytics department used the data to create a probability distribution for annual visits of members in this population.
 
 Suppose $V$ denotes the number of annual visits for a randomly chosen member of the plan age 25 - 40 with no serious chronic diseases.  @tbl-hmo-visit-dist shows the distribution of the number of annual visits, with $v_i$ representing the values of the random variable $V$.  
 
@@ -804,7 +816,7 @@ Using @eq-variance-discrete-rv, the variance of $V$ is
 \end{align*}
 The standard deviation is $\sigma = \sqrt{\text{Var}(V)} = `r round(v_sd,2)`$ visits per year.
 
-Since $E(V) = 1.49$, this population of plan members has (on average) approximately 1.5 outpatient visits per year.  From the shape of the distribution the mean is not a good summary measure for the distribution. More than half of the members (`r v_probs[1] + v_probs[2] * 100`%) have either 0 or 4 visits, and 1.5 is close to one of the least likely number of visits.
+Since $E(V) = 1.49$, this population of plan members has (on average) approximately 1.5 outpatient visits per year.  From the shape of the distribution the mean is not a good summary measure for the distribution. More than half of the members (`r (v_probs[1] + v_probs[2]) * 100`%) have either 0 or 4 visits, and 1.5 is close to one of the least likely number of visits.
 :::
 
 ::: {.workedexample data-latex=""}
@@ -921,14 +933,444 @@ From the earlier example, the mean cost is $E(C)=$ \$1239.  Just as with distrib
 
 :::
 
+## Distributions for pairs of random variables {#sec-pairs-rv}
+
+### Joint, marginal and conditional distributions {#sec-joint-dist-rv}
+
+The concepts of joint, marginal and conditional probabilities were introduced in @sec-conditional-prob-gss. Analogous concepts exist for random variables.  
+
+Suppose the analytics team of a health plan is studying the relationship between the number of primary care visits ($X$) and filled prescriptions ($Y$) of a plan member in a  year, based on a large sample of plan members from medical records. For simplicity, assume that plan members have between 0 and 2 visits each years, and between 0 and 2 total prescriptions filled in a year. Some visits will result in no prescriptions, and some in more than 1.  @tbl-joint-dist-visits-drugs shows the probabilities for all 9 combinations of $X$ and $Y$.  For instance, the probability that a plan member will have 1 visit and 2 prescriptions is 0.05.  The collection of these 9 probabilities is the joint distribution of $(X, Y)$.
+
+| $X \backslash Y$ | 0    | 1    | 2    | 
+|:---------------:|:----:|:----:|:----:|
+| 0 | 0.20 | 0.08 | 0.02 | 0.30 |
+| 1 | 0.07 | 0.18 | 0.05 | 0.30 |
+| 2 | 0.03 | 0.10 | 0.27 | 0.40 |
+
+: Joint distribution of clinic visits ($X$) and prescription refills ($Y$). {#tbl-joint-dist-visits-drugs}
+
+::: {.important data-latex=""}
+**Joint distribution.**
+
+The \index{joint distribution} **joint distribution** $p_{X, Y}(x, y)$ for a pair of discrete or categorical random variables $(X, Y)$ is the collection of probabilities
+\begin{align*}
+p_{X,Y}(x_i,y_j) = P(X=x_i \text{ and } Y = y_j)
+\end{align*}
+for all pairs of values $(x_i,y_j)$ that the random variables $X$ and $Y$ take on. ^[There is a similar definition for pairs of continuous random variables based on the concept of a joint density function that is not explored here.]
+
+When there is no ambiguity the subscript $X, Y$ may not included in the notation for $p(x_i, y_j)$.
+
+:::
+
+Using @tbl-joint-dist-visits-drugs, $p(1, 2) = 0.05$.
+
+Joint distributions are often displayed in tabular form as in @tbl-joint-dist-visits-drugs.  If $X$ and $Y$ have $k_1$ and $k_2$ possible values respectively, there will be $k_1 \times k_2$ possible $(x,y)$ pairs. This is unlike pairs of values $(x,y)$ observed in a dataset, where each observed value of $x$ is usually paired with only one value of $y$.  @tbl-gen-joint-dist  shows the general form of the table for the joint distribution when   $X$ and $Y$ are either discrete or categorical variables.
+
+
+| **Values of $X$** | $y_1$ | $y_2$ | $\cdots$ | $y_{k_2}$ |
+|:----------------:|:-----:|:-----:|:--------:|:---------:|
+| $x_1$ | $p(x_1, y_1)$ | $p(x_1, y_2)$ | $\cdots$ | $p(x_1, y_{k_2})$ |
+| $x_2$ | $p(x_2, y_1)$ | $p(x_2, y_2)$ | $\cdots$ | $p(x_2, y_{k_2})$ |
+| $\vdots$ | $\cdots$ | $\cdots$ | $\cdots$ | $\cdots$ |
+| $x_{k_1}$ | $p(x_{k_1}, y_1)$ | $p(x_{k_1}, y_2)$ | $\cdots$ | $p(x_{k_1}, y_{k_2})$ |
+
+: Table for a joint distribution.  Entries are probabilities for pairs $(x_i, y_j)$.  {#tbl-gen-joint-dist}
+
+@tbl-gss-age-health-prop in @sec-gss-example was a table of joint probabilities for age and health rating; it can also be viewed as the table of the joint distribution of the random variables $X$ = age of participant and $Y$ = health rating for an individual sampled from the population.
+
+When two variables $X$ and $Y$ have a joint distribution, the \index{marginal distribution} **marginal distribution** of $X$ is the collection of probabilities for $X$ when $Y$ is ignored. ^[The marginal distribution of $X$ can be written as $p_X(x)$, and a specific value in the marginal distribution written as $p_X(x_i)$.]  If $X$ number of primary care visits and $Y$ number prescriptions, the event $(Y = 1)$ consists of the three  disjoint events $(X = 0 \text{ and } Y = 1)$, $(X = 1 \text { and } Y = 1)$ and $(X = 2 \text{ and }  Y = 1)$, so $P(Y = 1) = 0.08 + 0.18 + 0.10 = 0.30$, the sum of the second column of @tbl-joint-dist-visits-drugs. The column sums give the marginal distribution of $Y$, while the row sums are the values of the marginal distributions of $X$. 
+
+The marginal distributions of number of visits and prescriptions filled  of $X$ and $Y$ are shown in the last row and column in @tbl-marg-dist-visits-drugs along with the earlier joint distribution. The term marginal distribution is apt in this setting---the marginal probabilities appear in the table margins.  
+
+
+| $X \backslash Y$ | 0    | 1    | 2    | $P(X=x)$ |
+|:---------------:|:----:|:----:|:----:|:--------:|
+| 0 | 0.20 | 0.08 | 0.02 | 0.30 |
+| 1 | 0.07 | 0.18 | 0.05 | 0.30 |
+| 2 | 0.03 | 0.10 | 0.27 | 0.40 |
+| $P(Y=y)$ | 0.30 | 0.36 | 0.34 | 1.00 |
+
+: Joint and marginal distribution of clinic visits ($X$) and prescription refills ($Y$). {#tbl-marg-dist-visits-drugs}
+
+For a pair of random variables $X$ and $Y$, the \index{conditional distribution} **conditional distribution** of $Y$ given a value $x$ of the variable $X$ is the probability distribution of $Y$ when its values are restricted to the value $x$ for $X$. Just as marginal and joint probabilities are used to calculate conditional probabilities, joint and marginal distributions can be used to obtain conditional distributions. 
+
+\begin{onebox}{Conditional distribution}
+
+Suppose in a pair of random variables $(X, Y)$ the value of $X$ is known to be $x$. The conditional distribution $p_{Y|X(y|x)$ is the collection of probabilities
+\begin{align*}
+P(Y = y_j| X = x) = \frac{P(Y = y_j \text{ and } X = x)}{P(X = x)}
+\end{align*}
+for all pairs of values $(x,y_j)$. 
+\end{onebox}
+
+::: {.workedexample data-latex=""}
+
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4, 
+               c("joint distribution",
+                 "conditional distribution",
+                 "marginal distribution")
+)
+```
+
+\(a\) Find the conditional probability that the number of prescriptions is 2 for a plan member who had 1 visit. (b) How does it compare to the marginal probability that $Y = 2$?  (c) What is the complete conditional distribution of $Y$, given $X = 1$?
+
+------------------------------------------------------------------------
+\(a)
+\begin{align*}
+  P(Y = 2 \mid X = 1) &= \frac{P(Y = 2 \text{ and } X = 1)} {P(X = 1)} \\
+     &= 0.05/0.30 \\
+     &= 0.167
+\end{align*}
+
+\(b\) The marginal probability that $Y = 2$ is 0.34.  Participants with only one visit are less likely to have 2 prescriptions filled than plan members generally.
+
+\(c\) The complete conditional distribution consists of
+\begin{align*}
+P(Y = 0 \mid X = 1) &= \frac{P(Y = 0 \text{ and } X = 1)} {P(X = 1)} \\
+      &= 0.07/0.30 \\
+      &= 0.233, \\
+P(Y = 1 \mid X = 1) &= \frac{P(Y = 1 \text{ and } X = 1)} {P(X = 1)} \\
+      &= 0.18/0.30 \\
+      &= 0.60, \\
+P(Y = 2 \mid X = 1) &= \frac{P(Y = 2 \text{ and } X = 1)} {P(X = 1)} \\
+      &= 0.05/0.30 \\
+      &= 0.167
+\end{align*}
+
+  If a plan member has and one primary care visit, they are most likely to have a single prescription filled.
+    
+:::
+
+A conditional distribution has the same properties as a full distribution; conditional probabilities are between 0 and 1, and they sum to 1, as in the above example.  
+
+::: {.guidedpractice data-latex=""}
+
+What is the average number of prescriptions filled among plan members with 1 primary care visit in a year? [^random-variables-710]
+:::
+
+[^random-variables-710]: The average will be the conditional mean of $Y$, given $X = 1$, calculated using the conditional distribution of $Y$, given $X = 1$, written as $E(Y \mid X = 1)$.
+\begin{align*}
+E(Y \mid X = 1) &= 0 P(Y = 0 \mid X = 1) + 1 P(Y = 1 \mid X = 1) + 2 P(Y = 2 \mid X = 1) \\
+    &= (0)(0.233) + (1)(0.60) + (2)(0.167) \\
+    &= 0.934.
+\end{align*}
+
+
+::: {.guidedpractice data-latex=""}
+
+Consider two random variables, $X$ and $Y$, with the joint distribution shown in @tbl-joint-dist-gprac. 
+\(a\) Compute the marginal distributions of $X$ and $Y$. 
+
+\(b\) Identify the joint probability $p_{X,Y}(1, 2)$. 
+
+\(c\) What is the value of $p_{X, Y}(2, 1)$? 
+
+\(d\) Compute the conditional distribution of $X$ given that $Y = 2$.
+[^random-variables-701]
+:::
+
+[^random-variables-701]:\(a\) The marginal distribution of $X$: $p_X(1) = 0.60$, $p_X(4) = 0.40$. The marginal distribution of $Y$: $p_Y(1) = 0.80$, $p_Y(2) = 0.20$ (b) $p_{X,Y}(1, 2) = P(X = 1, Y = 2) = 0.10$ (c) Since $X$ cannot take on value 2, $p_{X, Y}(2, 1) = 0$. (d) The conditional distribution of $X$ given that $Y = 2$: $p_{X|Y}(1|2) = \frac{p_{X, Y}(1, 2)}{p_Y(2)}  = \frac{0.10}{0.50} = 0.20$, $p_{X|Y}(4|2) = \frac{p_{X, Y}(4, 2)}{p_Y(2)}  = \frac{0.10}{0.20} = 0.50$.
+
+|        | $Y = 1$ | $Y = 2$ |
+|:------:|:------:|:------:|
+| $X = 1$ | 0.50 | 0.10 |
+| $X = 4$ | 0.30 | 0.10 |
+
+: Joint distribution of $X$ and $Y$. {#tbl-joint-dist-gprac}
+
+::: {.workedexample data-latex=""}
+
+Compute the mean and standard deviation for $X$ and $Y$.
+
+------------------------------------------------------------------------
+
+
+$$
+E(X)
+= 1(0.60) + 4(0.40)
+= 2.20
+$$ 
+
+$$
+E(Y)
+= 1(0.80) + 2(0.20)
+= 1.20
+$$ 
+
+$$
+E(X^2)
+= 1^2(0.60) + 4^2(0.40)
+= 1(0.60) + 16(0.40)
+= 7.00
+$$ 
+
+$$
+\operatorname{Var}(X)
+= E(X^2) - [E(X)]^2
+= 7.00 - (2.20)^2
+= 2.16
+$$ 
+
+$$
+\sigma_X
+= \sqrt{\operatorname{Var}(X)}
+= \sqrt{2.16}
+\approx 1.47
+$$ 
+
+$$
+E(Y^2)
+= 1^2(0.80) + 2^2(0.20)
+= 1(0.80) + 4(0.20)
+= 1.60
+$$ 
+
+$$
+\operatorname{Var}(Y)
+= E(Y^2) - [E(Y)]^2
+= 1.60 - (1.20)^2
+= 0.16
+$$ 
+
+$$
+\sigma_Y
+= \sqrt{\operatorname{Var}(Y)}
+= \sqrt{0.16}
+= 0.40
+$$ 
+
+
+:::
+
+### Independent random variables
+
+Two events $A$ and $B$ are independent if $P(B|A) = P(B)$ (@eq-independence-definition) and this definition can be extended to random variables. The variables $X$ and $Y$ are called  **independent random variables** \index{independent random variables} if the conditional probability of any outcome for $Y$ does not change given any outcome of $X$. 
+
+::: {.important data-latex=""}
+**Independent random variables.**
+
+Two random variables $X$ and $Y$ are independent if the probabilities
+\begin{align*}
+P(Y = y_j| X = x_i) = P(Y = y_j)
+\end{align*}
+for all pairs of values $(x_i,y_j)$. 
+Equivalently, $X$ and $Y$ are independent if the probabilities
+\begin{align*}
+P(Y = y_j \text{ and } X = x_i) = P(Y = y_j)P(X = x_i)
+\end{align*}
+for all pairs of values $(x_i,y_j)$.
+
+:::
+
+Independence is a strong assumption that can be hard to justify, and there are many settings where random variables are not independent.  Height and weight of an individual sampled from a population are not independent -- taller people tend to weigh more.  The lowest temperature in a day is not independent of the number of daylight hours -- the shorter days in winter tend to be colder than days in other seasons. Independent random variables do arise in some experimental designs or surveys.  The responses of two participants in a randomized treatment experiment will be independent, since the response of one patient will not affect the response of the other.  The SAT scores of two high school students living in different parts of the country are independent -- knowing the score of one does not provide information about the other score when nothing else is known about the students.  When two dice are rolled, the values showing on the two faces are independent. 
+
+Sometimes whether or not two random variables are independent is clear from the context, but the best way to check for independence is from the joint distribution, when it is available.
+
+::: {.guidedpractice data-latex=""}
+
+Are the random variables $X$ and $Y$ with joint distribution in @tbl-joint-dist-gprac independent?
+[^random-variables-702]
+:::
+
+[^random-variables-702]:  No, since $p_{X|Y}(4|2) = \frac{p_{X, Y}(4, 2)}{p_Y(2)}  = \frac{0.10}{0.20} = 0.50$, but $P(X = 4) = 0.40$. 
+
+### Correlated random variables {#sec-correlated-rv}
+
+Two events $A$ and $B$ are independent if $P(B|A) = P(B)$ (@eq-independence-definition) and dependent when $P(B\mid A) \neq P(B)$.  Suppose an individual is sampled from the GSS data described in  @sec-gss-example, and let $A$ = {sampled individual is age 18 - 25} and $B$ = {health condition excellent}. $A$ and $B$ are not independent because from @tbl-gss-age-health-prop, $P(B) = 0.197$ but @tbl-gss-age-health-row-prop shows that $P(B|A) = 0.275$.  When $A$ is known to have occurred, the probability of $B$ is updated from $P(B)$ to $P(B \mid A)$.    
+
+Two random variables that are not independent are called \index{correlated random variables} **correlated random variables**. The correlation between two random variables is a measure of the strength of the association between them, just as it was for pairs of data points explored in @sec-relationships-two-numerical.  There are many examples of correlated random variables, such as height and weight in a population of individuals, or the gestational age and birth weight of newborns.  
+When two random variables are positively correlated, they tend to increase or decrease together. If one of the variables increases while the other decreases (or vice versa) they are negatively correlated.  Correlation is easy to identify in a scatterplot, but is more difficult to identify in a table of a joint distribution.  Fortunately, there is a formula to calculate correlation for a joint distribution specified  in a table.
+
+Correlation between random variables is similar to correlation between pairs of observations in a dataset, with some important differences.  Calculating a correlation $r$ in a dataset was introduced in @sec-relationships-two-numerical, @eq-correlation-equation:
+\begin{align*}
+r &=  \frac{1}{n-1}\sum^{n}_{i=1}
+\left(\frac{x_{i}-\overline{x}}
+{s_{x}}\right)\left(\frac{y_{i}-\overline{y}}{s_{y}}\right).
+\end{align*} 
+The correlation coefficient $r$ is an average of products, with each term in the product measuring the distance between $x$ and its mean $\overline{x}$ and the distance between $y$ and its mean $\overline{y}$, after the distances have been scaled by respective standard deviations.
+
+The compact formula for the correlation between two random variables $X$ and $Y$  uses the same idea.
+
+::: {.important data-latex=""}
+**Correlation of random variables.**
+
+The correlation $\rho_{X,Y}$ between two random variables $X$ and $Y$ is given by
+
+$$
+\rho_{X,Y} = E\left(\frac{X - \mu_x}{\sigma_X}\right)\left(\frac{Y - \mu_Y}{\sigma_Y} \right),
+$${#eq-gen-form-corr}
+where  $\mu_X, \mu_Y$, $\sigma_X, \sigma_Y$ are the respective means and standard deviations for $X$ and $Y$. 
+
+When $X$ and $Y$ are independent, $\rho_{X,Y} = 0$.
+
+:::
+
+Just as with the mean of a single random variable, the expectation is a weighted sum of the products, with each term weighted by the probability  $p(x_i, y_j)$ of the values for the pair $(X,Y)$.  @eq-gen-form-corr is useful for understanding the analogy between correlation of random variables and correlation of observations in a dataset, but it cannot be used to calculate $\rho_{X,Y}$ without the probability weights. 
+
+@eq-spec-form-corr is an expansion of @eq-gen-form-corr. The double summation adds up terms over all combinations of the indices $i$ and $j$.
+
+$$
+\rho_{X,Y} = \sum_{i} \sum_{j} p(x_i,y_j)\frac{(x_i - \mu_X)}{\sigma_X}\frac{(y_j - \mu_Y)}{\sigma_Y}.
+$${#eq-spec-form-corr}
+
+Because the two standard deviations are constants, @eq-spec-form-corr can be written as @eq-spec-form-corr-alt:
+
+$$
+\rho_{X,Y} = \frac{\sum_{i} \sum_{j} p(x_i,y_j)(x_i - \mu_X)(y_j - \mu_Y)}{\sigma_X \sigma_Y}.
+$$ {#eq-spec-form-corr-alt}
+
+::: {.workedexample data-latex=""}
+
+Calculate the correlation of the variables $X$ and $Y$ with joint distribution in @tbl-joint-dist-gprac, using @eq-spec-form-corr-alt.
+
+------------------------------------------------------------------------
+
+
+
+The means and standard deviations have already been calculated:
+\begin{align*}
+\mu_X &= 2.20, \\
+\mu_Y &= 1.20, \\
+\sigma_X &= 1.47,  \\
+\sigma_Y &= 0.40.
+\end{align*}
+
+Now compute the numerator:
+\begin{align*}
+E[(X-\mu_X)(Y-\mu_Y)]
+&= \sum_{x,y} (x-2.20)(y-1.20)\,p(x,y) \\[1mm]
+&= (1-2.20)(1-1.20)(0.50)
+ + (1-2.20)(2-1.20)(0.10) \\
+&\quad + (4-2.20)(1-1.20)(0.30)
+ + (4-2.20)(2-1.20)(0.10) \\[1mm]
+&= (-1.20)(-0.20)(0.50)
+ + (-1.20)(0.80)(0.10) \\
+&\quad + (1.80)(-0.20)(0.30)
+ + (1.80)(0.80)(0.10) \\[1mm]
+&= 0.12 - 0.096 - 0.108 + 0.144 \\[1mm]
+&= 0.06.
+\end{align*}
+
+
+Finally,
+\begin{align*}
+\rho_{X,Y}
+&= \frac{0.06}{(1.47)(0.40)} \\
+&= 0.10.
+\end{align*}
+
+The variables $X$ and $Y$ are positively correlated.
+
+:::
+
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4, 
+               c("independent random variables",
+                 "correlated random variables")
+)
+```
+
+::: {.guidedpractice data-latex=""}
+
+Use @tbl-joint-dist-gprac to explain why $X$ and $Y$ are positively correlated. [^random-variables-703]
+:::
+
+[^random-variables-703]:  When $X = 4$ it is larger than its mean $\mu_X = 2.20 $ and $Y$ is more likely to be larger than its mean $\mu_Y = 1.20$, and vice versa.
+
+When $X$ and $Y$ are independent, $\operatorname{Var}(X + Y) = \operatorname{Var}(X) + \operatorname{Var(Y)}.$ (@eq-variance-linear-combination-ind-rv in @sec-sum-indep-rvs)
+
+When two random variables $X$ and $Y$ are correlated:
+
+$$
+\operatorname{Var}(X + Y) = \operatorname{Var}(X) + \operatorname{Var}(Y) + 
+2 \sigma_X \sigma_Y \rho_{X,Y} 
+$$ {#eq-general-var-sum-rvs}
+
+
+$$\text{Var}(X - Y) = \text{Var}(X) + \text{Var}(Y) - 
+2 \sigma_X \sigma_Y \rho_{X,Y}. 
+$$ {#eq-general-var-diff-rvs}
+
+
+When random variables are positively correlated the variance of the sum will be larger than the sum of the two variances, and the variance of the difference will be smaller than the sum of the two variances. When they are negatively correlated the variance of the sum will be smaller than the sum of the two variances. 
+
+In either case, the standard deviation for the sum or difference is the square root of the variance.
+
+
+When $X$ and $Y$ are correlated, it is still the case that
+\begin{align*}
+E(X + Y) &= E(X) + E(Y) \\
+E(X - Y) &= E(X) - E(Y).
+\end{align*}
+
+::: {.workedexample data-latex=""}
+
+Using @eq-general-var-sum-rvs Compute the variance and standard deviation of $X + Y$ if $X$ and $Y$ have the joint distribution in @tbl-joint-dist-gprac.  Compare the variance of $X + Y$ with $\operatorname{Var}(X) + \operatorname{Var}(Y)$ and explain the difference.
+
+------------------------------------------------------------------------
+
+\begin{align*}
+  \operatorname{Var}(X + Y) &= \operatorname{Var}(X) + \operatorname{Var}(Y) + 
+2 \sigma_X \sigma_Y \rho_{X,Y} \\
+  &= 2.16 + 0.50 - (1.47)(0.25)(0.408) \\
+  &= 2.51, \\
+\sigma_{X + Y} &= \sqrt{2.51} \\
+               &= 1.58.  
+\end{align*}
+The $\operatorname{Var}(X + Y) > \operatorname{Var}(X) + \operatorname{Var}{Y}$ because $X$ and $Y$ are positively correlated.
+
+:::
+
+::: {.workedexample data-latex=""}
+
+The Association of American Medical Colleges (AAMC) introduced a new version of the Medical College Admission Test (MCAT) in the spring of 2015. Data from the scores were recently released by AAMC.^[\url{https://www.aamc.org/students/download/434504/data/percentilenewmcat.pdf}] The test consists of 4 components: chemical and physical foundations of biological systems; critical analysis and reasoning skills; biological and biochemical foundations of living systems; psychological, social and biological foundations of behavior. The overall score is the sum of the individual component scores. The grading for each of the four components is scaled so that the mean score is 125.  The means and standard deviations for the four components and the total scores for the population taking the exam in May 2015 exam are shown in @tbl-mcat-score-distribution.
+
+Show that the standard deviation in the table for the total score does not agree with that obtained under the assumption of independence.
+
+| Component          | Mean | Standard Deviation   |
+|:------------------------|:--------:|:----------------------:|
+| Chem. Phys. Found.     | 125      | 3.0 |
+| Crit. Analysis         | 125      | 3.0 |
+| Living Systems         | 125      | 3.0 |
+| Found. Behavior        | 125      | 3.1 |
+| **Total Score**        | **500**  | **10.6** |
+
+: Means and standard deviations for MCAT Scores {#tbl-mcat-score-distribution}
+
+------------------------------------------------------------------------
+
+The variance of each component of the score is the square of each standard deviation.  Under the assumption of independence, the variance of the total score would be 
+\begin{align*}
+	\operatorname{Var}(\text{Total Score}) &= 3.0^2 + 3.0^2 + 3.0^2 + 3.1^2 \\
+	   &= 36.61,
+\end{align*}
+	so the standard deviation is 6.05, which is less than 10.6. 
+	
+Since the observed standard deviation is larger than that calculated under independence, this suggests the component scores are positively correlated.  It would not be reasonable to expect that the component scores are independent. Think about a student taking the MCAT exam: someone who scores well on one component of the exam is likely to score well on the other parts.
+
+:::
+
+```{r}
+#| include: false
+terms_chp_4 <- c(terms_chp_4, 
+               c("variance of sum of correlated random variables")
+)
+```
+
 ## Chapter review {#sec-chp4-review}
+
 
 
 ### Summary
 
 Random variables are an important link between exploring a dataset and learning about the phenomenon that was the source of the data.  Observations made on participants in a study are never constant -- outcomes vary from participant to participant. Indeed, when studies are repeated, even the summary statistics such as a  mean or the variability of responses will differ.  Random variables model that variability by thinking of data as observations on random variables.  They are a way of thinking about the potential outcomes of an observation,
 
-The distribution of a random variable characterizes the range of values that might be observed and which values have high or low  likelihood.  Those distributions have means, called expected values, and a variability captured by standard deviations. In data, however, the mean is the center of the distribution the that data analyst is examining.  For a random variable, the mean is the expected value of the next observation.
+The distribution of a random variable characterizes the range of values that might be observed and which values have high or low  likelihood.  Those distributions have means, called expected values, and a variability captured by standard deviations. In data, the mean is the center of the distribution that the data analyst is examining.  For a random variable, the mean is the expected value of the next observation.  
+
+Two random variables are independent when the observation of 1 provides no information about the distribution of the other;  when they are not independent, the association between the pair is estimated by their correlation. 
 
 The material in this chapter serves as a background to the important distributions described in the next chapter, distributions and random variables that are  widely used in the life sciences, public health and medical research.
 

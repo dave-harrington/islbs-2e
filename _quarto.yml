@@ -40,8 +40,8 @@ book:
     - references.qmd
 
 bibliography: 
-  - book.bib
-  - eoce.bib
+  - book.bib  
+  - eoce.bib  
   - packages.bib
 
 format:
